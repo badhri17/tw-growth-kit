@@ -17,5 +17,8 @@
         "type": "git",
         "url": "https://github.com/badhri17/tw-growth-kit"
     },
-    "private": true
+    "private": true,
+    "dependencies": {
+        "lit": "^3.3.2"
+    }
 }

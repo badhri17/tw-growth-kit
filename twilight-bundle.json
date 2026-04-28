@@ -1,14 +1,404 @@
 {
     "name": {
-        "ar": "\u0645\u062c\u0645\u0648\u0639\u0629 \u0639\u0646\u0627\u0635\u0631 \u0627\u0644\u0646\u0645\u0648",
-        "en": "Growth Kit"
+      "ar": "مجموعة عناصر النمو",
+      "en": "Growth Kit"
     },
     "description": {
-        "ar": "",
-        "en": ""
+      "ar": "مكونات متجر مميزة لرفع معدل التحويل وإبراز هوية المتجر",
+      "en": "Premium storefront components engineered for conversion and brand presence."
     },
     "author_email": "Badrbadhri+growth@gmail.com",
     "support_url": "",
     "repository": "https://github.com/badhri17/tw-growth-kit",
-    "components": []
-}
+    "components": [
+      {
+        "title":  "واجهة المتجر (هيرو)",
+        "icon": "sicon-layout-grid",
+        "name": "Hero",
+        "key": "af71c87d-579b-41d6-9395-2697f3197f35",
+        "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+        "fields": [
+          {
+            "type": "static",
+            "format": "title",
+            "id": "section-content",
+            "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>محتوى الواجهة</div>",
+            "variant": "h6"
+          },
+          {
+            "type": "string",
+            "icon": "sicon-typography",
+            "id": "eyebrow",
+            "label": "نص علوي (اختياري)",
+            "format": "text",
+            "multilanguage": true,
+            "required": false,
+            "placeholder": "مثل: مجموعة الشتاء • تخفيضات حصرية",
+            "description": "نص صغير بحروف بارزة يظهر فوق العنوان الرئيسي — يستخدم عادة للإشارة إلى الموسم أو الحملة.",
+            "minLength": 0,
+            "maxLength": 80
+          },
+          {
+            "type": "string",
+            "icon": "sicon-format-text-alt",
+            "id": "headline",
+            "label": "العنوان الرئيسي",
+            "format": "text",
+            "multilanguage": true,
+            "required": true,
+            "placeholder": "اكتب عنوانًا قويًا يعبّر عن هوية المتجر",
+            "description": "أهم نص في الصفحة — اجعله قصيرًا ومؤثرًا.",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          {
+            "type": "string",
+            "icon": "sicon-paragraph",
+            "id": "subtitle",
+            "label": "النص الوصفي (اختياري)",
+            "format": "textarea",
+            "multilanguage": true,
+            "required": false,
+            "placeholder": "سطر أو سطران يشرحان ما يميّزك",
+            "minLength": 0,
+            "maxLength": 280
+          },
+  
+          {
+            "type": "static",
+            "format": "line",
+            "id": "divider-1"
+          },
+          {
+            "type": "static",
+            "format": "title",
+            "id": "section-bg",
+            "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>الخلفية</div>",
+            "variant": "h6"
+          },
+          {
+            "type": "static",
+            "format": "description",
+            "id": "bg-note",
+            "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يختار المكون الخلفية تلقائيًا: <strong>إذا أدخلت رابط فيديو</strong> سيُعرض، وإلا <strong>تُعرض الصورة</strong>، وإلا <strong>يُستخدم التدرج اللوني</strong>.</div>"
+          },
+          {
+            "type": "string",
+            "icon": "sicon-video",
+            "id": "video_url",
+            "label": "رابط الفيديو (mp4)",
+            "format": "text",
+            "required": false,
+            "placeholder": "https://…/video.mp4",
+            "description": "يُفضّل فيديو قصير (أقل من 15 ثانية) بدقة متوسطة لتجربة سريعة."
+          },
+          {
+            "type": "string",
+            "icon": "sicon-image",
+            "id": "poster_image",
+            "label": "صورة الفيديو الاحتياطية (Poster)",
+            "format": "image",
+            "required": false,
+            "description": "تُعرض قبل تشغيل الفيديو، وعند تعذّر التشغيل. يُنصح بنفس مقاس الفيديو."
+          },
+          {
+            "type": "string",
+            "icon": "sicon-image",
+            "id": "background_image",
+            "label": "صورة الخلفية",
+            "format": "image",
+            "required": false,
+            "description": "تستخدم عندما لا يوجد فيديو. المقاس المناسب 1920×1080 بكسل."
+          },
+          {
+            "type": "string",
+            "icon": "sicon-color-palette",
+            "id": "gradient_from",
+            "label": "لون التدرج — البداية",
+            "format": "text",
+            "required": false,
+            "placeholder": "#1e1b4b"
+          },
+          {
+            "type": "string",
+            "icon": "sicon-color-palette",
+            "id": "gradient_to",
+            "label": "لون التدرج — النهاية",
+            "format": "text",
+            "required": false,
+            "placeholder": "#7c3aed"
+          },
+  
+          {
+            "type": "static",
+            "format": "line",
+            "id": "divider-2"
+          },
+          {
+            "type": "static",
+            "format": "title",
+            "id": "section-overlay",
+            "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>طبقة التعتيم</div>",
+            "variant": "h6"
+          },
+          {
+            "type": "items",
+            "icon": "sicon-keyboard_arrow_down",
+            "id": "overlay_style",
+            "label": "نمط طبقة التعتيم",
+            "format": "dropdown-list",
+            "source": "Manual",
+            "required": false,
+            "selected": [
+              { "label": "تدرج داكن من الأسفل", "value": "dark-bottom", "key": "ov-db" }
+            ],
+            "options": [
+              { "label": "بدون طبقة",              "value": "none",         "key": "ov-none" },
+              { "label": "تدرج داكن من الأسفل",    "value": "dark-bottom",  "key": "ov-db" },
+              { "label": "داكن كامل",              "value": "dark-full",    "key": "ov-df" },
+              { "label": "فاتح كامل",              "value": "light-full",   "key": "ov-lf" },
+              { "label": "تعتيم دائري (Vignette)", "value": "vignette",     "key": "ov-vg" }
+            ]
+          },
+          {
+            "type": "items",
+            "icon": "sicon-keyboard_arrow_down",
+            "id": "overlay_intensity",
+            "label": "شدة التعتيم",
+            "format": "dropdown-list",
+            "source": "Manual",
+            "required": false,
+            "selected": [
+              { "label": "متوسط", "value": "medium", "key": "oi-m" }
+            ],
+            "options": [
+              { "label": "خفيف",  "value": "subtle", "key": "oi-s" },
+              { "label": "متوسط", "value": "medium", "key": "oi-m" },
+              { "label": "قوي",   "value": "strong", "key": "oi-st" }
+            ]
+          },
+  
+          {
+            "type": "static",
+            "format": "line",
+            "id": "divider-3"
+          },
+          {
+            "type": "static",
+            "format": "title",
+            "id": "section-ctas",
+            "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>أزرار الإجراء</div>",
+            "variant": "h6"
+          },
+          {
+            "type": "string",
+            "icon": "sicon-format-text-alt",
+            "id": "primary_label",
+            "label": "الزر الأساسي — النص",
+            "format": "text",
+            "multilanguage": true,
+            "required": false,
+            "placeholder": "تسوّق الآن",
+            "maxLength": 30
+          },
+          {
+            "type": "string",
+            "icon": "sicon-link",
+            "id": "primary_url",
+            "label": "الزر الأساسي — الرابط",
+            "format": "text",
+            "required": false,
+            "placeholder": "/offers"
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "primary_outline",
+            "label": "جعل الزر الأساسي شفافًا (Outline)",
+            "format": "switch",
+            "selected": false
+          },
+          {
+            "type": "string",
+            "icon": "sicon-format-text-alt",
+            "id": "secondary_label",
+            "label": "الزر الثانوي — النص",
+            "format": "text",
+            "multilanguage": true,
+            "required": false,
+            "placeholder": "تعرف علينا",
+            "maxLength": 30
+          },
+          {
+            "type": "string",
+            "icon": "sicon-link",
+            "id": "secondary_url",
+            "label": "الزر الثانوي — الرابط",
+            "format": "text",
+            "required": false,
+            "placeholder": "/about"
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "secondary_outline",
+            "label": "جعل الزر الثانوي شفافًا (Outline)",
+            "format": "switch",
+            "selected": true
+          },
+  
+          {
+            "type": "static",
+            "format": "line",
+            "id": "divider-4"
+          },
+          {
+            "type": "static",
+            "format": "title",
+            "id": "section-layout",
+            "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>التخطيط والمحاذاة</div>",
+            "variant": "h6"
+          },
+          {
+            "type": "items",
+            "icon": "sicon-keyboard_arrow_down",
+            "id": "height",
+            "label": "ارتفاع الواجهة",
+            "format": "dropdown-list",
+            "source": "Manual",
+            "required": false,
+            "selected": [
+              { "label": "كبير (80% من الشاشة)", "value": "large", "key": "h-l" }
+            ],
+            "options": [
+              { "label": "كامل الشاشة",            "value": "full",    "key": "h-f" },
+              { "label": "كبير (80% من الشاشة)",  "value": "large",   "key": "h-l" },
+              { "label": "متوسط (60% من الشاشة)", "value": "medium",  "key": "h-m" },
+              { "label": "مضغوط (45% من الشاشة)", "value": "compact", "key": "h-c" }
+            ]
+          },
+          {
+            "type": "items",
+            "icon": "sicon-keyboard_arrow_down",
+            "id": "align_h",
+            "label": "محاذاة النص الأفقية",
+            "format": "dropdown-list",
+            "source": "Manual",
+            "required": false,
+            "selected": [
+              { "label": "البداية (RTL يمين)", "value": "start", "key": "ah-s" }
+            ],
+            "options": [
+              { "label": "البداية (RTL يمين)", "value": "start",  "key": "ah-s" },
+              { "label": "المنتصف",            "value": "center", "key": "ah-c" },
+              { "label": "النهاية (RTL يسار)", "value": "end",    "key": "ah-e" }
+            ]
+          },
+          {
+            "type": "items",
+            "icon": "sicon-keyboard_arrow_down",
+            "id": "align_v",
+            "label": "محاذاة النص العمودية",
+            "format": "dropdown-list",
+            "source": "Manual",
+            "required": false,
+            "selected": [
+              { "label": "منتصف", "value": "middle", "key": "av-m" }
+            ],
+            "options": [
+              { "label": "أعلى",  "value": "top",    "key": "av-t" },
+              { "label": "منتصف", "value": "middle", "key": "av-m" },
+              { "label": "أسفل",  "value": "bottom", "key": "av-b" }
+            ]
+          },
+          {
+            "type": "items",
+            "icon": "sicon-keyboard_arrow_down",
+            "id": "text_theme",
+            "label": "لون النص",
+            "format": "dropdown-list",
+            "source": "Manual",
+            "required": false,
+            "selected": [
+              { "label": "فاتح (على خلفية داكنة)", "value": "light", "key": "tt-l" }
+            ],
+            "options": [
+              { "label": "فاتح (على خلفية داكنة)", "value": "light", "key": "tt-l" },
+              { "label": "داكن (على خلفية فاتحة)", "value": "dark",  "key": "tt-d" }
+            ]
+          },
+  
+          {
+            "type": "static",
+            "format": "line",
+            "id": "divider-5"
+          },
+          {
+            "type": "static",
+            "format": "title",
+            "id": "section-motion",
+            "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>الحركة والفيديو</div>",
+            "variant": "h6"
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_entrance_anim",
+            "label": "تفعيل حركة الظهور للنص",
+            "format": "switch",
+            "selected": true
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_ken_burns",
+            "label": "تكبير بطيء للصورة (Ken Burns)",
+            "description": "يعمل فقط في وضع الصورة",
+            "format": "switch",
+            "selected": false
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "enable_parallax",
+            "label": "تأثير Parallax عند التمرير",
+            "format": "switch",
+            "selected": false
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "poster_on_mobile",
+            "label": "استبدال الفيديو بالصورة على الجوال",
+            "description": "يوفّر استهلاك البيانات على شبكات الجوال ويسرّع التحميل.",
+            "format": "switch",
+            "selected": true
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "video_loop",
+            "label": "تكرار الفيديو",
+            "format": "switch",
+            "selected": true
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "video_autoplay",
+            "label": "تشغيل تلقائي",
+            "format": "switch",
+            "selected": true
+          },
+          {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "id": "video_muted",
+            "label": "كتم الصوت (مطلوب للتشغيل التلقائي)",
+            "format": "switch",
+            "selected": true
+          }
+        ]
+      }
+    ]
+  }
