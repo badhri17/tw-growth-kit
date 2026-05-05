@@ -31,12 +31,40 @@ export default class GrowthHero extends LitElement {
    * so we provide a safe bridge to avoid runtime crashes.
    */
   static registerSallaComponent(name: string) {
-    const base = HTMLElement as typeof HTMLElement & {
-      registerSallaComponent?: (this: typeof HTMLElement, n: string) => void;
+    const componentKey = String(name || "").trim();
+    const normalizedBase = componentKey
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]/g, "-");
+    const safeBaseName = normalizedBase.includes("-") ? normalizedBase : `salla-${normalizedBase || "component"}`;
+    const buildDynamicTagName = () => `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
+
+    const tryRegister = () => {
+      const bundles = (window as Window & {
+        Salla?: {
+          bundles?: {
+            registerComponent?: (
+              key: string,
+              payload: { component: typeof HTMLElement; dynamicTagName: string }
+            ) => void;
+          };
+        };
+      }).Salla?.bundles;
+
+      if (bundles && typeof bundles.registerComponent === "function") {
+        bundles.registerComponent(componentKey, {
+          component: this as unknown as typeof HTMLElement,
+          dynamicTagName: buildDynamicTagName(),
+        });
+        return true;
+      }
+      return false;
     };
-    if (typeof base.registerSallaComponent === "function") {
-      base.registerSallaComponent.call(this, name);
-    }
+    if (tryRegister()) return;
+    // In demo mode the helper may load after component evaluation.
+    const timer = window.setInterval(() => {
+      if (tryRegister()) window.clearInterval(timer);
+    }, 100);
+    window.setTimeout(() => window.clearInterval(timer), 5000);
   }
 
   @property({ type: Object })
@@ -85,6 +113,16 @@ export default class GrowthHero extends LitElement {
       case "medium":
       default:        return 0.6;
     }
+  }
+
+  /** Dropdown-list values from settings may come as [{label, value}]. */
+  private _pickValue<T extends string>(val: unknown, fallback: T): T {
+    if (typeof val === "string" && val) return val as T;
+    if (Array.isArray(val) && val.length > 0) {
+      const first = val[0] as { value?: unknown } | undefined;
+      if (first && typeof first.value === "string" && first.value) return first.value as T;
+    }
+    return fallback;
   }
 
   // ------------------------------------------------------------
@@ -218,12 +256,13 @@ export default class GrowthHero extends LitElement {
   render() {
     const c: HeroConfig = this.config || {};
 
-    const height: HeroHeight = c.height || "large";
-    const alignH: HeroAlignH = c.align_h || "start";
-    const alignV: HeroAlignV = c.align_v || "middle";
-    const textTheme: HeroTextTheme = c.text_theme || "light";
-    const overlayStyle: HeroOverlayStyle = c.overlay_style || "dark-bottom";
-    const overlayAlpha = this._overlayAlpha(c.overlay_intensity);
+    const height: HeroHeight = this._pickValue<HeroHeight>(c.height, "large");
+    const alignH: HeroAlignH = this._pickValue<HeroAlignH>(c.align_h, "start");
+    const alignV: HeroAlignV = this._pickValue<HeroAlignV>(c.align_v, "middle");
+    const textTheme: HeroTextTheme = this._pickValue<HeroTextTheme>(c.text_theme, "light");
+    const overlayStyle: HeroOverlayStyle = this._pickValue<HeroOverlayStyle>(c.overlay_style, "dark-bottom");
+    const overlayIntensity = this._pickValue<HeroOverlayIntensity>(c.overlay_intensity, "medium");
+    const overlayAlpha = this._overlayAlpha(overlayIntensity);
     const enableAnim = c.enable_entrance_anim !== false;
     const enableKenBurns = !!c.enable_ken_burns;
     const enableParallax = !!c.enable_parallax;
@@ -305,7 +344,7 @@ export default class GrowthHero extends LitElement {
                   <div class="ctas">
                     ${primaryLabel
                       ? html`
-                          
+                          <a
                             class="btn ${c.primary_outline ? "btn-outline" : "btn-primary"}"
                             href=${c.primary_url || "#"}
                           >
@@ -315,7 +354,7 @@ export default class GrowthHero extends LitElement {
                       : nothing}
                     ${secondaryLabel
                       ? html`
-                          
+                          <a
                             class="btn ${c.secondary_outline === false ? "btn-primary" : "btn-outline"}"
                             href=${c.secondary_url || "#"}
                           >
@@ -331,9 +370,4 @@ export default class GrowthHero extends LitElement {
       </section>
     `;
   }
-}
-
-// Safe registration (guard against double-define during HMR / multiple imports).
-if (!customElements.get("growth-hero")) {
-  customElements.define("growth-hero", GrowthHero);
 }

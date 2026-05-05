@@ -399,6 +399,58 @@
             "selected": true
           }
         ]
-      }
+      },
+      {
+        "title": "جدول محتوى بسيط",
+        "icon": "sicon-layout-grid-rearrange",
+        "name": "table-list",
+        "image": "https://cdn.salla.network/images/themes/raed/main-links-with-bg.jpg",
+        "key": "9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4",
+        "fields": [
+            {
+                "id": "items",
+                "type": "collection",
+                "format": "collection",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 100,
+                "item_label": "صفوف الجدول",
+                "value": [
+                    {
+                        "title": "Featured Products",
+                        "description": "Our best-selling items with special discounts"
+                    },
+                    {
+                        "title": "New Arrivals",
+                        "description": "Latest additions to our collection"
+                    },
+                    {
+                        "title": "Special Offers",
+                        "description": "Limited-time deals and promotions"
+                    }
+                ],
+                "fields": [
+                    {
+                        "type": "string",
+                        "icon": "sicon-format-text-alt",
+                        "id": "title",
+                        "required": true,
+                        "format": "text",
+                        "placeholder": "أدخل عنوان الصف هنا...",
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    {
+                        "type": "string",
+                        "icon": "sicon-format-text-alt",
+                        "id": "description",
+                        "format": "textarea",
+                        "placeholder": "أدخل وصف الصف هنا...",
+                        "maxLength": 1000
+                    }
+                ]
+            }
+        ]
+    }
     ]
   }

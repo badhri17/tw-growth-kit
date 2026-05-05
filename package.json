@@ -9,7 +9,7 @@
         "preview": "vite preview"
     },
     "devDependencies": {
-        "@salla.sa/twilight-bundles": "^0.1.0",
+        "@salla.sa/twilight-bundles": "^0.1.40",
         "vite": "^5.0.0"
     },
     "author": "Badrbadhri+growth@gmail.com",
