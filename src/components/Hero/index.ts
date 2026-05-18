@@ -18,13 +18,16 @@ import { heroStyles } from "./style";
  *
  * Behaviour:
  *   • Auto-picks mode: video → image → gradient based on which URLs are filled.
- *   • Robust video fallback (5s timeout, error/abort guard, poster swap) — preserved
- *     from the client injection script that inspired this component.
+ *   • Device-responsive: desktop variants for video/image (≥768 px), reactive on resize.
+ *   • Robust video fallback (timeout, error/abort guard) with generation counter so stale
+ *     callbacks from a superseded src never corrupt state.
+ *   • smart_data_saver skips video on slow/data-saver connections (default ON).
  *   • RTL-aware; inherits document direction by default.
  *   • Respects prefers-reduced-motion for all motion effects.
  */
 export default class GrowthHero extends LitElement {
   static styles = heroStyles;
+
   /**
    * Twilight transform injects `Class.registerSallaComponent(...)`.
    * In some preview contexts, the helper is attached to HTMLElement later,
@@ -76,11 +79,20 @@ export default class GrowthHero extends LitElement {
   /** Entrance animation gate. */
   @state() private _animState: "ready" | "in" = "ready";
 
+  /** Tracks whether viewport is ≥768 px; reactive so mode re-evaluates on resize. */
+  @state() private _isDesktop = false;
+
   private _videoEl: HTMLVideoElement | null = null;
+  /** Incremented each time _setupVideo() is called; stale callbacks check against it. */
+  private _videoGeneration = 0;
+  /** Last src passed to _setupVideo(); detects when src changes on the same element. */
+  private _lastVideoSrc = "";
   private _fallbackTimer: number | null = null;
   private _io: IntersectionObserver | null = null;
   private _rafId: number | null = null;
   private _onScroll?: () => void;
+  private _mql?: MediaQueryList;
+  private _onMqlChange?: () => void;
 
   // ------------------------------------------------------------
   // Helpers
@@ -94,15 +106,49 @@ export default class GrowthHero extends LitElement {
     return (val[lang] || val.ar || val.en || "").trim();
   }
 
+  /** Active video URL for the current device tier, falling back to mobile when desktop is unset. */
+  private _currentVideoUrl(): string {
+    const c = this.config || {};
+    return (this._isDesktop && c.video_url_desktop) ? c.video_url_desktop : (c.video_url || "");
+  }
+
+  /** Active image URL for the current device tier, falling back to mobile when desktop is unset. */
+  private _currentImageUrl(): string {
+    const c = this.config || {};
+    return (this._isDesktop && c.background_image_desktop) ? c.background_image_desktop : (c.background_image || "");
+  }
+
+  /** Returns true when smart_data_saver is ON and the connection is slow/data-restricted. */
+  private _shouldSkipVideo(): boolean {
+    if (this.config?.smart_data_saver === false) return false;
+    const conn = (navigator as any).connection;
+    if (conn) {
+      if (conn.saveData === true) return true;
+      const slow = ["slow-2g", "2g", "3g"];
+      if (slow.includes(conn.effectiveType)) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns the video fallback timeout in ms.
+   * On mobile without the Network Information API (e.g. Safari), we use a shorter
+   * 3 s window since we have no signal to rely on and want to fail fast.
+   */
+  private _pickVideoTimeout(): number {
+    if (this.config?.smart_data_saver === false) return 5000;
+    const isMobile = !window.matchMedia("(min-width: 768px)").matches;
+    const hasNetAPI = !!(navigator as any).connection;
+    if (isMobile && !hasNetAPI) return 3000;
+    return 5000;
+  }
+
   /** Which background mode should we render? */
   private get _mode(): "video" | "image" | "gradient" {
-    const c = this.config || {};
-    const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    const videoBlockedOnMobile = isMobile && c.poster_on_mobile !== false;
-
-    if (c.video_url && !videoBlockedOnMobile && !this._videoFailed) return "video";
-    const imgCandidate = c.background_image || c.poster_image;
-    if (imgCandidate) return "image";
+    const videoUrl = this._currentVideoUrl();
+    if (videoUrl && !this._shouldSkipVideo() && !this._videoFailed) return "video";
+    const img = this._currentImageUrl();
+    if (img) return "image";
     return "gradient";
   }
 
@@ -135,17 +181,37 @@ export default class GrowthHero extends LitElement {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => (this._animState = "in"));
     });
+
+    // Track desktop breakpoint reactively so _mode re-evaluates on resize.
+    this._mql = window.matchMedia("(min-width: 768px)");
+    this._isDesktop = this._mql.matches;
+    this._onMqlChange = () => {
+      this._isDesktop = this._mql!.matches;
+      // Give video another chance on the new device tier.
+      this._videoFailed = false;
+    };
+    this._mql.addEventListener("change", this._onMqlChange);
   }
 
   firstUpdated() {
-    this._setupVideo();
+    // _setupVideo() is handled by updated() via src-change detection (first + subsequent).
     this._setupParallax();
   }
 
   updated() {
-    // If the config swapped between modes, re-wire the video.
     const v = this.renderRoot.querySelector("video") as HTMLVideoElement | null;
-    if (v && v !== this._videoEl) {
+    if (!v) {
+      this._videoEl = null;
+      return;
+    }
+    const newSrc = this._currentVideoUrl();
+    // Re-wire whenever the element reference changes OR the src changes (e.g. desktop swap).
+    if (v !== this._videoEl || newSrc !== this._lastVideoSrc) {
+      if (this._fallbackTimer) {
+        clearTimeout(this._fallbackTimer);
+        this._fallbackTimer = null;
+      }
+      this._lastVideoSrc = newSrc;
       this._videoEl = v;
       this._setupVideo();
     }
@@ -153,13 +219,16 @@ export default class GrowthHero extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    if (this._mql && this._onMqlChange) {
+      this._mql.removeEventListener("change", this._onMqlChange);
+    }
     this._teardown();
   }
 
   // ------------------------------------------------------------
   // Video: autoplay + robust fallback
-  // Mirrors the 5s-timeout / error / abort strategy from the original
-  // injection script, adapted for a reactive component.
+  // Generation counter ensures that stale abort/error callbacks from a previous src
+  // (e.g. the browser firing abort when we swap to a desktop variant) are ignored.
   // ------------------------------------------------------------
 
   private _setupVideo() {
@@ -167,9 +236,11 @@ export default class GrowthHero extends LitElement {
     if (!v) return;
     this._videoEl = v;
 
+    const gen = ++this._videoGeneration;
     let started = false;
 
     const markStarted = () => {
+      if (gen !== this._videoGeneration) return;
       if (started) return;
       started = true;
       if (this._fallbackTimer) {
@@ -179,6 +250,7 @@ export default class GrowthHero extends LitElement {
     };
 
     const giveUp = () => {
+      if (gen !== this._videoGeneration) return;
       markStarted(); // stop the timer either way
       this._videoFailed = true;
     };
@@ -199,16 +271,18 @@ export default class GrowthHero extends LitElement {
     v.addEventListener(
       "loadedmetadata",
       () => {
+        if (gen !== this._videoGeneration) return;
         const p = v.play();
         if (p && typeof p.then === "function") p.catch(() => giveUp());
       },
       { once: true }
     );
 
-    // Safety net: if nothing started within 5s, swap to image fallback.
+    // Safety net: if nothing started within the timeout window, swap to image fallback.
     this._fallbackTimer = window.setTimeout(() => {
+      if (gen !== this._videoGeneration) return;
       if (!started) giveUp();
-    }, 5000);
+    }, this._pickVideoTimeout());
   }
 
   // ------------------------------------------------------------
@@ -309,8 +383,8 @@ export default class GrowthHero extends LitElement {
           ${mode === "video"
             ? html`
                 <video
-                  src=${c.video_url!}
-                  poster=${c.poster_image || c.background_image || ""}
+                  src=${this._currentVideoUrl()}
+                  poster=${this._currentImageUrl() || ""}
                   ?autoplay=${c.video_autoplay !== false}
                   ?loop=${c.video_loop !== false}
                   ?muted=${c.video_muted !== false}
@@ -321,12 +395,19 @@ export default class GrowthHero extends LitElement {
                 ></video>
               `
             : mode === "image"
-            ? html`<img
-                src=${c.background_image || c.poster_image || ""}
-                alt=""
-                loading="eager"
-                decoding="async"
-              />`
+            ? html`
+                <picture>
+                  ${c.background_image_desktop
+                    ? html`<source media="(min-width: 768px)" srcset=${c.background_image_desktop}>`
+                    : nothing}
+                  <img
+                    src=${c.background_image || ""}
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                  />
+                </picture>
+              `
             : nothing}
         </div>
 

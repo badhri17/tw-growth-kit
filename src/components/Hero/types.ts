@@ -15,12 +15,17 @@ export type HeroTextTheme = "light" | "dark";
 export type MaybeMultiLang = string | { ar?: string; en?: string } | null | undefined;
 
 export interface HeroConfig {
-  // --- Background media ---
-  video_url?: string;          // mp4/webm URL
-  poster_image?: string;        // shown until video plays / on fallback
-  background_image?: string;    // used when no video is set
-  gradient_from?: string;       // fallback gradient start color
-  gradient_to?: string;         // fallback gradient end color
+  // --- Background media (mobile / default) ---
+  video_url?: string;
+  background_image?: string;
+
+  // --- Background media (desktop override, ≥768 px) ---
+  video_url_desktop?: string;
+  background_image_desktop?: string;
+
+  // --- Gradient fallback ---
+  gradient_from?: string;
+  gradient_to?: string;
   gradient_angle?: number;      // 0–360, default 135
 
   // --- Overlay ---
@@ -52,7 +57,9 @@ export interface HeroConfig {
   video_autoplay?: boolean;
   video_loop?: boolean;
   video_muted?: boolean;
-  poster_on_mobile?: boolean;    // show poster instead of video on mobile
+
+  // --- Smart connection-aware fallback (default ON when undefined) ---
+  smart_data_saver?: boolean;
 
   // --- Motion ---
   enable_entrance_anim?: boolean;
