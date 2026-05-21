@@ -5,11 +5,13 @@
  */
 
 export type HeroHeight = "full" | "large" | "medium" | "compact";
+export type HeroHeightDesktop = HeroHeight | "inherit";
 export type HeroAlignH = "start" | "center" | "end";
 export type HeroAlignV = "top" | "middle" | "bottom";
 export type HeroOverlayStyle = "none" | "dark-bottom" | "dark-full" | "light-full" | "vignette";
 export type HeroOverlayIntensity = "subtle" | "medium" | "strong";
 export type HeroTextTheme = "light" | "dark";
+export type HeroGradientType = "linear" | "radial" | "radial-corner" | "conic";
 
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang = string | { ar?: string; en?: string } | null | undefined;
@@ -27,6 +29,7 @@ export interface HeroConfig {
   gradient_from?: string;
   gradient_to?: string;
   gradient_angle?: number;      // 0–360, default 135
+  gradient_type?: HeroGradientType;
 
   // --- Overlay ---
   overlay_style?: HeroOverlayStyle;
@@ -47,7 +50,8 @@ export interface HeroConfig {
   secondary_outline?: boolean;   // default true → outline
 
   // --- Layout ---
-  height?: HeroHeight;
+  height_mobile?: HeroHeight;
+  height_desktop?: HeroHeightDesktop;  // "inherit" → use height_mobile on desktop too
   align_h?: HeroAlignH;
   align_v?: HeroAlignV;
   text_theme?: HeroTextTheme;

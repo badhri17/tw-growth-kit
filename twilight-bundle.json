@@ -64,6 +64,100 @@
           "maxLength": 280
         },
         {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "align_h",
+          "label": "محاذاة النص الأفقية",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "المنتصف",
+              "value": "center",
+              "key": "ah-c"
+            }
+          ],
+          "options": [
+            {
+              "label": "عاليمين",
+              "value": "start",
+              "key": "ah-s"
+            },
+            {
+              "label": "المنتصف",
+              "value": "center",
+              "key": "ah-c"
+            },
+            {
+              "label": "عاليسار",
+              "value": "end",
+              "key": "ah-e"
+            }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "align_v",
+          "label": "محاذاة النص العمودية",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "منتصف",
+              "value": "middle",
+              "key": "av-m"
+            }
+          ],
+          "options": [
+            {
+              "label": "أعلى",
+              "value": "top",
+              "key": "av-t"
+            },
+            {
+              "label": "منتصف",
+              "value": "middle",
+              "key": "av-m"
+            },
+            {
+              "label": "أسفل",
+              "value": "bottom",
+              "key": "av-b"
+            }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "text_theme",
+          "label": "لون النص",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "فاتح (على خلفية داكنة)",
+              "value": "light",
+              "key": "tt-l"
+            }
+          ],
+          "options": [
+            {
+              "label": "فاتح (على خلفية داكنة)",
+              "value": "light",
+              "key": "tt-l"
+            },
+            {
+              "label": "داكن (على خلفية فاتحة)",
+              "value": "dark",
+              "key": "tt-d"
+            }
+          ]
+        },
+        {
           "type": "static",
           "format": "line",
           "id": "divider-1"
@@ -85,7 +179,7 @@
           "type": "static",
           "format": "title",
           "id": "section-bg-mobile",
-          "value": "<div style='background-color:#1e293b;color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>📱 الجوال — أساسي</div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>📱 الجوال — أساسي</div>",
           "variant": "h6"
         },
         {
@@ -108,10 +202,48 @@
           "description": "تستخدم كصورة احتياطية أثناء تحميل الفيديو، وعند تعذّر تشغيله، وكخلفية ثابتة في حال لم يُضف فيديو. المقاس المناسب 1080×1920 بكسل (عمودي للجوال)."
         },
         {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "height_mobile",
+          "label": "ارتفاع الواجهة على الجوال",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "كبير (80% من الشاشة)",
+              "value": "large",
+              "key": "hm-l"
+            }
+          ],
+          "options": [
+            {
+              "label": "كامل الشاشة",
+              "value": "full",
+              "key": "hm-f"
+            },
+            {
+              "label": "كبير (80% من الشاشة)",
+              "value": "large",
+              "key": "hm-l"
+            },
+            {
+              "label": "متوسط (60% من الشاشة)",
+              "value": "medium",
+              "key": "hm-m"
+            },
+            {
+              "label": "صغير (45% من الشاشة)",
+              "value": "compact",
+              "key": "hm-c"
+            }
+          ]
+        },
+        {
           "type": "static",
           "format": "title",
           "id": "section-bg-desktop",
-          "value": "<div style='background-color:#1e293b;color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
           "variant": "h6"
         },
         {
@@ -134,38 +266,125 @@
           "description": "تستخدم على الشاشات الكبيرة (768 بكسل وأكثر). إذا تركتها فارغة سيتم استخدام صورة الجوال. المقاس المناسب 1920×1080 بكسل."
         },
         {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "height_desktop",
+          "label": "ارتفاع الواجهة على سطح المكتب (اختياري)",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "اختر «نفس الجوال» لتطبيق نفس ارتفاع الجوال على الشاشات الكبيرة.",
+          "selected": [
+            {
+              "label": "نفس الجوال",
+              "value": "inherit",
+              "key": "hd-i"
+            }
+          ],
+          "options": [
+            {
+              "label": "نفس الجوال",
+              "value": "inherit",
+              "key": "hd-i"
+            },
+            {
+              "label": "كامل الشاشة",
+              "value": "full",
+              "key": "hd-f"
+            },
+            {
+              "label": "كبير (80% من الشاشة)",
+              "value": "large",
+              "key": "hd-l"
+            },
+            {
+              "label": "متوسط (60% من الشاشة)",
+              "value": "medium",
+              "key": "hd-m"
+            },
+            {
+              "label": "صغير (45% من الشاشة)",
+              "value": "compact",
+              "key": "hd-c"
+            }
+          ]
+        },
+        {
           "type": "static",
           "format": "title",
           "id": "section-bg-gradient",
-          "value": "<div style='background-color:#1e293b;color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🎨 التدرج اللوني </div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🎨 التدرج اللوني </div>",
           "variant": "h6"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "bg-gradient-note",
+          "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>💡 إذا أردت لونًا ثابتًا للخلفية بدون تدرج، اكتفِ بتعبئة <strong>لون الخلفية</strong> فقط واترك حقل <strong>لون التدرج — النهاية</strong> فارغًا. عند تعبئة الحقلين معًا سيظهر تدرج لوني بينهما، ويمكنك اختيار شكل التدرج (خطي، دائري، أو مخروطي).</div>"
         },
         {
           "type": "string",
           "format": "color",
-          "key": "38bb628f-4858-4734-a5f6-6020ed896ef1",
           "inputType": "color",
-          "label": "لون خلفية الزر",
-          "description": null,
-          "labelHTML": null,
+          "id": "gradient_from",
+          "label": "لون الخلفية",
           "icon": "sicon-format-fill",
           "value": "#111111"
         },
-        
         {
           "type": "string",
-          "icon": "sicon-color-palette",
+          "format": "color",
+          "inputType": "color",
           "id": "gradient_to",
-          "label": "لون التدرج — النهاية",
-          "format": "text",
+          "label": "لون التدرج — النهاية (اختياري)",
+          "icon": "sicon-color-palette",
           "required": false,
-          "placeholder": "#7c3aed"
+          "description": "اتركه فارغًا للحصول على لون ثابت بدون تدرج."
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "gradient_type",
+          "label": "نوع التدرج",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "يطبَّق فقط عند تعبئة لون النهاية.",
+          "selected": [
+            {
+              "label": "خطي (Linear)",
+              "value": "linear",
+              "key": "gt-l"
+            }
+          ],
+          "options": [
+            {
+              "label": "خطي (Linear)",
+              "value": "linear",
+              "key": "gt-l"
+            },
+            {
+              "label": "دائري من المركز (Radial)",
+              "value": "radial",
+              "key": "gt-r"
+            },
+            {
+              "label": "دائري من الزاوية (Radial Corner)",
+              "value": "radial-corner",
+              "key": "gt-rc"
+            },
+            {
+              "label": "مخروطي (Conic)",
+              "value": "conic",
+              "key": "gt-c"
+            }
+          ]
         },
         {
           "type": "static",
           "format": "title",
           "id": "section-bg-advanced",
-          "value": "<div style='background-color:#1e293b;color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>⚙️ خيارات متقدمة</div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>⚙️ خيارات متقدمة</div>",
           "variant": "h6"
         },
         {
@@ -187,7 +406,7 @@
           "type": "static",
           "format": "title",
           "id": "section-overlay",
-          "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>طبقة التعتيم</div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>طبقة التعتيم</div>",
           "variant": "h6"
         },
         {
@@ -275,7 +494,7 @@
           "type": "static",
           "format": "title",
           "id": "section-ctas",
-          "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>أزرار الإجراء</div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>أزرار الإجراء</div>",
           "variant": "h6"
         },
         {
@@ -342,152 +561,8 @@
         {
           "type": "static",
           "format": "title",
-          "id": "section-layout",
-          "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>التخطيط والمحاذاة</div>",
-          "variant": "h6"
-        },
-        {
-          "type": "items",
-          "icon": "sicon-keyboard_arrow_down",
-          "id": "height",
-          "label": "ارتفاع الواجهة",
-          "format": "dropdown-list",
-          "source": "Manual",
-          "required": false,
-          "selected": [
-            {
-              "label": "كبير (80% من الشاشة)",
-              "value": "large",
-              "key": "h-l"
-            }
-          ],
-          "options": [
-            {
-              "label": "كامل الشاشة",
-              "value": "full",
-              "key": "h-f"
-            },
-            {
-              "label": "كبير (80% من الشاشة)",
-              "value": "large",
-              "key": "h-l"
-            },
-            {
-              "label": "متوسط (60% من الشاشة)",
-              "value": "medium",
-              "key": "h-m"
-            },
-            {
-              "label": "مضغوط (45% من الشاشة)",
-              "value": "compact",
-              "key": "h-c"
-            }
-          ]
-        },
-        {
-          "type": "items",
-          "icon": "sicon-keyboard_arrow_down",
-          "id": "align_h",
-          "label": "محاذاة النص الأفقية",
-          "format": "dropdown-list",
-          "source": "Manual",
-          "required": false,
-          "selected": [
-            {
-              "label": "البداية (RTL يمين)",
-              "value": "start",
-              "key": "ah-s"
-            }
-          ],
-          "options": [
-            {
-              "label": "البداية (RTL يمين)",
-              "value": "start",
-              "key": "ah-s"
-            },
-            {
-              "label": "المنتصف",
-              "value": "center",
-              "key": "ah-c"
-            },
-            {
-              "label": "النهاية (RTL يسار)",
-              "value": "end",
-              "key": "ah-e"
-            }
-          ]
-        },
-        {
-          "type": "items",
-          "icon": "sicon-keyboard_arrow_down",
-          "id": "align_v",
-          "label": "محاذاة النص العمودية",
-          "format": "dropdown-list",
-          "source": "Manual",
-          "required": false,
-          "selected": [
-            {
-              "label": "منتصف",
-              "value": "middle",
-              "key": "av-m"
-            }
-          ],
-          "options": [
-            {
-              "label": "أعلى",
-              "value": "top",
-              "key": "av-t"
-            },
-            {
-              "label": "منتصف",
-              "value": "middle",
-              "key": "av-m"
-            },
-            {
-              "label": "أسفل",
-              "value": "bottom",
-              "key": "av-b"
-            }
-          ]
-        },
-        {
-          "type": "items",
-          "icon": "sicon-keyboard_arrow_down",
-          "id": "text_theme",
-          "label": "لون النص",
-          "format": "dropdown-list",
-          "source": "Manual",
-          "required": false,
-          "selected": [
-            {
-              "label": "فاتح (على خلفية داكنة)",
-              "value": "light",
-              "key": "tt-l"
-            }
-          ],
-          "options": [
-            {
-              "label": "فاتح (على خلفية داكنة)",
-              "value": "light",
-              "key": "tt-l"
-            },
-            {
-              "label": "داكن (على خلفية فاتحة)",
-              "value": "dark",
-              "key": "tt-d"
-            }
-          ]
-        },
-        {
-          "type": "static",
-          "format": "line",
-          "id": "divider-5"
-        },
-        {
-          "type": "static",
-          "format": "title",
           "id": "section-motion",
-          "value": "<div style='background-color:#0f172a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>الحركة والفيديو</div>",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>الحركة والفيديو</div>",
           "variant": "h6"
         },
         {

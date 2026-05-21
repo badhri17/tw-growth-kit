@@ -3,11 +3,13 @@ import { property, state } from "lit/decorators.js";
 import type {
   HeroConfig,
   HeroHeight,
+  HeroHeightDesktop,
   HeroAlignH,
   HeroAlignV,
   HeroOverlayStyle,
   HeroOverlayIntensity,
   HeroTextTheme,
+  HeroGradientType,
   MaybeMultiLang,
 } from "./types";
 import { heroStyles } from "./style";
@@ -150,6 +152,38 @@ export default class GrowthHero extends LitElement {
     const img = this._currentImageUrl();
     if (img) return "image";
     return "gradient";
+  }
+
+  /**
+   * Build the CSS `background` value for the gradient mode.
+   * - Only `gradient_from`  → solid colour (no gradient artefact when "to" is empty).
+   * - Only `gradient_to`    → solid colour using that value.
+   * - Both                  → gradient of the chosen type/angle.
+   * - Neither               → null; CSS fallback in style.ts takes over.
+   */
+  private _buildBackground(): string | null {
+    const c = this.config || {};
+    const from = (c.gradient_from || "").trim();
+    const to = (c.gradient_to || "").trim();
+
+    if (!from && !to) return null;
+    if (from && !to) return from;
+    if (!from && to) return to;
+
+    const type = this._pickValue<HeroGradientType>(c.gradient_type, "linear");
+    const angle = typeof c.gradient_angle === "number" ? c.gradient_angle : 135;
+
+    switch (type) {
+      case "radial":
+        return `radial-gradient(circle at center, ${from} 0%, ${to} 100%)`;
+      case "radial-corner":
+        return `radial-gradient(circle at top left, ${from} 0%, ${to} 75%)`;
+      case "conic":
+        return `conic-gradient(from ${angle}deg at 50% 50%, ${from}, ${to}, ${from})`;
+      case "linear":
+      default:
+        return `linear-gradient(${angle}deg, ${from}, ${to})`;
+    }
   }
 
   private _overlayAlpha(intensity: HeroOverlayIntensity = "medium"): number {
@@ -330,7 +364,10 @@ export default class GrowthHero extends LitElement {
   render() {
     const c: HeroConfig = this.config || {};
 
-    const height: HeroHeight = this._pickValue<HeroHeight>(c.height, "large");
+    const heightMobile: HeroHeight = this._pickValue<HeroHeight>(c.height_mobile, "large");
+    const heightDesktop: HeroHeightDesktop = this._pickValue<HeroHeightDesktop>(c.height_desktop, "inherit");
+    const height: HeroHeight =
+      this._isDesktop && heightDesktop !== "inherit" ? heightDesktop : heightMobile;
     const alignH: HeroAlignH = this._pickValue<HeroAlignH>(c.align_h, "start");
     const alignV: HeroAlignV = this._pickValue<HeroAlignV>(c.align_v, "middle");
     const textTheme: HeroTextTheme = this._pickValue<HeroTextTheme>(c.text_theme, "light");
@@ -349,13 +386,13 @@ export default class GrowthHero extends LitElement {
 
     const mode = this._mode;
 
+    const bgValue = this._buildBackground();
+
     // Inline CSS custom properties for dynamic values.
     const hostStyle = [
       `--gh-overlay-a: ${overlayAlpha}`,
       c.content_max_width ? `--gh-content-max: ${c.content_max_width}px` : "",
-      c.gradient_from ? `--gh-gradient-from: ${c.gradient_from}` : "",
-      c.gradient_to ? `--gh-gradient-to: ${c.gradient_to}` : "",
-      c.gradient_angle != null ? `--gh-gradient-angle: ${c.gradient_angle}deg` : "",
+      bgValue ? `--gh-bg: ${bgValue}` : "",
     ]
       .filter(Boolean)
       .join("; ");

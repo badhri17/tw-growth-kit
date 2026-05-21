@@ -75,11 +75,7 @@ export const heroStyles = css`
     transition: transform 0.12s linear;
   }
   .bg.is-gradient {
-    background: linear-gradient(
-      var(--gh-gradient-angle, 135deg),
-      var(--gh-gradient-from, #1e1b4b),
-      var(--gh-gradient-to, #7c3aed)
-    );
+    background: var(--gh-bg, linear-gradient(135deg, #1e1b4b, #7c3aed));
   }
 
   /* --- Overlay layer --- */
