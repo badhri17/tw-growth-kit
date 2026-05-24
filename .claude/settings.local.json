@@ -3,7 +3,16 @@
     "allow": [
       "Bash(pnpm run *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node *)",
+      "Bash(pnpm build *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:docs.salla.dev)",
+      "Bash(curl -sL https://raw.githubusercontent.com/SallaApp/theme-raed/master/twilight.json)",
+      "Bash(gh api *)",
+      "Bash(curl -sL \"https://api.github.com/repos/SallaApp/theme-raed/git/trees/master?recursive=1\")",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if 'product' in t['path'].lower\\(\\) and t['path'].endswith\\('.twig'\\)][:20]\")",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if 'fixed-product' in t['path'].lower\\(\\) or 'products-slider' in t['path'].lower\\(\\)]\")"
     ]
   }
 }

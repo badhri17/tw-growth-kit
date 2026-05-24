@@ -667,6 +667,531 @@
           ]
         }
       ]
+    },
+    {
+      "title": "سلايدر قبل وبعد",
+      "icon": "sicon-image",
+      "name": "before-after",
+      "key": "b7a3c9e2-4d8f-4a1b-9c5e-7f3a2b1d6e8c",
+      "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+      "fields": [
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-content",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>المحتوى</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "title",
+          "label": "العنوان الرئيسي",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "مثل: نتائج حقيقية",
+          "description": "يظهر فوق السلايدر. اتركه فارغًا لإخفائه.",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        {
+          "type": "string",
+          "icon": "sicon-paragraph",
+          "id": "subtitle",
+          "label": "النص الوصفي (اختياري)",
+          "format": "textarea",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "اكتب جملة تشرح ما يراه الزائر",
+          "minLength": 0,
+          "maxLength": 240
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-1"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-slides",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الشرائح</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "slides-note",
+          "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف صورة <strong>قبل</strong> وصورة <strong>بعد</strong> لكل شريحة. إذا أضفت شريحة واحدة فقط، سيظهر سلايدر مفرد بدون أزرار تنقل. أضف شريحتين أو أكثر للحصول على عرض دائري (Carousel).</div>"
+        },
+        {
+          "id": "slides",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 12,
+          "item_label": "شريحة",
+          "value": [
+            {
+              "before_image": "https://cdn.salla.sa/form-builder/2xi9n0u9P9UIHhiuFe7grlKtv9LeUEZ9K3xhls56.jpg",
+              "after_image": "https://cdn.salla.sa/form-builder/Xs9wyjr52ImVdRt2iyx01DVcbV5RlbSVSgwQnWMg.jpg"
+            },
+            {
+              "before_image": "https://cdn.salla.sa/form-builder/WoSkjI5BFwxwaxYQ8bUboOqNKq8FwT7JpK9wGxVO.jpg",
+              "after_image": "https://cdn.salla.sa/form-builder/S5kSHmOjXl962bHTr6LMaLibyXZF9Zro0eXVbZy0.jpg"
+            },
+            {
+              "before_image": "https://cdn.salla.sa/form-builder/E4kjdhw4jxcalSY2GRrzuoFtWpl17guRPbYAIZFO.jpg",
+              "after_image": "https://cdn.salla.sa/form-builder/5oPPY91LpuxdhKtDnshreqOr8uCLb1gWsGSnNlxA.jpg"
+            }
+          ],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "id": "before_image",
+              "label": "صورة «قبل»",
+              "format": "image",
+              "required": true,
+              "description": "الصورة الأصلية قبل التحسين."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "id": "after_image",
+              "label": "صورة «بعد»",
+              "format": "image",
+              "required": true,
+              "description": "الصورة بعد التحسين. تأكد من أن أبعاد الصورتين متطابقتان للحصول على أفضل نتيجة."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-paragraph",
+              "id": "caption",
+              "label": "تسمية أسفل الصورة (اختياري)",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "مثل: قبل ٧ أيام / بعد الاستخدام",
+              "maxLength": 80
+            },
+            {
+              "type": "items",
+              "icon": "sicon-bag",
+              "id": "product",
+              "label": "المنتج المرتبط (اختياري)",
+              "format": "dropdown-list",
+              "source": "products",
+              "searchable": true,
+              "multichoice": false,
+              "required": false,
+              "description": "اختر منتجًا حقيقيًا من متجرك. عند الاختيار تظهر بطاقة صغيرة أسفل الصورة باسم المنتج وصورته، والنقر عليها ينقل العميل لصفحة المنتج.",
+              "selected": [],
+              "options": [],
+              "maxLength": 1,
+              "minLength": 0,
+              "value": []
+            }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-2"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-labels",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>تسميات قبل / بعد</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_labels",
+          "label": "إظهار التسميات داخل الصورة",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "label_before",
+          "label": "نص تسمية «قبل»",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "قبل",
+          "value": "قبل",
+          "maxLength": 20
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "label_after",
+          "label": "نص تسمية «بعد»",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "بعد",
+          "value": "بعد",
+          "maxLength": 20
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-3"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-layout",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>المقاسات والتنسيق</div><div style='margin-bottom:14px;'><img src='https://d.top4top.io/p_3796ccun31.png' alt='مقاسات الصورة' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>",
+          "variant": "h5"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "aspect_ratio",
+          "label": "مقاس الصورة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "اختر نسبة الأبعاد المناسبة لصورك. مربع 1:1 هو الخيار الأكثر شمولًا.",
+          "selected": [
+            {
+              "label": "مربع 1:1",
+              "value": "1/1",
+              "key": "ar-1-1"
+            }
+          ],
+          "options": [
+            { "label": "مربع 1:1", "value": "1/1", "key": "ar-1-1" },
+            { "label": "أفقي 4:3", "value": "4/3", "key": "ar-4-3" },
+            { "label": "أفقي 16:9 (عريض جدا)", "value": "16/9", "key": "ar-16-9" },
+            { "label": "عمودي 3:4", "value": "3/4", "key": "ar-3-4" },
+            { "label": "عمودي 9:16 (طويل نفس مقاس الستوري)", "value": "9/16", "key": "ar-9-16" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "desktop_layout",
+          "label": "تخطيط سطح المكتب",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "في وضع «ثلاث شرائح متراكبة» تظهر الشريحة النشطة في المنتصف مع لمحة من الشريحتين الجانبيتين.",
+          "selected": [
+            {
+              "label": "ثلاث شرائح متراكبة (Coverflow)",
+              "value": "coverflow",
+              "key": "dl-cf"
+            }
+          ],
+          "options": [
+            { "label": "ثلاث شرائح متراكبة (Coverflow)", "value": "coverflow", "key": "dl-cf" },
+            { "label": "شريحة واحدة فقط في المنتصف", "value": "single", "key": "dl-s" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "initial_position",
+          "label": "موضع الفاصل المبدئي",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "أين يبدأ الفاصل بين «قبل» و«بعد».",
+          "selected": [
+            {
+              "label": "المنتصف (٥٠٪)",
+              "value": "50",
+              "key": "ip-50"
+            }
+          ],
+          "options": [
+            { "label": "ربع الصورة (٢٥٪)", "value": "25", "key": "ip-25" },
+            { "label": "المنتصف (٥٠٪)", "value": "50", "key": "ip-50" },
+            { "label": "ثلاثة أرباع (٧٥٪)", "value": "75", "key": "ip-75" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "card_radius",
+          "label": "نعومة الحواف",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "كبيرة (٢٠ بكسل)",
+              "value": "20",
+              "key": "cr-20"
+            }
+          ],
+          "options": [
+            { "label": "بدون انحناء", "value": "0", "key": "cr-0" },
+            { "label": "صغيرة (٨ بكسل)", "value": "8", "key": "cr-8" },
+            { "label": "متوسطة (١٤ بكسل)", "value": "14", "key": "cr-14" },
+            { "label": "كبيرة (٢٠ بكسل)", "value": "20", "key": "cr-20" },
+            { "label": "دائري ناعم (٣٢ بكسل)", "value": "32", "key": "cr-32" }
+          ]
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "reverse_direction",
+          "label": "عكس اتجاه السلايدر (إظهار «بعد» على اليمين)",
+          "description": "افتراضيًا تظهر صورة «قبل» على اليسار و«بعد» على اليمين. فعّل هذا الخيار لعكس ذلك.",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-4"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-carousel",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة عرض المقارنات</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "carousel-note",
+          "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر إعدادات عرض المقارنات فقط عند إضافة مقارنتين أو أكثر.</div>"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_nav_buttons",
+          "label": "إظهار أزرار التنقل",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_pagination",
+          "label": "إظهار نقاط التنقل (Dots)",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "loop",
+          "label": "تكرار لا نهائي",
+          "description": "عند الوصول لآخر شريحة، يعود السلايدر للأولى تلقائيًا.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "autoplay",
+          "label": "تشغيل تلقائي",
+          "description": "ينتقل تلقائيًا بين الشرائح. يتوقف مؤقتًا عند مرور المؤشر فوق السلايدر أو أثناء السحب.",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "autoplay_delay",
+          "label": "مدة كل شريحة (بالثواني)",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "تُستخدم فقط عند تفعيل التشغيل التلقائي.",
+          "selected": [
+            {
+              "label": "٥ ثوانٍ",
+              "value": "5",
+              "key": "ad-5"
+            }
+          ],
+          "options": [
+            { "label": "٣ ثوانٍ", "value": "3", "key": "ad-3" },
+            { "label": "٥ ثوانٍ", "value": "5", "key": "ad-5" },
+            { "label": "٧ ثوانٍ", "value": "7", "key": "ad-7" },
+            { "label": "١٠ ثوانٍ", "value": "10", "key": "ad-10" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "initial_slide",
+          "label": "الشريحة الافتتاحية",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "أي شريحة تظهر أولًا عند تحميل الصفحة. اختر «تلقائي» للبدء من المنتصف.",
+          "selected": [
+            {
+              "label": "تلقائي (من المنتصف)",
+              "value": "auto",
+              "key": "is-auto"
+            }
+          ],
+          "options": [
+            { "label": "تلقائي (من المنتصف)", "value": "auto", "key": "is-auto" },
+            { "label": "الشريحة ١", "value": "1", "key": "is-1" },
+            { "label": "الشريحة ٢", "value": "2", "key": "is-2" },
+            { "label": "الشريحة ٣", "value": "3", "key": "is-3" },
+            { "label": "الشريحة ٤", "value": "4", "key": "is-4" },
+            { "label": "الشريحة ٥", "value": "5", "key": "is-5" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-5"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-style",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الألوان</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "bg_color",
+          "label": "لون خلفية القسم",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#f5f5f5"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "title_color",
+          "label": "لون العنوان",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#212529"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "text_color",
+          "label": "لون النص الوصفي",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#4b5563"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "handle_bg",
+          "label": "لون مقبض السحب",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "handle_icon_color",
+          "label": "لون أيقونة المقبض والنقاط",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#000000"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "line_color",
+          "label": "لون الخط الفاصل",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "label_bg",
+          "label": "لون خلفية شارة «قبل/بعد»",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "label_text_color",
+          "label": "لون نص شارة «قبل/بعد»",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#333333"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "product_chip_bg",
+          "label": "لون خلفية بطاقة المنتج",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "product_chip_color",
+          "label": "لون نص بطاقة المنتج",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#111111"
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-7"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-motion",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الانيميشن</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "enable_entrance_anim",
+          "label": "تفعيل حركة الظهور",
+          "description": "يتحكم بحركة دخول العنوان (تلاشي مع ضبابية) وحركة دخول الشرائح (تظهر مكدّسة ثم تنتشر إلى مواضعها). عند الإيقاف يظهر القسم مباشرة بدون أي حركة.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        }
+      ]
     }
   ]
 }
