@@ -1192,6 +1192,612 @@
           "required": false
         }
       ]
+    },
+    {
+      "title": "منتجات المجموعة",
+      "icon": "sicon-grid",
+      "name": "collection",
+      "key": "c4e7d2a1-9b3f-4c5e-8d6a-7f1b2e3c4d5a",
+      "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+      "fields": [
+          {
+          "type": "static",
+          "format": "title",
+          "id": "section-content",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>المحتوى</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "section_title",
+          "label": "العنوان الرئيسي",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "value": "مكونات المجموعة",
+          "placeholder": "مثل: مكونات المجموعة",
+          "description": "يظهر فوق السلايدر. اتركه فارغًا لإخفائه.",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-mode",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة الاستخدام</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "mode-note",
+          "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>اختر طريقة استخدام المكوّن:<br/>• <strong>عرض المجموعات على الصفحة الرئيسية</strong>: لعرض مجموعات منتجات مختارة (موسمية، الأكثر مبيعًا، عروض)، وكل شريحة ترتبط بمنتج وتظهر معها زر «تسوّق الآن».<br/>• <strong>محتويات الباقة على صفحة المنتج</strong>: لعرض ما تحتويه الباقة أو الكِت (مثلاً مكوّنات روتين العناية)، بدون أزرار شراء لأن الزائر داخل صفحة المنتج أصلاً.</div>"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "use_case",
+          "label": "نوع المجموعة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "عرض المجموعات (صفحة رئيسية)",
+              "value": "home",
+              "key": "uc-home"
+            }
+          ],
+          "options": [
+            {
+              "label": " مجموعة منتجات (صفحة رئيسية)",
+              "value": "home",
+              "key": "uc-home"
+            },
+            {
+              "label": "محتويات البكج (صفحة هبوط)",
+              "value": "bundle",
+              "key": "uc-bundle"
+            }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-1"
+        },
+      
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-2"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-slides",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الشرائح</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "slides-note",
+          "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف ٣ شرائح على الأقل للحصول على عرض كاروسيل جذّاب. لكل شريحة صورة + عنوان + وصف. <strong>صورة الكشف</strong> اختيارية وتُستخدم فقط في وضع <strong>«كشف المنتج»</strong> (تظهر صورة ثانية للمنتج عند تحديد الشريحة).</div>"
+        },
+        {
+          "id": "slides",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 20,
+          "item_label": "شريحة",
+          "value": [
+            {
+              "image": "https://cdn.salla.sa/form-builder/LCEvsO7tZOIfQYRsPJ0VwyLVTnxPGqxBYSmficlh.webp",
+              "image_opened": "https://cdn.salla.sa/form-builder/HRGqy1lsFHqrEwa2YUKK79oWyiYaFE2IExp9XT0m.webp",
+              "title": "زيت التين الشوكي",
+              "description": "منتج طبيعي وعضوي يعطي بشرتك عناية خاصة وتفتيح واضح زيت مستخلص بطريقة الضغط البارد وغني بمضادات الأكسدة وفيتامين E وأوميغا 6 اللي تخلي بشرتك رطبة، مشرقة ومرنة."
+            },
+            {
+              "image": "https://cdn.salla.sa/form-builder/IjVbgpJWx6zIFKkaq8m4gw3X9QM6M3Yy91pfvoVO.webp",
+              "image_opened": "https://cdn.salla.sa/form-builder/Hg7fXrWMQQgrHbXlU3MbSGV4ihtG2gQkFZOcFU3n.webp",
+              "title": "صابونة النيلة",
+              "description": "لبشرة صافية ومتألقة بلون موحد خلال فترة قصيرة، صابونة طبيعية 100% تحتوي على النيلة المغربية الأصلية وزبدة الشيا وزيت الأرغان، وتتميز بقدرتها الفعّالة على تفتيح البشرة وتوحيد لونها بشكل سريع."
+            },
+            {
+              "image": "https://cdn.salla.sa/form-builder/J5zHbO8AX5qrkFZGiRNMzsClMvBPbhwO5YHnkGm3.webp",
+              "image_opened": "https://cdn.salla.sa/form-builder/nrtItZwe3CEZUGd93l392kYz1ku69is9P3lgwrsP.webp",
+              "title": "ماسك النيلة",
+              "description": "حل طبيعي وفعال  للبقع الداكنة والتصبغات وتوحيد لون بشرتك في أسرع وقت،  بتركيبته المستخلصة من عناصر الطبيعة، يمنحك هذا الماسك إشراقة فورية ويعيد لبشرتك نضارتها من أول استخدام."
+            }
+          ],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "id": "image",
+              "label": "الصورة",
+              "format": "image",
+              "required": false,
+              "description": "صورة المنتج أو المجموعة. إذا اخترت منتجًا مرتبطًا أدناه ولم ترفع صورة، سيتم استخدام صورة المنتج تلقائيًا."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "id": "image_opened",
+              "label": "صورة الكشف (اختياري)",
+              "format": "image",
+              "required": false,
+              "description": "تُستخدم فقط مع وضع الانيميشن «كشف المنتج». تظهر بدلًا من الصورة الأساسية عند تحديد الشريحة (مثلاً: صورة ثانية أو تفاصيل أقرب لنفس المنتج)."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "id": "title",
+              "label": "العنوان",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "مثل: زبدة النيلة",
+              "description": "يظهر تحت السلايدر عند تحديد الشريحة.",
+              "maxLength": 80
+            },
+            {
+              "type": "string",
+              "icon": "sicon-paragraph",
+              "id": "description",
+              "label": "الوصف",
+              "format": "textarea",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "وصف مختصر يظهر تحت السلايدر عند تحديد الشريحة",
+              "maxLength": 320
+            },
+            {
+              "type": "items",
+              "icon": "sicon-bag",
+              "id": "product",
+              "label": "المنتج المرتبط",
+              "format": "dropdown-list",
+              "source": "products",
+              "searchable": true,
+              "multichoice": false,
+              "required": false,
+              "description": "اختر منتجًا حقيقيًا من متجرك. ينتقل الزائر إلى صفحته عند الضغط على زر «تسوّق الآن».",
+              "selected": [],
+              "options": [],
+              "maxLength": 1,
+              "minLength": 0,
+              "value": [],
+              "conditions": [
+                { "id": "use_case", "operation": "=", "value": "home" }
+              ]
+            },
+            {
+              "type": "string",
+              "icon": "sicon-link",
+              "id": "cta_url",
+              "label": "رابط مخصص (اختياري — يتجاوز رابط المنتج)",
+              "format": "text",
+              "required": false,
+              "placeholder": "/categories/spring",
+              "conditions": [
+                { "id": "use_case", "operation": "=", "value": "home" }
+              ]
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "id": "cta_label",
+              "label": "نص الزر المخصص (اختياري)",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "تسوّق الآن",
+              "maxLength": 30,
+              "conditions": [
+                { "id": "use_case", "operation": "=", "value": "home" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-3"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-display",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة العرض والمقاسات</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "slide_animation",
+          "label": "أسلوب الانيميشن داخل الشريحة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "«بسيط»: تكبير وتعتيم لطيف للشريحة النشطة. «كشف المنتج»: تظهر صورة ثانية للمنتج بدلًا من الأساسية عند تحديد الشريحة — ويتطلّب رفع «صورة الكشف» لكل شريحة.",
+          "selected": [
+            {
+              "label": "كشف المنتج (تبديل صورتين)",
+              "value": "reveal",
+              "key": "sa-reveal"
+            }
+          ],
+          "options": [
+            {
+              "label": "بسيط (تكبير الشريحة النشطة)",
+              "value": "simple",
+              "key": "sa-simple"
+            },
+            {
+              "label": "كشف المنتج (تبديل صورتين)",
+              "value": "reveal",
+              "key": "sa-reveal"
+            }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "aspect_ratio",
+          "label": "مقاس الصورة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "اختر نسبة الأبعاد المناسبة. مربع 1:1 هو الأنسب لصور المنتجات.",
+          "selected": [
+            {
+              "label": "مربع 1:1",
+              "value": "1/1",
+              "key": "car-1-1"
+            }
+          ],
+          "options": [
+            { "label": "مربع 1:1", "value": "1/1", "key": "car-1-1" },
+            { "label": "أفقي 4:3", "value": "4/3", "key": "car-4-3" },
+            { "label": "أفقي 16:9", "value": "16/9", "key": "car-16-9" },
+            { "label": "عمودي 3:4", "value": "3/4", "key": "car-3-4" },
+            { "label": "عمودي 9:16 (ستوري)", "value": "9/16", "key": "car-9-16" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "desktop_layout",
+          "label": "تخطيط سطح المكتب",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "«ثلاث شرائح متراكبة»: تظهر الشريحة النشطة في المنتصف مع لمحة من الشريحتين الجانبيتين (الأنسب لتجربة الكاروسيل). «شريحة واحدة»: عرض شريحة واحدة فقط في المنتصف.",
+          "selected": [
+            {
+              "label": "ثلاث شرائح متراكبة (Coverflow)",
+              "value": "coverflow",
+              "key": "cdl-cf"
+            }
+          ],
+          "options": [
+            { "label": "ثلاث شرائح متراكبة (Coverflow)", "value": "coverflow", "key": "cdl-cf" },
+            { "label": "شريحة واحدة فقط في المنتصف", "value": "single", "key": "cdl-s" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "card_radius",
+          "label": "نعومة حواف الصورة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            {
+              "label": "كبيرة (٢٠ بكسل)",
+              "value": "20",
+              "key": "ccr-20"
+            }
+          ],
+          "options": [
+            { "label": "بدون انحناء", "value": "0", "key": "ccr-0" },
+            { "label": "صغيرة (٨ بكسل)", "value": "8", "key": "ccr-8" },
+            { "label": "متوسطة (١٤ بكسل)", "value": "14", "key": "ccr-14" },
+            { "label": "كبيرة (٢٠ بكسل)", "value": "20", "key": "ccr-20" },
+            { "label": "دائري ناعم (٣٢ بكسل)", "value": "32", "key": "ccr-32" }
+          ]
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_caption",
+          "label": "إظهار العنوان والوصف تحت السلايدر",
+          "description": "نص يظهر تحت السلايدر يتبدّل حسب الشريحة المختارة.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-4",
+          "conditions": [
+            { "id": "use_case", "operation": "=", "value": "home" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-cta",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>زر الإجراء (CTA)</div>",
+          "variant": "h5",
+          "conditions": [
+            { "id": "use_case", "operation": "=", "value": "home" }
+          ]
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_cta",
+          "label": "إظهار زر «تسوّق الآن»",
+          "format": "switch",
+          "selected": true,
+          "required": false,
+          "conditions": [
+            { "id": "use_case", "operation": "=", "value": "home" }
+          ]
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "default_cta_label",
+          "label": "نص الزر الافتراضي",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "تسوّق الآن",
+          "value": "تسوّق الآن",
+          "maxLength": 30,
+          "description": "يُستخدم لكل الشرائح ما لم تُحدّد نصًا مخصصًا للشريحة.",
+          "conditions": [
+            { "id": "use_case", "operation": "=", "value": "home" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-5"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-carousel",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>سلوك الشرائح</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "carousel-note",
+          "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر هذه الإعدادات فقط عند إضافة شريحتين أو أكثر.</div>"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_nav_buttons",
+          "label": "إظهار أزرار التنقل",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_pagination",
+          "label": "إظهار نقاط التنقل (Dots)",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "loop",
+          "label": "تكرار لا نهائي",
+          "description": "عند الوصول لآخر شريحة، يعود السلايدر للأولى تلقائيًا.",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "autoplay",
+          "label": "تشغيل تلقائي",
+          "description": "ينتقل تلقائيًا بين الشرائح. يتوقف مؤقتًا عند مرور المؤشر فوق السلايدر أو أثناء السحب.",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "autoplay_delay",
+          "label": "مدة كل شريحة (بالثواني)",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "تُستخدم فقط عند تفعيل التشغيل التلقائي.",
+          "selected": [
+            {
+              "label": "٥ ثوانٍ",
+              "value": "5",
+              "key": "cad-5"
+            }
+          ],
+          "options": [
+            { "label": "٣ ثوانٍ", "value": "3", "key": "cad-3" },
+            { "label": "٥ ثوانٍ", "value": "5", "key": "cad-5" },
+            { "label": "٧ ثوانٍ", "value": "7", "key": "cad-7" },
+            { "label": "١٠ ثوانٍ", "value": "10", "key": "cad-10" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "initial_slide",
+          "label": "الشريحة الافتتاحية",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "أي شريحة تظهر أولًا عند تحميل الصفحة. اختر «تلقائي» للبدء من المنتصف.",
+          "selected": [
+            {
+              "label": "تلقائي (من المنتصف)",
+              "value": "auto",
+              "key": "cis-auto"
+            }
+          ],
+          "options": [
+            { "label": "تلقائي (من المنتصف)", "value": "auto", "key": "cis-auto" },
+            { "label": "الشريحة ١", "value": "1", "key": "cis-1" },
+            { "label": "الشريحة ٢", "value": "2", "key": "cis-2" },
+            { "label": "الشريحة ٣", "value": "3", "key": "cis-3" },
+            { "label": "الشريحة ٤", "value": "4", "key": "cis-4" },
+            { "label": "الشريحة ٥", "value": "5", "key": "cis-5" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-6"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-colors",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الألوان</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "bg_color",
+          "label": "لون خلفية القسم",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#F9F8F4"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "title_color",
+          "label": "لون العنوان الرئيسي",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#18332f"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "caption_title_color",
+          "label": "لون عنوان الشريحة (تحت السلايدر)",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#111111"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "caption_text_color",
+          "label": "لون وصف الشريحة (تحت السلايدر)",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#555555"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "cta_bg",
+          "label": "لون خلفية زر «تسوّق الآن»",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#18332f"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "cta_color",
+          "label": "لون نص زر «تسوّق الآن»",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "nav_bg",
+          "label": "لون خلفية أزرار التنقل",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "nav_icon_color",
+          "label": "لون أيقونة أزرار التنقل",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#18332f"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "dot_color",
+          "label": "لون نقاط التنقل",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#18332f"
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-7"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-motion",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الانيميشن</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "enable_entrance_anim",
+          "label": "تفعيل حركة الظهور",
+          "description": "يتحكم بحركة دخول العنوان (تلاشي مع ضبابية) وحركة دخول الشرائح (تظهر مكدّسة ثم تنتشر إلى مواضعها). عند الإيقاف يظهر القسم مباشرة بدون أي حركة.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        }
+      ]
     }
   ]
 }

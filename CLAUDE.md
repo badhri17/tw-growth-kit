@@ -139,6 +139,17 @@ Fetch docs directly — avoid search, direct URLs return better structured conte
   - `https://docs.salla.dev/422689m0.md` — Twilight Web Components
   - `https://docs.salla.dev/422690m0.md` — Customize Web Components
 
+### Field schema reference (ground truth)
+
+Salla's official docs don't document every field property exhaustively. When you need to know what `type`/`format`/`source` values exist, or look up advanced features like conditional visibility, picker sources, or validation, **read theme-raed's `twilight.json` directly** — it's the most complete real-world example:
+
+- **theme-raed twilight.json:** `https://raw.githubusercontent.com/SallaApp/theme-raed/master/twilight.json`
+
+Examples of features documented only there:
+- **Conditional fields** — `"conditions": [{ "id": "<other_field_id>", "operation": "=", "value": <val> }]` hides a field unless the condition matches. Works for sibling fields and across nesting (a field inside a `collection` can reference a top-level field by id). `value` accepts the literal stored value: `true`/`false` for booleans, the `value` string for an `items` selection.
+- **Picker sources** for `items` dropdowns: `"source": "products" | "categories" | "brands" | "pages" | "blog_articles" | ...`
+- **Variable-list links** — multi-source link pickers via `"format": "variable-list"` + a `sources` array.
+
 ## Deferred Components (Post-v1)
 
 Do not build these now — planned for future sub-bundles:
