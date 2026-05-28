@@ -64,6 +64,82 @@
           "maxLength": 280
         },
         {
+          "type": "static",
+          "format": "title",
+          "id": "section-ctas",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>زر الإجراء (CTA)</div>",
+          "variant": "h6"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "primary_label",
+          "label": "نص الزر",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "تسوّق الآن",
+          "maxLength": 30
+        },
+        {
+          "type": "string",
+          "icon": "sicon-link",
+          "id": "primary_url",
+          "label": "رابط الزر",
+          "format": "text",
+          "required": false,
+          "placeholder": "/offers"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "primary_outline",
+          "label": "جعل الزر شفافًا (Outline)",
+          "format": "switch",
+          "selected": false
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-trust",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>نقاط الثقة</div>",
+          "variant": "h6"
+        },
+        {
+          "id": "trust_points",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 3,
+          "item_label": "نقطة ثقة",
+          "description": "نقاط قصيرة تظهر أسفل الزر مع علامة صح — مثل: شحن سريع، ضمان ذهبي، دفع آمن. أضف حتى 3 نقاط.",
+          "value": [
+            {
+              "text": "شحن سريع"
+            },
+            {
+              "text": "ضمان ذهبي"
+            },
+            {
+              "text": "دفع آمن"
+            }
+          ],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "id": "text",
+              "label": "النص",
+              "format": "text",
+              "multilanguage": true,
+              "required": true,
+              "placeholder": "مثل: شحن سريع",
+              "maxLength": 30
+            }
+          ]
+        },
+        {
           "type": "items",
           "icon": "sicon-keyboard_arrow_down",
           "id": "align_h",
@@ -199,7 +275,8 @@
           "label": "صورة الخلفية",
           "format": "image",
           "required": false,
-          "description": "تستخدم كصورة احتياطية أثناء تحميل الفيديو، وعند تعذّر تشغيله، وكخلفية ثابتة في حال لم يُضف فيديو. المقاس المناسب 1080×1920 بكسل (عمودي للجوال)."
+          "description": "تستخدم كصورة احتياطية أثناء تحميل الفيديو، وعند تعذّر تشغيله، وكخلفية ثابتة في حال لم يُضف فيديو. المقاس المناسب 1080×1920 بكسل (عمودي للجوال).",
+          "value": "https://d.top4top.io/p_3799wut3q1.png"
         },
         {
           "type": "items",
@@ -484,79 +561,6 @@
               "key": "oi-st"
             }
           ]
-        },
-        {
-          "type": "static",
-          "format": "line",
-          "id": "divider-3"
-        },
-        {
-          "type": "static",
-          "format": "title",
-          "id": "section-ctas",
-          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>أزرار الإجراء</div>",
-          "variant": "h6"
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "id": "primary_label",
-          "label": "الزر الأساسي — النص",
-          "format": "text",
-          "multilanguage": true,
-          "required": false,
-          "placeholder": "تسوّق الآن",
-          "maxLength": 30
-        },
-        {
-          "type": "string",
-          "icon": "sicon-link",
-          "id": "primary_url",
-          "label": "الزر الأساسي — الرابط",
-          "format": "text",
-          "required": false,
-          "placeholder": "/offers"
-        },
-        {
-          "type": "boolean",
-          "icon": "sicon-toggle-off",
-          "id": "primary_outline",
-          "label": "جعل الزر الأساسي شفافًا (Outline)",
-          "format": "switch",
-          "selected": false
-        },
-        {
-          "type": "string",
-          "icon": "sicon-format-text-alt",
-          "id": "secondary_label",
-          "label": "الزر الثانوي — النص",
-          "format": "text",
-          "multilanguage": true,
-          "required": false,
-          "placeholder": "تعرف علينا",
-          "maxLength": 30
-        },
-        {
-          "type": "string",
-          "icon": "sicon-link",
-          "id": "secondary_url",
-          "label": "الزر الثانوي — الرابط",
-          "format": "text",
-          "required": false,
-          "placeholder": "/about"
-        },
-        {
-          "type": "boolean",
-          "icon": "sicon-toggle-off",
-          "id": "secondary_outline",
-          "label": "جعل الزر الثانوي شفافًا (Outline)",
-          "format": "switch",
-          "selected": true
-        },
-        {
-          "type": "static",
-          "format": "line",
-          "id": "divider-4"
         },
         {
           "type": "static",
@@ -870,11 +874,31 @@
             }
           ],
           "options": [
-            { "label": "مربع 1:1", "value": "1/1", "key": "ar-1-1" },
-            { "label": "أفقي 4:3", "value": "4/3", "key": "ar-4-3" },
-            { "label": "أفقي 16:9 (عريض جدا)", "value": "16/9", "key": "ar-16-9" },
-            { "label": "عمودي 3:4", "value": "3/4", "key": "ar-3-4" },
-            { "label": "عمودي 9:16 (طويل نفس مقاس الستوري)", "value": "9/16", "key": "ar-9-16" }
+            {
+              "label": "مربع 1:1",
+              "value": "1/1",
+              "key": "ar-1-1"
+            },
+            {
+              "label": "أفقي 4:3",
+              "value": "4/3",
+              "key": "ar-4-3"
+            },
+            {
+              "label": "أفقي 16:9 (عريض جدا)",
+              "value": "16/9",
+              "key": "ar-16-9"
+            },
+            {
+              "label": "عمودي 3:4",
+              "value": "3/4",
+              "key": "ar-3-4"
+            },
+            {
+              "label": "عمودي 9:16 (طويل نفس مقاس الستوري)",
+              "value": "9/16",
+              "key": "ar-9-16"
+            }
           ]
         },
         {
@@ -894,8 +918,16 @@
             }
           ],
           "options": [
-            { "label": "ثلاث شرائح متراكبة (Coverflow)", "value": "coverflow", "key": "dl-cf" },
-            { "label": "شريحة واحدة فقط في المنتصف", "value": "single", "key": "dl-s" }
+            {
+              "label": "ثلاث شرائح متراكبة (Coverflow)",
+              "value": "coverflow",
+              "key": "dl-cf"
+            },
+            {
+              "label": "شريحة واحدة فقط في المنتصف",
+              "value": "single",
+              "key": "dl-s"
+            }
           ]
         },
         {
@@ -915,9 +947,21 @@
             }
           ],
           "options": [
-            { "label": "ربع الصورة (٢٥٪)", "value": "25", "key": "ip-25" },
-            { "label": "المنتصف (٥٠٪)", "value": "50", "key": "ip-50" },
-            { "label": "ثلاثة أرباع (٧٥٪)", "value": "75", "key": "ip-75" }
+            {
+              "label": "ربع الصورة (٢٥٪)",
+              "value": "25",
+              "key": "ip-25"
+            },
+            {
+              "label": "المنتصف (٥٠٪)",
+              "value": "50",
+              "key": "ip-50"
+            },
+            {
+              "label": "ثلاثة أرباع (٧٥٪)",
+              "value": "75",
+              "key": "ip-75"
+            }
           ]
         },
         {
@@ -936,11 +980,31 @@
             }
           ],
           "options": [
-            { "label": "بدون انحناء", "value": "0", "key": "cr-0" },
-            { "label": "صغيرة (٨ بكسل)", "value": "8", "key": "cr-8" },
-            { "label": "متوسطة (١٤ بكسل)", "value": "14", "key": "cr-14" },
-            { "label": "كبيرة (٢٠ بكسل)", "value": "20", "key": "cr-20" },
-            { "label": "دائري ناعم (٣٢ بكسل)", "value": "32", "key": "cr-32" }
+            {
+              "label": "بدون انحناء",
+              "value": "0",
+              "key": "cr-0"
+            },
+            {
+              "label": "صغيرة (٨ بكسل)",
+              "value": "8",
+              "key": "cr-8"
+            },
+            {
+              "label": "متوسطة (١٤ بكسل)",
+              "value": "14",
+              "key": "cr-14"
+            },
+            {
+              "label": "كبيرة (٢٠ بكسل)",
+              "value": "20",
+              "key": "cr-20"
+            },
+            {
+              "label": "دائري ناعم (٣٢ بكسل)",
+              "value": "32",
+              "key": "cr-32"
+            }
           ]
         },
         {
@@ -1026,10 +1090,26 @@
             }
           ],
           "options": [
-            { "label": "٣ ثوانٍ", "value": "3", "key": "ad-3" },
-            { "label": "٥ ثوانٍ", "value": "5", "key": "ad-5" },
-            { "label": "٧ ثوانٍ", "value": "7", "key": "ad-7" },
-            { "label": "١٠ ثوانٍ", "value": "10", "key": "ad-10" }
+            {
+              "label": "٣ ثوانٍ",
+              "value": "3",
+              "key": "ad-3"
+            },
+            {
+              "label": "٥ ثوانٍ",
+              "value": "5",
+              "key": "ad-5"
+            },
+            {
+              "label": "٧ ثوانٍ",
+              "value": "7",
+              "key": "ad-7"
+            },
+            {
+              "label": "١٠ ثوانٍ",
+              "value": "10",
+              "key": "ad-10"
+            }
           ]
         },
         {
@@ -1049,12 +1129,36 @@
             }
           ],
           "options": [
-            { "label": "تلقائي (من المنتصف)", "value": "auto", "key": "is-auto" },
-            { "label": "الشريحة ١", "value": "1", "key": "is-1" },
-            { "label": "الشريحة ٢", "value": "2", "key": "is-2" },
-            { "label": "الشريحة ٣", "value": "3", "key": "is-3" },
-            { "label": "الشريحة ٤", "value": "4", "key": "is-4" },
-            { "label": "الشريحة ٥", "value": "5", "key": "is-5" }
+            {
+              "label": "تلقائي (من المنتصف)",
+              "value": "auto",
+              "key": "is-auto"
+            },
+            {
+              "label": "الشريحة ١",
+              "value": "1",
+              "key": "is-1"
+            },
+            {
+              "label": "الشريحة ٢",
+              "value": "2",
+              "key": "is-2"
+            },
+            {
+              "label": "الشريحة ٣",
+              "value": "3",
+              "key": "is-3"
+            },
+            {
+              "label": "الشريحة ٤",
+              "value": "4",
+              "key": "is-4"
+            },
+            {
+              "label": "الشريحة ٥",
+              "value": "5",
+              "key": "is-5"
+            }
           ]
         },
         {
@@ -1200,7 +1304,7 @@
       "key": "c4e7d2a1-9b3f-4c5e-8d6a-7f1b2e3c4d5a",
       "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
       "fields": [
-          {
+        {
           "type": "static",
           "format": "title",
           "id": "section-content",
@@ -1267,7 +1371,6 @@
           "format": "line",
           "id": "divider-1"
         },
-      
         {
           "type": "static",
           "format": "line",
@@ -1373,7 +1476,11 @@
               "minLength": 0,
               "value": [],
               "conditions": [
-                { "id": "use_case", "operation": "=", "value": "home" }
+                {
+                  "id": "use_case",
+                  "operation": "=",
+                  "value": "home"
+                }
               ]
             },
             {
@@ -1385,7 +1492,11 @@
               "required": false,
               "placeholder": "/categories/spring",
               "conditions": [
-                { "id": "use_case", "operation": "=", "value": "home" }
+                {
+                  "id": "use_case",
+                  "operation": "=",
+                  "value": "home"
+                }
               ]
             },
             {
@@ -1399,7 +1510,11 @@
               "placeholder": "تسوّق الآن",
               "maxLength": 30,
               "conditions": [
-                { "id": "use_case", "operation": "=", "value": "home" }
+                {
+                  "id": "use_case",
+                  "operation": "=",
+                  "value": "home"
+                }
               ]
             }
           ]
@@ -1462,11 +1577,31 @@
             }
           ],
           "options": [
-            { "label": "مربع 1:1", "value": "1/1", "key": "car-1-1" },
-            { "label": "أفقي 4:3", "value": "4/3", "key": "car-4-3" },
-            { "label": "أفقي 16:9", "value": "16/9", "key": "car-16-9" },
-            { "label": "عمودي 3:4", "value": "3/4", "key": "car-3-4" },
-            { "label": "عمودي 9:16 (ستوري)", "value": "9/16", "key": "car-9-16" }
+            {
+              "label": "مربع 1:1",
+              "value": "1/1",
+              "key": "car-1-1"
+            },
+            {
+              "label": "أفقي 4:3",
+              "value": "4/3",
+              "key": "car-4-3"
+            },
+            {
+              "label": "أفقي 16:9",
+              "value": "16/9",
+              "key": "car-16-9"
+            },
+            {
+              "label": "عمودي 3:4",
+              "value": "3/4",
+              "key": "car-3-4"
+            },
+            {
+              "label": "عمودي 9:16 (ستوري)",
+              "value": "9/16",
+              "key": "car-9-16"
+            }
           ]
         },
         {
@@ -1486,8 +1621,16 @@
             }
           ],
           "options": [
-            { "label": "ثلاث شرائح متراكبة (Coverflow)", "value": "coverflow", "key": "cdl-cf" },
-            { "label": "شريحة واحدة فقط في المنتصف", "value": "single", "key": "cdl-s" }
+            {
+              "label": "ثلاث شرائح متراكبة (Coverflow)",
+              "value": "coverflow",
+              "key": "cdl-cf"
+            },
+            {
+              "label": "شريحة واحدة فقط في المنتصف",
+              "value": "single",
+              "key": "cdl-s"
+            }
           ]
         },
         {
@@ -1506,11 +1649,31 @@
             }
           ],
           "options": [
-            { "label": "بدون انحناء", "value": "0", "key": "ccr-0" },
-            { "label": "صغيرة (٨ بكسل)", "value": "8", "key": "ccr-8" },
-            { "label": "متوسطة (١٤ بكسل)", "value": "14", "key": "ccr-14" },
-            { "label": "كبيرة (٢٠ بكسل)", "value": "20", "key": "ccr-20" },
-            { "label": "دائري ناعم (٣٢ بكسل)", "value": "32", "key": "ccr-32" }
+            {
+              "label": "بدون انحناء",
+              "value": "0",
+              "key": "ccr-0"
+            },
+            {
+              "label": "صغيرة (٨ بكسل)",
+              "value": "8",
+              "key": "ccr-8"
+            },
+            {
+              "label": "متوسطة (١٤ بكسل)",
+              "value": "14",
+              "key": "ccr-14"
+            },
+            {
+              "label": "كبيرة (٢٠ بكسل)",
+              "value": "20",
+              "key": "ccr-20"
+            },
+            {
+              "label": "دائري ناعم (٣٢ بكسل)",
+              "value": "32",
+              "key": "ccr-32"
+            }
           ]
         },
         {
@@ -1528,7 +1691,11 @@
           "format": "line",
           "id": "divider-4",
           "conditions": [
-            { "id": "use_case", "operation": "=", "value": "home" }
+            {
+              "id": "use_case",
+              "operation": "=",
+              "value": "home"
+            }
           ]
         },
         {
@@ -1538,7 +1705,11 @@
           "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>زر الإجراء (CTA)</div>",
           "variant": "h5",
           "conditions": [
-            { "id": "use_case", "operation": "=", "value": "home" }
+            {
+              "id": "use_case",
+              "operation": "=",
+              "value": "home"
+            }
           ]
         },
         {
@@ -1550,7 +1721,11 @@
           "selected": true,
           "required": false,
           "conditions": [
-            { "id": "use_case", "operation": "=", "value": "home" }
+            {
+              "id": "use_case",
+              "operation": "=",
+              "value": "home"
+            }
           ]
         },
         {
@@ -1566,7 +1741,11 @@
           "maxLength": 30,
           "description": "يُستخدم لكل الشرائح ما لم تُحدّد نصًا مخصصًا للشريحة.",
           "conditions": [
-            { "id": "use_case", "operation": "=", "value": "home" }
+            {
+              "id": "use_case",
+              "operation": "=",
+              "value": "home"
+            }
           ]
         },
         {
@@ -1642,10 +1821,26 @@
             }
           ],
           "options": [
-            { "label": "٣ ثوانٍ", "value": "3", "key": "cad-3" },
-            { "label": "٥ ثوانٍ", "value": "5", "key": "cad-5" },
-            { "label": "٧ ثوانٍ", "value": "7", "key": "cad-7" },
-            { "label": "١٠ ثوانٍ", "value": "10", "key": "cad-10" }
+            {
+              "label": "٣ ثوانٍ",
+              "value": "3",
+              "key": "cad-3"
+            },
+            {
+              "label": "٥ ثوانٍ",
+              "value": "5",
+              "key": "cad-5"
+            },
+            {
+              "label": "٧ ثوانٍ",
+              "value": "7",
+              "key": "cad-7"
+            },
+            {
+              "label": "١٠ ثوانٍ",
+              "value": "10",
+              "key": "cad-10"
+            }
           ]
         },
         {
@@ -1665,12 +1860,36 @@
             }
           ],
           "options": [
-            { "label": "تلقائي (من المنتصف)", "value": "auto", "key": "cis-auto" },
-            { "label": "الشريحة ١", "value": "1", "key": "cis-1" },
-            { "label": "الشريحة ٢", "value": "2", "key": "cis-2" },
-            { "label": "الشريحة ٣", "value": "3", "key": "cis-3" },
-            { "label": "الشريحة ٤", "value": "4", "key": "cis-4" },
-            { "label": "الشريحة ٥", "value": "5", "key": "cis-5" }
+            {
+              "label": "تلقائي (من المنتصف)",
+              "value": "auto",
+              "key": "cis-auto"
+            },
+            {
+              "label": "الشريحة ١",
+              "value": "1",
+              "key": "cis-1"
+            },
+            {
+              "label": "الشريحة ٢",
+              "value": "2",
+              "key": "cis-2"
+            },
+            {
+              "label": "الشريحة ٣",
+              "value": "3",
+              "key": "cis-3"
+            },
+            {
+              "label": "الشريحة ٤",
+              "value": "4",
+              "key": "cis-4"
+            },
+            {
+              "label": "الشريحة ٥",
+              "value": "5",
+              "key": "cis-5"
+            }
           ]
         },
         {

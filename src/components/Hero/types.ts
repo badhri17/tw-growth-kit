@@ -16,6 +16,11 @@ export type HeroGradientType = "linear" | "radial" | "radial-corner" | "conic";
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang = string | { ar?: string; en?: string } | null | undefined;
 
+/** One entry in the `trust_points` collection — a short reassurance line with a check icon. */
+export interface TrustPoint {
+  text?: MaybeMultiLang;
+}
+
 export interface HeroConfig {
   // --- Background media (mobile / default) ---
   video_url?: string;
@@ -40,14 +45,13 @@ export interface HeroConfig {
   headline?: MaybeMultiLang;     // required in practice
   subtitle?: MaybeMultiLang;     // paragraph below headline
 
-  // --- CTAs ---
+  // --- CTA ---
   primary_label?: MaybeMultiLang;
   primary_url?: string;
   primary_outline?: boolean;     // default false → filled
 
-  secondary_label?: MaybeMultiLang;
-  secondary_url?: string;
-  secondary_outline?: boolean;   // default true → outline
+  // --- Trust points (up to 3 short reassurance lines under the CTA) ---
+  trust_points?: TrustPoint[];
 
   // --- Layout ---
   height_mobile?: HeroHeight;

@@ -382,7 +382,11 @@ export default class GrowthHero extends LitElement {
     const headline = this._t(c.headline) || "Welcome";
     const subtitle = this._t(c.subtitle);
     const primaryLabel = this._t(c.primary_label);
-    const secondaryLabel = this._t(c.secondary_label);
+
+    const trustPoints = (Array.isArray(c.trust_points) ? c.trust_points : [])
+      .map((tp) => this._t(tp?.text))
+      .filter(Boolean)
+      .slice(0, 3);
 
     const mode = this._mode;
 
@@ -457,30 +461,43 @@ export default class GrowthHero extends LitElement {
             ${eyebrow ? html`<p class="eyebrow">${eyebrow}</p>` : nothing}
             <h1 class="headline">${headline}</h1>
             ${subtitle ? html`<p class="subtitle">${subtitle}</p>` : nothing}
-            ${primaryLabel || secondaryLabel
+            ${primaryLabel
               ? html`
                   <div class="ctas">
-                    ${primaryLabel
-                      ? html`
-                          <a
-                            class="btn ${c.primary_outline ? "btn-outline" : "btn-primary"}"
-                            href=${c.primary_url || "#"}
-                          >
-                            ${primaryLabel}
-                          </a>
-                        `
-                      : nothing}
-                    ${secondaryLabel
-                      ? html`
-                          <a
-                            class="btn ${c.secondary_outline === false ? "btn-primary" : "btn-outline"}"
-                            href=${c.secondary_url || "#"}
-                          >
-                            ${secondaryLabel}
-                          </a>
-                        `
-                      : nothing}
+                    <a
+                      class="btn ${c.primary_outline ? "btn-outline" : "btn-primary"}"
+                      href=${c.primary_url || "#"}
+                    >
+                      ${primaryLabel}
+                    </a>
                   </div>
+                `
+              : nothing}
+            ${trustPoints.length
+              ? html`
+                  <ul class="trust">
+                    ${trustPoints.map(
+                      (t) => html`
+                        <li class="trust-item">
+                          <svg
+                            class="trust-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M20 6 9 17l-5-5"
+                              stroke="currentColor"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <span>${t}</span>
+                        </li>
+                      `
+                    )}
+                  </ul>
                 `
               : nothing}
           </div>

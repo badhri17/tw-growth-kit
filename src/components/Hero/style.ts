@@ -57,7 +57,14 @@ export const heroStyles = css`
     z-index: 0;
     overflow: hidden;
   }
+  /* picture must stretch to fill .bg so its child img can do the same */
+  .bg > picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
   .bg > img,
+  .bg > picture > img,
   .bg > video {
     width: 100%;
     height: 100%;
@@ -66,11 +73,13 @@ export const heroStyles = css`
     display: block;
     will-change: transform;
   }
-  .bg.is-ken-burns > img {
+  .bg.is-ken-burns > img,
+  .bg.is-ken-burns > picture > img {
     animation: kenBurns 18s var(--gh-easing) infinite alternate;
   }
   .bg.is-parallax > video,
-  .bg.is-parallax > img {
+  .bg.is-parallax > img,
+  .bg.is-parallax > picture > img {
     transform: translate3d(0, var(--gh-parallax, 0), 0) scale(1.06);
     transition: transform 0.12s linear;
   }
@@ -178,10 +187,10 @@ export const heroStyles = css`
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
-    font: inherit;
+    padding: 0.65rem 1.5rem;
+    font-family: inherit;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.875rem;
     text-decoration: none;
     border-radius: var(--gh-btn-radius);
     border: 1.5px solid transparent;
@@ -217,6 +226,34 @@ export const heroStyles = css`
     background: rgba(0, 0, 0, 0.08);
   }
 
+  /* --- Trust points --- */
+  .trust {
+    list-style: none;
+    margin: 0.875rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+  .hero[data-align-h="center"] .trust { justify-content: center; }
+  .hero[data-align-h="end"]    .trust { justify-content: flex-end; }
+  .trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.2;
+    opacity: 0.92;
+    white-space: nowrap;
+  }
+  .trust-icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.85;
+  }
+
   /* --- Entrance motion --- */
   .content[data-anim="ready"] > * {
     opacity: 0;
@@ -233,10 +270,14 @@ export const heroStyles = css`
   .content[data-anim="in"] > *:nth-child(2) { transition-delay: 0.15s; }
   .content[data-anim="in"] > *:nth-child(3) { transition-delay: 0.28s; }
   .content[data-anim="in"] > *:nth-child(4) { transition-delay: 0.40s; }
+  .content[data-anim="in"] > *:nth-child(5) { transition-delay: 0.52s; }
 
   @media (prefers-reduced-motion: reduce) {
-    .bg.is-ken-burns > img { animation: none; }
-    .bg.is-parallax > video, .bg.is-parallax > img { transform: none; }
+    .bg.is-ken-burns > img,
+    .bg.is-ken-burns > picture > img { animation: none; }
+    .bg.is-parallax > video,
+    .bg.is-parallax > img,
+    .bg.is-parallax > picture > img { transform: none; }
     .content[data-anim] > * { opacity: 1 !important; transform: none !important; transition: none !important; }
   }
 
@@ -250,7 +291,8 @@ export const heroStyles = css`
     :host {
       --gh-headline-size: clamp(1.75rem, 8vw, 2.5rem);
     }
-    .ctas { width: 100%; flex-direction: column; }
-    .ctas .btn { width: 100%; }
+    .ctas { flex-direction: column; align-items: flex-start; }
+    .hero[data-align-h="center"] .ctas { align-items: center; }
+    .hero[data-align-h="end"]    .ctas { align-items: flex-end; }
   }
 `;
