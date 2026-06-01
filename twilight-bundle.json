@@ -2017,6 +2017,921 @@
           "required": false
         }
       ]
+    },
+    {
+      "title": "سلايدر القصة",
+      "icon": "sicon-image-gallery",
+      "name": "story-slider",
+      "key": "602490c6-49f2-4084-9f43-66b82d0e52e6",
+      "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+      "fields": [
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-content",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الترويسة (اختيارية)</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "header-note",
+          "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يظهران فوق السلايدر. اتركهما فارغين لتبدأ القصة مباشرة بدون عنوان.</div>"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "section_title",
+          "label": "العنوان فوق السلايدر",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "مثل: قصة مجموعتنا",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        {
+          "type": "string",
+          "icon": "sicon-paragraph",
+          "id": "section_subtitle",
+          "label": "الوصف فوق السلايدر",
+          "format": "textarea",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "سطر قصير يمهّد للزائر قبل البدء",
+          "minLength": 0,
+          "maxLength": 240
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-1"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-slides",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الشرائح</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "slides-note",
+          "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف ٣ شرائح أو أكثر للحصول على تجربة قصة كاملة. لكل شريحة صورة + عنوان + وصف، ويمكن إضافة <strong>فيديو</strong> ليُعرض بدلًا من الصورة، أو <strong>صورة جوال</strong> مخصصة للأجهزة الصغيرة.</div>"
+        },
+        {
+          "id": "slides",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 12,
+          "item_label": "شريحة",
+          "value": [
+            {
+              "image": "https://f.top4top.io/p_3801auw9f2.png",
+              "eyebrow": "الفصل الأول",
+              "title": "للقهوة وطن وقصة",
+              "description": "كل حبة قهوة تنتجها بلادنا تمثل تراثنا وثقافتنا وقيمنا. هدفنا اليوم أن نشارك العالم قصة تراث بن أرابيكا."
+            },
+            {
+              "image": "https://h.top4top.io/p_38010cveg1.png",
+              "eyebrow": "الفصل الثاني",
+              "title": "من الأرض تبدأ الحكاية",
+              "description": "في مزارع البن، تنمو الحبوب بعناية ووقت وصبر. كل ثمرة تحمل نكهة المكان، واهتمام المزارع، وجودة تبدأ من الجذر."
+            },
+            {
+              "image": "https://g.top4top.io/p_38015wuxn3.jpg",
+              "eyebrow": "الفصل الثالث",
+              "title": "من الحبة إلى الفنجان",
+              "description": "نختار أجود الحبوب ونحافظ على طابعها الأصيل، لتصل إليك قهوة تحمل عمق النكهة ودفء التجربة في كل رشفة."
+            }
+          ],
+          "fields": [
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "id": "image",
+              "label": "الصورة (للجوال — أساسية)",
+              "format": "image",
+              "required": false,
+              "description": "الصورة الأساسية — نصمّم للجوال أولًا. تظهر على كل الأجهزة افتراضيًا. يُفضّل صورة عمودية مناسبة للجوال. إن اخترت منتجًا مرتبطًا ولم ترفع صورة، ستُستخدم صورة المنتج. يمكنك إضافة صورة سطح مكتب منفصلة بالأسفل."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-image",
+              "id": "image_desktop",
+              "label": "صورة سطح المكتب (اختياري)",
+              "format": "image",
+              "required": false,
+              "description": "تُستخدم على الشاشات الكبيرة (٧٦٨ بكسل وأكثر). مفيدة عندما تريد صورة أعرض أو أعلى دقة على سطح المكتب. إذا تركتها فارغة سيتم استخدام صورة الجوال."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-video",
+              "id": "video",
+              "label": "رابط فيديو (اختياري)",
+              "format": "text",
+              "required": false,
+              "placeholder": "https://…/clip.mp4",
+              "description": "عند تعبئته يُعرض الفيديو بدلًا من الصورة. يُفضّل فيديو قصير (أقل من ١٠ ثوانٍ) صامت ومتكرر."
+            },
+            {
+              "type": "string",
+              "icon": "sicon-typography",
+              "id": "eyebrow",
+              "label": "نص علوي صغير",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "الفصل الأول • جديد • حصري",
+              "description": "نص دقيق فوق العنوان — يظهر بحروف بارزة.",
+              "maxLength": 60
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "id": "title",
+              "label": "العنوان",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "اكتب عنوانًا قويًا للشريحة",
+              "maxLength": 120
+            },
+            {
+              "type": "string",
+              "icon": "sicon-paragraph",
+              "id": "description",
+              "label": "الوصف",
+              "format": "textarea",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "سطر أو سطران يكملان القصة",
+              "maxLength": 320
+            },
+            {
+              "type": "string",
+              "icon": "sicon-tag",
+              "id": "badge",
+              "label": "شارة الزاوية (اختياري)",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "جديد • حصري • خصم ٢٠٪",
+              "description": "تظهر كشارة صغيرة في الزاوية العلوية من الشريحة.",
+              "maxLength": 20
+            },
+            {
+              "type": "items",
+              "icon": "sicon-bag",
+              "id": "product",
+              "label": "المنتج المرتبط (اختياري)",
+              "format": "dropdown-list",
+              "source": "products",
+              "searchable": true,
+              "multichoice": false,
+              "required": false,
+              "description": "إذا اخترت منتجًا، ينتقل الزائر إلى صفحته عند الضغط على زر الإجراء.",
+              "selected": [],
+              "options": [],
+              "maxLength": 1,
+              "minLength": 0,
+              "value": []
+            },
+            {
+              "type": "string",
+              "icon": "sicon-format-text-alt",
+              "id": "cta_label",
+              "label": "نص الزر (اختياري)",
+              "format": "text",
+              "multilanguage": true,
+              "required": false,
+              "placeholder": "تسوّق الآن",
+              "description": "يتجاوز نص الزر الافتراضي للقسم.",
+              "maxLength": 30
+            },
+            {
+              "type": "string",
+              "icon": "sicon-link",
+              "id": "cta_url",
+              "label": "رابط الزر (اختياري — يتجاوز رابط المنتج)",
+              "format": "text",
+              "required": false,
+              "placeholder": "/categories/new"
+            },
+            {
+              "type": "string",
+              "format": "color",
+              "inputType": "color",
+              "id": "text_color",
+              "label": "لون نص الشريحة (تجاوز اختياري)",
+              "icon": "sicon-color-palette",
+              "required": false,
+              "description": "تجاوز لون النص الافتراضي على هذه الشريحة فقط — مفيد عندما تكون الصورة ساطعة وتحتاج نصًا داكنًا."
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "default_cta_label",
+          "label": "نص الزر الافتراضي",
+          "format": "text",
+          "multilanguage": true,
+          "required": false,
+          "placeholder": "تسوّق الآن",
+          "value": "تسوّق الآن",
+          "maxLength": 30,
+          "description": "يُستخدم على كل شريحة فيها رابط أو منتج، ما لم تُحدَّد نصًا مخصصًا للشريحة."
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-2"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-frame",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الإطار والمقاسات</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "aspect_ratio_mobile",
+          "label": "مقاس السلايدر على الجوال",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "المقاس الأساسي — نصمّم للجوال أولًا. ٤:٥ هو الأنسب للهواتف. يمكنك تخصيص سطح المكتب بشكل منفصل أدناه.",
+          "selected": [
+            {
+              "label": "٤:٥ مناسب للجوال",
+              "value": "4/5",
+              "key": "sarm-4-5"
+            }
+          ],
+          "options": [
+            { "label": "٤:٥ مناسب للجوال", "value": "4/5", "key": "sarm-4-5" },
+            { "label": "مربع ١:١", "value": "1/1", "key": "sarm-1-1" },
+            { "label": "٣:٤ عمودي", "value": "3/4", "key": "sarm-3-4" },
+            { "label": "ستوري ٩:١٦", "value": "9/16", "key": "sarm-9-16" },
+            { "label": "٤:٣ كلاسيكي", "value": "4/3", "key": "sarm-4-3" },
+            { "label": "عريض ١٦:٩", "value": "16/9", "key": "sarm-16-9" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-frame-desktop",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+          "variant": "h6"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "aspect_ratio_desktop",
+          "label": "مقاس السلايدر على سطح المكتب (اختياري)",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "اختر «نفس الجوال» لتطبيق مقاس الجوال على الشاشات الكبيرة. ١٦:٩ يعطي مظهرًا سينمائيًا متوازنًا، و٢١:٩ للعرض شديد العرض.",
+          "selected": [
+            {
+              "label": "نفس الجوال",
+              "value": "inherit",
+              "key": "sard-inh"
+            }
+          ],
+          "options": [
+            { "label": "نفس الجوال", "value": "inherit", "key": "sard-inh" },
+            { "label": "عريض ١٦:٩", "value": "16/9", "key": "sard-16-9" },
+            { "label": "سينمائي ٢١:٩ (واسع جدًا)", "value": "21/9", "key": "sard-21-9" },
+            { "label": "٤:٣ كلاسيكي", "value": "4/3", "key": "sard-4-3" },
+            { "label": "مربع ١:١", "value": "1/1", "key": "sard-1-1" },
+            { "label": "٣:٤ عمودي", "value": "3/4", "key": "sard-3-4" },
+            { "label": "ستوري ٩:١٦", "value": "9/16", "key": "sard-9-16" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "card_radius",
+          "label": "نعومة حواف الإطار",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            { "label": "كبيرة (٢٠ بكسل)", "value": "20", "key": "scr-20" }
+          ],
+          "options": [
+            { "label": "بدون انحناء", "value": "0", "key": "scr-0" },
+            { "label": "صغيرة (٨ بكسل)", "value": "8", "key": "scr-8" },
+            { "label": "متوسطة (١٤ بكسل)", "value": "14", "key": "scr-14" },
+            { "label": "كبيرة (٢٠ بكسل)", "value": "20", "key": "scr-20" },
+            { "label": "دائري ناعم (٣٢ بكسل)", "value": "32", "key": "scr-32" }
+          ]
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-expand",
+          "id": "full_width",
+          "label": "عرض كامل للشاشة",
+          "description": "يمدّ السلايدر حتى حواف الشاشة تمامًا — بدون هوامش جانبية أو انحناء في الزوايا. مثالي للهيرو الكامل. مفعّل افتراضيًا.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-3"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-transition",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>أسلوب الانتقال بين الشرائح</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-magic",
+          "id": "transition",
+          "label": "نوع الانتقال",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "كل نوع يعطي إحساسًا مختلفًا: «التلاشي» راقٍ وهادئ، «التمرير» كلاسيكي، «كين بيرنز» سينمائي بطيء، «التكبير» مؤثر، «العمق» يحرك الصورة والنص بسرعات مختلفة، «الكشف» يكشف الصورة من الحافة، «التكديس» يجعل الشرائح تتراكم كأوراق.",
+          "selected": [
+            { "label": "تلاشي ناعم (Fade) — افتراضي", "value": "fade", "key": "st-fade" }
+          ],
+          "options": [
+            { "label": "تلاشي ناعم (Fade) — افتراضي", "value": "fade", "key": "st-fade" },
+            { "label": "تمرير أفقي (Slide)", "value": "slide", "key": "st-slide" },
+            { "label": "سينمائي (Ken Burns)", "value": "kenburns", "key": "st-kb" },
+            { "label": "تكبير (Zoom)", "value": "zoom", "key": "st-zoom" },
+            { "label": "عمق (Parallax)", "value": "parallax", "key": "st-par" },
+            { "label": "كشف (Reveal)", "value": "reveal", "key": "st-rev" },
+            { "label": "تكديس (Stack)", "value": "stack", "key": "st-stack" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "transition_speed",
+          "label": "سرعة الانتقال",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            { "label": "متوسطة", "value": "normal", "key": "sts-n" }
+          ],
+          "options": [
+            { "label": "سريعة", "value": "fast", "key": "sts-f" },
+            { "label": "متوسطة", "value": "normal", "key": "sts-n" },
+            { "label": "بطيئة", "value": "slow", "key": "sts-s" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-4"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-content-overlay",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>موضع المحتوى داخل الشريحة</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "content_position",
+          "label": "موضع النص داخل الشريحة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "اختر إحدى التسع مناطق داخل الشريحة (شبكة ٣×٣). موضع «أسفل اليمين» مثالي للنصوص العربية الطويلة.",
+          "selected": [
+            { "label": "أسفل اليمين", "value": "bottom-right", "key": "scp-br" }
+          ],
+          "options": [
+            { "label": "أعلى اليمين", "value": "top-right", "key": "scp-tr" },
+            { "label": "أعلى الوسط", "value": "top-center", "key": "scp-tc" },
+            { "label": "أعلى اليسار", "value": "top-left", "key": "scp-tl" },
+            { "label": "وسط اليمين", "value": "center-right", "key": "scp-cr" },
+            { "label": "المنتصف", "value": "center", "key": "scp-cc" },
+            { "label": "وسط اليسار", "value": "center-left", "key": "scp-cl" },
+            { "label": "أسفل اليمين", "value": "bottom-right", "key": "scp-br" },
+            { "label": "أسفل الوسط", "value": "bottom-center", "key": "scp-bc" },
+            { "label": "أسفل اليسار", "value": "bottom-left", "key": "scp-bl" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "text_theme",
+          "label": "لون النص داخل الشريحة",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            { "label": "فاتح (على صور داكنة)", "value": "light", "key": "stt-l" }
+          ],
+          "options": [
+            { "label": "فاتح (على صور داكنة)", "value": "light", "key": "stt-l" },
+            { "label": "داكن (على صور فاتحة)", "value": "dark", "key": "stt-d" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-5"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-pagination",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>أسلوب ترقيم الشرائح</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "pag-note",
+          "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>الأسلوب الافتراضي «الكسر» يُظهر رقم الشريحة الحالية مع الإجمالي (مثل <strong>٠٢ / ٠٤</strong>) داخل الشريحة من الأسفل، مع شريط تقدّم علوي للتشغيل التلقائي — مظهر راقٍ يميّزك عن السلايدرات العادية.</div>"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-list",
+          "id": "pagination_style",
+          "label": "أسلوب الترقيم",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            { "label": "كسر «٠٢ / ٠٤» — افتراضي", "value": "fraction", "key": "sps-frac" }
+          ],
+          "options": [
+            { "label": "كسر «٠٢ / ٠٤» — افتراضي", "value": "fraction", "key": "sps-frac" },
+            { "label": "خطوط (Lines)", "value": "lines", "key": "sps-lines" },
+            { "label": "أرقام (1·2·3·4)", "value": "numbers", "key": "sps-num" },
+            { "label": "شريط تقدّم", "value": "progress", "key": "sps-prog" },
+            { "label": "صور مصغّرة (Thumbnails)", "value": "thumbnails", "key": "sps-th" },
+            { "label": "بدون ترقيم", "value": "none", "key": "sps-none" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "pagination_position",
+          "label": "موضع الترقيم",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "«داخل الشريحة» مظهر متكامل، «خارج الشريحة» مفيد على الجوال الصغير.",
+          "selected": [
+            { "label": "داخل الشريحة — الوسط", "value": "inside-bottom-center", "key": "spp-ibc" }
+          ],
+          "options": [
+            { "label": "داخل الشريحة — يمين", "value": "inside-bottom-right", "key": "spp-ibr" },
+            { "label": "داخل الشريحة — الوسط", "value": "inside-bottom-center", "key": "spp-ibc" },
+            { "label": "داخل الشريحة — يسار", "value": "inside-bottom-left", "key": "spp-ibl" },
+            { "label": "خارج الشريحة (تحت الإطار)", "value": "outside-below", "key": "spp-ob" }
+          ]
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "id": "pagination_separator",
+          "label": "فاصل الكسر",
+          "format": "text",
+          "required": false,
+          "placeholder": "/",
+          "value": "/",
+          "description": "يظهر بين الرقم الحالي والإجمالي في وضع «الكسر». جرّب «/» أو «—» أو «·».",
+          "maxLength": 4
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-6"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-arrows",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>أسلوب أزرار التنقل</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "show_arrows",
+          "label": "إظهار أزرار التنقل",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "items",
+          "icon": "sicon-magic",
+          "id": "arrow_style",
+          "label": "شكل الأزرار",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "«دائرية» مع خلفية زجاجية = الخيار الراقي الافتراضي. «خطية» وحدها بدون خلفية لمظهر مينيمالي. «شريطية» للحس التحريري الحديث.",
+          "selected": [
+            { "label": "دائرية مع خلفية زجاجية", "value": "circle", "key": "sas-c" }
+          ],
+          "options": [
+            { "label": "دائرية مع خلفية زجاجية", "value": "circle", "key": "sas-c" },
+            { "label": "دائرية بحدود فقط (Outline)", "value": "outline", "key": "sas-o" },
+            { "label": "خطية بدون خلفية (Minimal)", "value": "minimal", "key": "sas-m" },
+            { "label": "شريطية طويلة (Bar)", "value": "bar", "key": "sas-b" },
+            { "label": "مربعة بإطار (Framed)", "value": "framed", "key": "sas-f" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "arrow_position",
+          "label": "موضع الأزرار",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "«أسفل الشريحة» يضع الأزرار مع الترقيم على نفس السطر = الخيار الافتراضي الأكثر أناقة. «الجانبان» = الموضع التقليدي.",
+          "selected": [
+            { "label": "أسفل الشريحة مع الترقيم", "value": "inside-bottom", "key": "sap-ib" }
+          ],
+          "options": [
+            { "label": "الجانبان (يمين ويسار)", "value": "sides", "key": "sap-s" },
+            { "label": "أسفل الشريحة مع الترقيم", "value": "inside-bottom", "key": "sap-ib" },
+            { "label": "تحت الإطار", "value": "outside-below", "key": "sap-ob" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-progress",
+          "id": "autoplay_progress",
+          "label": "شريط تقدّم التشغيل التلقائي",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "شريط رفيع أعلى الشريحة يمتلئ بهدوء مع كل عدّ تنازلي للتشغيل التلقائي، ويعود من البداية عند كل انتقال. «قصص» = شريط لكل شريحة بأسلوب القصص. «شريط واحد» = خط واحد ممتد. يعمل فقط عند تفعيل التشغيل التلقائي.",
+          "selected": [
+            { "label": "شريط واحد متّصل", "value": "bar", "key": "sap-bar-b" }
+          ],
+          "options": [
+            { "label": "بدون", "value": "none", "key": "sap-bar-n" },
+            { "label": "شريط واحد متّصل", "value": "bar", "key": "sap-bar-b" },
+            { "label": "أسلوب القصص (مقاطع لكل شريحة)", "value": "stories", "key": "sap-bar-s" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-7"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-carousel",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>سلوك السلايدر</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "loop",
+          "label": "تكرار لا نهائي",
+          "description": "عند الوصول لآخر شريحة، يعود السلايدر للأولى تلقائيًا.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "autoplay",
+          "label": "تشغيل تلقائي",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "autoplay_delay",
+          "label": "مدة كل شريحة (بالثواني)",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "تُستخدم فقط عند تفعيل التشغيل التلقائي.",
+          "selected": [
+            { "label": "٥ ثوانٍ", "value": "5", "key": "sad-5" }
+          ],
+          "options": [
+            { "label": "٣ ثوانٍ", "value": "3", "key": "sad-3" },
+            { "label": "٥ ثوانٍ", "value": "5", "key": "sad-5" },
+            { "label": "٧ ثوانٍ", "value": "7", "key": "sad-7" },
+            { "label": "١٠ ثوانٍ", "value": "10", "key": "sad-10" },
+            { "label": "١٥ ثانية", "value": "15", "key": "sad-15" }
+          ]
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "pause_on_interaction",
+          "label": "إيقاف التشغيل عند تفاعل المستخدم",
+          "description": "يتوقّف التشغيل التلقائي مؤقتًا أثناء تفاعل الزائر مع السلايدر (تمرير المؤشر فوقه على سطح المكتب أو لمسه على الجوال)، ويُستأنف تلقائيًا عند ابتعاده.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "pause_out_of_view",
+          "label": "إيقاف التشغيل عندما يكون السلايدر خارج الشاشة",
+          "description": "يوفّر الأداء ويمنع التقدّم بينما الزائر يقرأ أقسامًا أخرى.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "enable_drag",
+          "label": "تمكين السحب باللمس والفأرة",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "enable_keyboard",
+          "label": "تمكين التنقل بأسهم لوحة المفاتيح",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "initial_slide",
+          "label": "الشريحة الافتتاحية",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "description": "أي شريحة تظهر أولًا عند تحميل الصفحة.",
+          "selected": [
+            { "label": "الشريحة ١", "value": "1", "key": "sis-1" }
+          ],
+          "options": [
+            { "label": "الشريحة ١", "value": "1", "key": "sis-1" },
+            { "label": "الشريحة ٢", "value": "2", "key": "sis-2" },
+            { "label": "الشريحة ٣", "value": "3", "key": "sis-3" },
+            { "label": "الشريحة ٤", "value": "4", "key": "sis-4" },
+            { "label": "الشريحة ٥", "value": "5", "key": "sis-5" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-8"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-overlay",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طبقة التعتيم على الصورة</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "overlay-note",
+          "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>طبقة شفافة تُضاف فوق الصورة لتُبرز النص. «تدرّج داكن من الأسفل» الأكثر استخدامًا. «بقعة ضوء» (Spotlight) يضع تعتيمًا أقوى تحت النص فقط.</div>"
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "overlay_style",
+          "label": "نمط التعتيم",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            { "label": "تدرّج داكن من الأسفل", "value": "dark-bottom", "key": "sov-db" }
+          ],
+          "options": [
+            { "label": "بدون تعتيم", "value": "none", "key": "sov-none" },
+            { "label": "تدرّج داكن من الأسفل", "value": "dark-bottom", "key": "sov-db" },
+            { "label": "تدرّج داكن من الأعلى", "value": "dark-top", "key": "sov-dt" },
+            { "label": "داكن كامل", "value": "dark-full", "key": "sov-df" },
+            { "label": "فاتح كامل", "value": "light-full", "key": "sov-lf" },
+            { "label": "تعتيم دائري (Vignette)", "value": "vignette", "key": "sov-vg" },
+            { "label": "بقعة ضوء (Spotlight)", "value": "spotlight", "key": "sov-sp" }
+          ]
+        },
+        {
+          "type": "items",
+          "icon": "sicon-keyboard_arrow_down",
+          "id": "overlay_intensity",
+          "label": "شدة التعتيم",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "required": false,
+          "selected": [
+            { "label": "متوسط", "value": "medium", "key": "soi-m" }
+          ],
+          "options": [
+            { "label": "خفيف", "value": "subtle", "key": "soi-s" },
+            { "label": "متوسط", "value": "medium", "key": "soi-m" },
+            { "label": "قوي", "value": "strong", "key": "soi-st" }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-9"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-colors",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الألوان</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "bg_color",
+          "label": "لون خلفية القسم",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "title_color",
+          "label": "لون عنوان القسم",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#0a0a0b"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "subtitle_color",
+          "label": "لون وصف القسم",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#6b7280"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "slide_title_color",
+          "label": "لون عنوان الشريحة",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "slide_text_color",
+          "label": "لون وصف الشريحة",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "arrow_bg",
+          "label": "لون خلفية الأزرار",
+          "icon": "sicon-format-fill",
+          "required": false
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "arrow_icon_color",
+          "label": "لون أيقونة الأزرار",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "pagination_color",
+          "label": "لون الترقيم العادي",
+          "icon": "sicon-color-palette",
+          "required": false
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "pagination_active_color",
+          "label": "لون الترقيم النشط",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "cta_bg",
+          "label": "لون خلفية زر «تسوّق الآن»",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "cta_color",
+          "label": "لون نص زر «تسوّق الآن»",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#0a0a0b"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "badge_bg",
+          "label": "لون خلفية الشارة",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "value": "#0a0a0b"
+        },
+        {
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "id": "badge_color",
+          "label": "لون نص الشارة",
+          "icon": "sicon-color-palette",
+          "required": false,
+          "value": "#ffffff"
+        },
+        {
+          "type": "static",
+          "format": "line",
+          "id": "divider-10"
+        },
+        {
+          "type": "static",
+          "format": "title",
+          "id": "section-motion",
+          "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>اللمسات النهائية</div>",
+          "variant": "h5"
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "enable_idle_ken_burns",
+          "label": "تكبير بطيء للصورة النشطة (Idle Ken Burns)",
+          "description": "حركة دقيقة جدًا تجعل الشريحة الحالية «تتنفّس» بتكبير وتحريك بطيء. يعمل مع كل أنواع الانتقال.",
+          "format": "switch",
+          "selected": false,
+          "required": false
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "id": "enable_entrance_anim",
+          "label": "تفعيل حركة الظهور",
+          "description": "تلاشي العنوان وأول شريحة عند تحميل القسم. عند الإيقاف يظهر القسم مباشرة.",
+          "format": "switch",
+          "selected": true,
+          "required": false
+        }
+      ]
     }
   ]
 }

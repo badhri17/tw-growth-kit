@@ -116,6 +116,10 @@ private _pickValue<T extends string>(val: unknown, fallback: T): T {
 ## Design Principles
 
 - **RTL-first** — Arabic is the default direction. All layouts, animations, and Swiper configs must work RTL out of the box.
+- **Mobile-first** — Mobile is the primary canvas; desktop is the optional enhancement. This holds in **three places that must stay in sync**:
+  1. **CSS** — write the mobile layout as the base rule, then layer desktop overrides inside `@media (min-width: 768px)`. Never the reverse (`max-width` overrides).
+  2. **`twilight-bundle.json` fields** — when a setting has separate mobile/desktop values, the **mobile field comes first and is the primary** (concrete default, no `inherit` option). The **desktop field comes second, is labeled "(اختياري)"**, and offers an `inherit` option (`"نفس الجوال"`) as its default so desktop reuses the mobile value unless overridden. Group the desktop fields under a `static` divider titled `🖥️ سطح المكتب — تخصيص اختياري`.
+  3. **Component logic** — resolve the mobile value first, then `desktop === "inherit" ? mobileValue : desktopValue`. See `Hero` (`height_mobile`/`height_desktop`) and `story-slider` (`aspect_ratio_mobile`/`aspect_ratio_desktop`) for the canonical pattern.
 - **Component independence** — Each component must be self-contained, responsive, and cross-browser compatible.
 - **Merchant configurability** — Every visual decision a merchant might want to change goes into `twilight-bundle.json` fields with sensible defaults.
 - **Premium feel** — Animations and transitions distinguish this bundle from basic built-in components.
@@ -126,6 +130,10 @@ private _pickValue<T extends string>(val: unknown, fallback: T): T {
 
 - All merchant-facing labels, titles, and placeholders in `twilight-bundle.json` must be in **Arabic**.
 - Code identifiers (variable names, CSS classes, TypeScript types, file names) stay in **English**.
+
+## Git Commits
+
+- Never add `Co-Authored-By: Claude` or any AI co-author trailer to commit messages.
 
 ## Salla Documentation
 
