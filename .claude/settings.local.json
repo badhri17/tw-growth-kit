@@ -14,7 +14,10 @@
       "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if 'product' in t['path'].lower\\(\\) and t['path'].endswith\\('.twig'\\)][:20]\")",
       "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if 'fixed-product' in t['path'].lower\\(\\) or 'products-slider' in t['path'].lower\\(\\)]\")",
       "Bash(git push *)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o slide1.png \"https://f.top4top.io/p_3801auw9f2.png\")",
+      "Bash(curl -s -o slide3.jpg \"https://g.top4top.io/p_38015wuxn3.jpg\")"
     ]
   }
 }
