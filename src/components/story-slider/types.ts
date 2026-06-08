@@ -107,8 +107,7 @@ export type StoryOverlayStyle =
   | "dark-top" // gradient down from top
   | "dark-full" // even dark wash
   | "light-full" // even light wash
-  | "vignette" // soft radial fade
-  | "spotlight"; // strong radial spot under content
+  | "vignette"; // soft radial fade
 
 export type StoryOverlayIntensity = "subtle" | "medium" | "strong";
 

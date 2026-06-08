@@ -226,15 +226,6 @@ export const storySliderStyles = css`
       rgba(0, 0, 0, var(--ss-overlay-a)) 100%
     );
   }
-  .ss-frame[data-overlay="spotlight"] .ss-scrim {
-    background: radial-gradient(
-      ellipse 80% 60% at 50% 80%,
-      rgba(0, 0, 0, calc(var(--ss-overlay-a) * 1.2)) 0%,
-      rgba(0, 0, 0, calc(var(--ss-overlay-a) * 0.4)) 50%,
-      rgba(0, 0, 0, 0) 90%
-    );
-  }
-
   /* ===========================================================
      CONTENT OVERLAY — the eyebrow / title / desc / CTA stack
      =========================================================== */
@@ -319,7 +310,7 @@ export const storySliderStyles = css`
     text-transform: uppercase;
     opacity: 0.85;
     margin: 0;
-    color: inherit;
+    color: var(--ss-slide-title-color);
   }
   .ss-eyebrow:dir(rtl) {
     letter-spacing: 0;
