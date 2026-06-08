@@ -126,7 +126,8 @@ export default class GrowthHero extends LitElement {
     const conn = (navigator as any).connection;
     if (conn) {
       if (conn.saveData === true) return true;
-      const slow = ["slow-2g", "2g", "3g"];
+      // "3g" is HSPA+ (up to 20 Mbps) and handles video fine; only block genuinely slow connections.
+      const slow = ["slow-2g", "2g"];
       if (slow.includes(conn.effectiveType)) return true;
     }
     return false;
@@ -138,11 +139,12 @@ export default class GrowthHero extends LitElement {
    * 3 s window since we have no signal to rely on and want to fail fast.
    */
   private _pickVideoTimeout(): number {
-    if (this.config?.smart_data_saver === false) return 5000;
+    if (this.config?.smart_data_saver === false) return 12000;
     const isMobile = !window.matchMedia("(min-width: 768px)").matches;
     const hasNetAPI = !!(navigator as any).connection;
-    if (isMobile && !hasNetAPI) return 3000;
-    return 5000;
+    // Safari mobile has no Network API; give remote CDN videos enough time for DNS+TLS+buffer.
+    if (isMobile && !hasNetAPI) return 10000;
+    return 12000;
   }
 
   /** Which background mode should we render? */
