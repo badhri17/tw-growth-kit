@@ -26,6 +26,12 @@
                     "variant": "h5"
                 },
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "hero-content-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/hero-content-Annotated1.png' alt='مثال توضيحي لمحتوى الهيرو' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
                     "type": "string",
                     "icon": "sicon-typography",
                     "id": "eyebrow",
@@ -230,6 +236,104 @@
                             "label": "داكن (على خلفية فاتحة)",
                             "value": "dark",
                             "key": "tt-d"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-content-colors",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>🎨 ألوان المحتوى المخصصة</div>",
+                    "variant": "h6"
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "enable_custom_colors",
+                    "label": "تفعيل الألوان المخصصة",
+                    "description": "عند الإيقاف تتبع عناصر المحتوى «لون النص» أعلاه. عند التفعيل تُستخدم الألوان التي تختارها هنا (والعناصر التي تتركها فارغة تتبع «لون النص»).",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "title_color",
+                    "label": "لون العنوان",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "enable_custom_colors",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "eyebrow_color",
+                    "label": "لون النص العلوي",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "enable_custom_colors",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "subtitle_color",
+                    "label": "لون الوصف ونقاط الثقة",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "enable_custom_colors",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "button_bg_color",
+                    "label": "لون خلفية الزر",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": "لا يؤثر على الزر ذي الإطار الشفاف.",
+                    "conditions": [
+                        {
+                            "id": "enable_custom_colors",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "button_text_color",
+                    "label": "لون نص الزر",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "enable_custom_colors",
+                            "operation": "=",
+                            "value": true
                         }
                     ]
                 },
@@ -559,6 +663,145 @@
                             "label": "قوي",
                             "value": "strong",
                             "key": "oi-st"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-layout"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-desktop-layout",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>🖥️ تخطيط سطح المكتب</div>",
+                    "variant": "h6"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "desktop-layout-note",
+                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>على الجوال تبقى الوسائط خلفية كاملة دائمًا. هذه الخيارات تخص <strong>سطح المكتب</strong> فقط: أبقِ الوسائط خلفية كاملة، أو قسّم الواجهة لتظهر الوسائط في جهة والمحتوى في الجهة المقابلة.</div>"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "desktop_layout",
+                    "label": "تخطيط سطح المكتب",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "خلفية كاملة",
+                            "value": "background",
+                            "key": "dl-bg"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "خلفية كاملة",
+                            "value": "background",
+                            "key": "dl-bg"
+                        },
+                        {
+                            "label": "مقسّم — وسائط ومحتوى جنبًا إلى جنب",
+                            "value": "split",
+                            "key": "dl-sp"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "split_media_side",
+                    "label": "جهة الوسائط (الصورة/الفيديو)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "أي جهة تظهر فيها الصورة أو الفيديو على سطح المكتب.",
+                    "conditions": [
+                        {
+                            "id": "desktop_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "يسار",
+                            "value": "left",
+                            "key": "sms-l"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "يسار",
+                            "value": "left",
+                            "key": "sms-l"
+                        },
+                        {
+                            "label": "يمين",
+                            "value": "right",
+                            "key": "sms-r"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "split_ratio",
+                    "label": "توزيع المساحة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "desktop_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "متساوٍ (50 / 50)",
+                            "value": "equal",
+                            "key": "sr-eq"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "متساوٍ (50 / 50)",
+                            "value": "equal",
+                            "key": "sr-eq"
+                        },
+                        {
+                            "label": "الوسائط أكبر",
+                            "value": "media",
+                            "key": "sr-md"
+                        },
+                        {
+                            "label": "المحتوى أكبر",
+                            "value": "content",
+                            "key": "sr-ct"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "split_content_bg",
+                    "label": "لون خلفية جهة المحتوى (اختياري)",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": "اتركه فارغًا للون داكن افتراضي. عند اختيار لون فاتح غيّر «سمة لون النص» إلى داكن.",
+                    "conditions": [
+                        {
+                            "id": "desktop_layout",
+                            "operation": "=",
+                            "value": "split"
                         }
                     ]
                 },
@@ -4460,7 +4703,6 @@
                             "meta": "الرياض",
                             "rating": "5",
                             "quote": "فرق واضح من أول أسبوع، بشرتي صارت أنعم وأكثر إشراقًا. منتج خفيف وما يسبب أي تحسّس.",
-                            "date": "اشترت في مارس",
                             "product_name": "زيت التين الشوكي",
                             "product_image": "https://cdn.salla.sa/form-builder/LCEvsO7tZOIfQYRsPJ0VwyLVTnxPGqxBYSmficlh.webp",
                             "product_price": "٣٩ ر.س",
@@ -4473,7 +4715,6 @@
                             "meta": "جدة",
                             "rating": "4.9",
                             "quote": "كنت مترددة بالبداية لكن النتيجة فاقت توقعاتي. الرائحة لطيفة والتغليف فخم جدًا.",
-                            "date": "اشترت في فبراير",
                             "product_name": "صابونة النيلة",
                             "product_image": "https://cdn.salla.sa/form-builder/IjVbgpJWx6zIFKkaq8m4gw3X9QM6M3Yy91pfvoVO.webp",
                             "product_price": "٧٥ ر.س",
@@ -4486,7 +4727,6 @@
                             "meta": "الدمام",
                             "rating": "5",
                             "quote": "أفضل منتج جربته للتصبغات، اختفت البقع تدريجيًا خلال شهر. أنصح فيه بشدة.",
-                            "date": "اشترى في أبريل",
                             "product_name": "ماسك النيلة",
                             "product_image": "https://cdn.salla.sa/form-builder/J5zHbO8AX5qrkFZGiRNMzsClMvBPbhwO5YHnkGm3.webp",
                             "product_price": "١٢٠ ر.س",
@@ -4499,7 +4739,6 @@
                             "meta": "مكة",
                             "rating": "4.5",
                             "quote": "جودة ممتازة وسعر مناسب. التوصيل كان سريع والمنتج أصلي ١٠٠٪.",
-                            "date": "اشترت في مارس",
                             "product_name": "زيت التين الشوكي",
                             "product_image": "https://cdn.salla.sa/form-builder/LCEvsO7tZOIfQYRsPJ0VwyLVTnxPGqxBYSmficlh.webp",
                             "product_price": "٥٩ ر.س",
@@ -4512,7 +4751,6 @@
                             "meta": "الخبر",
                             "rating": "5",
                             "quote": "صار من أساسيات روتيني اليومي، بشرتي ما كانت بهالنضارة من قبل.",
-                            "date": "اشترت في يناير",
                             "product_name": "ماسك النيلة",
                             "product_image": "https://cdn.salla.sa/form-builder/J5zHbO8AX5qrkFZGiRNMzsClMvBPbhwO5YHnkGm3.webp",
                             "product_price": "٨٩ ر.س",
@@ -4582,17 +4820,6 @@
                             "required": false,
                             "placeholder": "اكتب رأي العميل هنا…",
                             "maxLength": 400
-                        },
-                        {
-                            "type": "string",
-                            "icon": "sicon-calendar",
-                            "id": "date",
-                            "label": "تاريخ الشراء (اختياري)",
-                            "format": "text",
-                            "multilanguage": true,
-                            "required": false,
-                            "placeholder": "مثل: اشترى في مارس",
-                            "maxLength": 40
                         },
                         {
                             "type": "items",
@@ -5028,15 +5255,6 @@
                             "value": "modern"
                         }
                     ]
-                },
-                {
-                    "type": "boolean",
-                    "icon": "sicon-toggle-off",
-                    "id": "show_date",
-                    "label": "إظهار تاريخ الشراء",
-                    "format": "switch",
-                    "selected": true,
-                    "required": false
                 },
                 {
                     "type": "boolean",
@@ -5571,6 +5789,495 @@
                     "icon": "sicon-color-palette",
                     "required": false,
                     "value": "#9aa1ac"
+                }
+            ]
+        },
+        {
+            "title": "المنتج التفاعلي",
+            "icon": "sicon-image",
+            "name": "interactive-product",
+            "key": "343b21e2-5f91-4f97-aeec-d5e5333a0e1f",
+            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "fields": [
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-content",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>المحتوى</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "id": "eyebrow",
+                    "label": "نص علوي (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "placeholder": "مثل: هندسة مدروسة",
+                    "description": "نص صغير يظهر فوق العنوان الرئيسي.",
+                    "maxLength": 80
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "section_title",
+                    "label": "العنوان الرئيسي",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "استكشف مميزات المنتج",
+                    "placeholder": "مثل: استكشف مميزات المنتج",
+                    "description": "يظهر فوق القسم. اتركه فارغًا لإخفائه.",
+                    "maxLength": 80
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-paragraph",
+                    "id": "section_subtitle",
+                    "label": "النص الوصفي (اختياري)",
+                    "format": "textarea",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "اضغط على المؤشرات على الصورة للتعرف على كل ميزة.",
+                    "placeholder": "جملة قصيرة تشرح للزائر كيف يتفاعل مع الصورة.",
+                    "maxLength": 200
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-1"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-image",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الصورة والمؤشرات</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "image-note",
+                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>ارفع صورة المنتج، ثم أضف <strong>مؤشرات</strong> فوقها. يُحدَّد موضع كل مؤشر بنسبة مئوية بالنسبة للصورة:<br/>• <strong>الموضع الأفقي</strong>: ٠٪ = أقصى اليسار، ١٠٠٪ = أقصى اليمين.<br/>• <strong>الموضع العمودي</strong>: ٠٪ = الأعلى، ١٠٠٪ = الأسفل.<br/>المواضع تتبع الصورة نفسها ولا تتأثر باتجاه الصفحة. جرّب القيم وعاين النتيجة مباشرة.</div>"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "product_image",
+                    "label": "صورة المنتج",
+                    "format": "image",
+                    "required": false,
+                    "description": "الصورة الكبيرة التي توضع عليها المؤشرات. يُفضّل صورة عالية الدقة بخلفية واضحة. تتبع الصورة أبعادها الطبيعية لضمان دقة مواضع المؤشرات.",
+                    "value": "https://cdn.files.salla.network/homepage/1333909099/9a7a2e49-46e5-412d-88ef-951e341bc2c4.webp"
+                },
+                {
+                    "id": "hotspots",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 12,
+                    "item_label": "مؤشر",
+                    "description": "كل مؤشر يظهر كرقم على الصورة، وعند الضغط عليه تتحدّث بطاقة التفاصيل بصورته وعنوانه ووصفه.",
+                    "value": [
+                        {
+                            "image": "https://cdn.files.salla.network/homepage/1333909099/0cac11ab-f189-4ea3-841f-d629a7b42e43.webp",
+                            "title": "تحكم كامل في حرارة الفحم بـ ٥ مستويات",
+                            "description": "ارفع أو خفّض سلة الفحم بسهولة من خلال ذراع التعديل الجانبي، عشان تضبط حرارة الشوي حسب نوع اللحم والوقت المتاح بدون ما تفتح الغطاء بالكامل.",
+                            "x": 77,
+                            "y": 40
+                        },
+                        {
+                            "image": "https://cdn.files.salla.network/homepage/1333909099/16114e9b-cda3-43a9-b6da-c47e438b75df.webp",
+                            "title": "باب أمامي لإدارة الفحم أثناء الشواء",
+                            "description": "باب أمامي يتيح لك زيادة الفحم أو تقليله أثناء الشواء بدون ما ترفع الشبك — تحكم أسرع وحرارة أدق.",
+                            "x": 50,
+                            "y": 45
+                        },
+                        {
+                            "image": "https://cdn.files.salla.network/homepage/1333909099/d9bd1e50-634f-4499-92c0-56e31fecc526.webp",
+                            "title": "شبك واسع ومساحة شواء أكبر",
+                            "description": "شبك واسع يساعدك تشوي كميات أكثر بشكل متوازن مع توزيع حرارة أفضل داخل الشواية.",
+                            "x": 55,
+                            "y": 22
+                        },
+                        {
+                            "image": "https://cdn.files.salla.network/homepage/1333909099/532ca894-58ea-42a4-8718-70991a744dbb.webp",
+                            "title": "رف جانبي عملي للتحضير والتقديم",
+                            "description": "رف جانبي ثابت لوضع الأدوات، التتبيلة، الصحون — يخليك مرتّب وسريع أثناء الشواء.",
+                            "x": 20,
+                            "y": 40
+                        },
+                        {
+                            "image": "https://cdn.files.salla.network/homepage/1333909099/fe952c11-7f54-4f43-833f-a26069ec37b5.webp",
+                            "title": "عجلات قوية وتخزين سفلي",
+                            "description": "سهولة نقل الشواية + مساحة تخزين سفلية لأكياس الفحم والأدوات.",
+                            "x": 78,
+                            "y": 82
+                        }
+                    ],
+                    "fields": [
+                        {
+                            "type": "string",
+                            "icon": "sicon-image",
+                            "id": "image",
+                            "label": "صورة الميزة",
+                            "format": "image",
+                            "required": false,
+                            "description": "تظهر في بطاقة التفاصيل عند تحديد هذا المؤشر."
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "id": "title",
+                            "label": "عنوان الميزة",
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": false,
+                            "placeholder": "مثل: تحكم في الحرارة",
+                            "maxLength": 80
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-paragraph",
+                            "id": "description",
+                            "label": "وصف الميزة",
+                            "format": "textarea",
+                            "multilanguage": true,
+                            "required": false,
+                            "placeholder": "شرح مختصر يظهر في بطاقة التفاصيل.",
+                            "maxLength": 320
+                        },
+                        {
+                            "type": "number",
+                            "format": "integer",
+                            "id": "x",
+                            "label": "الموضع الأفقي (٪)",
+                            "required": false,
+                            "minimum": 0,
+                            "maximum": 100,
+                            "value": 50,
+                            "description": "٠٪ = أقصى اليسار، ١٠٠٪ = أقصى اليمين."
+                        },
+                        {
+                            "type": "number",
+                            "format": "integer",
+                            "id": "y",
+                            "label": "الموضع العمودي (٪)",
+                            "required": false,
+                            "minimum": 0,
+                            "maximum": 100,
+                            "value": 50,
+                            "description": "٠٪ = الأعلى، ١٠٠٪ = الأسفل."
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-2"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-display",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة العرض</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "reverse_layout",
+                    "label": "عكس الترتيب (التفاصيل قبل الصورة)",
+                    "description": "على الشاشات الكبيرة فقط. افتراضيًا تظهر الصورة في جهة البداية والتفاصيل في جهة النهاية.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "hotspot_size",
+                    "label": "حجم المؤشرات",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "hs-m"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغير",
+                            "value": "small",
+                            "key": "hs-s"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "hs-m"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "hs-l"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "detail_image_aspect",
+                    "label": "مقاس صورة البطاقة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "نسبة أبعاد الصورة داخل بطاقة التفاصيل.",
+                    "selected": [
+                        {
+                            "label": "أفقي 4:3",
+                            "value": "4/3",
+                            "key": "da-43"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "أفقي 16:9",
+                            "value": "16/9",
+                            "key": "da-169"
+                        },
+                        {
+                            "label": "أفقي 4:3",
+                            "value": "4/3",
+                            "key": "da-43"
+                        },
+                        {
+                            "label": "مربع 1:1",
+                            "value": "1/1",
+                            "key": "da-11"
+                        },
+                        {
+                            "label": "عمودي 3:4",
+                            "value": "3/4",
+                            "key": "da-34"
+                        },
+                        {
+                            "label": "حسب الصورة (بدون قص)",
+                            "value": "natural",
+                            "key": "da-nat"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "enable_pulse",
+                    "label": "نبض حول المؤشرات",
+                    "description": "حلقة متموّجة تلفت الانتباه للمؤشرات غير المحددة.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "show_pills",
+                    "label": "إظهار أرقام التنقل في البطاقة",
+                    "description": "أزرار مرقّمة أسفل البطاقة للتنقل بين المميزات.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "autoplay",
+                    "label": "تشغيل تلقائي للمؤشرات",
+                    "description": "ينتقل تلقائيًا بين المميزات، ويتوقف عند تفاعل الزائر.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "autoplay_delay",
+                    "label": "مدة كل ميزة (بالثواني)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "تُستخدم فقط عند تفعيل التشغيل التلقائي.",
+                    "selected": [
+                        {
+                            "label": "٥ ثوانٍ",
+                            "value": "5",
+                            "key": "ad-5"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "٣ ثوانٍ",
+                            "value": "3",
+                            "key": "ad-3"
+                        },
+                        {
+                            "label": "٥ ثوانٍ",
+                            "value": "5",
+                            "key": "ad-5"
+                        },
+                        {
+                            "label": "٧ ثوانٍ",
+                            "value": "7",
+                            "key": "ad-7"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "autoplay",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-3"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-motion",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الحركة</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "enable_entrance_anim",
+                    "label": "تفعيل حركة الظهور",
+                    "description": "ظهور متدرّج للعنوان والصورة والبطاقة مع بروز المؤشرات. عند الإيقاف يظهر القسم مباشرة.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-4"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-colors",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الألوان</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "theme",
+                    "label": "نمط الألوان",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "يحدد لوحة الألوان الأساسية. أي لون تختاره أدناه يتجاوز هذا النمط.",
+                    "selected": [
+                        {
+                            "label": "فاتح",
+                            "value": "light",
+                            "key": "th-l"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "فاتح",
+                            "value": "light",
+                            "key": "th-l"
+                        },
+                        {
+                            "label": "داكن",
+                            "value": "dark",
+                            "key": "th-d"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_color",
+                    "label": "لون خلفية القسم",
+                    "icon": "sicon-format-fill",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "title_color",
+                    "label": "لون العنوان",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "subtitle_color",
+                    "label": "لون النص الوصفي",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "accent_color",
+                    "label": "اللون المميز (المؤشرات والأزرار)",
+                    "icon": "sicon-color-palette",
+                    "required": false,
+                    "value": "#d95e16"
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "card_bg",
+                    "label": "لون خلفية البطاقة",
+                    "icon": "sicon-format-fill",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "card_title_color",
+                    "label": "لون عنوان البطاقة",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "card_text_color",
+                    "label": "لون نص البطاقة",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "marker_bg",
+                    "label": "لون خلفية المؤشر",
+                    "icon": "sicon-format-fill",
+                    "required": false
                 }
             ]
         }

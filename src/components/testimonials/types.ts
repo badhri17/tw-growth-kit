@@ -65,7 +65,6 @@ export interface TestimonialItem {
   // --- Review ---
   rating?: number | string; // 0–5, supports fractions (e.g. 4.9)
   quote?: MaybeMultiLang; // the testimonial body
-  date?: MaybeMultiLang; // e.g. "اشترى في مارس" / "Purchased on March"
 
   // --- Linked product (the shoppable chip) ---
   product?: RawProductPick; // pick a real store product
@@ -103,7 +102,6 @@ export interface TestimonialsConfig {
   rating_style?: TestimonialRatingStyle;
   show_avatar?: boolean;
   show_photo?: boolean; // large photo on photo-led styles
-  show_date?: boolean;
   show_quote_mark?: boolean;
   show_product?: boolean; // the shoppable product chip
   chip_style?: TestimonialChipStyle;

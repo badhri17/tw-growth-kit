@@ -6,6 +6,12 @@
 
 export type HeroHeight = "full" | "large" | "medium" | "compact";
 export type HeroHeightDesktop = HeroHeight | "inherit";
+/** Desktop layout mode: full-bleed background (default) or a split media/content panel. */
+export type HeroDesktopLayout = "background" | "split";
+/** In split mode, which side the media (image/video/gradient) sits on (desktop, physical). */
+export type HeroSplitSide = "left" | "right";
+/** In split mode, how the two columns share the width. */
+export type HeroSplitRatio = "equal" | "media" | "content";
 export type HeroAlignH = "start" | "center" | "end";
 export type HeroAlignV = "top" | "middle" | "bottom";
 export type HeroOverlayStyle = "none" | "dark-bottom" | "dark-full" | "light-full" | "vignette";
@@ -45,6 +51,14 @@ export interface HeroConfig {
   headline?: MaybeMultiLang;     // required in practice
   subtitle?: MaybeMultiLang;     // paragraph below headline
 
+  // --- Custom content colours (when enabled, override text_theme per element) ---
+  enable_custom_colors?: boolean;  // off → follow text_theme; on → use the colours below
+  title_color?: string;            // headline
+  eyebrow_color?: string;          // eyebrow
+  subtitle_color?: string;         // subtitle + trust points
+  button_bg_color?: string;        // filled CTA background
+  button_text_color?: string;      // CTA text/border
+
   // --- CTA ---
   primary_label?: MaybeMultiLang;
   primary_url?: string;
@@ -56,6 +70,13 @@ export interface HeroConfig {
   // --- Layout ---
   height_mobile?: HeroHeight;
   height_desktop?: HeroHeightDesktop;  // "inherit" → use height_mobile on desktop too
+
+  // --- Desktop layout (≥768 px only; mobile always stays full background) ---
+  desktop_layout?: HeroDesktopLayout;  // "background" (default) | "split"
+  split_media_side?: HeroSplitSide;    // which side the media sits on in split mode
+  split_ratio?: HeroSplitRatio;        // column width distribution in split mode
+  split_content_bg?: string;           // optional bg colour of the content panel
+
   align_h?: HeroAlignH;
   align_v?: HeroAlignV;
   text_theme?: HeroTextTheme;

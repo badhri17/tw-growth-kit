@@ -57,11 +57,17 @@ export const heroStyles = css`
     z-index: 0;
     overflow: hidden;
   }
-  /* picture must stretch to fill .bg so its child img can do the same */
-  .bg > picture {
-    display: block;
+  /* Media fills .bg via absolute positioning so it works both as a full-bleed
+     background (.bg is absolute) and as a split column (.bg is a grid cell),
+     and never contributes its intrinsic size to grid row sizing. */
+  .bg > img,
+  .bg > picture,
+  .bg > video {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
+    display: block;
   }
   .bg > img,
   .bg > picture > img,
@@ -70,7 +76,6 @@ export const heroStyles = css`
     height: 100%;
     object-fit: cover;
     object-position: center;
-    display: block;
     will-change: transform;
   }
   .bg.is-ken-burns > img,
@@ -151,6 +156,7 @@ export const heroStyles = css`
     text-transform: uppercase;
     opacity: 0.9;
     margin: 0;
+    color: var(--gh-eyebrow-color, inherit);
     /* Arabic has no uppercase — respect script */
     &:dir(rtl) { letter-spacing: 0; text-transform: none; }
   }
@@ -161,6 +167,7 @@ export const heroStyles = css`
     letter-spacing: -0.02em;
     margin: 0;
     text-wrap: balance;
+    color: var(--gh-title-color, inherit);
   }
   .headline:dir(rtl) {
     letter-spacing: 0;
@@ -173,6 +180,7 @@ export const heroStyles = css`
     margin: 0;
     max-width: 54ch;
     text-wrap: pretty;
+    color: var(--gh-subtitle-color, inherit);
   }
 
   /* --- CTAs --- */
@@ -214,8 +222,8 @@ export const heroStyles = css`
   }
   .btn-outline {
     background: transparent;
-    color: currentColor;
-    border-color: currentColor;
+    color: var(--gh-btn-fg, currentColor);
+    border-color: var(--gh-btn-fg, currentColor);
     backdrop-filter: blur(6px);
   }
   .btn-outline:hover {
@@ -246,6 +254,15 @@ export const heroStyles = css`
     line-height: 1.2;
     opacity: 0.92;
     white-space: nowrap;
+    color: var(--gh-subtitle-color, inherit);
+  }
+
+  /* Custom-colours mode: show the chosen colours at full strength (drop the
+     subtle auto-dimming used in the default theme-driven flow). */
+  .hero[data-custom-colors="on"] .eyebrow,
+  .hero[data-custom-colors="on"] .subtitle,
+  .hero[data-custom-colors="on"] .trust-item {
+    opacity: 1;
   }
   .trust-icon {
     flex-shrink: 0;
@@ -284,6 +301,34 @@ export const heroStyles = css`
   @keyframes kenBurns {
     0%   { transform: scale(1.00) translate3d(0, 0, 0); }
     100% { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+  }
+
+  /* --- Split layout (desktop ≥768 px): media on one side, content on the other.
+         On mobile this never applies — the media stays a full background. --- */
+  @media (min-width: 768px) {
+    .hero[data-layout="split"] {
+      display: grid;
+      grid-template-columns: var(--gh-split-start, 1fr) var(--gh-split-end, 1fr);
+      align-items: stretch;
+      align-content: stretch;
+    }
+    /* .bg leaves the absolute full-bleed flow and becomes a real grid column.
+       Columns are line-based (line 1 = inline-start), so the component resolves
+       the merchant's physical left/right choice into data-media-col for the
+       current writing direction. */
+    .hero[data-layout="split"] .bg {
+      position: relative;
+      inset: auto;
+    }
+    .hero[data-layout="split"][data-media-col="start"] .bg           { grid-column: 1; grid-row: 1; }
+    .hero[data-layout="split"][data-media-col="start"] .content-wrap { grid-column: 2; grid-row: 1; }
+    .hero[data-layout="split"][data-media-col="end"]   .bg           { grid-column: 2; grid-row: 1; }
+    .hero[data-layout="split"][data-media-col="end"]   .content-wrap { grid-column: 1; grid-row: 1; }
+
+    /* The content side gets its own backdrop — media no longer sits behind it. */
+    .hero[data-layout="split"] .content-wrap {
+      background: var(--gh-split-content-bg, #0b0b0f);
+    }
   }
 
   /* --- Mobile tuning --- */

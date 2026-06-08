@@ -34,7 +34,7 @@ plugins: [
   sallaBuildPlugin(),
   sallaDemoPlugin({
     // Uncomment to preview only specific components
-    // components: ['product-card', 'scroll-top', 'table-list']
+    // components: ['interactive-product']
   }),
   fixWindowsDemoFsUrlsPlugin(),
 ]

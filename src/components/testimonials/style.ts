@@ -293,13 +293,6 @@ export const testimonialsStyles = css`
     color: var(--t-meta);
     font-size: 0.82rem;
   }
-  .t-date {
-    color: var(--t-meta);
-    font-size: 0.78rem;
-  }
-  .t-date--inline {
-    margin-top: -2px;
-  }
 
   /* Author / chip drop to the bottom for tidy equal-height cards */
   .t-card[data-style="quote"] .t-author,
@@ -467,10 +460,6 @@ export const testimonialsStyles = css`
     color: var(--t-chip-compare);
     font-size: 0.8rem;
     text-decoration: line-through;
-  }
-  .t-chip-date {
-    color: var(--t-meta);
-    font-size: 0.74rem;
   }
   .t-chip-go {
     flex: none;

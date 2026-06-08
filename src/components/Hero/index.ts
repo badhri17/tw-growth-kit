@@ -4,6 +4,9 @@ import type {
   HeroConfig,
   HeroHeight,
   HeroHeightDesktop,
+  HeroDesktopLayout,
+  HeroSplitSide,
+  HeroSplitRatio,
   HeroAlignH,
   HeroAlignV,
   HeroOverlayStyle,
@@ -197,6 +200,36 @@ export default class GrowthHero extends LitElement {
     }
   }
 
+  /** Resolved document direction; split placement maps physical sides to inline edges. */
+  private _dir(): "rtl" | "ltr" {
+    const docDir = (document.documentElement.getAttribute("dir") || "").toLowerCase();
+    if (docDir === "rtl" || docDir === "ltr") return docDir as "rtl" | "ltr";
+    return getComputedStyle(this).direction === "ltr" ? "ltr" : "rtl";
+  }
+
+  /**
+   * Resolve split-mode grid placement. Grid columns are line-based (line 1 =
+   * inline-start), which flips with RTL — so we translate the merchant's PHYSICAL
+   * left/right choice into an inline edge for the current direction, then assign
+   * each column its width share (the bigger share goes to whatever the ratio names).
+   */
+  private _resolveSplit(
+    side: HeroSplitSide,
+    ratio: HeroSplitRatio
+  ): { mediaCol: "start" | "end"; startFr: string; endFr: string } {
+    const dir = this._dir();
+    const mediaAtStart = dir === "ltr" ? side === "left" : side === "right";
+    const big = "1.25fr";
+    const one = "1fr";
+    const mediaFr = ratio === "media" ? big : one;
+    const contentFr = ratio === "content" ? big : one;
+    return {
+      mediaCol: mediaAtStart ? "start" : "end",
+      startFr: mediaAtStart ? mediaFr : contentFr,
+      endFr: mediaAtStart ? contentFr : mediaFr,
+    };
+  }
+
   /** Dropdown-list values from settings may come as [{label, value}]. */
   private _pickValue<T extends string>(val: unknown, fallback: T): T {
     if (typeof val === "string" && val) return val as T;
@@ -380,6 +413,17 @@ export default class GrowthHero extends LitElement {
     const enableKenBurns = !!c.enable_ken_burns;
     const enableParallax = !!c.enable_parallax;
 
+    // Desktop split layout (mobile always stays full-background — handled in CSS).
+    const desktopLayout = this._pickValue<HeroDesktopLayout>(c.desktop_layout, "background");
+    const splitSide = this._pickValue<HeroSplitSide>(c.split_media_side, "left");
+    const splitRatio = this._pickValue<HeroSplitRatio>(c.split_ratio, "equal");
+    const split =
+      desktopLayout === "split" ? this._resolveSplit(splitSide, splitRatio) : null;
+
+    // Custom content colours: when enabled, the chosen colours override text_theme
+    // per element; elements left blank keep following text_theme.
+    const customColors = c.enable_custom_colors === true;
+
     const eyebrow = this._t(c.eyebrow);
     const headline = this._t(c.headline) || "Welcome";
     const subtitle = this._t(c.subtitle);
@@ -399,6 +443,16 @@ export default class GrowthHero extends LitElement {
       `--gh-overlay-a: ${overlayAlpha}`,
       c.content_max_width ? `--gh-content-max: ${c.content_max_width}px` : "",
       bgValue ? `--gh-bg: ${bgValue}` : "",
+      split ? `--gh-split-start: ${split.startFr}` : "",
+      split ? `--gh-split-end: ${split.endFr}` : "",
+      split && c.split_content_bg
+        ? `--gh-split-content-bg: ${c.split_content_bg}`
+        : "",
+      customColors && c.title_color ? `--gh-title-color: ${c.title_color}` : "",
+      customColors && c.eyebrow_color ? `--gh-eyebrow-color: ${c.eyebrow_color}` : "",
+      customColors && c.subtitle_color ? `--gh-subtitle-color: ${c.subtitle_color}` : "",
+      customColors && c.button_bg_color ? `--gh-btn-bg: ${c.button_bg_color}` : "",
+      customColors && c.button_text_color ? `--gh-btn-fg: ${c.button_text_color}` : "",
     ]
       .filter(Boolean)
       .join("; ");
@@ -417,6 +471,9 @@ export default class GrowthHero extends LitElement {
         class="hero"
         style=${hostStyle}
         data-height=${height}
+        data-layout=${desktopLayout}
+        data-media-col=${split ? split.mediaCol : "start"}
+        data-custom-colors=${customColors ? "on" : "off"}
         data-align-h=${alignH}
         data-align-v=${alignV}
         data-text-theme=${textTheme}
@@ -452,11 +509,10 @@ export default class GrowthHero extends LitElement {
                 </picture>
               `
             : nothing}
+          ${overlayStyle !== "none"
+            ? html`<div class="overlay" data-style=${overlayStyle}></div>`
+            : nothing}
         </div>
-
-        ${overlayStyle !== "none"
-          ? html`<div class="overlay" data-style=${overlayStyle}></div>`
-          : nothing}
 
         <div class="content-wrap">
           <div class="content" data-anim=${enableAnim ? this._animState : "in"}>

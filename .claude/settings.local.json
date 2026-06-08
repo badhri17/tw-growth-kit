@@ -17,7 +17,9 @@
       "Bash(python3 *)",
       "Read(//tmp/**)",
       "Bash(curl -s -o slide1.png \"https://f.top4top.io/p_3801auw9f2.png\")",
-      "Bash(curl -s -o slide3.jpg \"https://g.top4top.io/p_38015wuxn3.jpg\")"
+      "Bash(curl -s -o slide3.jpg \"https://g.top4top.io/p_38015wuxn3.jpg\")",
+      "Bash(npx tsc *)",
+      "Bash(pnpm tw-create-component *)"
     ]
   }
 }

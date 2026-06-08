@@ -24,7 +24,6 @@ interface CardOpts {
   ratingStyle: TestimonialRatingStyle;
   showAvatar: boolean;
   showPhoto: boolean;
-  showDate: boolean;
   showQuoteMark: boolean;
   showProduct: boolean;
   chipStyle: TestimonialChipStyle;
@@ -41,7 +40,7 @@ interface CardOpts {
  *     minimal, glass.
  *   • Each review can link a real store product → renders a shoppable chip with
  *     image, name, price + sale price; clicking it opens the product page.
- *   • Fractional star ratings (e.g. 4.9) and purchase dates.
+ *   • Fractional star ratings (e.g. 4.9).
  *   • Premium motion: marquee scroll, staggered entrance, hover-lift.
  *
  * RTL-first and mobile-first throughout; respects prefers-reduced-motion.
@@ -656,7 +655,6 @@ export default class GrowthTestimonials extends LitElement {
       }
     }
 
-    const date = this._t(item.date);
     if (!name && !image && !price) return nothing;
 
     const inner = html`
@@ -674,9 +672,6 @@ export default class GrowthTestimonials extends LitElement {
                 ? html`<span class="t-chip-compare">${compare}</span>`
                 : nothing}
             </span>`
-          : nothing}
-        ${date && chipStyle === "card"
-          ? html`<span class="t-chip-date">${date}</span>`
           : nothing}
       </span>
       ${url
@@ -708,7 +703,6 @@ export default class GrowthTestimonials extends LitElement {
     const name = this._t(item.name);
     const meta = this._t(item.meta);
     const quote = this._t(item.quote);
-    const date = this._t(item.date);
 
     // Photo-led styles use the large photo; others use the round avatar.
     const photo = opts.showPhoto && cardStyle === "modern" ? item.photo || "" : "";
@@ -732,9 +726,6 @@ export default class GrowthTestimonials extends LitElement {
             <div class="t-author-meta">
               ${name ? html`<span class="t-name">${name}</span>` : nothing}
               ${meta ? html`<span class="t-meta">${meta}</span>` : nothing}
-              ${opts.showDate && date && cardStyle !== "modern"
-                ? html`<span class="t-date">${date}</span>`
-                : nothing}
             </div>
           </div>`
         : nothing;
@@ -756,9 +747,6 @@ export default class GrowthTestimonials extends LitElement {
           <div class="t-body">
             ${!photo ? author(true) : nothing} ${ratingBlock}
             ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
-            ${opts.showDate && date && photo
-              ? html`<span class="t-date t-date--inline">${date}</span>`
-              : nothing}
             ${chipBlock}
           </div>
         </article>
@@ -1025,7 +1013,6 @@ export default class GrowthTestimonials extends LitElement {
       ratingStyle,
       showAvatar: c.show_avatar !== false,
       showPhoto: c.show_photo !== false,
-      showDate: c.show_date !== false,
       showQuoteMark: c.show_quote_mark !== false,
       showProduct: c.show_product !== false,
       chipStyle,
