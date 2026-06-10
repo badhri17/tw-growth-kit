@@ -18,6 +18,10 @@ import type {
 } from "./types";
 import { testimonialsStyles } from "./style";
 
+/** Fallback avatar when a testimonial has no avatar image of its own. */
+const DEFAULT_AVATAR =
+  "https://cdn.salla.network/images/themes/landing-page/default-avatar.png";
+
 /** Resolved per-card visibility + style flags, threaded into _renderCard. */
 interface CardOpts {
   showRating: boolean;
@@ -704,9 +708,9 @@ export default class GrowthTestimonials extends LitElement {
     const meta = this._t(item.meta);
     const quote = this._t(item.quote);
 
-    // Photo-led styles use the large photo; others use the round avatar.
+    // Modern style shows the customer's own product photo (UGC); others use the round avatar.
     const photo = opts.showPhoto && cardStyle === "modern" ? item.photo || "" : "";
-    const avatar = opts.showAvatar ? item.avatar || "" : "";
+    const avatar = opts.showAvatar ? item.avatar || DEFAULT_AVATAR : "";
 
     const ratingBlock = opts.showRating
       ? this._renderRating(item, opts.ratingStyle)
@@ -736,11 +740,25 @@ export default class GrowthTestimonials extends LitElement {
         <article class="t-card" data-style="modern" data-index=${index}>
           ${photo
             ? html`<div class="t-photo">
-                <img src=${photo} alt=${name || ""} loading="lazy" />
+                <img
+                  src=${photo}
+                  alt=${name ? `تصوير العميل: ${name}` : "تصوير العميل"}
+                  loading="lazy"
+                />
                 ${name || meta
-                  ? html`<span class="t-photo-chip"
-                      >${name}${meta ? html`, ${meta}` : nothing}</span
-                    >`
+                  ? html`<span class="t-photo-chip">
+                      ${avatar
+                        ? html`<img
+                            class="t-photo-chip-avatar"
+                            src=${avatar}
+                            alt=${name || ""}
+                            loading="lazy"
+                          />`
+                        : nothing}
+                      <span class="t-photo-chip-text"
+                        >${name}${meta ? html`, ${meta}` : nothing}</span
+                      >
+                    </span>`
                   : nothing}
               </div>`
             : nothing}

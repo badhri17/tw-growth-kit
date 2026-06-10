@@ -6,6 +6,9 @@ import type {
   InteractiveTheme,
   HotspotSize,
   DetailImageAspect,
+  CardSize,
+  DetailMediaWidth,
+  ContentAlign,
   AutoplayDelay,
   MaybeMultiLang,
 } from "./types";
@@ -319,6 +322,12 @@ export default class GrowthInteractiveProduct extends LitElement {
       c.detail_image_aspect,
       "4/3"
     );
+    const cardSize = this._pickValue<CardSize>(c.card_size, "medium");
+    const mediaWidth = this._pickValue<DetailMediaWidth>(
+      c.detail_media_width,
+      "medium"
+    );
+    const contentAlign = this._pickValue<ContentAlign>(c.content_align, "start");
     const reverse = !!c.reverse_layout;
     const pulse = c.enable_pulse !== false;
     const showPills = c.show_pills !== false;
@@ -364,6 +373,9 @@ export default class GrowthInteractiveProduct extends LitElement {
         class="ip"
         data-theme=${theme}
         data-hs=${hsSize}
+        data-card-size=${cardSize}
+        data-media-width=${mediaWidth}
+        data-content-align=${contentAlign}
         data-pulse=${pulse ? "on" : "off"}
         data-enter=${enterState}
         style=${hostStyle}

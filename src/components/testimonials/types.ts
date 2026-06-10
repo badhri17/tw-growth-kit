@@ -24,7 +24,7 @@ export type TestimonialsLayout = "marquee" | "carousel" | "grid" | "masonry";
 
 /** Visual treatment / shape of each testimonial card. */
 export type TestimonialCardStyle =
-  | "modern" // photo-led card with a name chip overlaid on the image (reference design)
+  | "modern" // UGC photo-led card: customer's product photo with a name chip overlaid
   | "quote" // large quotation mark, text-forward
   | "bubble" // chat speech-bubble with a tail, author sits below
   | "minimal" // clean hairline-bordered card, no elevation
@@ -60,7 +60,7 @@ export interface TestimonialItem {
   name?: MaybeMultiLang; // e.g. "تايلور" / "Taylor"
   meta?: MaybeMultiLang; // e.g. "33" or "الرياض" — rendered as "Name · meta"
   avatar?: string; // small round portrait (quote/minimal/glass styles)
-  photo?: string; // large hero photo (modern/polaroid styles)
+  photo?: string; // customer's own product photo (UGC) — large image in the modern style
 
   // --- Review ---
   rating?: number | string; // 0–5, supports fractions (e.g. 4.9)

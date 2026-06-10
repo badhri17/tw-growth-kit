@@ -19,6 +19,9 @@ export type MaybeMultiLang =
 /** Card max-width tier. */
 export type FeaturedCardSize = "compact" | "medium" | "large" | "full";
 
+/** Desktop card-size override; "inherit" reuses the mobile size. */
+export type FeaturedCardSizeDesktop = FeaturedCardSize | "inherit";
+
 /** Text/content alignment within the details column. */
 export type FeaturedContentAlign = "right" | "center" | "left";
 
@@ -111,7 +114,8 @@ export interface FeaturedProductConfig {
   button_url?: string; // used for view_product or when no product is linked
 
   // --- Card size & content alignment ---
-  card_size?: FeaturedCardSize;
+  card_size_mobile?: FeaturedCardSize; // base card width (mobile, primary)
+  card_size_desktop?: FeaturedCardSizeDesktop; // desktop override; "inherit" → same as mobile
   content_align?: FeaturedContentAlign;
 
   // --- Section background ---

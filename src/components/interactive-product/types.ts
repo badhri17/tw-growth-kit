@@ -29,6 +29,15 @@ export type HotspotSize = "small" | "medium" | "large";
 /** Aspect ratio of the image inside the detail card. */
 export type DetailImageAspect = "16/9" | "4/3" | "1/1" | "3/4" | "natural";
 
+/** Overall size tier of the detail card. "small" renders a full-bleed image header. */
+export type CardSize = "small" | "medium" | "large";
+
+/** Width of the feature image inside the detail card. "large" is inset (not 100%). */
+export type DetailMediaWidth = "large" | "medium" | "small";
+
+/** Alignment of the detail card content (title, description, narrowed image, pills). */
+export type ContentAlign = "start" | "center" | "end";
+
 /** Auto-cycle cadence (seconds) when autoplay is enabled. */
 export type AutoplayDelay = "3" | "5" | "7";
 
@@ -62,6 +71,9 @@ export interface InteractiveProductConfig {
   enable_pulse?: boolean; // pulsing ring around idle markers
   show_pills?: boolean; // numbered nav pills inside the detail card
   detail_image_aspect?: DetailImageAspect;
+  card_size?: CardSize; // detail card size; "small" → full-bleed image header
+  detail_media_width?: DetailMediaWidth; // feature image width inside the card
+  content_align?: ContentAlign; // alignment of card title/desc/image/pills
   autoplay?: boolean; // auto-advance through hotspots
   autoplay_delay?: AutoplayDelay;
 

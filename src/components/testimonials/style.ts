@@ -139,6 +139,7 @@ export const testimonialsStyles = css`
     display: inline-flex;
     direction: ltr; /* ratings always fill left→right */
     line-height: 0;
+    order:-1;
   }
   .t-stars-bg,
   .t-stars-fg {
@@ -314,7 +315,7 @@ export const testimonialsStyles = css`
     aspect-ratio: var(--t-aspect);
     overflow: hidden;
   }
-  .t-photo img {
+  .t-photo > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -326,15 +327,27 @@ export const testimonialsStyles = css`
     inset-inline-start: 12px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     background: rgba(18, 22, 28, 0.62);
     -webkit-backdrop-filter: blur(7px);
     backdrop-filter: blur(7px);
     color: #fff;
     font-weight: 600;
     font-size: 0.82rem;
-    padding: 6px 12px;
+    padding: 5px;
+    padding-inline-end: 12px;
     border-radius: 999px;
+  }
+  .t-photo-chip-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .t-photo-chip-text {
+    white-space: nowrap;
   }
   .t-body {
     flex: 1;
@@ -779,13 +792,13 @@ export const testimonialsStyles = css`
       transform: translateY(-6px);
       box-shadow: 0 34px 64px -30px rgba(15, 23, 42, 0.5);
     }
-    .t-section[data-hover-lift="on"] .t-card[data-style="modern"] .t-photo img {
+    .t-section[data-hover-lift="on"] .t-card[data-style="modern"] .t-photo > img {
       transition: transform 0.7s var(--t-ease);
     }
     .t-section[data-hover-lift="on"]
       .t-card[data-style="modern"]:hover
       .t-photo
-      img {
+      > img {
       transform: scale(1.05);
     }
   }
@@ -823,7 +836,7 @@ export const testimonialsStyles = css`
       animation: none !important;
     }
     .t-card,
-    .t-photo img,
+    .t-photo > img,
     .t-grid-cell,
     .t-carousel-cell,
     .t-header > *,

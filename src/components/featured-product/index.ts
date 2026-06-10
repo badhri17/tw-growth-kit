@@ -8,6 +8,7 @@ import type {
   FeaturedBgEffect,
   FeaturedImageFit,
   FeaturedCardSize,
+  FeaturedCardSizeDesktop,
   FeaturedBgType,
   FeaturedCardStyle,
   FeaturedContentAlign,
@@ -500,7 +501,16 @@ export default class GrowthFeaturedProduct extends LitElement {
     const cardStyle = this._pickValue<FeaturedCardStyle>(c.card_style, "soft");
     const cardRadius = this._num(c.card_radius, 24);
     const mediaRadius = Math.max(8, cardRadius - 6);
-    const cardSize = this._pickValue<FeaturedCardSize>(c.card_size, "compact");
+    const cardSizeMobile = this._pickValue<FeaturedCardSize>(
+      c.card_size_mobile,
+      "compact"
+    );
+    const cardSizeDesktopRaw = this._pickValue<FeaturedCardSizeDesktop>(
+      c.card_size_desktop,
+      "inherit"
+    );
+    const cardSizeDesktop =
+      cardSizeDesktopRaw === "inherit" ? cardSizeMobile : cardSizeDesktopRaw;
     const bgType = this._pickValue<FeaturedBgType>(c.bg_type, "color");
     const contentAlign = this._pickValue<FeaturedContentAlign>(c.content_align, "right");
     const highlightsBg = c.highlights_bg || "";
@@ -589,17 +599,19 @@ export default class GrowthFeaturedProduct extends LitElement {
         ? "linear-gradient(135deg,#283548,#11161f)"
         : "#ffffff";
 
-    // Card size → override the layout-default --fp-maxw when set.
-    // "compact" uses min() so the % clamps width on mobile (where px > screen width).
-    const cardSizeMaxW =
-      cardSize === "compact" ? "min(420px, 82%)"
-      : cardSize === "large" ? "min(860px, 96%)"
-      : cardSize === "full" ? "100%"
-      : null; // "medium" → let layout CSS vars handle it
+    // Card size → card max-width, resolved separately per breakpoint.
+    // "compact"/"large" use min() so the % clamps width where px > screen width;
+    // "medium" defers to the layout default (--fp-maxw, itself breakpoint-aware).
+    const sizeToMaxW = (s: FeaturedCardSize): string =>
+      s === "compact" ? "min(420px, 82%)"
+      : s === "large" ? "min(860px, 96%)"
+      : s === "full" ? "100%"
+      : "var(--fp-maxw)"; // medium
 
     const hostStyle = [
       c.bg_color ? `--fp-bg: ${c.bg_color}` : "",
-      cardSizeMaxW ? `--fp-maxw-user: ${cardSizeMaxW}` : "",
+      `--fp-maxw-mob: ${sizeToMaxW(cardSizeMobile)}`,
+      `--fp-maxw-desk: ${sizeToMaxW(cardSizeDesktop)}`,
       `--fp-card-bg: ${c.card_bg || cardBgDefault}`,
       `--fp-card-radius: ${cardRadius}px`,
       `--fp-media-radius: ${mediaRadius}px`,

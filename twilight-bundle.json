@@ -108,7 +108,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-trust",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>نقاط الثقة</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>المزايا السريعة(نقاط الثقة)</div>",
                     "variant": "h6"
                 },
                 {
@@ -352,8 +352,14 @@
                 {
                     "type": "static",
                     "format": "description",
+                    "id": "hero-type-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/hero-type.png' alt='مثال توضيحي لأنواع خلفية الهيرو' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
                     "id": "bg-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يختار المكون الخلفية تلقائيًا حسب جهاز الزائر: على الجوال تستخدم حقول الجوال، وعلى الشاشات الكبيرة تستخدم حقول سطح المكتب إذا أُدخلت — وإلا فحقول الجوال. الترتيب: <strong>فيديو ← صورة ← تدرج لوني</strong>.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يختار المكون الخلفية تلقائيًا حسب جهاز الزائر: على الجوال تستخدم حقول الجوال، وعلى الشاشات الكبيرة تستخدم حقول سطح المكتب إذا أُدخلت — وإلا فحقول الجوال. الترتيب: <strong>فيديو ← صورة ← تدرج لوني</strong>.</div>"
                 },
                 {
                     "type": "static",
@@ -493,22 +499,50 @@
                 {
                     "type": "static",
                     "format": "title",
-                    "id": "section-bg-gradient",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🎨 التدرج اللوني </div>",
+                    "id": "section-bg-color",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🎨 لون الخلفية</div>",
                     "variant": "h6"
                 },
                 {
                     "type": "static",
                     "format": "description",
-                    "id": "bg-gradient-note",
-                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>💡 إذا أردت لونًا ثابتًا للخلفية بدون تدرج، اكتفِ بتعبئة <strong>لون الخلفية</strong> فقط واترك حقل <strong>لون التدرج — النهاية</strong> فارغًا. عند تعبئة الحقلين معًا سيظهر تدرج لوني بينهما، ويمكنك اختيار شكل التدرج (خطي، دائري، أو مخروطي).</div>"
+                    "id": "bg-color-note",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يُستخدم لون الخلفية فقط عندما لا يوجد فيديو أو صورة للخلفية.</div>"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "bg_fill_type",
+                    "label": "نوع التعبئة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "لون ثابت",
+                            "value": "solid",
+                            "key": "bf-s"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "لون ثابت",
+                            "value": "solid",
+                            "key": "bf-s"
+                        },
+                        {
+                            "label": "تدرج لوني",
+                            "value": "gradient",
+                            "key": "bf-g"
+                        }
+                    ]
                 },
                 {
                     "type": "string",
                     "format": "color",
                     "inputType": "color",
                     "id": "gradient_from",
-                    "label": "لون الخلفية",
+                    "label": "اللون الأساسي",
                     "icon": "sicon-format-fill",
                     "value": "#111111"
                 },
@@ -520,7 +554,13 @@
                     "label": "لون التدرج — النهاية (اختياري)",
                     "icon": "sicon-color-palette",
                     "required": false,
-                    "description": "اتركه فارغًا للحصول على لون ثابت بدون تدرج."
+                    "conditions": [
+                        {
+                            "id": "bg_fill_type",
+                            "operation": "=",
+                            "value": "gradient"
+                        }
+                    ]
                 },
                 {
                     "type": "items",
@@ -530,7 +570,13 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "يطبَّق فقط عند تعبئة لون النهاية.",
+                    "conditions": [
+                        {
+                            "id": "bg_fill_type",
+                            "operation": "=",
+                            "value": "gradient"
+                        }
+                    ],
                     "selected": [
                         {
                             "label": "خطي",
@@ -572,8 +618,8 @@
                     "type": "boolean",
                     "icon": "sicon-toggle-off",
                     "id": "smart_data_saver",
-                    "label": "وضع توفير البيانات للاتصالات البطيئة",
-                    "description": "يعرض الصورة بدلاً من الفيديو تلقائيًا عند اكتشاف اتصال بطيء (2G/3G) أو عند تفعيل وضع توفير البيانات على جهاز الزائر. على الأجهزة التي لا تدعم اكتشاف سرعة الاتصال (مثل Safari)، يقلّص وقت انتظار تحميل الفيديو إلى 3 ثوانٍ بدلًا من 5.",
+                    "label": "استبدال الفيديو بالصورة للاتصال البطيء",
+                    "description": "تعرض الصورة بدلاً من الفيديو تلقائيًا عند اكتشاف اتصال بطيء",
                     "format": "switch",
                     "selected": true,
                     "required": false
@@ -682,7 +728,13 @@
                     "type": "static",
                     "format": "description",
                     "id": "desktop-layout-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>على الجوال تبقى الوسائط خلفية كاملة دائمًا. هذه الخيارات تخص <strong>سطح المكتب</strong> فقط: أبقِ الوسائط خلفية كاملة، أو قسّم الواجهة لتظهر الوسائط في جهة والمحتوى في الجهة المقابلة.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>على الجوال يبقى المحتوى المرئي خلفية كاملة دائمًا. هذه الخيارات تخص <strong>سطح المكتب</strong> فقط: أبقِ المحتوى المرئي خلفية كاملة، أو قسّم الواجهة ليظهر المحتوى المرئي في جهة والنص في الجهة المقابلة.</div>"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "desktop-layout-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/desktop-layout.png' alt='مثال توضيحي لتخطيط سطح المكتب' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
                 },
                 {
                     "type": "items",
@@ -706,7 +758,7 @@
                             "key": "dl-bg"
                         },
                         {
-                            "label": "مقسّم — وسائط ومحتوى جنبًا إلى جنب",
+                            "label": "مقسّم — محتوى مرئي ونص جنبًا إلى جنب",
                             "value": "split",
                             "key": "dl-sp"
                         }
@@ -716,7 +768,7 @@
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "split_media_side",
-                    "label": "جهة الوسائط (الصورة/الفيديو)",
+                    "label": "جهة المحتوى المرئي (الصورة/الفيديو)",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -777,7 +829,7 @@
                             "key": "sr-eq"
                         },
                         {
-                            "label": "الوسائط أكبر",
+                            "label": "المحتوى المرئي أكبر",
                             "value": "media",
                             "key": "sr-md"
                         },
@@ -864,58 +916,6 @@
             ]
         },
         {
-            "title": "جدول محتوى بسيط",
-            "icon": "sicon-layout-grid-rearrange",
-            "name": "table-list",
-            "image": "https://cdn.salla.network/images/themes/raed/main-links-with-bg.jpg",
-            "key": "9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4",
-            "fields": [
-                {
-                    "id": "items",
-                    "type": "collection",
-                    "format": "collection",
-                    "required": true,
-                    "minLength": 1,
-                    "maxLength": 100,
-                    "item_label": "صفوف الجدول",
-                    "value": [
-                        {
-                            "title": "Featured Products",
-                            "description": "Our best-selling items with special discounts"
-                        },
-                        {
-                            "title": "New Arrivals",
-                            "description": "Latest additions to our collection"
-                        },
-                        {
-                            "title": "Special Offers",
-                            "description": "Limited-time deals and promotions"
-                        }
-                    ],
-                    "fields": [
-                        {
-                            "type": "string",
-                            "icon": "sicon-format-text-alt",
-                            "id": "title",
-                            "required": true,
-                            "format": "text",
-                            "placeholder": "أدخل عنوان الصف هنا...",
-                            "minLength": 1,
-                            "maxLength": 100
-                        },
-                        {
-                            "type": "string",
-                            "icon": "sicon-format-text-alt",
-                            "id": "description",
-                            "format": "textarea",
-                            "placeholder": "أدخل وصف الصف هنا...",
-                            "maxLength": 1000
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "title": "سلايدر قبل وبعد",
             "icon": "sicon-image",
             "name": "before-after",
@@ -970,7 +970,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "slides-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف صورة <strong>قبل</strong> وصورة <strong>بعد</strong> لكل شريحة. إذا أضفت شريحة واحدة فقط، سيظهر سلايدر مفرد بدون أزرار تنقل. أضف شريحتين أو أكثر للحصول على عرض دائري (Carousel).</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف صورة <strong>قبل</strong> وصورة <strong>بعد</strong> لكل شريحة. إذا أضفت شريحة واحدة فقط، سيظهر سلايدر مفرد بدون أزرار تنقل. أضف شريحتين أو أكثر للحصول على عرض دائري (Carousel).</div>"
                 },
                 {
                     "id": "slides",
@@ -1579,7 +1579,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "mode-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>اختر طريقة استخدام المكوّن:<br/>• <strong>عرض المجموعات على الصفحة الرئيسية</strong>: لعرض مجموعات منتجات مختارة (موسمية، الأكثر مبيعًا، عروض)، وكل شريحة ترتبط بمنتج وتظهر معها زر «تسوّق الآن».<br/>• <strong>محتويات الباقة على صفحة المنتج</strong>: لعرض ما تحتويه الباقة أو الكِت (مثلاً مكوّنات روتين العناية)، بدون أزرار شراء لأن الزائر داخل صفحة المنتج أصلاً.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>اختر طريقة استخدام المكوّن:<br/>• <strong>عرض المجموعات على الصفحة الرئيسية</strong>: لعرض مجموعات منتجات مختارة (موسمية، الأكثر مبيعًا، عروض)، وكل شريحة ترتبط بمنتج وتظهر معها زر «تسوّق الآن».<br/>• <strong>محتويات الباقة على صفحة المنتج</strong>: لعرض ما تحتويه الباقة أو الكِت (مثلاً مكوّنات روتين العناية)، بدون أزرار شراء لأن الزائر داخل صفحة المنتج أصلاً.</div>"
                 },
                 {
                     "type": "items",
@@ -1630,7 +1630,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "slides-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف ٣ شرائح على الأقل للحصول على عرض كاروسيل جذّاب. لكل شريحة صورة + عنوان + وصف. <strong>صورة الكشف</strong> اختيارية وتُستخدم فقط في وضع <strong>«كشف المنتج»</strong> (تظهر صورة ثانية للمنتج عند تحديد الشريحة).</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف ٣ شرائح على الأقل للحصول على عرض كاروسيل جذّاب. لكل شريحة صورة + عنوان + وصف. <strong>صورة الكشف</strong> اختيارية وتُستخدم فقط في وضع <strong>«كشف المنتج»</strong> (تظهر صورة ثانية للمنتج عند تحديد الشريحة).</div>"
                 },
                 {
                     "id": "slides",
@@ -2279,7 +2279,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "header-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يظهران فوق السلايدر. اتركهما فارغين لتبدأ القصة مباشرة بدون عنوان.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يظهران فوق السلايدر. اتركهما فارغين لتبدأ القصة مباشرة بدون عنوان.</div>"
                 },
                 {
                     "type": "string",
@@ -2321,7 +2321,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "slides-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف ٣ شرائح أو أكثر للحصول على تجربة قصة كاملة. لكل شريحة صورة + عنوان + وصف، ويمكن إضافة <strong>فيديو</strong> ليُعرض بدلًا من الصورة، أو <strong>صورة جوال</strong> مخصصة للأجهزة الصغيرة.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف ٣ شرائح أو أكثر للحصول على تجربة قصة كاملة. لكل شريحة صورة + عنوان + وصف، ويمكن إضافة <strong>فيديو</strong> ليُعرض بدلًا من الصورة، أو <strong>صورة جوال</strong> مخصصة للأجهزة الصغيرة.</div>"
                 },
                 {
                     "id": "slides",
@@ -3278,7 +3278,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "overlay-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>طبقة شفافة تُضاف فوق الصورة لتُبرز النص. «تدرّج داكن من الأسفل» الأكثر استخدامًا.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>طبقة شفافة تُضاف فوق الصورة لتُبرز النص. «تدرّج داكن من الأسفل» الأكثر استخدامًا.</div>"
                 },
                 {
                     "type": "items",
@@ -3582,7 +3582,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "content-override-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.8;'>💡 <strong>الحقول هنا تتجاوز بيانات المنتج المرتبط.</strong> إذا ربطت منتجًا من المتجر، تُجلب صورته واسمه وسعره تلقائيًا — أي حقل تملأه هنا يحل محل تلك البيانات فقط. اتركه فارغًا لاستخدام بيانات المنتج.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.8;'>💡 <strong>الحقول هنا تتجاوز بيانات المنتج المرتبط.</strong> إذا ربطت منتجًا من المتجر، تُجلب صورته واسمه وسعره تلقائيًا — أي حقل تملأه هنا يحل محل تلك البيانات فقط. اتركه فارغًا لاستخدام بيانات المنتج.</div>"
                 },
                 {
                     "type": "string",
@@ -4090,12 +4090,12 @@
                 {
                     "type": "items",
                     "icon": "sicon-layout-grid",
-                    "id": "card_size",
-                    "label": "حجم البطاقة",
+                    "id": "card_size_mobile",
+                    "label": "حجم البطاقة على الجوال",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "يتحكم في الحد الأقصى لعرض البطاقة داخل القسم.",
+                    "description": "يتحكم في الحد الأقصى لعرض البطاقة على الجوال (وهو الأساس المُطبّق على سطح المكتب أيضًا ما لم تخصّصه أدناه).",
                     "selected": [
                         {
                             "label": "صغير",
@@ -4123,6 +4123,50 @@
                             "label": "عرض كامل",
                             "value": "full",
                             "key": "cz-full"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-layout-grid",
+                    "id": "card_size_desktop",
+                    "label": "حجم البطاقة على سطح المكتب (اختياري)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "حجم البطاقة على الشاشات الكبيرة. اتركه على «نفس الجوال» لاستخدام حجم الجوال نفسه.",
+                    "selected": [
+                        {
+                            "label": "نفس الجوال",
+                            "value": "inherit",
+                            "key": "czd-inherit"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "نفس الجوال",
+                            "value": "inherit",
+                            "key": "czd-inherit"
+                        },
+                        {
+                            "label": "صغير",
+                            "value": "compact",
+                            "key": "czd-compact"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "czd-medium"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "czd-large"
+                        },
+                        {
+                            "label": "عرض كامل",
+                            "value": "full",
+                            "key": "czd-full"
                         }
                     ]
                 },
@@ -4621,7 +4665,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "summary-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يظهر أسفل العنوان كشارة ثقة: متوسط التقييم + النجوم + عدد المقيّمين.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يظهر أسفل العنوان كشارة ثقة: متوسط التقييم + النجوم + عدد المقيّمين.</div>"
                 },
                 {
                     "type": "boolean",
@@ -4685,7 +4729,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "items-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف آراء عملائك. لكل رأي يمكنك <strong>ربط منتج حقيقي</strong> من متجرك ليظهر كبطاقة منتج قابلة للنقر أسفل الرأي. استخدم صورة كبيرة للعميل مع نمط البطاقة «العصري»، أو صورة رمزية صغيرة مع باقي الأنماط.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف آراء عملائك. لكل رأي يمكنك <strong>ربط منتج حقيقي</strong> من متجرك ليظهر كبطاقة منتج قابلة للنقر أسفل الرأي. استخدم صورة كبيرة للعميل مع نمط البطاقة «العصري»، أو صورة رمزية صغيرة مع باقي الأنماط.</div>"
                 },
                 {
                     "id": "items",
@@ -4697,8 +4741,8 @@
                     "item_label": "رأي عميل",
                     "value": [
                         {
-                            "photo": "https://i.pravatar.cc/600?img=5",
-                            "avatar": "https://i.pravatar.cc/150?img=5",
+                            "photo": "https://cdn.files.salla.network/homepage/1858334818/ca9d41ab-7a49-4f2e-8a8d-53487f20cfed.webp",
+                            "avatar": "https://cdn.salla.network/images/themes/landing-page/default-avatar.png",
                             "name": "نورة",
                             "meta": "الرياض",
                             "rating": "5",
@@ -4709,8 +4753,8 @@
                             "product_compare": "٤٩ ر.س"
                         },
                         {
-                            "photo": "https://i.pravatar.cc/600?img=32",
-                            "avatar": "https://i.pravatar.cc/150?img=32",
+                            "photo": "https://cdn.files.salla.network/homepage/1858334818/b0b9d914-7bfc-40b0-a869-d461e6017fe9.webp",
+                            "avatar": "https://cdn.salla.network/images/themes/landing-page/default-avatar.png",
                             "name": "سارة",
                             "meta": "جدة",
                             "rating": "4.9",
@@ -4721,8 +4765,8 @@
                             "product_compare": ""
                         },
                         {
-                            "photo": "https://i.pravatar.cc/600?img=13",
-                            "avatar": "https://i.pravatar.cc/150?img=13",
+                            "photo": "https://cdn.files.salla.network/homepage/1858334818/9ff24aa3-0c20-4b0a-b44b-2f45421f9cf0.webp",
+                            "avatar": "https://cdn.salla.network/images/themes/landing-page/default-avatar.png",
                             "name": "عبدالله",
                             "meta": "الدمام",
                             "rating": "5",
@@ -4733,8 +4777,8 @@
                             "product_compare": "١٦٠ ر.س"
                         },
                         {
-                            "photo": "https://i.pravatar.cc/600?img=47",
-                            "avatar": "https://i.pravatar.cc/150?img=47",
+                            "photo": "https://cdn.files.salla.network/homepage/1858334818/ca9d41ab-7a49-4f2e-8a8d-53487f20cfed.webp",
+                            "avatar": "https://cdn.salla.network/images/themes/landing-page/default-avatar.png",
                             "name": "مها",
                             "meta": "مكة",
                             "rating": "4.5",
@@ -4745,8 +4789,8 @@
                             "product_compare": ""
                         },
                         {
-                            "photo": "https://i.pravatar.cc/600?img=9",
-                            "avatar": "https://i.pravatar.cc/150?img=9",
+                            "photo": "https://cdn.files.salla.network/homepage/1858334818/b0b9d914-7bfc-40b0-a869-d461e6017fe9.webp",
+                            "avatar": "https://cdn.salla.network/images/themes/landing-page/default-avatar.png",
                             "name": "ريم",
                             "meta": "الخبر",
                             "rating": "5",
@@ -4762,10 +4806,10 @@
                             "type": "string",
                             "icon": "sicon-image",
                             "id": "photo",
-                            "label": "صورة العميل (كبيرة)",
+                            "label": "تصوير العميل",
                             "format": "image",
                             "required": false,
-                            "description": "تظهر في نمط البطاقة «العصري» أعلى البطاقة مع شارة الاسم فوقها. المقاس المثالي عمودي (مثل 4:5)."
+                            "description": "صورة حقيقية التقطها العميل للمنتج (محتوى من العملاء)، وتُعزّز المصداقية أكثر من الصور الاحترافية. تظهر في نمط البطاقة «العصري» أعلى البطاقة مع شارة اسم العميل فوقها. المقاس المثالي عمودي (مثل 4:5)."
                         },
                         {
                             "type": "string",
@@ -4987,11 +5031,11 @@
                     "type": "items",
                     "icon": "sicon-image",
                     "id": "photo_aspect",
-                    "label": "مقاس صورة العميل",
+                    "label": "مقاس تصوير العميل",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "يُطبّق على الصورة الكبيرة في نمط البطاقة «العصري».",
+                    "description": "يُطبّق على تصوير العميل في نمط البطاقة «العصري».",
                     "selected": [
                         {
                             "label": "عمودي 4:5",
@@ -5088,7 +5132,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "cols-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يحدّد عدد البطاقات الظاهرة في الشبكة/الشبكة المتداخلة، وعدد البطاقات في كل صفحة من السلايدر. (لا يؤثر على الشريط المتحرك.)</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يحدّد عدد البطاقات الظاهرة في الشبكة/الشبكة المتداخلة، وعدد البطاقات في كل صفحة من السلايدر. (لا يؤثر على الشريط المتحرك.)</div>"
                 },
                 {
                     "type": "items",
@@ -5243,7 +5287,7 @@
                     "type": "boolean",
                     "icon": "sicon-toggle-off",
                     "id": "show_photo",
-                    "label": "إظهار الصورة الكبيرة",
+                    "label": "إظهار تصوير العميل",
                     "format": "switch",
                     "selected": true,
                     "required": false,
@@ -5859,7 +5903,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "image-note",
-                    "value": "<div style='background-color:#eff6ff;color:#1e40af;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>ارفع صورة المنتج، ثم أضف <strong>مؤشرات</strong> فوقها. يُحدَّد موضع كل مؤشر بنسبة مئوية بالنسبة للصورة:<br/>• <strong>الموضع الأفقي</strong>: ٠٪ = أقصى اليسار، ١٠٠٪ = أقصى اليمين.<br/>• <strong>الموضع العمودي</strong>: ٠٪ = الأعلى، ١٠٠٪ = الأسفل.<br/>المواضع تتبع الصورة نفسها ولا تتأثر باتجاه الصفحة. جرّب القيم وعاين النتيجة مباشرة.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>ارفع صورة المنتج، ثم أضف <strong>مؤشرات</strong> فوقها. يُحدَّد موضع كل مؤشر بنسبة مئوية بالنسبة للصورة:<br/>• <strong>الموضع الأفقي</strong>: ٠٪ = أقصى اليسار، ١٠٠٪ = أقصى اليمين.<br/>• <strong>الموضع العمودي</strong>: ٠٪ = الأعلى، ١٠٠٪ = الأسفل.<br/>المواضع تتبع الصورة نفسها ولا تتأثر باتجاه الصفحة. جرّب القيم وعاين النتيجة مباشرة.</div>"
                 },
                 {
                     "type": "string",
@@ -6069,6 +6113,108 @@
                             "label": "حسب الصورة (بدون قص)",
                             "value": "natural",
                             "key": "da-nat"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "card_size",
+                    "label": "حجم بطاقة التفاصيل",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "في الجوال حجم البطاقة ثابت لكن حجم المحتوى داخلها يتغير",
+                    "selected": [
+                        {
+                            "label": "متوسطة",
+                            "value": "medium",
+                            "key": "cs-md"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغيرة",
+                            "value": "small",
+                            "key": "cs-sm"
+                        },
+                        {
+                            "label": "متوسطة",
+                            "value": "medium",
+                            "key": "cs-md"
+                        },
+                        {
+                            "label": "كبيرة",
+                            "value": "large",
+                            "key": "cs-lg"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "detail_media_width",
+                    "label": "عرض صورة الميزة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "تحكّم بعرض صورة الميزة داخل البطاقة. «كبير» يعرض الصورة بعرض واسع لكن مع هامش بسيط على الجانبين، وتصغر تدريجيًا مع «متوسط» و«صغير». تُحاذى الصورة في المنتصف دائمًا.",
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "mw-md"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "mw-lg"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "mw-md"
+                        },
+                        {
+                            "label": "صغير",
+                            "value": "small",
+                            "key": "mw-sm"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "content_align",
+                    "label": "محاذاة محتوى البطاقة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "محاذاة العنوان والوصف وأرقام التنقل داخل البطاقة (الصورة تبقى في المنتصف دائمًا). «بداية» تعني جهة بداية الكتابة (يمين في العربية).",
+                    "selected": [
+                        {
+                            "label": "بداية",
+                            "value": "start",
+                            "key": "ca-start"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "بداية",
+                            "value": "start",
+                            "key": "ca-start"
+                        },
+                        {
+                            "label": "توسيط",
+                            "value": "center",
+                            "key": "ca-ctr"
+                        },
+                        {
+                            "label": "نهاية",
+                            "value": "end",
+                            "key": "ca-end"
                         }
                     ]
                 },

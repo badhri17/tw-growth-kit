@@ -13,6 +13,7 @@ import type {
   HeroOverlayIntensity,
   HeroTextTheme,
   HeroGradientType,
+  HeroBgFill,
   MaybeMultiLang,
 } from "./types";
 import { heroStyles } from "./style";
@@ -161,10 +162,12 @@ export default class GrowthHero extends LitElement {
 
   /**
    * Build the CSS `background` value for the gradient mode.
-   * - Only `gradient_from`  → solid colour (no gradient artefact when "to" is empty).
-   * - Only `gradient_to`    → solid colour using that value.
-   * - Both                  → gradient of the chosen type/angle.
-   * - Neither               → null; CSS fallback in style.ts takes over.
+   * Driven by the `bg_fill_type` dropdown (solid | gradient). For configs saved
+   * before that field existed, we infer the mode from whether a "to" colour is
+   * present, so existing gradients keep rendering.
+   * - solid (or gradient with no "to") → the single colour.
+   * - gradient with both stops         → gradient of the chosen type/angle.
+   * - neither colour                   → null; CSS fallback in style.ts takes over.
    */
   private _buildBackground(): string | null {
     const c = this.config || {};
@@ -172,8 +175,14 @@ export default class GrowthHero extends LitElement {
     const to = (c.gradient_to || "").trim();
 
     if (!from && !to) return null;
-    if (from && !to) return from;
-    if (!from && to) return to;
+
+    // Default the fill mode from legacy data: a saved "to" colour means gradient.
+    const fill = this._pickValue<HeroBgFill>(
+      c.bg_fill_type,
+      to ? "gradient" : "solid"
+    );
+    // Solid, or gradient missing its second stop → render the single colour.
+    if (fill !== "gradient" || !to) return from || to;
 
     const type = this._pickValue<HeroGradientType>(c.gradient_type, "linear");
     const angle = typeof c.gradient_angle === "number" ? c.gradient_angle : 135;
@@ -374,7 +383,7 @@ export default class GrowthHero extends LitElement {
         const vh = window.innerHeight || 800;
         // 0 at centre, +/- as we scroll away. Clamp to keep things subtle.
         const raw = (rect.top + rect.height / 2 - vh / 2) / vh;
-        const offset = Math.max(-1, Math.min(1, raw)) * 40; // px
+        const offset = Math.max(-1, Math.min(1, raw)) * 80; // px
         bg.style.setProperty("--gh-parallax", `${-offset}px`);
         ticking = false;
       });

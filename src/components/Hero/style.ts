@@ -85,7 +85,7 @@ export const heroStyles = css`
   .bg.is-parallax > video,
   .bg.is-parallax > img,
   .bg.is-parallax > picture > img {
-    transform: translate3d(0, var(--gh-parallax, 0), 0) scale(1.06);
+    transform: translate3d(0, var(--gh-parallax, 0), 0) scale(1.12);
     transition: transform 0.12s linear;
   }
   .bg.is-gradient {

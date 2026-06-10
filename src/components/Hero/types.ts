@@ -18,6 +18,8 @@ export type HeroOverlayStyle = "none" | "dark-bottom" | "dark-full" | "light-ful
 export type HeroOverlayIntensity = "subtle" | "medium" | "strong";
 export type HeroTextTheme = "light" | "dark";
 export type HeroGradientType = "linear" | "radial" | "radial-corner" | "conic";
+/** Background fill when no image/video: a single solid colour or a two-stop gradient. */
+export type HeroBgFill = "solid" | "gradient";
 
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang = string | { ar?: string; en?: string } | null | undefined;
@@ -36,9 +38,10 @@ export interface HeroConfig {
   video_url_desktop?: string;
   background_image_desktop?: string;
 
-  // --- Gradient fallback ---
-  gradient_from?: string;
-  gradient_to?: string;
+  // --- Background colour (fallback when no image/video) ---
+  bg_fill_type?: HeroBgFill;    // "solid" (default) | "gradient"
+  gradient_from?: string;       // the colour (solid) / the start stop (gradient)
+  gradient_to?: string;         // the end stop, only used in gradient mode
   gradient_angle?: number;      // 0–360, default 135
   gradient_type?: HeroGradientType;
 

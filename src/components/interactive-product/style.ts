@@ -154,9 +154,10 @@ export const interactiveProductStyles = css`
   .ip-content {
     display: flex;
     flex-direction: column;
-    /* Mobile: keep the detail card hugging the image so its top sits in view
-       right under the photo — no scrolling needed after tapping a marker. */
-    gap: 0.85rem;
+    /* Mobile: zero base gap — the card is then pulled up under the product (see
+       .ip-details margin-top) to create the overlap. A real gap is restored on
+       desktop where the two sit side by side. */
+    gap: 0;
     max-width: 1280px;
     margin-inline: auto;
     align-items: stretch;
@@ -180,6 +181,10 @@ export const interactiveProductStyles = css`
     width: 100%;
     display: flex;
     justify-content: center;
+    /* Mobile: the product overlaps the top of the card below it, so it must
+       paint ON TOP of the card (which comes later in the DOM). */
+    position: relative;
+    z-index: 2;
   }
 
   @media (min-width: 768px) {
@@ -319,27 +324,76 @@ export const interactiveProductStyles = css`
      DETAIL CARD
      ============================================================ */
   .ip-details {
+    /* Size-tier-driven: padding + desktop max-width. "medium" = base. */
+    --ip-card-pad: clamp(1.25rem, 4vw, 1.75rem);
+    /* Mobile only: the product image overlaps the top of the card. The card is
+       pulled up under the product (margin-top), then its content is padded down
+       so it clears the overlapping image. Both neutralised on desktop, where the
+       card sits beside the image. */
+    --ip-overlap: clamp(2rem, 9vw, 3.25rem);
+    --ip-card-pad-top: calc(var(--ip-card-pad) + var(--ip-overlap));
+    --ip-card-max: 430px;
+    /* Feature-image width inside the card; "large" (default) is inset, not 100%. */
+    --ip-media-width: 88%;
     width: 100%;
+    /* Below the product, which overlaps it from above. */
+    position: relative;
+    z-index: 1;
     background: var(--ip-card-bg);
     border: 1px solid var(--ip-card-border);
     border-radius: var(--ip-radius);
     box-shadow: var(--ip-card-shadow);
-    padding: clamp(1.25rem, 4vw, 1.75rem);
+    margin-top: calc(-1 * var(--ip-overlap));
+    padding: var(--ip-card-pad);
+    padding-top: var(--ip-card-pad-top);
+  }
+
+  /* Card size tiers (mobile values; desktop refined below). */
+  .ip[data-card-size="small"] .ip-details {
+    --ip-card-pad: clamp(0.85rem, 3vw, 1.1rem);
+    --ip-card-max: 340px;
+    /* Clip the full-bleed image header to the card's rounded corners. */
+    overflow: hidden;
+  }
+  .ip[data-card-size="large"] .ip-details {
+    --ip-card-pad: clamp(1.5rem, 5vw, 2.25rem);
+    --ip-card-max: 540px;
+  }
+
+  /* Feature-image width tiers (apply on every screen). */
+  .ip[data-media-width="medium"] .ip-details {
+    --ip-media-width: 70%;
+  }
+  .ip[data-media-width="small"] .ip-details {
+    --ip-media-width: 50%;
   }
 
   @media (min-width: 768px) {
     .ip-details {
+      --ip-card-pad: clamp(1.5rem, 2.4vw, 2.25rem);
       flex: 0.85;
-      max-width: 430px;
+      max-width: var(--ip-card-max);
       position: sticky;
       top: 32px;
       align-self: flex-start;
-      padding: clamp(1.5rem, 2.4vw, 2.25rem);
+      /* No overlap on desktop: card sits beside the image with uniform padding. */
+      margin-top: 0;
+      padding: var(--ip-card-pad);
+    }
+    .ip[data-card-size="small"] .ip-details {
+      --ip-card-pad: clamp(1rem, 1.6vw, 1.35rem);
+    }
+    .ip[data-card-size="large"] .ip-details {
+      --ip-card-pad: clamp(1.75rem, 2.8vw, 2.6rem);
     }
   }
 
   .ip-detail-media {
     width: 100%;
+    /* Capped by the chosen feature-image width; a narrowed image is always
+       horizontally centered inside the card, regardless of content alignment. */
+    max-width: var(--ip-media-width);
+    margin-inline: auto;
     aspect-ratio: var(--ip-detail-aspect);
     margin-bottom: 1.25rem;
     border-radius: calc(var(--ip-radius) - 6px);
@@ -363,6 +417,38 @@ export const interactiveProductStyles = css`
     object-fit: cover;
   }
 
+  /* Small card: the feature image becomes a full-bleed header that sits flush on
+     top of the card (negative margins cancel the card padding) — no gap. Only
+     when the image is at full width; a narrowed image stays contained + aligned. */
+  .ip[data-card-size="small"][data-media-width="large"] .ip-detail-media {
+    width: auto;
+    max-width: none;
+    /* Cancel only the normal padding (not the overlap) so the full-bleed header
+       begins just below the overlapping product, edge-to-edge. */
+    margin-top: calc(-1 * var(--ip-card-pad));
+    margin-inline: calc(-1 * var(--ip-card-pad));
+    margin-bottom: var(--ip-card-pad);
+    border-radius: 0;
+  }
+
+  /* ------------------------------------------------------------
+     Content alignment (title, description, narrowed image, pills)
+     ------------------------------------------------------------ */
+  .ip[data-content-align="center"] .ip-details {
+    text-align: center;
+  }
+  .ip[data-content-align="end"] .ip-details {
+    text-align: end;
+  }
+  /* The feature image stays centered for every alignment; only the text and
+     nav pills follow [data-content-align]. */
+  .ip[data-content-align="center"] .ip-pills {
+    justify-content: center;
+  }
+  .ip[data-content-align="end"] .ip-pills {
+    justify-content: flex-end;
+  }
+
   .ip-detail-title {
     margin: 0 0 0.7rem;
     color: var(--ip-card-title);
@@ -376,6 +462,22 @@ export const interactiveProductStyles = css`
     color: var(--ip-card-text);
     font-size: clamp(0.95rem, 1.8vw, 1.02rem);
     line-height: 1.85;
+  }
+
+  /* Type scale per card size. */
+  .ip[data-card-size="small"] .ip-detail-title {
+    font-size: clamp(1.05rem, 2.2vw, 1.22rem);
+    margin-bottom: 0.5rem;
+  }
+  .ip[data-card-size="small"] .ip-detail-desc {
+    font-size: clamp(0.9rem, 1.6vw, 0.96rem);
+    line-height: 1.7;
+  }
+  .ip[data-card-size="large"] .ip-detail-title {
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+  }
+  .ip[data-card-size="large"] .ip-detail-desc {
+    font-size: clamp(1rem, 2vw, 1.12rem);
   }
 
   /* Cross-fade replayed imperatively on selection change. */
@@ -435,6 +537,16 @@ export const interactiveProductStyles = css`
     background: var(--ip-accent);
     border-color: var(--ip-accent);
     color: #fff;
+  }
+
+  .ip[data-card-size="small"] .ip-pills {
+    gap: 0.45rem;
+    margin-top: 1.1rem;
+  }
+  .ip[data-card-size="small"] .ip-pill {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
   }
 
   /* ============================================================

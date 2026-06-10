@@ -86,7 +86,8 @@ export const featuredProductStyles = css`
     position: relative;
     z-index: 1; /* lifts above .fp-sbg background media */
     width: 100%;
-    max-width: var(--fp-maxw-user, var(--fp-maxw));
+    /* Mobile card width; desktop override applied in the ≥768px block below. */
+    max-width: var(--fp-maxw-mob, var(--fp-maxw));
     border-radius: var(--fp-card-radius);
     display: flex;
     flex-direction: column;
@@ -545,6 +546,10 @@ export const featuredProductStyles = css`
      DESKTOP ENHANCEMENTS (≥ 768px)
      ========================================================= */
   @media (min-width: 768px) {
+    /* Desktop card width; falls back to the mobile size when not overridden. */
+    .fp-card {
+      max-width: var(--fp-maxw-desk, var(--fp-maxw-mob, var(--fp-maxw)));
+    }
     .fp-card[data-layout="inside"],
     .fp-card[data-layout="floating"] {
       --fp-maxw: 560px;
