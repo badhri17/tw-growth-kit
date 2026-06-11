@@ -982,12 +982,12 @@
                     "item_label": "شريحة",
                     "value": [
                         {
-                            "before_image": "https://cdn.salla.sa/form-builder/2xi9n0u9P9UIHhiuFe7grlKtv9LeUEZ9K3xhls56.jpg",
-                            "after_image": "https://cdn.salla.sa/form-builder/Xs9wyjr52ImVdRt2iyx01DVcbV5RlbSVSgwQnWMg.jpg"
+                            "before_image": "https://radaar.b-cdn.net/growth%20bundle/before_photo_square.png",
+                            "after_image": "https://radaar.b-cdn.net/growth%20bundle/after_photo_square.png"
                         },
                         {
-                            "before_image": "https://cdn.salla.sa/form-builder/WoSkjI5BFwxwaxYQ8bUboOqNKq8FwT7JpK9wGxVO.jpg",
-                            "after_image": "https://cdn.salla.sa/form-builder/S5kSHmOjXl962bHTr6LMaLibyXZF9Zro0eXVbZy0.jpg"
+                            "before_image": "https://radaar.b-cdn.net/growth%20bundle/eyes-before.png",
+                            "after_image": "https://radaar.b-cdn.net/growth%20bundle/eyes-after.png"
                         },
                         {
                             "before_image": "https://cdn.salla.sa/form-builder/E4kjdhw4jxcalSY2GRrzuoFtWpl17guRPbYAIZFO.jpg",
@@ -6423,6 +6423,724 @@
                     "id": "marker_bg",
                     "label": "لون خلفية المؤشر",
                     "icon": "sicon-format-fill",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "title": "النص التفاعلي",
+            "icon": "sicon-typography",
+            "name": "interactive-text",
+            "key": "fa893952-e32a-4dd1-8931-951e21f2f10b",
+            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "fields": [
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-content",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>المحتوى</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "id": "eyebrow",
+                    "label": "نص علوي (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "لماذا نحن",
+                    "placeholder": "مثل: لماذا نحن",
+                    "description": "نص صغير بلون مميز يظهر فوق العنوان الرئيسي.",
+                    "maxLength": 60
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "title",
+                    "label": "العنوان الرئيسي",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "تجربة تسوّق تستحقها بكل تفاصيلها",
+                    "placeholder": "مثل: تجربة تسوّق تستحقها بكل تفاصيلها",
+                    "maxLength": 120
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-magic-wand",
+                    "id": "highlight_words",
+                    "label": "كلمات مميزة من العنوان (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "تستحقها",
+                    "placeholder": "مثل: تستحقها",
+                    "description": "اكتب جزءًا من العنوان كما هو تمامًا ليظهر بالنمط المميز أدناه.",
+                    "maxLength": 80
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "highlight_style",
+                    "label": "نمط الكلمات المميزة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "تدرّج لوني",
+                            "value": "gradient",
+                            "key": "hl-grad"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "لون مميز",
+                            "value": "color",
+                            "key": "hl-color"
+                        },
+                        {
+                            "label": "تدرّج لوني",
+                            "value": "gradient",
+                            "key": "hl-grad"
+                        },
+                        {
+                            "label": "تظليل (قلم تحديد)",
+                            "value": "marker",
+                            "key": "hl-marker"
+                        },
+                        {
+                            "label": "خط سفلي متحرك",
+                            "value": "underline",
+                            "key": "hl-under"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "subtitle",
+                    "label": "العنوان الفرعي (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "جودة نختارها بعناية، وخدمة تُشبهك",
+                    "placeholder": "جملة قصيرة تحت العنوان الرئيسي.",
+                    "maxLength": 160
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-paragraph",
+                    "id": "paragraph",
+                    "label": "الفقرة (اختياري)",
+                    "format": "textarea",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "نختار منتجاتنا من أفضل المصادر ونفحصها قطعة قطعة قبل أن تصل إليك.\nفريق الدعم جاهز للرد على استفساراتك على مدار الساعة.\nوسياسة استبدال مرنة تضمن لك راحة البال مع كل طلب.",
+                    "placeholder": "نص تفصيلي يظهر تحت العناوين.",
+                    "description": "اضغط Enter لفصل الأسطر — كل سطر يتحرك على حدة عند اختيار حركة «سطر بسطر».",
+                    "maxLength": 700
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-1"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-cta",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>زر الإجراء (CTA)</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "button_text",
+                    "label": "نص الزر (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "اكتشف المزيد",
+                    "placeholder": "مثل: تسوّق الآن",
+                    "description": "اتركه فارغًا لإخفاء الزر.",
+                    "maxLength": 40
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-link",
+                    "id": "button_url",
+                    "label": "رابط الزر",
+                    "format": "text",
+                    "required": false,
+                    "placeholder": "/offers"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "button_style",
+                    "label": "شكل الزر",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "معبّأ",
+                            "value": "solid",
+                            "key": "bs-solid"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "معبّأ",
+                            "value": "solid",
+                            "key": "bs-solid"
+                        },
+                        {
+                            "label": "إطار",
+                            "value": "outline",
+                            "key": "bs-outline"
+                        },
+                        {
+                            "label": "نصي مع سهم",
+                            "value": "ghost",
+                            "key": "bs-ghost"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-2"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-motion",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الحركة</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "motion-note",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تعمل الحركة <strong>مرة واحدة</strong> عند وصول الزائر إلى القسم أثناء التمرير، وتُعطَّل تلقائيًا لمن فعّل خيار تقليل الحركة في جهازه.</div>"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "animation_style",
+                    "label": "نوع الحركة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "كلمة بكلمة",
+                            "value": "words",
+                            "key": "an-words"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "بدون حركة",
+                            "value": "none",
+                            "key": "an-none"
+                        },
+                        {
+                            "label": "تلاشي",
+                            "value": "fade",
+                            "key": "an-fade"
+                        },
+                        {
+                            "label": "انزلاق",
+                            "value": "slide",
+                            "key": "an-slide"
+                        },
+                        {
+                            "label": "كشف ستائري",
+                            "value": "reveal",
+                            "key": "an-reveal"
+                        },
+                        {
+                            "label": "كتابة متحركة",
+                            "value": "typing",
+                            "key": "an-typing"
+                        },
+                        {
+                            "label": "كلمة بكلمة",
+                            "value": "words",
+                            "key": "an-words"
+                        },
+                        {
+                            "label": "سطر بسطر",
+                            "value": "lines",
+                            "key": "an-lines"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "enter_direction",
+                    "label": "اتجاه الدخول",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "يُستخدم فقط مع حركة الانزلاق. «البداية» تعني جهة بداية الكتابة (يمين في العربية).",
+                    "selected": [
+                        {
+                            "label": "من الأسفل",
+                            "value": "up",
+                            "key": "dir-up"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "من الأسفل",
+                            "value": "up",
+                            "key": "dir-up"
+                        },
+                        {
+                            "label": "من الأعلى",
+                            "value": "down",
+                            "key": "dir-down"
+                        },
+                        {
+                            "label": "من البداية",
+                            "value": "start",
+                            "key": "dir-start"
+                        },
+                        {
+                            "label": "من النهاية",
+                            "value": "end",
+                            "key": "dir-end"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "animation_style",
+                            "operation": "=",
+                            "value": "slide"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "animation_speed",
+                    "label": "سرعة الحركة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسطة",
+                            "value": "normal",
+                            "key": "sp-normal"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "بطيئة",
+                            "value": "slow",
+                            "key": "sp-slow"
+                        },
+                        {
+                            "label": "متوسطة",
+                            "value": "normal",
+                            "key": "sp-normal"
+                        },
+                        {
+                            "label": "سريعة",
+                            "value": "fast",
+                            "key": "sp-fast"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-3"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-layout",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>التنسيق</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "text_align",
+                    "label": "محاذاة النص",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "«بداية» تعني جهة بداية الكتابة (يمين في العربية).",
+                    "selected": [
+                        {
+                            "label": "توسيط",
+                            "value": "center",
+                            "key": "al-center"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "بداية",
+                            "value": "start",
+                            "key": "al-start"
+                        },
+                        {
+                            "label": "توسيط",
+                            "value": "center",
+                            "key": "al-center"
+                        },
+                        {
+                            "label": "نهاية",
+                            "value": "end",
+                            "key": "al-end"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "text_size_mobile",
+                    "label": "حجم النص (الجوال)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "ts-m"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغير",
+                            "value": "small",
+                            "key": "ts-s"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "ts-m"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "ts-l"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "content_width",
+                    "label": "عرض المحتوى",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "أقصى عرض لعمود النص على الشاشات الكبيرة.",
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "cw-m"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "ضيّق",
+                            "value": "narrow",
+                            "key": "cw-n"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "cw-m"
+                        },
+                        {
+                            "label": "واسع",
+                            "value": "wide",
+                            "key": "cw-w"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "spacing",
+                    "label": "تباعد القسم",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "المسافة الرأسية أعلى المحتوى وأسفله.",
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "normal",
+                            "key": "spc-m"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "مضغوط",
+                            "value": "compact",
+                            "key": "spc-c"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "normal",
+                            "key": "spc-m"
+                        },
+                        {
+                            "label": "واسع",
+                            "value": "spacious",
+                            "key": "spc-s"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-4"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-desktop",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "text_size_desktop",
+                    "label": "حجم النص (اختياري)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "افتراضيًا يتبع حجم الجوال مع تكبير مناسب للشاشات الكبيرة.",
+                    "selected": [
+                        {
+                            "label": "نفس الجوال",
+                            "value": "inherit",
+                            "key": "tsd-i"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "نفس الجوال",
+                            "value": "inherit",
+                            "key": "tsd-i"
+                        },
+                        {
+                            "label": "صغير",
+                            "value": "small",
+                            "key": "tsd-s"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "tsd-m"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "tsd-l"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-5"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-colors",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الألوان</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "theme",
+                    "label": "نمط الألوان",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "يحدد لوحة الألوان الأساسية. أي لون تختاره أدناه يتجاوز هذا النمط.",
+                    "selected": [
+                        {
+                            "label": "فاتح",
+                            "value": "light",
+                            "key": "th-l"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "فاتح",
+                            "value": "light",
+                            "key": "th-l"
+                        },
+                        {
+                            "label": "داكن",
+                            "value": "dark",
+                            "key": "th-d"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "bg_style",
+                    "label": "خلفية القسم",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "«شفافة» تترك خلفية الصفحة كما هي.",
+                    "selected": [
+                        {
+                            "label": "شفافة",
+                            "value": "transparent",
+                            "key": "bg-t"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "شفافة",
+                            "value": "transparent",
+                            "key": "bg-t"
+                        },
+                        {
+                            "label": "لون واحد",
+                            "value": "solid",
+                            "key": "bg-s"
+                        },
+                        {
+                            "label": "تدرّج لوني",
+                            "value": "gradient",
+                            "key": "bg-g"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_color",
+                    "label": "لون الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "bg_style",
+                            "operation": "=",
+                            "value": "solid"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_grad_1",
+                    "label": "بداية التدرّج",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "bg_style",
+                            "operation": "=",
+                            "value": "gradient"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_grad_2",
+                    "label": "نهاية التدرّج",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "bg_style",
+                            "operation": "=",
+                            "value": "gradient"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "title_color",
+                    "label": "لون العنوان",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "subtitle_color",
+                    "label": "لون العنوان الفرعي",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "text_color",
+                    "label": "لون الفقرة",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "accent_color",
+                    "label": "اللون المميز (الكلمات المميزة والزر)",
+                    "icon": "sicon-color-palette",
+                    "required": false,
+                    "value": "#D94215"
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "accent_color_2",
+                    "label": "اللون الثاني للتدرّج",
+                    "icon": "sicon-color-palette",
+                    "required": false,
+                    "value": "#F97316",
+                    "conditions": [
+                        {
+                            "id": "highlight_style",
+                            "operation": "=",
+                            "value": "gradient"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "button_text_color",
+                    "label": "لون نص الزر",
+                    "icon": "sicon-color-palette",
                     "required": false
                 }
             ]

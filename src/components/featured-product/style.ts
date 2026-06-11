@@ -139,6 +139,10 @@ export const featuredProductStyles = css`
     z-index: 1;
     transition: transform 0.25s ease-out;
     transform-style: preserve-3d;
+    /* Pre-composite onto its own GPU layer so the JS tilt transform is applied
+       immediately without a promotion delay, even when the child .fp-img is
+       already on its own layer for the float-bob animation. */
+    will-change: transform;
   }
   .fp-img {
     position: absolute;

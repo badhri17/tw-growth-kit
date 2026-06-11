@@ -366,8 +366,11 @@ export default class GrowthFeaturedProduct extends LitElement {
   // ------------------------------------------------------------
 
   private _tiltAllowed(): boolean {
+    // pointer: fine = mouse/stylus (not touch) — that's the only gate needed.
+    // min-width was removed: it kills the effect inside Salla's admin preview
+    // frame which can be narrower than 768px even on a desktop.
     return (
-      window.matchMedia("(min-width: 768px) and (pointer: fine)").matches &&
+      window.matchMedia("(pointer: fine)").matches &&
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     );
   }
