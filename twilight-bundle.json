@@ -1813,7 +1813,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "bag-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>في <strong>وضع الشنطة</strong> يظهر منتج واحد في كل مرة: عند التنقل يرتفع المنتج الجديد من فتحة الشنطة بينما يغوص المنتج السابق داخلها.<br/>• ارفع <strong>صورة الشنطة</strong> بخلفية شفافة (PNG/WebP).<br/>• استخدم صور منتجات <strong>بخلفية شفافة</strong> أيضًا حتى يبدو الخروج من الشنطة طبيعيًا.<br/>• لا حاجة لتحديد مقاس الصورة هنا — يظهر المنتج <strong>بنسبته الطبيعية</strong> بدون قص. الأفضل صورة مقصوصة حول المنتج نفسه (عمودية أو مربعة) بدون فراغ كبير حولها.<br/>• اضبط <strong>حجم الشنطة</strong> و<strong>حجم المنتجات</strong> كلًا على حدة حتى يتناسبا معًا.<br/>• العنوان والوصف يظهران فوق المشهد ويتبدّلان مع كل منتج.</div>",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>في <strong>وضع الشنطة</strong> يظهر منتج واحد في كل مرة وكأنه يخرج من الشنطة عند التنقل.<br/>• استخدم صورة شنطة وصور منتجات بخلفية شفافة (PNG/WebP).<br/>• اضبط حجم الشنطة وحجم المنتجات كلًا على حدة حتى يتناسبا معًا.</div>",
                     "conditions": [
                         {
                             "id": "display_mode",
@@ -1828,6 +1828,7 @@
                     "id": "bag_image",
                     "label": "صورة الشنطة / الصندوق",
                     "format": "image",
+                    "value": "https://cdn.salla.sa/form-builder/2bOvYO9IU2XQnPy1YmNnzIaTQkrqb9sXrYdtdgF5.webp",
                     "required": false,
                     "description": "تظهر أسفل المشهد وتخرج المنتجات من فتحتها. يُفضَّل صورة بخلفية شفافة (PNG أو WebP).",
                     "conditions": [

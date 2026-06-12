@@ -102,6 +102,10 @@ export default class GrowthCollection extends LitElement {
   /** Bag mode: false until the first navigation, so the initial slide shows
       without playing the rise animation on page load. */
   @state() private _bagNavigated = false;
+  /** Bag mode: measured h/w ratio of the tallest product image. */
+  @state() private _bagProdRatio: number | null = null;
+  /** Bag mode: measured h/w ratio of the bag image. */
+  @state() private _bagImgRatio: number | null = null;
 
   private _autoplayTimer: number | null = null;
   private _captionTimer: number | null = null;
@@ -338,6 +342,46 @@ export default class GrowthCollection extends LitElement {
     const n = this._slides().length;
     this._prevDiff.clear();
     for (let i = 0; i < n; i++) this._prevDiff.set(i, this._wrappedDiff(i));
+
+    if (this._displayMode() === "bag") this._measureBagImages();
+  }
+
+  /**
+   * Bag mode: read the h/w ratio of the loaded images and expose them as
+   * CSS vars, so the stage shrinks to the real artwork instead of holding
+   * worst-case headroom (which showed as a big gap under the caption).
+   * Uses the tallest product so the stage doesn't bounce while navigating.
+   */
+  private _measureBagImages() {
+    const root = this.shadowRoot;
+    if (!root) return;
+    const ratioOf = (img: HTMLImageElement): number => {
+      if (img.naturalWidth > 0) return img.naturalHeight / img.naturalWidth;
+      if (!img.dataset.measureHooked) {
+        img.dataset.measureHooked = "1";
+        img.addEventListener("load", () => this.requestUpdate(), {
+          once: true,
+        });
+      }
+      return 0;
+    };
+
+    let prodRatio = 0;
+    for (const img of root.querySelectorAll<HTMLImageElement>(
+      ".col-bag-slide img"
+    ))
+      prodRatio = Math.max(prodRatio, ratioOf(img));
+
+    const bagImg = root.querySelector<HTMLImageElement>(".col-bag-img");
+    const bagRatio = bagImg ? ratioOf(bagImg) : 0;
+
+    const round = (x: number) => Math.round(x * 100) / 100;
+    const prod = prodRatio > 0 ? round(prodRatio) : null;
+    const bag = bagRatio > 0 ? round(bagRatio) : null;
+    // Guarded assignment — @state setters re-render, so only touch them
+    // when a measurement actually changed.
+    if (prod !== this._bagProdRatio) this._bagProdRatio = prod;
+    if (bag !== this._bagImgRatio) this._bagImgRatio = bag;
   }
 
   // ------------------------------------------------------------
@@ -803,9 +847,7 @@ export default class GrowthCollection extends LitElement {
       activeCtaLabel: string;
     }
   ) {
-    const bagImage =
-      (typeof c.bag_image === "string" ? c.bag_image.trim() : "") ||
-      "https://cdn.salla.sa/form-builder/2bOvYO9IU2XQnPy1YmNnzIaTQkrqb9sXrYdtdgF5.webp";
+    const bagImage = typeof c.bag_image === "string" ? c.bag_image.trim() : "";
     const bagSize = this._pickValue<CollectionBagSize>(c.bag_size, "medium");
     const productSize = this._pickValue<CollectionBagSize>(
       c.bag_product_size,
@@ -817,10 +859,20 @@ export default class GrowthCollection extends LitElement {
     const downPath = "M6 9l6 6 6-6";
     const arrowPath = "M5 12h14M13 6l6 6-6 6";
 
+    const sectionStyle = [
+      v.hostStyle,
+      this._bagProdRatio !== null
+        ? `--bag-prod-ratio: ${this._bagProdRatio}`
+        : "",
+      this._bagImgRatio !== null ? `--bag-ratio: ${this._bagImgRatio}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+
     return html`
       <section
         class="col-section col-section--bag"
-        style=${v.hostStyle}
+        style=${sectionStyle}
         data-bag-size=${bagSize}
         data-product-size=${productSize}
         @mouseenter=${this._onHoverIn}

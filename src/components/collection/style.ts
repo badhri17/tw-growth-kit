@@ -513,78 +513,84 @@ export const collectionStyles = css`
        --bag-anchor = the bag's mouth line, where the product's bottom
        rests, measured up from the stage bottom. */
     --bag-w: 320px;
-    --bag-stage-base: 500px;
     --bag-anchor: 240px;
     --bag-nav-size: 46px;
     --bag-circle-color: #eba3a8;
 
     /* Product tier (حجم المنتجات): independent of the bag so merchants
-       can tune the product-to-bag ratio. --bag-stage-pad adds headroom
-       so taller products don't clip at the stage top. */
+       can tune the product-to-bag ratio. */
     --bag-bottle-w: 215px;
-    --bag-stage-pad: 50px;
     --bag-circle-w: 260px;
     --bag-circle-h: 150px;
 
-    /* Derived: everything tracks the mouth line, so the two size
+    /* Measured h/w ratios of the actual images — the component sets these
+       inline once the images load, so the stage hugs the real artwork
+       instead of reserving worst-case headroom (which read as a huge gap
+       between the caption and the product). Declarations here are the
+       pre-measure fallbacks. */
+    --bag-prod-ratio: 1.2;
+    --bag-ratio: 1.05;
+
+    /* Derived: the stage is exactly tall enough for the taller of
+       (mouth line + product + overshoot headroom) and the bag artwork
+       itself; everything else tracks the mouth line, so the two size
        dropdowns can be mixed freely. */
-    --bag-stage-h: calc(var(--bag-stage-base) + var(--bag-stage-pad));
+    --bag-img-h: calc(
+      var(--bag-bottle-w) * min(var(--bag-prod-ratio), 1.9)
+    );
+    --bag-stage-h: max(
+      calc(var(--bag-anchor) + var(--bag-img-h) + 16px),
+      calc(var(--bag-w) * var(--bag-ratio) - 12px)
+    );
     --bag-layer-h: calc(var(--bag-stage-h) - var(--bag-anchor));
-    --bag-circle-top: calc(var(--bag-layer-h) - var(--bag-circle-h) - 25px);
+    --bag-circle-top: max(
+      0px,
+      calc(var(--bag-layer-h) - var(--bag-circle-h) - 25px)
+    );
     --bag-nav-top: calc(var(--bag-layer-h) + 25px);
   }
   .col-section--bag[data-bag-size="small"] {
     --bag-w: 260px;
-    --bag-stage-base: 450px;
     --bag-anchor: 220px;
   }
   .col-section--bag[data-bag-size="large"] {
     --bag-w: 360px;
-    --bag-stage-base: 550px;
     --bag-anchor: 260px;
   }
   .col-section--bag[data-product-size="small"] {
     --bag-bottle-w: 170px;
-    --bag-stage-pad: 10px;
     --bag-circle-w: 220px;
     --bag-circle-h: 130px;
   }
   .col-section--bag[data-product-size="large"] {
     --bag-bottle-w: 260px;
-    --bag-stage-pad: 100px;
     --bag-circle-w: 300px;
     --bag-circle-h: 170px;
   }
   @media (min-width: 768px) {
     .col-section--bag {
       --bag-w: 400px;
-      --bag-stage-base: 580px;
       --bag-anchor: 290px;
       --bag-nav-size: 54px;
       --bag-bottle-w: 255px;
-      --bag-stage-pad: 80px;
       --bag-circle-w: 310px;
       --bag-circle-h: 180px;
     }
     .col-section--bag[data-bag-size="small"] {
       --bag-w: 320px;
-      --bag-stage-base: 520px;
       --bag-anchor: 230px;
     }
     .col-section--bag[data-bag-size="large"] {
       --bag-w: 460px;
-      --bag-stage-base: 640px;
       --bag-anchor: 350px;
     }
     .col-section--bag[data-product-size="small"] {
       --bag-bottle-w: 195px;
-      --bag-stage-pad: 10px;
       --bag-circle-w: 260px;
       --bag-circle-h: 150px;
     }
     .col-section--bag[data-product-size="large"] {
       --bag-bottle-w: 315px;
-      --bag-stage-pad: 120px;
       --bag-circle-w: 360px;
       --bag-circle-h: 200px;
     }
@@ -595,7 +601,7 @@ export const collectionStyles = css`
      the whole stage. */
   .col-section--bag .col-caption {
     margin: 0 auto;
-    min-height: 9rem;
+    min-height: 7rem;
   }
 
   .col-bag-stage {
