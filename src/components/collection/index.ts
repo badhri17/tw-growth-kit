@@ -803,8 +803,14 @@ export default class GrowthCollection extends LitElement {
       activeCtaLabel: string;
     }
   ) {
-    const bagImage = typeof c.bag_image === "string" ? c.bag_image.trim() : "";
+    const bagImage =
+      (typeof c.bag_image === "string" ? c.bag_image.trim() : "") ||
+      "https://cdn.salla.sa/form-builder/2bOvYO9IU2XQnPy1YmNnzIaTQkrqb9sXrYdtdgF5.webp";
     const bagSize = this._pickValue<CollectionBagSize>(c.bag_size, "medium");
+    const productSize = this._pickValue<CollectionBagSize>(
+      c.bag_product_size,
+      "medium"
+    );
     const bottomTitle = this._t(c.bag_bottom_title);
     const isSingle = slides.length === 1;
     const upPath = "M18 15l-6-6-6 6";
@@ -816,6 +822,7 @@ export default class GrowthCollection extends LitElement {
         class="col-section col-section--bag"
         style=${v.hostStyle}
         data-bag-size=${bagSize}
+        data-product-size=${productSize}
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >

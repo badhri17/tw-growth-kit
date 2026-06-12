@@ -1813,7 +1813,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "bag-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>في <strong>وضع الشنطة</strong> يظهر منتج واحد في كل مرة: عند التنقل يرتفع المنتج الجديد من فتحة الشنطة بينما يغوص المنتج السابق داخلها.<br/>• ارفع <strong>صورة الشنطة</strong> بخلفية شفافة (PNG/WebP).<br/>• استخدم صور منتجات <strong>بخلفية شفافة</strong> أيضًا حتى يبدو الخروج من الشنطة طبيعيًا.<br/>• العنوان والوصف يظهران فوق المشهد ويتبدّلان مع كل منتج.</div>",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>في <strong>وضع الشنطة</strong> يظهر منتج واحد في كل مرة: عند التنقل يرتفع المنتج الجديد من فتحة الشنطة بينما يغوص المنتج السابق داخلها.<br/>• ارفع <strong>صورة الشنطة</strong> بخلفية شفافة (PNG/WebP).<br/>• استخدم صور منتجات <strong>بخلفية شفافة</strong> أيضًا حتى يبدو الخروج من الشنطة طبيعيًا.<br/>• لا حاجة لتحديد مقاس الصورة هنا — يظهر المنتج <strong>بنسبته الطبيعية</strong> بدون قص. الأفضل صورة مقصوصة حول المنتج نفسه (عمودية أو مربعة) بدون فراغ كبير حولها.<br/>• اضبط <strong>حجم الشنطة</strong> و<strong>حجم المنتجات</strong> كلًا على حدة حتى يتناسبا معًا.<br/>• العنوان والوصف يظهران فوق المشهد ويتبدّلان مع كل منتج.</div>",
                     "conditions": [
                         {
                             "id": "display_mode",
@@ -1842,10 +1842,11 @@
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "bag_size",
-                    "label": "حجم الشنطة والمنتجات",
+                    "label": "حجم الشنطة",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
+                    "description": "حجم صورة الشنطة والمشهد حولها.",
                     "selected": [
                         {
                             "label": "متوسط",
@@ -1868,6 +1869,47 @@
                             "label": "كبير",
                             "value": "large",
                             "key": "cbs-l"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "bag_product_size",
+                    "label": "حجم المنتجات",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "حجم المنتج الذي يخرج من الشنطة — مستقل عن حجم الشنطة حتى تضبط التناسب بينهما.",
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "cbps-m"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغير",
+                            "value": "small",
+                            "key": "cbps-s"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "cbps-m"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "cbps-l"
                         }
                     ],
                     "conditions": [

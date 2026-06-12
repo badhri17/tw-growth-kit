@@ -509,59 +509,84 @@ export const collectionStyles = css`
      Mobile values are the base; desktop overrides at 768px.
      ============================================================ */
   .col-section--bag {
+    /* Bag tier (حجم الشنطة): the bag image + the stage built around it.
+       --bag-anchor = the bag's mouth line, where the product's bottom
+       rests, measured up from the stage bottom. */
     --bag-w: 320px;
-    --bag-bottle-w: 190px;
-    --bag-stage-h: 500px;
-    --bag-circle-w: 250px;
-    --bag-circle-h: 140px;
-    --bag-circle-top: 88px;
-    --bag-layer-h: 260px;
+    --bag-stage-base: 500px;
+    --bag-anchor: 240px;
     --bag-nav-size: 46px;
-    --bag-nav-top: 285px;
     --bag-circle-color: #eba3a8;
+
+    /* Product tier (حجم المنتجات): independent of the bag so merchants
+       can tune the product-to-bag ratio. --bag-stage-pad adds headroom
+       so taller products don't clip at the stage top. */
+    --bag-bottle-w: 215px;
+    --bag-stage-pad: 50px;
+    --bag-circle-w: 260px;
+    --bag-circle-h: 150px;
+
+    /* Derived: everything tracks the mouth line, so the two size
+       dropdowns can be mixed freely. */
+    --bag-stage-h: calc(var(--bag-stage-base) + var(--bag-stage-pad));
+    --bag-layer-h: calc(var(--bag-stage-h) - var(--bag-anchor));
+    --bag-circle-top: calc(var(--bag-layer-h) - var(--bag-circle-h) - 25px);
+    --bag-nav-top: calc(var(--bag-layer-h) + 25px);
   }
   .col-section--bag[data-bag-size="small"] {
     --bag-w: 260px;
-    --bag-bottle-w: 150px;
-    --bag-stage-h: 450px;
-    --bag-circle-w: 220px;
-    --bag-layer-h: 230px;
-    --bag-nav-top: 258px;
+    --bag-stage-base: 450px;
+    --bag-anchor: 220px;
   }
   .col-section--bag[data-bag-size="large"] {
     --bag-w: 360px;
-    --bag-bottle-w: 225px;
-    --bag-stage-h: 550px;
-    --bag-circle-w: 280px;
-    --bag-layer-h: 290px;
-    --bag-nav-top: 312px;
+    --bag-stage-base: 550px;
+    --bag-anchor: 260px;
+  }
+  .col-section--bag[data-product-size="small"] {
+    --bag-bottle-w: 170px;
+    --bag-stage-pad: 10px;
+    --bag-circle-w: 220px;
+    --bag-circle-h: 130px;
+  }
+  .col-section--bag[data-product-size="large"] {
+    --bag-bottle-w: 260px;
+    --bag-stage-pad: 100px;
+    --bag-circle-w: 300px;
+    --bag-circle-h: 170px;
   }
   @media (min-width: 768px) {
     .col-section--bag {
       --bag-w: 400px;
-      --bag-bottle-w: 215px;
-      --bag-stage-h: 580px;
-      --bag-circle-w: 300px;
-      --bag-circle-h: 170px;
-      --bag-circle-top: 100px;
-      --bag-layer-h: 330px;
+      --bag-stage-base: 580px;
+      --bag-anchor: 290px;
       --bag-nav-size: 54px;
-      --bag-nav-top: 322px;
+      --bag-bottle-w: 255px;
+      --bag-stage-pad: 80px;
+      --bag-circle-w: 310px;
+      --bag-circle-h: 180px;
     }
     .col-section--bag[data-bag-size="small"] {
       --bag-w: 320px;
-      --bag-bottle-w: 175px;
-      --bag-stage-h: 520px;
-      --bag-layer-h: 290px;
-      --bag-nav-top: 292px;
+      --bag-stage-base: 520px;
+      --bag-anchor: 230px;
     }
     .col-section--bag[data-bag-size="large"] {
       --bag-w: 460px;
-      --bag-bottle-w: 260px;
-      --bag-stage-h: 640px;
-      --bag-circle-w: 340px;
-      --bag-layer-h: 370px;
-      --bag-nav-top: 352px;
+      --bag-stage-base: 640px;
+      --bag-anchor: 350px;
+    }
+    .col-section--bag[data-product-size="small"] {
+      --bag-bottle-w: 195px;
+      --bag-stage-pad: 10px;
+      --bag-circle-w: 260px;
+      --bag-circle-h: 150px;
+    }
+    .col-section--bag[data-product-size="large"] {
+      --bag-bottle-w: 315px;
+      --bag-stage-pad: 120px;
+      --bag-circle-w: 360px;
+      --bag-circle-h: 200px;
     }
   }
 

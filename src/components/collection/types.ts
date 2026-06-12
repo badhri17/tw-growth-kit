@@ -81,6 +81,8 @@ export interface CollectionConfig {
   /** Bag/box image the products appear to rise out of. Transparent bg works best. */
   bag_image?: string;
   bag_size?: CollectionBagSize;
+  /** Product size, independent of the bag so merchants can tune the ratio. */
+  bag_product_size?: CollectionBagSize;
   /** Color of the half-dome + fog backdrop behind the products. */
   bag_circle_color?: string;
   /** Optional closing line rendered under the stage. */
