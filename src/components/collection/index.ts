@@ -4,7 +4,9 @@ import type {
   CollectionConfig,
   CollectionAnimation,
   CollectionAspect,
+  CollectionBagSize,
   CollectionDesktopLayout,
+  CollectionDisplayMode,
   CollectionSlideItem,
   CollectionUseCase,
   MaybeMultiLang,
@@ -32,6 +34,12 @@ interface ResolvedProduct {
  *   • reveal → swap a closed image for an opened image on the active slide
  *              (daily.html style). Slides without an `image_opened` fall back
  *              to the simple behaviour automatically.
+ *
+ * Two display modes:
+ *   • carousel → the horizontal coverflow above (default).
+ *   • bag      → "وضع الشنطة": a vertical stage where the active product
+ *                rises out of a merchant-uploaded bag image while the
+ *                previous one sinks back into it.
  */
 export default class GrowthCollection extends LitElement {
   static styles = collectionStyles;
@@ -89,6 +97,11 @@ export default class GrowthCollection extends LitElement {
   @state() private _animState: "ready" | "in" = "ready";
   /** Drives the caption fade — flips out → in when the active slide changes. */
   @state() private _captionState: "in" | "out" = "in";
+  /** Bag mode: the slide currently sinking back into the bag. */
+  @state() private _bagLeavingIndex: number | null = null;
+  /** Bag mode: false until the first navigation, so the initial slide shows
+      without playing the rise animation on page load. */
+  @state() private _bagNavigated = false;
 
   private _autoplayTimer: number | null = null;
   private _captionTimer: number | null = null;
@@ -140,6 +153,13 @@ export default class GrowthCollection extends LitElement {
       if (first?.value !== undefined) return this._num(first.value, fallback);
     }
     return fallback;
+  }
+
+  private _displayMode(): CollectionDisplayMode {
+    return this._pickValue<CollectionDisplayMode>(
+      this.config?.display_mode,
+      "carousel"
+    );
   }
 
   private _slides() {
@@ -295,8 +315,12 @@ export default class GrowthCollection extends LitElement {
     const slides = this._slides();
     if (!this._hasInitializedActive && slides.length > 0) {
       const wanted = this._num(this.config?.initial_slide, NaN);
+      // Bag mode reads top-to-bottom like a story — start at the first slide;
+      // the coverflow starts centered so both neighbours peek in.
+      const autoStart =
+        this._displayMode() === "bag" ? 0 : Math.floor(slides.length / 2);
       const start = Number.isNaN(wanted)
-        ? Math.floor(slides.length / 2)
+        ? autoStart
         : Math.max(0, Math.min(slides.length - 1, Math.round(wanted) - 1));
       this._activeIndex = start;
       this._hasInitializedActive = true;
@@ -344,6 +368,8 @@ export default class GrowthCollection extends LitElement {
 
   private _changeActive(next: number) {
     if (next === this._activeIndex) return;
+    this._bagLeavingIndex = this._activeIndex;
+    this._bagNavigated = true;
     this._activeIndex = next;
     this._flashCaption();
   }
@@ -508,6 +534,7 @@ export default class GrowthCollection extends LitElement {
   render() {
     const c: CollectionConfig = this.config || {};
     const slides = this._slides();
+    const displayMode = this._displayMode();
     const useCase = this._pickValue<CollectionUseCase>(c.use_case, "home");
     const animation = this._pickValue<CollectionAnimation>(
       c.slide_animation,
@@ -543,6 +570,7 @@ export default class GrowthCollection extends LitElement {
       c.nav_bg ? `--col-nav-bg: ${c.nav_bg}` : "",
       c.nav_icon_color ? `--col-nav-icon: ${c.nav_icon_color}` : "",
       c.dot_color ? `--col-dot-color: ${c.dot_color}` : "",
+      c.bag_circle_color ? `--bag-circle-color: ${c.bag_circle_color}` : "",
       `--col-aspect: ${aspect}`,
     ]
       .filter(Boolean)
@@ -576,7 +604,23 @@ export default class GrowthCollection extends LitElement {
     const activeCtaLabel = activeSlide
       ? this._t(activeSlide.cta_label) || defaultCtaLabel
       : defaultCtaLabel;
-    const hasCaption = showCaption && (activeTitle || activeDesc);
+    const hasCaption = !!(showCaption && (activeTitle || activeDesc));
+
+    if (displayMode === "bag") {
+      return this._renderBag(c, slides, {
+        hostStyle,
+        title,
+        enableAnim,
+        showNav,
+        showDots,
+        hasCaption,
+        activeTitle,
+        activeDesc,
+        showCta,
+        activeCtaHref,
+        activeCtaLabel,
+      });
+    }
 
     return html`
       <section
@@ -714,6 +758,176 @@ export default class GrowthCollection extends LitElement {
           : nothing}
 
         ${!isSingle && showDots
+          ? html`
+              <div class="col-dots" role="tablist">
+                ${slides.map(
+                  (_, i) => html`
+                    <button
+                      class="col-dot"
+                      type="button"
+                      aria-current=${this._activeIndex === i
+                        ? "true"
+                        : "false"}
+                      aria-label=${`Slide ${i + 1}`}
+                      @click=${() => this._goTo(i)}
+                    ></button>
+                  `
+                )}
+              </div>
+            `
+          : nothing}
+      </section>
+    `;
+  }
+
+  /**
+   * Bag mode (وضع الشنطة) — vertical stage: half-dome + fog backdrop, the
+   * merchant's bag image in front, and one product visible at a time. On
+   * navigation the new product rises out of the bag while the previous one
+   * sinks back in. Products need transparent (PNG/WebP) images to sell it.
+   */
+  private _renderBag(
+    c: CollectionConfig,
+    slides: CollectionSlideItem[],
+    v: {
+      hostStyle: string;
+      title: string;
+      enableAnim: boolean;
+      showNav: boolean;
+      showDots: boolean;
+      hasCaption: boolean;
+      activeTitle: string;
+      activeDesc: string;
+      showCta: boolean;
+      activeCtaHref: string;
+      activeCtaLabel: string;
+    }
+  ) {
+    const bagImage = typeof c.bag_image === "string" ? c.bag_image.trim() : "";
+    const bagSize = this._pickValue<CollectionBagSize>(c.bag_size, "medium");
+    const bottomTitle = this._t(c.bag_bottom_title);
+    const isSingle = slides.length === 1;
+    const upPath = "M18 15l-6-6-6 6";
+    const downPath = "M6 9l6 6 6-6";
+    const arrowPath = "M5 12h14M13 6l6 6-6 6";
+
+    return html`
+      <section
+        class="col-section col-section--bag"
+        style=${v.hostStyle}
+        data-bag-size=${bagSize}
+        @mouseenter=${this._onHoverIn}
+        @mouseleave=${this._onHoverOut}
+      >
+        ${v.title
+          ? html`
+              <div
+                class="col-header"
+                data-anim=${v.enableAnim ? this._animState : "in"}
+              >
+                <h2 class="col-title">${v.title}</h2>
+              </div>
+            `
+          : nothing}
+        ${v.hasCaption
+          ? html`
+              <div class="col-caption" data-state=${this._captionState}>
+                ${v.activeTitle
+                  ? html`<h3 class="col-caption__title">${v.activeTitle}</h3>`
+                  : nothing}
+                ${v.activeDesc
+                  ? html`<p class="col-caption__desc">${v.activeDesc}</p>`
+                  : nothing}
+              </div>
+            `
+          : nothing}
+
+        <div
+          class="col-bag-stage"
+          @pointerdown=${this._onPointerDown}
+          @pointermove=${this._onPointerMove}
+          @pointerup=${this._onPointerUp}
+          @pointercancel=${this._onPointerUp}
+        >
+          <div class="col-bag-circle" aria-hidden="true"></div>
+          <div class="col-bag-fog" aria-hidden="true"></div>
+
+          <div class="col-bag-layer">
+            ${slides.map((slide, i) => {
+              const product = this._resolveProduct(slide);
+              const { closed, alt } = this._slideImage(slide, product);
+              let state: "active" | "rising" | "sinking" | "hidden" = "hidden";
+              if (i === this._activeIndex)
+                state = this._bagNavigated ? "rising" : "active";
+              else if (i === this._bagLeavingIndex) state = "sinking";
+              return html`
+                <div class="col-bag-slide" data-state=${state}>
+                  ${closed
+                    ? html`<img
+                        src=${closed}
+                        alt=${alt}
+                        loading="lazy"
+                        draggable="false"
+                      />`
+                    : nothing}
+                </div>
+              `;
+            })}
+          </div>
+
+          ${bagImage
+            ? html`<img
+                class="col-bag-img"
+                src=${bagImage}
+                alt=""
+                aria-hidden="true"
+                draggable="false"
+              />`
+            : nothing}
+          ${!isSingle && v.showNav
+            ? html`
+                <button
+                  class="col-bag-nav col-bag-nav--up"
+                  type="button"
+                  @click=${this._goNext}
+                  ?disabled=${this._isNextDisabled()}
+                  aria-label="Next"
+                >
+                  <svg viewBox="0 0 24 24"><path d=${upPath} /></svg>
+                </button>
+                <button
+                  class="col-bag-nav col-bag-nav--down"
+                  type="button"
+                  @click=${this._goPrev}
+                  ?disabled=${this._isPrevDisabled()}
+                  aria-label="Previous"
+                >
+                  <svg viewBox="0 0 24 24"><path d=${downPath} /></svg>
+                </button>
+              `
+            : nothing}
+        </div>
+
+        ${bottomTitle
+          ? html`<div class="col-bag-bottom">${bottomTitle}</div>`
+          : nothing}
+        ${v.showCta && v.activeCtaHref
+          ? html`
+              <div class="col-cta-wrap">
+                <a
+                  class="col-cta"
+                  href=${v.activeCtaHref}
+                  aria-label=${v.activeCtaLabel}
+                >
+                  <span>${v.activeCtaLabel}</span>
+                  <svg viewBox="0 0 24 24">
+                    <path d=${arrowPath} />
+                  </svg>
+                </a>
+              </div>
+            `
+          : nothing}
+        ${!isSingle && v.showDots
           ? html`
               <div class="col-dots" role="tablist">
                 ${slides.map(

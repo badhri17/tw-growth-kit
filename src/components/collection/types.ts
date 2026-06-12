@@ -27,6 +27,15 @@ export type CollectionAnimation = "simple" | "reveal";
 export type CollectionAspect = "1/1" | "4/3" | "3/4" | "16/9" | "9/16";
 export type CollectionDesktopLayout = "coverflow" | "single";
 
+/**
+ * Overall presentation of the section:
+ *   • carousel → the classic horizontal coverflow (default).
+ *   • bag      → "وضع الشنطة": products rise out of / sink into a
+ *                merchant-uploaded bag image on a vertical stage.
+ */
+export type CollectionDisplayMode = "carousel" | "bag";
+export type CollectionBagSize = "small" | "medium" | "large";
+
 /** Raw Salla product picker payload — parsed defensively at the call site. */
 export type RawProductPick = unknown;
 
@@ -64,6 +73,18 @@ export interface CollectionConfig {
 
   // --- Slides ---
   slides?: CollectionSlideItem[];
+
+  // --- Display mode ---
+  display_mode?: CollectionDisplayMode;
+
+  // --- Bag mode (وضع الشنطة) ---
+  /** Bag/box image the products appear to rise out of. Transparent bg works best. */
+  bag_image?: string;
+  bag_size?: CollectionBagSize;
+  /** Color of the half-dome + fog backdrop behind the products. */
+  bag_circle_color?: string;
+  /** Optional closing line rendered under the stage. */
+  bag_bottom_title?: MaybeMultiLang;
 
   // --- Visual behaviour ---
   slide_animation?: CollectionAnimation;

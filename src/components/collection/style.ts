@@ -499,4 +499,298 @@ export const collectionStyles = css`
       height: 18px;
     }
   }
+
+  /* ============================================================
+     Bag mode (وضع الشنطة)
+     Vertical stage: half-dome + fog backdrop (z 1–2), the merchant's
+     bag image in front of them (z 5), and the product layer on top
+     (z 7) so the bottle reads as standing in the bag's mouth. The
+     rise/sink keyframes + the opacity fade sell the in/out illusion.
+     Mobile values are the base; desktop overrides at 768px.
+     ============================================================ */
+  .col-section--bag {
+    --bag-w: 320px;
+    --bag-bottle-w: 190px;
+    --bag-stage-h: 500px;
+    --bag-circle-w: 250px;
+    --bag-circle-h: 140px;
+    --bag-circle-top: 88px;
+    --bag-layer-h: 260px;
+    --bag-nav-size: 46px;
+    --bag-nav-top: 285px;
+    --bag-circle-color: #eba3a8;
+  }
+  .col-section--bag[data-bag-size="small"] {
+    --bag-w: 260px;
+    --bag-bottle-w: 150px;
+    --bag-stage-h: 450px;
+    --bag-circle-w: 220px;
+    --bag-layer-h: 230px;
+    --bag-nav-top: 258px;
+  }
+  .col-section--bag[data-bag-size="large"] {
+    --bag-w: 360px;
+    --bag-bottle-w: 225px;
+    --bag-stage-h: 550px;
+    --bag-circle-w: 280px;
+    --bag-layer-h: 290px;
+    --bag-nav-top: 312px;
+  }
+  @media (min-width: 768px) {
+    .col-section--bag {
+      --bag-w: 400px;
+      --bag-bottle-w: 215px;
+      --bag-stage-h: 580px;
+      --bag-circle-w: 300px;
+      --bag-circle-h: 170px;
+      --bag-circle-top: 100px;
+      --bag-layer-h: 330px;
+      --bag-nav-size: 54px;
+      --bag-nav-top: 322px;
+    }
+    .col-section--bag[data-bag-size="small"] {
+      --bag-w: 320px;
+      --bag-bottle-w: 175px;
+      --bag-stage-h: 520px;
+      --bag-layer-h: 290px;
+      --bag-nav-top: 292px;
+    }
+    .col-section--bag[data-bag-size="large"] {
+      --bag-w: 460px;
+      --bag-bottle-w: 260px;
+      --bag-stage-h: 640px;
+      --bag-circle-w: 340px;
+      --bag-layer-h: 370px;
+      --bag-nav-top: 352px;
+    }
+  }
+
+  /* In bag mode the caption sits ABOVE the stage (the copy introduces the
+     product rising below it). Reserve height so text swaps don't bounce
+     the whole stage. */
+  .col-section--bag .col-caption {
+    margin: 0 auto;
+    min-height: 9rem;
+  }
+
+  .col-bag-stage {
+    position: relative;
+    width: min(520px, 94vw);
+    height: var(--bag-stage-h);
+    margin-inline: auto;
+    overflow: hidden;
+    /* Horizontal swipe navigates; vertical stays native page scroll. */
+    touch-action: pan-y;
+  }
+
+  .col-bag-circle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: var(--bag-circle-top);
+    width: var(--bag-circle-w);
+    height: var(--bag-circle-h);
+    border-radius: var(--bag-circle-h) var(--bag-circle-h) 0 0;
+    background: var(--bag-circle-color);
+    z-index: 1;
+  }
+  .col-bag-fog {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(var(--bag-circle-top) + var(--bag-circle-h) - 10px);
+    width: calc(var(--bag-circle-w) + 90px);
+    height: 130px;
+    background: linear-gradient(
+      180deg,
+      var(--bag-circle-color) 0%,
+      transparent 100%
+    );
+    filter: blur(18px);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .col-bag-img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -12px;
+    width: var(--bag-w);
+    max-width: 92vw;
+    display: block;
+    z-index: 5;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .col-bag-layer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: var(--bag-bottle-w);
+    height: var(--bag-layer-h);
+    z-index: 7;
+  }
+  .col-bag-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .col-bag-slide[data-state="active"],
+  .col-bag-slide[data-state="rising"],
+  .col-bag-slide[data-state="sinking"] {
+    opacity: 1;
+  }
+  .col-bag-slide img {
+    display: block;
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.12));
+    transform-origin: 50% 88%;
+    will-change: transform, opacity, filter;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .col-bag-slide[data-state="rising"] img {
+    animation: colBagRise 0.82s cubic-bezier(0.2, 0.78, 0.2, 1) both;
+  }
+  .col-bag-slide[data-state="sinking"] img {
+    animation: colBagSink 0.92s cubic-bezier(0.22, 0.08, 0.18, 1) forwards;
+  }
+
+  @keyframes colBagRise {
+    0% {
+      opacity: 0;
+      transform: translateY(210px) scale(0.18);
+      filter: blur(2px);
+    }
+    18% {
+      opacity: 0.35;
+      transform: translateY(165px) scale(0.34);
+      filter: blur(1.5px);
+    }
+    42% {
+      opacity: 0.78;
+      transform: translateY(95px) scale(0.62);
+      filter: blur(0.8px);
+    }
+    68% {
+      opacity: 1;
+      transform: translateY(18px) scale(1.06);
+      filter: blur(0);
+    }
+    82% {
+      opacity: 1;
+      transform: translateY(-6px) scale(1.02);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+  @keyframes colBagSink {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+    22% {
+      opacity: 0.99;
+      transform: translateY(8px) scale(0.98);
+      filter: blur(0);
+    }
+    46% {
+      opacity: 0.93;
+      transform: translateY(26px) scale(0.9);
+      filter: blur(0.08px);
+    }
+    68% {
+      opacity: 0.8;
+      transform: translateY(54px) scale(0.76);
+      filter: blur(0.3px);
+    }
+    84% {
+      opacity: 0.56;
+      transform: translateY(92px) scale(0.56);
+      filter: blur(0.75px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(138px) scale(0.34);
+      filter: blur(1.3px);
+    }
+  }
+
+  /* Bag nav: up pulls the next product out, down sends it back in.
+     RTL puts "up" on the right hand (matches reading order); LTR mirrors. */
+  .col-bag-nav {
+    position: absolute;
+    top: var(--bag-nav-top);
+    width: var(--bag-nav-size);
+    height: var(--bag-nav-size);
+    border-radius: 50%;
+    border: none;
+    background: var(--col-nav-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s var(--col-ease), transform 0.2s var(--col-ease);
+  }
+  .col-bag-nav:hover {
+    transform: scale(1.06);
+  }
+  .col-bag-nav:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .col-bag-nav svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--col-nav-icon);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .col-bag-nav--up {
+    inset-inline-end: 10px;
+  }
+  .col-bag-nav--down {
+    inset-inline-start: 10px;
+  }
+
+  .col-bag-bottom {
+    text-align: center;
+    color: var(--col-caption-title-color);
+    font-size: clamp(1.15rem, 3.5vw, 1.6rem);
+    font-weight: 700;
+    line-height: 1.55;
+    margin: 14px auto 0;
+    max-width: 480px;
+    padding: 0 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .col-bag-slide img {
+      animation: none !important;
+    }
+    .col-bag-slide[data-state="sinking"] {
+      opacity: 0;
+    }
+  }
 `;

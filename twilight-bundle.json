@@ -1777,8 +1777,155 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-display",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة العرض والمقاسات</div><div style='margin-bottom:14px;'><img src='https://d.top4top.io/p_3796ccun31.png' alt='مقاسات الصورة' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة العرض والمقاسات</div>",
                     "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "display_mode",
+                    "label": "نمط العرض",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "«كاروسيل أفقي»: العرض الكلاسيكي بثلاث شرائح متراكبة. «وضع الشنطة»: المنتجات تخرج من شنطة أو صندوق ترفع صورته — مثالي للبكجات والهدايا والعطور.",
+                    "selected": [
+                        {
+                            "label": "كاروسيل أفقي (افتراضي)",
+                            "value": "carousel",
+                            "key": "cdm-carousel"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "كاروسيل أفقي (افتراضي)",
+                            "value": "carousel",
+                            "key": "cdm-carousel"
+                        },
+                        {
+                            "label": "وضع الشنطة (المنتجات تخرج من الشنطة)",
+                            "value": "bag",
+                            "key": "cdm-bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "bag-note",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>في <strong>وضع الشنطة</strong> يظهر منتج واحد في كل مرة: عند التنقل يرتفع المنتج الجديد من فتحة الشنطة بينما يغوص المنتج السابق داخلها.<br/>• ارفع <strong>صورة الشنطة</strong> بخلفية شفافة (PNG/WebP).<br/>• استخدم صور منتجات <strong>بخلفية شفافة</strong> أيضًا حتى يبدو الخروج من الشنطة طبيعيًا.<br/>• العنوان والوصف يظهران فوق المشهد ويتبدّلان مع كل منتج.</div>",
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "bag_image",
+                    "label": "صورة الشنطة / الصندوق",
+                    "format": "image",
+                    "required": false,
+                    "description": "تظهر أسفل المشهد وتخرج المنتجات من فتحتها. يُفضَّل صورة بخلفية شفافة (PNG أو WebP).",
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "bag_size",
+                    "label": "حجم الشنطة والمنتجات",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "cbs-m"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغير",
+                            "value": "small",
+                            "key": "cbs-s"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "medium",
+                            "key": "cbs-m"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large",
+                            "key": "cbs-l"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bag_circle_color",
+                    "label": "لون الهالة خلف المنتجات",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "value": "#EBA3A8",
+                    "description": "لون القبّة والضباب الناعم الذي يظهر خلف المنتج. اختر درجة قريبة من هوية متجرك.",
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "bag_bottom_title",
+                    "label": "نص ختامي تحت الشنطة (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "placeholder": "مثل: شنطة أنيقة تجمع بين الجمال والعملية",
+                    "maxLength": 120,
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "bag"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "carousel-sizes-diagram",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://d.top4top.io/p_3796ccun31.png' alt='مقاسات الصورة' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>",
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "carousel"
+                        }
+                    ]
                 },
                 {
                     "type": "items",
@@ -1806,6 +1953,13 @@
                             "label": "كشف المنتج (تبديل صورتين)",
                             "value": "reveal",
                             "key": "sa-reveal"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "carousel"
                         }
                     ]
                 },
@@ -1851,6 +2005,13 @@
                             "value": "9/16",
                             "key": "car-9-16"
                         }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "carousel"
+                        }
                     ]
                 },
                 {
@@ -1879,6 +2040,13 @@
                             "label": "شريحة واحدة فقط في المنتصف",
                             "value": "single",
                             "key": "cdl-s"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "carousel"
                         }
                     ]
                 },
@@ -1923,14 +2091,21 @@
                             "value": "32",
                             "key": "ccr-32"
                         }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "display_mode",
+                            "operation": "=",
+                            "value": "carousel"
+                        }
                     ]
                 },
                 {
                     "type": "boolean",
                     "icon": "sicon-toggle-off",
                     "id": "show_caption",
-                    "label": "إظهار العنوان والوصف تحت السلايدر",
-                    "description": "نص يظهر تحت السلايدر يتبدّل حسب الشريحة المختارة.",
+                    "label": "إظهار العنوان والوصف",
+                    "description": "نص يتبدّل حسب الشريحة المختارة — يظهر تحت السلايدر في الكاروسيل، وفوق المشهد في وضع الشنطة.",
                     "format": "switch",
                     "selected": true,
                     "required": false
