@@ -637,6 +637,12 @@
                     "variant": "h6"
                 },
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "overlay-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/Blackout.png' alt='مثال توضيحي لطبقة التعتيم' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "overlay_style",
@@ -3277,6 +3283,12 @@
                 {
                     "type": "static",
                     "format": "description",
+                    "id": "story-overlay-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/Blackout.png' alt='مثال توضيحي لطبقة التعتيم' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
                     "id": "overlay-note",
                     "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>طبقة شفافة تُضاف فوق الصورة لتُبرز النص. «تدرّج داكن من الأسفل» الأكثر استخدامًا.</div>"
                 },
@@ -4729,7 +4741,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "items-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف آراء عملائك. لكل رأي يمكنك <strong>ربط منتج حقيقي</strong> من متجرك ليظهر كبطاقة منتج قابلة للنقر أسفل الرأي. استخدم صورة كبيرة للعميل مع نمط البطاقة «العصري»، أو صورة رمزية صغيرة مع باقي الأنماط.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف آراء عملائك. لكل رأي يمكنك <strong>ربط منتج حقيقي</strong> من متجرك ليظهر كبطاقة منتج قابلة للنقر أسفل الرأي. استخدم صورة كبيرة للعميل مع نمط البطاقة «تصوير العملاء»، أو صورة رمزية صغيرة مع باقي الأنماط.</div>"
                 },
                 {
                     "id": "items",
@@ -4809,7 +4821,7 @@
                             "label": "تصوير العميل",
                             "format": "image",
                             "required": false,
-                            "description": "صورة حقيقية التقطها العميل للمنتج (محتوى من العملاء)، وتُعزّز المصداقية أكثر من الصور الاحترافية. تظهر في نمط البطاقة «العصري» أعلى البطاقة مع شارة اسم العميل فوقها. المقاس المثالي عمودي (مثل 4:5)."
+                            "description": "صورة حقيقية التقطها العميل للمنتج (محتوى من العملاء)، وتُعزّز المصداقية أكثر من الصور الاحترافية. تظهر في نمط البطاقة «تصوير العملاء» أعلى البطاقة مع شارة اسم العميل فوقها. المقاس المثالي عمودي (مثل 4:5)."
                         },
                         {
                             "type": "string",
@@ -4994,34 +5006,34 @@
                     "required": false,
                     "selected": [
                         {
-                            "label": "عصري (صورة + شارة الاسم)",
+                            "label": "تصوير العملاء",
                             "value": "modern",
                             "key": "card_style-0"
                         }
                     ],
                     "options": [
                         {
-                            "label": "عصري (صورة + شارة الاسم)",
+                            "label": "تصوير العملاء",
                             "value": "modern",
                             "key": "card_style-0"
                         },
                         {
-                            "label": "اقتباس (علامة تنصيص كبيرة)",
+                            "label": "اقتباس",
                             "value": "quote",
                             "key": "card_style-1"
                         },
                         {
-                            "label": "فقاعة محادثة",
+                            "label": "محادثة",
                             "value": "bubble",
                             "key": "card_style-2"
                         },
                         {
-                            "label": "بسيط (إطار رفيع)",
+                            "label": "بسيط",
                             "value": "minimal",
                             "key": "card_style-3"
                         },
                         {
-                            "label": "زجاجي (شفاف مموّه)",
+                            "label": "زجاجي",
                             "value": "glass",
                             "key": "card_style-4"
                         }
@@ -5035,7 +5047,7 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "يُطبّق على تصوير العميل في نمط البطاقة «العصري».",
+                    "description": "يُطبّق على تصوير العميل في نمط البطاقة «تصوير العملاء».",
                     "selected": [
                         {
                             "label": "عمودي 4:5",
@@ -5291,7 +5303,7 @@
                     "format": "switch",
                     "selected": true,
                     "required": false,
-                    "description": "خاص بنمط البطاقة «العصري».",
+                    "description": "خاص بنمط البطاقة «تصوير العملاء».",
                     "conditions": [
                         {
                             "id": "card_style",
@@ -7142,6 +7154,492 @@
                     "label": "لون نص الزر",
                     "icon": "sicon-color-palette",
                     "required": false
+                }
+            ]
+        },
+        {
+            "title": "معرض لايف ستايل",
+            "icon": "sicon-image-carousel",
+            "name": "lifestyle-gallery",
+            "key": "29bfe3b8-5829-441a-b4ba-5abbf58bf494",
+            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "fields": [
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-content",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>المحتوى</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "section_title",
+                    "label": "العنوان الرئيسي",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "عش التجربة مع منتجاتنا",
+                    "placeholder": "مثل: عش تجربة الشواء",
+                    "description": "يظهر فوق المعرض. اتركه فارغًا لإخفائه.",
+                    "minLength": 0,
+                    "maxLength": 80
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "section_pretitle",
+                    "label": "سطر إضافي فوق العنوان (اختياري)",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "",
+                    "placeholder": "Live the Experience",
+                    "description": "سطر يظهر فوق العنوان الرئيسي — مناسب لعبارة إنجليزية تعطي طابعًا عالميًا.",
+                    "minLength": 0,
+                    "maxLength": 80
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-1"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-slides",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الشرائح</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "slides-note",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف <strong>٤ شرائح على الأقل</strong> للحصول على تأثير الكاروسيل الكامل. لكل شريحة: صورة لايف ستايل (يفضَّل صور عمودية لمنتجاتك أثناء الاستخدام) + اسم يظهر فوق الصورة. عند ربط <strong>منتج من متجرك</strong> يُستخدم اسمه وصورته ورابطه تلقائيًا إذا تركت الحقول الأخرى فارغة.</div>"
+                },
+                {
+                    "id": "slides",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 12,
+                    "item_label": "شريحة",
+                    "value": [
+                        {
+                            "image": "https://radaar.b-cdn.net/growth%20bundle/%D8%A7%D9%84%D8%B5%D8%A7%D8%AC%20%D8%A7%D9%84%D9%83%D9%87%D8%B1%D8%A8%D8%A7%D8%A6%D9%8A.PNG",
+                            "title": "الصاج الكهربائي",
+                            "cta_url": "#"
+                        },
+                        {
+                            "image": "https://radaar.b-cdn.net/growth%20bundle/%D8%B4%D9%88%D8%A7%D9%8A%D8%A9%20%D8%BA%D8%A7%D8%B2%20%D8%A8%D8%A7%D8%B1%D8%A8%D8%B9%20%D8%B9%D9%8A%D9%88%D9%86.jpg",
+                            "title": "شواية غاز بأربع عيون",
+                            "cta_url": "#"
+                        },
+                        {
+                            "image": "https://radaar.b-cdn.net/growth%20bundle/%D8%B4%D9%88%D8%A7%D9%8A%D8%A9%20%D9%81%D8%AD%D9%85%20XL.PNG",
+                            "title": "شواية فحم XL",
+                            "cta_url": "#"
+                        },
+                        {
+                            "image": "https://radaar.b-cdn.net/growth%20bundle/%D9%81%D8%B1%D9%86%20%D8%A7%D9%84%D8%A8%D9%8A%D8%AA%D8%B2%D8%A7.jpg",
+                            "title": "فرن البيتزا",
+                            "cta_url": "#"
+                        },
+                        {
+                            "image": "https://radaar.b-cdn.net/growth%20bundle/%D9%82%D9%81%D8%A7%D8%B2%20%D8%B4%D9%88%D8%A7%D8%A1.png",
+                            "title": "قفاز شواء",
+                            "cta_url": "#"
+                        },
+                        {
+                            "image": "https://radaar.b-cdn.net/growth%20bundle/%D8%B4%D9%88%D8%A7%D9%8A%D8%A9%20%D8%BA%D8%A7%D8%B2%20%D8%A8%D8%AE%D9%85%D8%B3%20%D8%B9%D9%8A%D9%88%D9%86.PNG",
+                            "title": "شواية غاز بخمس عيون",
+                            "cta_url": "#"
+                        }
+                    ],
+                    "fields": [
+                        {
+                            "type": "string",
+                            "icon": "sicon-image",
+                            "id": "image",
+                            "label": "الصورة",
+                            "format": "image",
+                            "required": false,
+                            "description": "صورة الشريحة. إذا اخترت منتجًا مرتبطًا ولم ترفع صورة، تُستخدم صورة المنتج تلقائيًا."
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "id": "title",
+                            "label": "الاسم",
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": false,
+                            "placeholder": "مثل: فرن البيتزا",
+                            "description": "يظهر فوق الصورة. يُستخدم اسم المنتج المرتبط إذا تُرك فارغًا.",
+                            "maxLength": 60
+                        },
+                        {
+                            "type": "items",
+                            "icon": "sicon-bag",
+                            "id": "product",
+                            "label": "المنتج المرتبط",
+                            "format": "dropdown-list",
+                            "source": "products",
+                            "searchable": true,
+                            "multichoice": false,
+                            "required": false,
+                            "description": "اختر منتجًا من متجرك. ينتقل الزائر إلى صفحته عند الضغط على الزر.",
+                            "selected": [],
+                            "options": [],
+                            "maxLength": 1,
+                            "minLength": 0,
+                            "value": []
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-link",
+                            "id": "cta_url",
+                            "label": "رابط مخصص (اختياري — يتجاوز رابط المنتج)",
+                            "format": "text",
+                            "required": false,
+                            "placeholder": "/categories/bbq"
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "id": "cta_label",
+                            "label": "نص الزر المخصص (اختياري)",
+                            "format": "text",
+                            "multilanguage": true,
+                            "required": false,
+                            "placeholder": "اكتشف المنتج",
+                            "maxLength": 30
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-2"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-display",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة العرض والمقاسات</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "height_mobile",
+                    "label": "ارتفاع المعرض (جوال)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط (٤٢٠ بكسل)",
+                            "value": "420",
+                            "key": "lhm-420"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "قصير (٣٤٠ بكسل)",
+                            "value": "340",
+                            "key": "lhm-340"
+                        },
+                        {
+                            "label": "متوسط (٤٢٠ بكسل)",
+                            "value": "420",
+                            "key": "lhm-420"
+                        },
+                        {
+                            "label": "طويل (٥٠٠ بكسل)",
+                            "value": "500",
+                            "key": "lhm-500"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "card_radius",
+                    "label": "نعومة حواف الصورة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "دائري ناعم (٣٢ بكسل)",
+                            "value": "32",
+                            "key": "lcr-32"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "بدون انحناء",
+                            "value": "0",
+                            "key": "lcr-0"
+                        },
+                        {
+                            "label": "متوسطة (١٤ بكسل)",
+                            "value": "14",
+                            "key": "lcr-14"
+                        },
+                        {
+                            "label": "كبيرة (٢٤ بكسل)",
+                            "value": "24",
+                            "key": "lcr-24"
+                        },
+                        {
+                            "label": "دائري ناعم (٣٢ بكسل)",
+                            "value": "32",
+                            "key": "lcr-32"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "show_overlay",
+                    "label": "إظهار الاسم والزر فوق الصورة",
+                    "description": "تدرّج داكن أسفل الصورة يحمل اسم الشريحة وزر «اكتشف المنتج». على الجوال يظهر على الشريحة النشطة فقط.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "id": "default_cta_label",
+                    "label": "نص الزر الافتراضي",
+                    "format": "text",
+                    "multilanguage": true,
+                    "required": false,
+                    "value": "اكتشف المنتج",
+                    "placeholder": "اكتشف المنتج",
+                    "maxLength": 30,
+                    "conditions": [
+                        {
+                            "id": "show_overlay",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "subsection-desktop",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:10px 14px;border-radius:8px;margin:6px 0 14px;font-weight:bold;font-size:14px;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "height_desktop",
+                    "label": "ارتفاع المعرض (اختياري)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "نفس الجوال",
+                            "value": "inherit",
+                            "key": "lhd-inh"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "نفس الجوال",
+                            "value": "inherit",
+                            "key": "lhd-inh"
+                        },
+                        {
+                            "label": "قصير (٣٨٠ بكسل)",
+                            "value": "380",
+                            "key": "lhd-380"
+                        },
+                        {
+                            "label": "متوسط (٤٦٠ بكسل)",
+                            "value": "460",
+                            "key": "lhd-460"
+                        },
+                        {
+                            "label": "طويل (٥٤٠ بكسل)",
+                            "value": "540",
+                            "key": "lhd-540"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "desktop_slides",
+                    "label": "عدد الشرائح الظاهرة (اختياري)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "عدد الشرائح المفتوحة على الشاشات الكبيرة. الجوال يعرض دائمًا شريحة واحدة مع لمحة من التالية.",
+                    "selected": [
+                        {
+                            "label": "ثلاث شرائح",
+                            "value": "3",
+                            "key": "lds-3"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "ثلاث شرائح",
+                            "value": "3",
+                            "key": "lds-3"
+                        },
+                        {
+                            "label": "شريحتان",
+                            "value": "2",
+                            "key": "lds-2"
+                        }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-3"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-behavior",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>سلوك السلايدر</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "show_nav_buttons",
+                    "label": "إظهار أزرار التنقل",
+                    "description": "زرّان دائريان على طرفي المعرض. التنقل بالسحب يعمل دائمًا حتى مع إخفائهما.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "loop",
+                    "label": "تكرار لا نهائي",
+                    "description": "بعد آخر شريحة يُكمل المعرض من الشريحة الأولى بسلاسة بدون توقف. يُنصح به مع التشغيل التلقائي، ويُفضَّل وجود ٦ شرائح فأكثر.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "autoplay",
+                    "label": "تشغيل تلقائي",
+                    "description": "ينتقل تلقائيًا بين الشرائح. يتوقف مؤقتًا عند مرور المؤشر فوق المعرض أو أثناء السحب.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "autoplay_delay",
+                    "label": "مدة كل شريحة (بالثواني)",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "تُستخدم فقط عند تفعيل التشغيل التلقائي.",
+                    "selected": [
+                        {
+                            "label": "٤ ثوانٍ",
+                            "value": "4",
+                            "key": "lad-4"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "٣ ثوانٍ",
+                            "value": "3",
+                            "key": "lad-3"
+                        },
+                        {
+                            "label": "٤ ثوانٍ",
+                            "value": "4",
+                            "key": "lad-4"
+                        },
+                        {
+                            "label": "٦ ثوانٍ",
+                            "value": "6",
+                            "key": "lad-6"
+                        },
+                        {
+                            "label": "٨ ثوانٍ",
+                            "value": "8",
+                            "key": "lad-8"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "autoplay",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "enable_entrance_anim",
+                    "label": "تفعيل حركة الظهور",
+                    "description": "حركة دخول لطيفة للعنوان والمعرض عند تحميل الصفحة. عند الإيقاف يظهر القسم مباشرة.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-4"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-colors",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>الألوان</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "icon": "sicon-paint-bucket-alt",
+                    "id": "bg_color",
+                    "label": "لون خلفية القسم",
+                    "required": false,
+                    "value": "#f5f5f5"
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "icon": "sicon-paint-bucket-alt",
+                    "id": "title_color",
+                    "label": "لون العنوان",
+                    "required": false,
+                    "value": "#1a1a1a"
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "icon": "sicon-paint-bucket-alt",
+                    "id": "overlay_text_color",
+                    "label": "لون النص والزر فوق الصورة",
+                    "required": false,
+                    "value": "#ffffff"
                 }
             ]
         }
