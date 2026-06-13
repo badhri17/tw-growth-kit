@@ -92,6 +92,9 @@ export interface HeroConfig {
 
   // --- Smart connection-aware fallback (default ON when undefined) ---
   smart_data_saver?: boolean;
+  /** Swap video for the background image when the browser blocks autoplay
+      (Safari Low Power Mode). Default ON; only acts when an image exists. */
+  battery_saver_fallback?: boolean;
 
   // --- Motion ---
   enable_entrance_anim?: boolean;

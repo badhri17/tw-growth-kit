@@ -94,6 +94,8 @@ export default class GrowthHero extends LitElement {
   /** Last src passed to _setupVideo(); detects when src changes on the same element. */
   private _lastVideoSrc = "";
   private _fallbackTimer: number | null = null;
+  /** Polls for autoplay-blocked videos (Safari Low Power Mode). */
+  private _autoplayCheckTimer: number | null = null;
   private _io: IntersectionObserver | null = null;
   private _rafId: number | null = null;
   private _onScroll?: () => void;
@@ -346,15 +348,53 @@ export default class GrowthHero extends LitElement {
     };
     v.addEventListener("timeupdate", onTimeTick);
 
-    v.addEventListener(
-      "loadedmetadata",
-      () => {
-        if (gen !== this._videoGeneration) return;
-        const p = v.play();
-        if (p && typeof p.then === "function") p.catch(() => giveUp());
-      },
-      { once: true }
-    );
+    // Autoplay refused (Safari Low Power Mode & similar battery savers):
+    // the video buffers fine but the browser won't start it, leaving a
+    // frozen frame with a native play glyph that reads as "broken".
+    // Swap to the image when the merchant kept the toggle on and an image
+    // exists; otherwise leave the video so the visitor can tap to play.
+    const autoplayBlocked = () => {
+      if (gen !== this._videoGeneration) return;
+      markStarted(); // stop the slow-network safety timer either way
+      if (this.config?.battery_saver_fallback === false) return;
+      if (!this._currentImageUrl()) return;
+      this._videoFailed = true;
+    };
+
+    // play() in Low Power Mode may reject, hang, or silently no-op — so on
+    // top of the rejection handler, poll until the video either really plays
+    // (currentTime advances) or sits paused with data ready = blocked.
+    let verifyAttempts = 0;
+    const verifyPlayback = () => {
+      if (gen !== this._videoGeneration) return;
+      if (!v.isConnected || !v.paused || v.currentTime > 0) return;
+      if (v.readyState >= 2) {
+        autoplayBlocked();
+        return;
+      }
+      if (++verifyAttempts < 10) {
+        this._autoplayCheckTimer = window.setTimeout(verifyPlayback, 1500);
+      }
+    };
+
+    const attemptPlay = () => {
+      if (gen !== this._videoGeneration) return;
+      const p = v.play();
+      if (p && typeof p.then === "function") {
+        p.catch((err: unknown) => {
+          const name = (err as { name?: string } | null)?.name;
+          if (name === "NotAllowedError") autoplayBlocked();
+          else giveUp();
+        });
+      }
+      if (this._autoplayCheckTimer) clearTimeout(this._autoplayCheckTimer);
+      this._autoplayCheckTimer = window.setTimeout(verifyPlayback, 2000);
+    };
+
+    // Metadata may already be in by the time we run (autoplay attr starts the
+    // load before this setup) — attach the listener only if it's still pending.
+    if (v.readyState >= 1) attemptPlay();
+    else v.addEventListener("loadedmetadata", attemptPlay, { once: true });
 
     // Safety net: if nothing started within the timeout window, swap to image fallback.
     this._fallbackTimer = window.setTimeout(() => {
@@ -394,6 +434,7 @@ export default class GrowthHero extends LitElement {
 
   private _teardown() {
     if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
+    if (this._autoplayCheckTimer) clearTimeout(this._autoplayCheckTimer);
     if (this._rafId) cancelAnimationFrame(this._rafId);
     if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
     this._io?.disconnect();

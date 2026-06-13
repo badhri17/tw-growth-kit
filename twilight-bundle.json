@@ -625,6 +625,16 @@
                     "required": false
                 },
                 {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "battery_saver_fallback",
+                    "label": "استبدال الفيديو بالصورة في وضع توفير الطاقة",
+                    "description": "في سفاري (آيفون/آيباد/ماك) عند تفعيل «وضع الطاقة المنخفضة» يمنع المتصفح التشغيل التلقائي للفيديو ويظهر زر تشغيل قد يبدو للزائر كأنه خلل. هذا الخيار يعرض صورة الخلفية تلقائيًا بدلًا من الفيديو في هذه الحالة. يعمل فقط عند إضافة صورة خلفية.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false
+                },
+                {
                     "type": "static",
                     "format": "line",
                     "id": "divider-2"
