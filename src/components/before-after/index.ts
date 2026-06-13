@@ -5,6 +5,8 @@ import type {
   BeforeAfterAspect,
   BeforeAfterDesktopLayout,
   BeforeAfterSlideItem,
+  CrossoverItemSize,
+  CrossoverSpeed,
   MaybeMultiLang,
 } from "./types";
 import { beforeAfterStyles } from "./style";
@@ -199,29 +201,18 @@ export default class GrowthBeforeAfter extends LitElement {
     this.requestUpdate();
 
     const Salla = (window as Window & { Salla?: any }).Salla;
-    console.log("[growth-before-after] fetch start", { id, label, hasSalla: !!Salla });
     if (!Salla) {
       // No SDK (e.g. local Vite demo) — keep the loading state so the chip
       // still renders with the picker label + skeleton thumb instead of vanishing.
-      console.warn("[growth-before-after] window.Salla not present — skipping fetch");
       return;
     }
 
     try {
       if (typeof Salla.onReady === "function") await Salla.onReady();
       const api = Salla.product?.api?.getDetails;
-      console.log("[growth-before-after] Salla ready, getDetails type:", typeof api);
       if (typeof api !== "function") throw new Error("getDetails unavailable");
       const res = await api(id);
-      console.log("[growth-before-after] raw API response for id", id, res);
       const data = (res?.data ?? res) as Record<string, any> | undefined;
-      console.log("[growth-before-after] product data for id", id, data);
-      if (data) {
-        console.log("[growth-before-after] keys:", Object.keys(data));
-        console.log("[growth-before-after] image field:", data.image);
-        console.log("[growth-before-after] images field:", data.images);
-        console.log("[growth-before-after] url field:", data.url, "urls:", data.urls);
-      }
       if (!data) throw new Error("empty product payload");
 
       // Be liberal in what we accept — Salla products expose image as
@@ -246,10 +237,8 @@ export default class GrowthBeforeAfter extends LitElement {
         imageAlt: String(data.image?.alt || data.name || ""),
         url,
       };
-      console.log("[growth-before-after] resolved", id, resolved);
       this._productCache.set(id, { status: "loaded", data: resolved });
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.warn("[growth-before-after] product fetch failed", id, err);
       this._productCache.set(id, { status: "failed" });
     }
@@ -444,6 +433,8 @@ export default class GrowthBeforeAfter extends LitElement {
 
   private _setupAutoplay() {
     const c = this.config || {};
+    // Crossover mode has its own continuous CSS motion — no slide autoplay.
+    if (c.crossover_enabled) return;
     if (!c.autoplay) return;
     if (this._slides().length < 2) return;
     const delaySec = Math.max(1, this._num(c.autoplay_delay, 5));
@@ -585,6 +576,127 @@ export default class GrowthBeforeAfter extends LitElement {
   };
 
   // ------------------------------------------------------------
+  // Crossover mode (وضع العبور)
+  //
+  // Two identical, perfectly-synced marquee tracks overlap: the lower
+  // lane renders "before" images, the upper lane "after" images. Each
+  // lane is clipped at the centre line, so a card crossing the glowing
+  // divider transforms live from before to after.
+  // ------------------------------------------------------------
+
+  /** Physical side ("left"/"right") that shows the BEFORE images. */
+  private _crossoverBeforeSide(): "left" | "right" {
+    let rtl = true;
+    try {
+      rtl = this.matches(":dir(rtl)");
+    } catch {
+      rtl =
+        (document.documentElement.dir || document.dir || "rtl").toLowerCase() !==
+        "ltr";
+    }
+    // Cards flow in reading order: before sits at inline-start.
+    const base: "left" | "right" = rtl ? "right" : "left";
+    if (!this.config?.crossover_reverse) return base;
+    return base === "left" ? "right" : "left";
+  }
+
+  private _renderCrossover(
+    c: BeforeAfterConfig,
+    slides: BeforeAfterSlideItem[],
+    labelBefore: string,
+    labelAfter: string,
+    showLabels: boolean,
+    enableAnim: boolean
+  ) {
+    const speed = this._pickValue<CrossoverSpeed>(c.crossover_speed, "normal");
+    const secondsPerCard = speed === "slow" ? 7 : speed === "fast" ? 3 : 5;
+    const size = this._pickValue<CrossoverItemSize>(
+      c.crossover_item_size,
+      "md"
+    );
+    const itemW = size === "sm" ? 200 : size === "lg" ? 320 : 260;
+    const gap = Math.max(0, this._num(c.crossover_gap, 20));
+    const pauseHover = c.crossover_pause_on_hover !== false;
+    const side = this._crossoverBeforeSide();
+
+    // Repeat the slides until one group is wider than any stage, so the
+    // 2-group loop never shows a gap.
+    const cards: BeforeAfterSlideItem[] = [];
+    while (cards.length < 8) cards.push(...slides);
+    const duration = cards.length * secondsPerCard;
+
+    const laneGroup = (kind: "before" | "after", hidden: boolean) => html`
+      <div class="ba-x-group" aria-hidden=${hidden ? "true" : "false"}>
+        ${cards.map((s) => {
+          // Fall back to the other image so a half-filled slide doesn't
+          // leave a blank card in one lane.
+          const src =
+            kind === "before"
+              ? s.before_image || s.after_image
+              : s.after_image || s.before_image;
+          const alt = hidden
+            ? ""
+            : this._t(s.caption) ||
+              (kind === "before" ? labelBefore : labelAfter);
+          return html`<div class="ba-x-card">
+            ${src
+              ? html`<img
+                  src=${src}
+                  alt=${alt}
+                  loading="lazy"
+                  draggable="false"
+                />`
+              : nothing}
+          </div>`;
+        })}
+      </div>
+    `;
+
+    const xStyle = [
+      `--ba-x-item-w: ${itemW}px`,
+      `--ba-x-gap: ${gap}px`,
+      `--ba-x-duration: ${duration}s`,
+      c.crossover_divider_color
+        ? `--ba-x-divider-color: ${c.crossover_divider_color}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+
+    return html`
+      <div
+        class="ba-x"
+        style=${xStyle}
+        data-before-side=${side}
+        data-anim=${enableAnim ? this._animState : "in"}
+        ?data-pause-hover=${pauseHover}
+      >
+        ${showLabels
+          ? html`
+              <div class="ba-x-pills">
+                <span class="ba-x-pill">${labelBefore}</span>
+                <span class="ba-x-pill">${labelAfter}</span>
+              </div>
+            `
+          : nothing}
+        <div class="ba-x-stage">
+          <div class="ba-x-lane ba-x-lane--before">
+            <div class="ba-x-track">
+              ${laneGroup("before", false)}${laneGroup("before", true)}
+            </div>
+          </div>
+          <div class="ba-x-lane ba-x-lane--after" aria-hidden="true">
+            <div class="ba-x-track">
+              ${laneGroup("after", true)}${laneGroup("after", true)}
+            </div>
+          </div>
+          <div class="ba-x-divider" aria-hidden="true"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ------------------------------------------------------------
   // Render
   // ------------------------------------------------------------
 
@@ -637,6 +749,37 @@ export default class GrowthBeforeAfter extends LitElement {
     const isSingle = slides.length === 1;
     const chevronPath = "m9 6 6 6-6 6";
 
+    const header =
+      title || subtitle
+        ? html`
+            <div
+              class="ba-header"
+              data-anim=${enableAnim ? this._animState : "in"}
+            >
+              ${title ? html`<h2 class="ba-title">${title}</h2>` : nothing}
+              ${subtitle
+                ? html`<p class="ba-subtitle">${subtitle}</p>`
+                : nothing}
+            </div>
+          `
+        : nothing;
+
+    if (c.crossover_enabled) {
+      return html`
+        <section class="ba-section" style=${hostStyle} data-mode="crossover">
+          ${header}
+          ${this._renderCrossover(
+            c,
+            slides,
+            labelBefore,
+            labelAfter,
+            showLabels,
+            enableAnim
+          )}
+        </section>
+      `;
+    }
+
     return html`
       <section
         class="ba-section"
@@ -647,19 +790,7 @@ export default class GrowthBeforeAfter extends LitElement {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${title || subtitle
-          ? html`
-              <div
-                class="ba-header"
-                data-anim=${enableAnim ? this._animState : "in"}
-              >
-                ${title ? html`<h2 class="ba-title">${title}</h2>` : nothing}
-                ${subtitle
-                  ? html`<p class="ba-subtitle">${subtitle}</p>`
-                  : nothing}
-              </div>
-            `
-          : nothing}
+        ${header}
 
         <div class="ba-stage">
           <div class="ba-track">

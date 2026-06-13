@@ -8,6 +8,8 @@ export type MaybeMultiLang = string | { ar?: string; en?: string } | null | unde
 
 export type BeforeAfterAspect = "1/1" | "4/3" | "16/9" | "3/4" | "9/16";
 export type BeforeAfterDesktopLayout = "coverflow" | "single";
+export type CrossoverSpeed = "slow" | "normal" | "fast";
+export type CrossoverItemSize = "sm" | "md" | "lg";
 
 /**
  * Raw shape from a Salla `source: "products"` picker. Salla resolves this
@@ -70,4 +72,16 @@ export interface BeforeAfterConfig {
 
   // --- Motion ---
   enable_entrance_anim?: boolean;
+
+  // --- Crossover mode (وضع العبور) ---
+  // Replaces the carousel with a continuous marquee strip flowing past a
+  // fixed glowing divider: cards show the "before" image on one side of the
+  // line and transform to the "after" image as they cross it.
+  crossover_enabled?: boolean;
+  crossover_speed?: CrossoverSpeed;
+  crossover_item_size?: CrossoverItemSize;
+  crossover_gap?: number | string;          // px between cards
+  crossover_pause_on_hover?: boolean;
+  crossover_reverse?: boolean;              // flip flow direction (and before/after sides)
+  crossover_divider_color?: string;         // glowing divider colour
 }

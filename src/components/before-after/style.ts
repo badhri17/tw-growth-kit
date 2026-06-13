@@ -6,6 +6,15 @@ export const beforeAfterStyles = css`
     font-family: inherit;
     direction: inherit;
 
+    /* Size containment: the host's width is taken from its container, never
+       from its contents. Stops the crossover marquee's max-content track from
+       forcing an ancestor grid/flex item — e.g. Salla's component card —
+       wider than the viewport and pushing other sections off-screen.
+       Width-only containment; height still grows with content. */
+    container-type: inline-size;
+    min-width: 0;
+    max-width: 100%;
+
     /* Tunable CSS custom properties — themes/merchants can override at :root. */
     --ba-bg: #f5f5f5;
     --ba-title-color: #212529;
@@ -588,6 +597,198 @@ export const beforeAfterStyles = css`
     transition-delay: 0.26s;
   }
 
+  /* ============================================================
+     Crossover mode (وضع العبور)
+     Two identical marquee tracks overlap: the bottom one renders
+     "before" images, the top one "after" images. Each lane is
+     clipped at the centre line, so a card crossing the glowing
+     divider is split live — before on one side, after on the other.
+     Pure CSS animation; both tracks start the same frame so they
+     stay in sync.
+  ============================================================ */
+  .ba-x {
+    width: 100%;
+    max-width: 1200px;
+    /* Card width: merchant-picked base, clamped so two cards + divider
+       always fit on a narrow phone. */
+    --x-w: min(var(--ba-x-item-w, 260px), 62vw);
+  }
+
+  /* Before/after pills above the strip, one per side (like the design).
+     Forced LTR so "first child = left pill" holds; the before/after side
+     swap is driven entirely by data-before-side (set in JS from the
+     document direction + the reverse toggle). */
+  .ba-x-pills {
+    display: flex;
+    direction: ltr;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(1rem, 3vw, 1.75rem);
+    padding-inline: 4px;
+  }
+  .ba-x[data-before-side="right"] .ba-x-pills {
+    flex-direction: row-reverse;
+  }
+  .ba-x-pill {
+    background: var(--ba-label-bg);
+    color: var(--ba-label-text);
+    font-weight: 700;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    letter-spacing: 0.04em;
+    padding: 8px 22px;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.25);
+  }
+
+  .ba-x-stage {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* Forced LTR: the track must stay left-aligned for the physical
+       translateX keyframes + clip-path inset() math to hold in RTL docs. */
+    direction: ltr;
+    /* Vertical breathing room lets the divider extend past the cards. */
+    padding-block: clamp(20px, 3.5vw, 34px);
+  }
+
+  .ba-x-lane--after {
+    position: absolute;
+    inset: 0;
+    padding-block: inherit;
+  }
+  /* Clip each lane to its half of the stage. inset() is physical,
+     so the sides come from data-before-side (computed in JS from
+     document direction + the reverse toggle). */
+  .ba-x[data-before-side="left"] .ba-x-lane--before {
+    clip-path: inset(0 50% 0 0);
+  }
+  .ba-x[data-before-side="left"] .ba-x-lane--after {
+    clip-path: inset(0 0 0 50%);
+  }
+  .ba-x[data-before-side="right"] .ba-x-lane--before {
+    clip-path: inset(0 0 0 50%);
+  }
+  .ba-x[data-before-side="right"] .ba-x-lane--after {
+    clip-path: inset(0 50% 0 0);
+  }
+
+  /* Track = two identical groups; shifting by -50% (one group) loops
+     seamlessly. Cards always flow from the "before" side toward the
+     "after" side. */
+  .ba-x-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: ba-x-flow-left var(--ba-x-duration, 40s) linear infinite;
+  }
+  .ba-x[data-before-side="left"] .ba-x-track {
+    animation-name: ba-x-flow-right;
+  }
+  @keyframes ba-x-flow-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes ba-x-flow-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+  .ba-x[data-pause-hover]:hover .ba-x-track {
+    animation-play-state: paused;
+  }
+
+  /* Each group carries its own trailing gap so two groups tile with a
+     period of exactly 50% of the track. */
+  .ba-x-group {
+    display: flex;
+    gap: var(--ba-x-gap, 20px);
+    padding-inline-end: var(--ba-x-gap, 20px);
+  }
+
+  .ba-x-card {
+    flex: 0 0 auto;
+    width: var(--x-w);
+    aspect-ratio: var(--ba-aspect);
+    border-radius: var(--ba-card-radius);
+    overflow: hidden;
+    background: #e5e7eb;
+    box-shadow: 0 14px 36px -20px rgba(0, 0, 0, 0.35);
+  }
+  .ba-x-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* --- Glowing centre divider --- */
+  .ba-x-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: clamp(5px, 0.6vw, 7px);
+    transform: translateX(-50%);
+    border-radius: 999px;
+    /* Bright core over the tinted edges so the line reads clearly on any image. */
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.85) 50%,
+        transparent 100%
+      ),
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--ba-x-divider-color, #7eb6ff) 10%,
+        var(--ba-x-divider-color, #7eb6ff) 90%,
+        transparent 100%
+      );
+    box-shadow:
+      0 0 14px var(--ba-x-divider-color, #7eb6ff),
+      0 0 36px color-mix(in srgb, var(--ba-x-divider-color, #7eb6ff) 75%, transparent),
+      0 0 80px color-mix(in srgb, var(--ba-x-divider-color, #7eb6ff) 45%, transparent);
+    z-index: 5;
+    pointer-events: none;
+    animation: ba-x-glow 2.6s ease-in-out infinite;
+  }
+  @keyframes ba-x-glow {
+    0%, 100% {
+      box-shadow:
+        0 0 14px var(--ba-x-divider-color, #7eb6ff),
+        0 0 36px color-mix(in srgb, var(--ba-x-divider-color, #7eb6ff) 75%, transparent),
+        0 0 80px color-mix(in srgb, var(--ba-x-divider-color, #7eb6ff) 45%, transparent);
+    }
+    50% {
+      box-shadow:
+        0 0 20px var(--ba-x-divider-color, #7eb6ff),
+        0 0 52px color-mix(in srgb, var(--ba-x-divider-color, #7eb6ff) 90%, transparent),
+        0 0 110px color-mix(in srgb, var(--ba-x-divider-color, #7eb6ff) 60%, transparent);
+    }
+  }
+
+  /* --- Entrance: fade + rise, reusing the header's anim gate --- */
+  .ba-x[data-anim="ready"] .ba-x-pills,
+  .ba-x[data-anim="ready"] .ba-x-stage {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(10px);
+  }
+  .ba-x[data-anim="in"] .ba-x-pills,
+  .ba-x[data-anim="in"] .ba-x-stage {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ba-x[data-anim="in"] .ba-x-stage {
+    transition-delay: 0.18s;
+  }
+
   /* --- Empty state --- */
   .ba-empty {
     width: 100%;
@@ -619,6 +820,17 @@ export const beforeAfterStyles = css`
       transform: none !important;
       opacity: 1 !important;
       filter: blur(0) !important;
+    }
+    .ba-x-track,
+    .ba-x-divider {
+      animation: none !important;
+    }
+    .ba-x[data-anim] .ba-x-pills,
+    .ba-x[data-anim] .ba-x-stage {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: blur(0) !important;
+      transition: none !important;
     }
   }
 

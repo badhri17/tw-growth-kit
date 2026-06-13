@@ -1187,6 +1187,13 @@
                             "value": "single",
                             "key": "dl-s"
                         }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
                     ]
                 },
                 {
@@ -1220,6 +1227,13 @@
                             "label": "ثلاثة أرباع (٧٥٪)",
                             "value": "75",
                             "key": "ip-75"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
                         }
                     ]
                 },
@@ -1274,25 +1288,253 @@
                     "description": "افتراضيًا تظهر صورة «قبل» على اليسار و«بعد» على اليمين. فعّل هذا الخيار لعكس ذلك.",
                     "format": "switch",
                     "selected": false,
-                    "required": false
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "static",
                     "format": "line",
-                    "id": "divider-4"
+                    "id": "divider-crossover"
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-crossover",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>وضع العبور ⚡</div>",
+                    "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "crossover-note",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>وضع عرض بديل بالكامل: تتحول الشرائح إلى <strong>شريط متحرك</strong> يمر عبر خط متوهج في منتصف القسم — تظهر صورة «قبل» في جهة، وتتحول مباشرة إلى «بعد» لحظة عبورها الخط. عند تفعيله تُخفى إعدادات طريقة العرض التقليدية (التنقل، التشغيل التلقائي…) لأنها لا تنطبق، بينما تبقى إعدادات مقاس الصورة ونعومة الحواف والتسميات فعّالة.</div>"
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "crossover_enabled",
+                    "label": "تفعيل وضع العبور",
+                    "description": "يستبدل السلايدر بشريط تحوّل متحرك يعبر خطًا متوهجًا في المنتصف.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "crossover_speed",
+                    "label": "سرعة الحركة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "متوسطة",
+                            "value": "normal",
+                            "key": "xs-normal"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "بطيئة (هادئة وفاخرة)",
+                            "value": "slow",
+                            "key": "xs-slow"
+                        },
+                        {
+                            "label": "متوسطة",
+                            "value": "normal",
+                            "key": "xs-normal"
+                        },
+                        {
+                            "label": "سريعة (حيوية)",
+                            "value": "fast",
+                            "key": "xs-fast"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "crossover_item_size",
+                    "label": "حجم البطاقات",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ],
+                    "description": "عرض كل بطاقة في الشريط. يتقلّص تلقائيًا على الجوال، ويُحسب الارتفاع من «مقاس الصورة» أعلاه.",
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "md",
+                            "key": "xz-md"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغير",
+                            "value": "sm",
+                            "key": "xz-sm"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "md",
+                            "key": "xz-md"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "lg",
+                            "key": "xz-lg"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "crossover_gap",
+                    "label": "المسافة بين البطاقات",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "متوسطة (٢٠ بكسل)",
+                            "value": "20",
+                            "key": "xg-20"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "ضيقة (١٢ بكسل)",
+                            "value": "12",
+                            "key": "xg-12"
+                        },
+                        {
+                            "label": "متوسطة (٢٠ بكسل)",
+                            "value": "20",
+                            "key": "xg-20"
+                        },
+                        {
+                            "label": "واسعة (٣٢ بكسل)",
+                            "value": "32",
+                            "key": "xg-32"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "crossover_pause_on_hover",
+                    "label": "إيقاف الحركة عند مرور المؤشر",
+                    "description": "يتوقف الشريط مؤقتًا عندما يمرر الزائر مؤشر الفأرة فوقه ليتأمل التفاصيل.",
+                    "format": "switch",
+                    "selected": true,
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "id": "crossover_reverse",
+                    "label": "عكس اتجاه الحركة",
+                    "description": "افتراضيًا تبدأ البطاقات من جهة «قبل» وتعبر الخط نحو جهة «بعد» حسب اتجاه لغة المتجر. فعّل هذا الخيار لعكس الجهتين واتجاه الحركة.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "crossover_divider_color",
+                    "label": "لون الخط المتوهج",
+                    "icon": "sicon-color-palette",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ],
+                    "value": "#7eb6ff"
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-4",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "static",
                     "format": "title",
                     "id": "section-carousel",
                     "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة عرض المقارنات</div>",
-                    "variant": "h5"
+                    "variant": "h5",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "static",
                     "format": "description",
                     "id": "carousel-note",
-                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر إعدادات عرض المقارنات فقط عند إضافة مقارنتين أو أكثر.</div>"
+                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر إعدادات عرض المقارنات فقط عند إضافة مقارنتين أو أكثر.</div>",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "boolean",
@@ -1301,7 +1543,14 @@
                     "label": "إظهار أزرار التنقل",
                     "format": "switch",
                     "selected": true,
-                    "required": false
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "boolean",
@@ -1310,7 +1559,14 @@
                     "label": "إظهار نقاط التنقل",
                     "format": "switch",
                     "selected": false,
-                    "required": false
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "boolean",
@@ -1320,7 +1576,14 @@
                     "description": "عند الوصول لآخر شريحة، يعود السلايدر للأولى تلقائيًا.",
                     "format": "switch",
                     "selected": true,
-                    "required": false
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "boolean",
@@ -1330,7 +1593,14 @@
                     "description": "ينتقل تلقائيًا بين الشرائح. يتوقف مؤقتًا عند مرور المؤشر فوق السلايدر أو أثناء السحب.",
                     "format": "switch",
                     "selected": false,
-                    "required": false
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "items",
@@ -1368,6 +1638,13 @@
                             "label": "١٠ ثوانٍ",
                             "value": "10",
                             "key": "ad-10"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
                         }
                     ]
                 },
@@ -1417,6 +1694,13 @@
                             "label": "الشريحة ٥",
                             "value": "5",
                             "key": "is-5"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
                         }
                     ]
                 },
@@ -1470,7 +1754,14 @@
                     "label": "لون مقبض السحب",
                     "icon": "sicon-format-fill",
                     "required": false,
-                    "value": "#ffffff"
+                    "value": "#ffffff",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "string",
@@ -1480,7 +1771,14 @@
                     "label": "لون أيقونة المقبض والنقاط",
                     "icon": "sicon-color-palette",
                     "required": false,
-                    "value": "#000000"
+                    "value": "#000000",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "string",
@@ -1490,7 +1788,14 @@
                     "label": "لون الخط الفاصل",
                     "icon": "sicon-color-palette",
                     "required": false,
-                    "value": "#ffffff"
+                    "value": "#ffffff",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "string",
@@ -1520,7 +1825,14 @@
                     "label": "لون خلفية بطاقة المنتج",
                     "icon": "sicon-format-fill",
                     "required": false,
-                    "value": "#ffffff"
+                    "value": "#ffffff",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "string",
@@ -1530,7 +1842,14 @@
                     "label": "لون نص بطاقة المنتج",
                     "icon": "sicon-color-palette",
                     "required": false,
-                    "value": "#111111"
+                    "value": "#111111",
+                    "conditions": [
+                        {
+                            "id": "crossover_enabled",
+                            "operation": "=",
+                            "value": false
+                        }
+                    ]
                 },
                 {
                     "type": "static",
