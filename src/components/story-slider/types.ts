@@ -18,8 +18,19 @@ export type MaybeMultiLang =
   | null
   | undefined;
 
-/** Raw Salla product picker payload — parsed defensively at the call site. */
-export type RawProductPick = unknown;
+/**
+ * Value from a Salla `variable-list` link field. The platform resolves the
+ * picked target (product / category / page / brand / blog / external URL) to a
+ * final URL string; we type it loosely because it may arrive as a bare string,
+ * a `{ url | value }` object, or a single-item array wrapping either.
+ * Resolved via `_resolveLink`.
+ */
+export type RawLinkValue =
+  | string
+  | { url?: string; value?: string; label?: string }
+  | Array<string | { url?: string; value?: string; label?: string }>
+  | null
+  | undefined;
 
 /* ------------------------------------------------------------------------
  * Variant unions — every visual axis is a curated enum.
@@ -152,10 +163,12 @@ export interface StorySlideItem {
   badge?: MaybeMultiLang;
   /** CTA button label (optional). */
   cta_label?: MaybeMultiLang;
-  /** Free-form CTA URL — wins over linked product. */
-  cta_url?: string;
-  /** Linked product (picker). Falls back here when `cta_url` is empty. */
-  product?: RawProductPick;
+  /**
+   * CTA target — Salla `variable-list` link picker. Points the button at a
+   * product / category / page / brand / blog article / offers page / external
+   * URL; resolved to a final URL string by the platform.
+   */
+  link?: RawLinkValue;
   /** Optional per-slide text colour override (rare — only when the bg fights the default). */
   text_color?: string;
 }

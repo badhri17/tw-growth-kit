@@ -614,6 +614,13 @@ export const beforeAfterStyles = css`
     --x-w: min(var(--ba-x-item-w, 260px), 62vw);
   }
 
+  @media (min-width: 768px) {
+    .ba-x {
+      /* On desktop we use the desktop width variables, clamped against desktop viewport so it doesn't break containers. */
+      --x-w: min(var(--ba-x-item-w-desktop, 360px), 40vw);
+    }
+  }
+
   /* Before/after pills above the strip, one per side (like the design).
      Forced LTR so "first child = left pill" holds; the before/after side
      swap is driven entirely by data-before-side (set in JS from the
@@ -638,6 +645,13 @@ export const beforeAfterStyles = css`
     padding: 8px 22px;
     border-radius: 999px;
     box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (min-width: 768px) {
+    .ba-x-pill {
+      font-size: 1.15rem;
+      padding: 10px 28px;
+    }
   }
 
   .ba-x-stage {

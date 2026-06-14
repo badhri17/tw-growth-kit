@@ -615,6 +615,7 @@ export default class GrowthBeforeAfter extends LitElement {
       "md"
     );
     const itemW = size === "sm" ? 200 : size === "lg" ? 320 : 260;
+    const itemWDesktop = size === "sm" ? 280 : size === "lg" ? 440 : 360;
     const gap = Math.max(0, this._num(c.crossover_gap, 20));
     const pauseHover = c.crossover_pause_on_hover !== false;
     const side = this._crossoverBeforeSide();
@@ -654,6 +655,7 @@ export default class GrowthBeforeAfter extends LitElement {
 
     const xStyle = [
       `--ba-x-item-w: ${itemW}px`,
+      `--ba-x-item-w-desktop: ${itemWDesktop}px`,
       `--ba-x-gap: ${gap}px`,
       `--ba-x-duration: ${duration}s`,
       c.crossover_divider_color

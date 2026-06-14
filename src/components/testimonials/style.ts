@@ -361,6 +361,87 @@ export const testimonialsStyles = css`
   }
 
   /* ============================================================
+     CARD — overlay (full-bleed photo + frosted-glass bottom panel)
+     ============================================================ */
+  .t-card[data-style="overlay"] {
+    padding: 0;
+    gap: 0;
+    position: relative;
+    aspect-ratio: var(--t-aspect);
+    justify-content: flex-end;
+    /* Solid fallback shows through when an item has no photo. */
+    background: #14181f;
+  }
+  .t-card[data-style="overlay"][data-tone="light"] {
+    background: #e9e7e2;
+  }
+  .t-overlay-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+  }
+  /* The frosted panel: blurs the photo behind it (backdrop-filter) and lays a
+     translucent veil on top, so the comment stays crisp while its backdrop softens.
+     Structure is shared; the veil + text colours are tone-driven below. */
+  .t-overlay-panel {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: clamp(15px, 5%, 22px);
+    border-radius: 0 0 var(--t-radius) var(--t-radius);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25);
+    backdrop-filter: blur(16px) saturate(1.25);
+  }
+  /* Dark tone (default for any overlay that isn't explicitly light):
+     dark veil + light-on-dark text. */
+  .t-card[data-style="overlay"]:not([data-tone="light"]) .t-overlay-panel {
+    background: linear-gradient(
+      to top,
+      rgba(15, 18, 22, 0.76),
+      rgba(15, 18, 22, 0.46)
+    );
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    --t-text: rgba(255, 255, 255, 0.92);
+    --t-name: #ffffff;
+    --t-meta: rgba(255, 255, 255, 0.72);
+    --t-accent: rgba(255, 255, 255, 0.92);
+  }
+  .t-card[data-style="overlay"]:not([data-tone="light"]) .t-rating--num {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.18);
+  }
+  /* Light tone: frosted white veil + dark text; quote mark keeps the brand accent. */
+  .t-card[data-style="overlay"][data-tone="light"] .t-overlay-panel {
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 255, 255, 0.52)
+    );
+    --t-text: #2c333d;
+    --t-name: #14181f;
+    --t-meta: #6b7480;
+  }
+  .t-card[data-style="overlay"][data-tone="light"] .t-rating--num {
+    color: #14181f;
+    background: rgba(20, 24, 31, 0.07);
+  }
+  .t-card[data-style="overlay"] .t-quote-mark {
+    opacity: 0.85;
+  }
+  .t-card[data-style="overlay"] .t-quote-mark svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* ============================================================
      CARD — bubble (speech bubble + tail, author below)
      ============================================================ */
   .t-card[data-style="bubble"] {
@@ -792,13 +873,17 @@ export const testimonialsStyles = css`
       transform: translateY(-6px);
       box-shadow: 0 34px 64px -30px rgba(15, 23, 42, 0.5);
     }
-    .t-section[data-hover-lift="on"] .t-card[data-style="modern"] .t-photo > img {
+    .t-section[data-hover-lift="on"] .t-card[data-style="modern"] .t-photo > img,
+    .t-section[data-hover-lift="on"] .t-card[data-style="overlay"] .t-overlay-photo {
       transition: transform 0.7s var(--t-ease);
     }
     .t-section[data-hover-lift="on"]
       .t-card[data-style="modern"]:hover
       .t-photo
-      > img {
+      > img,
+    .t-section[data-hover-lift="on"]
+      .t-card[data-style="overlay"]:hover
+      .t-overlay-photo {
       transform: scale(1.05);
     }
   }
@@ -837,6 +922,7 @@ export const testimonialsStyles = css`
     }
     .t-card,
     .t-photo > img,
+    .t-overlay-photo,
     .t-grid-cell,
     .t-carousel-cell,
     .t-header > *,

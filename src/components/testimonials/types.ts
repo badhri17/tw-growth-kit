@@ -25,6 +25,7 @@ export type TestimonialsLayout = "marquee" | "carousel" | "grid" | "masonry";
 /** Visual treatment / shape of each testimonial card. */
 export type TestimonialCardStyle =
   | "modern" // UGC photo-led card: customer's product photo with a name chip overlaid
+  | "overlay" // full-bleed customer photo with a frosted-glass panel pinned to the bottom
   | "quote" // large quotation mark, text-forward
   | "bubble" // chat speech-bubble with a tail, author sits below
   | "minimal" // clean hairline-bordered card, no elevation
@@ -49,7 +50,10 @@ export type TestimonialMarqueeDirection = "forward" | "backward";
 export type TestimonialAutoplayDelay = "3" | "5" | "7" | "10";
 
 /** Card image aspect ratio (the large photo in photo-led styles). */
-export type TestimonialPhotoAspect = "1/1" | "4/3" | "3/4" | "4/5" | "16/9";
+export type TestimonialPhotoAspect = "1/1" | "2/3" | "3/4" | "4/5" | "5/7";
+
+/** Glass tone of the "overlay" card's frosted bottom panel (drives text color too). */
+export type TestimonialOverlayTone = "dark" | "light";
 
 /** Card corner roundness in px (resolved as a number). */
 export type TestimonialCardRadius = string | number;
@@ -95,7 +99,9 @@ export interface TestimonialsConfig {
   columns_desktop?: TestimonialsColumnsDesktop; // "inherit" → reuse mobile
   card_style?: TestimonialCardStyle;
   card_radius?: TestimonialCardRadius;
-  photo_aspect?: TestimonialPhotoAspect;
+  photo_aspect?: TestimonialPhotoAspect; // "modern" photo box ratio
+  card_aspect?: TestimonialPhotoAspect; // "overlay" full-bleed card ratio
+  overlay_tone?: TestimonialOverlayTone; // "overlay" frosted panel tone
 
   // --- Element toggles ---
   show_rating?: boolean;

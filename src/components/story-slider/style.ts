@@ -973,26 +973,6 @@ export const storySliderStyles = css`
     font-size: clamp(1rem, 2vw, 1.35rem);
     opacity: 0.75;
   }
-  .ss-pag-fraction .ss-pag-track {
-    width: clamp(40px, 6vw, 80px);
-    height: 1px;
-    background: currentColor;
-    opacity: 0.35;
-    margin: 0 12px;
-    position: relative;
-    overflow: hidden;
-  }
-  .ss-pag-fraction .ss-pag-track::after {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    top: 0;
-    bottom: 0;
-    width: var(--ss-pag-progress, 0%);
-    background: var(--ss-pag-active);
-    opacity: 0.95;
-    transition: width 0.6s var(--ss-ease);
-  }
 
   /* --- lines (Apple-style) --- */
   .ss-pag-lines {
@@ -1224,7 +1204,6 @@ export const storySliderStyles = css`
     .ss-media video,
     .ss-content-inner > *,
     .ss-arrow,
-    .ss-pag-fraction .ss-pag-track::after,
     .ss-pag-progress::after,
     .ss-pag-lines button,
     .ss-ap-fill,
@@ -1260,9 +1239,6 @@ export const storySliderStyles = css`
     }
     .ss-pag-fraction .ss-pag-current {
       font-size: 1.6rem;
-    }
-    .ss-pag-fraction .ss-pag-track {
-      width: 36px;
     }
     .ss-content {
       padding: 1.25rem;

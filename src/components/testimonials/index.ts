@@ -13,6 +13,7 @@ import type {
   TestimonialMarqueeSpeed,
   TestimonialMarqueeDirection,
   TestimonialPhotoAspect,
+  TestimonialOverlayTone,
   MaybeMultiLang,
   ResolvedProduct,
 } from "./types";
@@ -40,8 +41,8 @@ interface CardOpts {
  * A premium, social-proof wall with four arrangements and five card shapes:
  *   • Layouts: marquee (1–2 auto-scrolling rows), carousel (scroll-snap with
  *     arrows/dots/autoplay), grid, and masonry.
- *   • Card styles: modern (photo-led with overlaid name chip), quote, bubble,
- *     minimal, glass.
+ *   • Card styles: modern (photo-led with overlaid name chip), overlay (full-bleed
+ *     photo with a frosted-glass panel at the bottom), quote, bubble, minimal, glass.
  *   • Each review can link a real store product → renders a shoppable chip with
  *     image, name, price + sale price; clicking it opens the product page.
  *   • Fractional star ratings (e.g. 4.9).
@@ -708,8 +709,15 @@ export default class GrowthTestimonials extends LitElement {
     const meta = this._t(item.meta);
     const quote = this._t(item.quote);
 
-    // Modern style shows the customer's own product photo (UGC); others use the round avatar.
-    const photo = opts.showPhoto && cardStyle === "modern" ? item.photo || "" : "";
+    // Photo-led styles show the customer's own product photo (UGC); others use the
+    // round avatar. In "modern" the photo can be toggled off (text-only card); in
+    // "overlay" the photo IS the card, so it's always used when present.
+    const photo =
+      cardStyle === "overlay"
+        ? item.photo || ""
+        : cardStyle === "modern" && opts.showPhoto
+        ? item.photo || ""
+        : "";
     const avatar = opts.showAvatar ? item.avatar || DEFAULT_AVATAR : "";
 
     const ratingBlock = opts.showRating
@@ -766,6 +774,39 @@ export default class GrowthTestimonials extends LitElement {
             ${!photo ? author(true) : nothing} ${ratingBlock}
             ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
             ${chipBlock}
+          </div>
+        </article>
+      `;
+    }
+
+    // --- overlay: full-bleed photo with a frosted-glass panel pinned to the bottom ---
+    if (cardStyle === "overlay") {
+      const tone = this._pickValue<TestimonialOverlayTone>(
+        this.config?.overlay_tone,
+        "dark"
+      );
+      return html`
+        <article
+          class="t-card"
+          data-style="overlay"
+          data-tone=${tone}
+          data-index=${index}
+        >
+          ${photo
+            ? html`<img
+                class="t-overlay-photo"
+                src=${photo}
+                alt=${name ? `تصوير العميل: ${name}` : "تصوير العميل"}
+                loading="lazy"
+              />`
+            : nothing}
+          <div class="t-overlay-panel">
+            ${opts.showQuoteMark
+              ? html`<span class="t-quote-mark">${this._icon("quote")}</span>`
+              : nothing}
+            ${ratingBlock}
+            ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
+            ${author(true)} ${chipBlock}
           </div>
         </article>
       `;
@@ -977,8 +1018,14 @@ export default class GrowthTestimonials extends LitElement {
   private _buildHostStyle(c: TestimonialsConfig): string {
     const cols = this._resolveColumns();
     const cardRadius = this._num(c.card_radius, 20);
+    // Each photo style carries its own ratio field (Salla conditions match a single
+    // card_style), so resolve from the field that matches the active style.
+    const cardStyle = this._pickValue<TestimonialCardStyle>(
+      c.card_style,
+      "modern"
+    );
     const aspect = this._pickValue<TestimonialPhotoAspect>(
-      c.photo_aspect,
+      cardStyle === "overlay" ? c.card_aspect : c.photo_aspect,
       "4/5"
     );
     const parts = [

@@ -359,7 +359,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "bg-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يختار المكون الخلفية تلقائيًا حسب جهاز الزائر: على الجوال تستخدم حقول الجوال، وعلى الشاشات الكبيرة تستخدم حقول سطح المكتب إذا أُدخلت — وإلا فحقول الجوال. الترتيب: <strong>فيديو ← صورة ← تدرج لوني</strong>.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يختار العنصر الخلفية تلقائيًا حسب جهاز الزائر: على الجوال تستخدم حقول الجوال، وعلى الشاشات الكبيرة تستخدم حقول سطح المكتب إذا أُدخلت — وإلا فحقول الجوال. الترتيب: <strong>فيديو ← صورة ← تدرج لوني</strong>.</div>"
                 },
                 {
                     "type": "static",
@@ -986,7 +986,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "slides-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف صورة <strong>قبل</strong> وصورة <strong>بعد</strong> لكل شريحة. إذا أضفت شريحة واحدة فقط، سيظهر سلايدر مفرد بدون أزرار تنقل. أضف شريحتين أو أكثر للحصول على عرض دائري (Carousel).</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>أضف صورة <strong>قبل</strong> وصورة <strong>بعد</strong> لكل شريحة. إذا أضفت شريحة واحدة فقط، سيظهر سلايدر مفرد بدون أزرار تنقل. أضف شريحتين أو أكثر للحصول على عرض دائري (كاروسيل).</div>"
                 },
                 {
                     "id": "slides",
@@ -1312,6 +1312,12 @@
                 {
                     "type": "static",
                     "format": "description",
+                    "id": "crossover-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/crossover.png' alt='مثال توضيحي لوضع العبور' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
                     "id": "crossover-note",
                     "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>وضع عرض بديل بالكامل: تتحول الشرائح إلى <strong>شريط متحرك</strong> يمر عبر خط متوهج في منتصف القسم — تظهر صورة «قبل» في جهة، وتتحول مباشرة إلى «بعد» لحظة عبورها الخط. عند تفعيله تُخفى إعدادات طريقة العرض التقليدية (التنقل، التشغيل التلقائي…) لأنها لا تنطبق، بينما تبقى إعدادات مقاس الصورة ونعومة الحواف والتسميات فعّالة.</div>"
                 },
@@ -1423,24 +1429,24 @@
                     ],
                     "selected": [
                         {
-                            "label": "متوسطة (٢٠ بكسل)",
+                            "label": "متوسطة",
                             "value": "20",
                             "key": "xg-20"
                         }
                     ],
                     "options": [
                         {
-                            "label": "ضيقة (١٢ بكسل)",
+                            "label": "ضيقة",
                             "value": "12",
                             "key": "xg-12"
                         },
                         {
-                            "label": "متوسطة (٢٠ بكسل)",
+                            "label": "متوسطة",
                             "value": "20",
                             "key": "xg-20"
                         },
                         {
-                            "label": "واسعة (٣٢ بكسل)",
+                            "label": "واسعة",
                             "value": "32",
                             "key": "xg-32"
                         }
@@ -1495,7 +1501,7 @@
                             "value": true
                         }
                     ],
-                    "value": "#7eb6ff"
+                    "value": "#d88015"
                 },
                 {
                     "type": "static",
@@ -1527,7 +1533,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "carousel-note",
-                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر إعدادات عرض المقارنات فقط عند إضافة مقارنتين أو أكثر.</div>",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر إعدادات عرض المقارنات فقط عند إضافة مقارنتين أو أكثر.</div>",
                     "conditions": [
                         {
                             "id": "crossover_enabled",
@@ -2038,46 +2044,6 @@
                             "maxLength": 320
                         },
                         {
-                            "type": "items",
-                            "icon": "sicon-bag",
-                            "id": "product",
-                            "label": "المنتج المرتبط",
-                            "format": "dropdown-list",
-                            "source": "products",
-                            "searchable": true,
-                            "multichoice": false,
-                            "required": false,
-                            "description": "اختر منتجًا حقيقيًا من متجرك. ينتقل الزائر إلى صفحته عند الضغط على زر «تسوّق الآن».",
-                            "selected": [],
-                            "options": [],
-                            "maxLength": 1,
-                            "minLength": 0,
-                            "value": [],
-                            "conditions": [
-                                {
-                                    "id": "use_case",
-                                    "operation": "=",
-                                    "value": "home"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "string",
-                            "icon": "sicon-link",
-                            "id": "cta_url",
-                            "label": "رابط مخصص (اختياري — يتجاوز رابط المنتج)",
-                            "format": "text",
-                            "required": false,
-                            "placeholder": "/categories/spring",
-                            "conditions": [
-                                {
-                                    "id": "use_case",
-                                    "operation": "=",
-                                    "value": "home"
-                                }
-                            ]
-                        },
-                        {
                             "type": "string",
                             "icon": "sicon-format-text-alt",
                             "id": "cta_label",
@@ -2087,6 +2053,38 @@
                             "required": false,
                             "placeholder": "تسوّق الآن",
                             "maxLength": 30,
+                            "conditions": [
+                                {
+                                    "id": "use_case",
+                                    "operation": "=",
+                                    "value": "home"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "items",
+                            "icon": "sicon-link",
+                            "id": "link",
+                            "label": "رابط الزر (اختياري)",
+                            "format": "variable-list",
+                            "source": "custom",
+                            "searchable": true,
+                            "required": false,
+                            "description": "اختر وجهة الزر: منتج، تصنيف، صفحة، ماركة، مقالة، أو رابط خارجي — يتولّى سلة توليد الرابط تلقائيًا. بدون اختيار يُخفى الزر.",
+                            "value": null,
+                            "sources": [
+                                { "label": "منتج", "key": "products", "value": "products" },
+                                { "label": "منتجات مع وسم", "key": "products_tags", "value": "products_tags" },
+                                { "label": "تصنيف", "key": "categories", "value": "categories" },
+                                { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                                { "label": "صفحة تعريفية", "key": "pages", "value": "pages" },
+                                { "label": "مقالة", "key": "blog_articles", "value": "blog_articles" },
+                                { "label": "تصنيف ضمن المدونة", "key": "blog_categories", "value": "blog_categories" },
+                                { "label": "التخفيضات", "key": "offers_link", "value": "offers_link" },
+                                { "label": "الماركات التجارية", "key": "brands_link", "value": "brands_link" },
+                                { "label": "المدونة", "key": "blog_link", "value": "blog_link" },
+                                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                            ],
                             "conditions": [
                                 {
                                     "id": "use_case",
@@ -2560,7 +2558,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "carousel-note",
-                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر هذه الإعدادات فقط عند إضافة شريحتين أو أكثر.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>تظهر هذه الإعدادات فقط عند إضافة شريحتين أو أكثر.</div>"
                 },
                 {
                     "type": "boolean",
@@ -2968,23 +2966,6 @@
                             "maxLength": 320
                         },
                         {
-                            "type": "items",
-                            "icon": "sicon-bag",
-                            "id": "product",
-                            "label": "المنتج المرتبط (اختياري)",
-                            "format": "dropdown-list",
-                            "source": "products",
-                            "searchable": true,
-                            "multichoice": false,
-                            "required": false,
-                            "description": "إذا اخترت منتجًا، ينتقل الزائر إلى صفحته عند الضغط على زر الإجراء.",
-                            "selected": [],
-                            "options": [],
-                            "maxLength": 1,
-                            "minLength": 0,
-                            "value": []
-                        },
-                        {
                             "type": "string",
                             "icon": "sicon-format-text-alt",
                             "id": "cta_label",
@@ -2997,13 +2978,29 @@
                             "maxLength": 30
                         },
                         {
-                            "type": "string",
+                            "type": "items",
                             "icon": "sicon-link",
-                            "id": "cta_url",
-                            "label": "رابط الزر (اختياري — يتجاوز رابط المنتج)",
-                            "format": "text",
+                            "id": "link",
+                            "label": "رابط الزر (اختياري)",
+                            "format": "variable-list",
+                            "source": "custom",
+                            "searchable": true,
                             "required": false,
-                            "placeholder": "/categories/new"
+                            "description": "اختر وجهة الزر: منتج، تصنيف، صفحة، ماركة، مقالة، أو رابط خارجي — يتولّى سلة توليد الرابط تلقائيًا. بدون اختيار يُخفى الزر.",
+                            "value": null,
+                            "sources": [
+                                { "label": "منتج", "key": "products", "value": "products" },
+                                { "label": "منتجات مع وسم", "key": "products_tags", "value": "products_tags" },
+                                { "label": "تصنيف", "key": "categories", "value": "categories" },
+                                { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                                { "label": "صفحة تعريفية", "key": "pages", "value": "pages" },
+                                { "label": "مقالة", "key": "blog_articles", "value": "blog_articles" },
+                                { "label": "تصنيف ضمن المدونة", "key": "blog_categories", "value": "blog_categories" },
+                                { "label": "التخفيضات", "key": "offers_link", "value": "offers_link" },
+                                { "label": "الماركات التجارية", "key": "brands_link", "value": "brands_link" },
+                                { "label": "المدونة", "key": "blog_link", "value": "blog_link" },
+                                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                            ]
                         },
                         {
                             "type": "string",
@@ -3424,7 +3421,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "pag-note",
-                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>الأسلوب الافتراضي «الكسر» يُظهر رقم الشريحة الحالية مع الإجمالي (مثل <strong>٠٢ / ٠٤</strong>) داخل الشريحة من الأسفل، مع شريط تقدّم علوي للتشغيل التلقائي — مظهر راقٍ يميّزك عن السلايدرات العادية.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>الأسلوب الافتراضي «الكسر» يُظهر رقم الشريحة الحالية مع الإجمالي (مثل <strong>٠٢ / ٠٤</strong>) داخل الشريحة من الأسفل، مع شريط تقدّم علوي للتشغيل التلقائي — مظهر راقٍ يميّزك عن السلايدرات العادية.</div>"
                 },
                 {
                     "type": "items",
@@ -4972,7 +4969,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "colors-note",
-                    "value": "<div style='background-color:#fef3c7;color:#92400e;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>اترك الحقول فارغة لاستخدام ألوان متناسقة تلقائيًا حسب نمط البطاقة المختار (تتحوّل النصوص للفاتح تلقائيًا على البطاقة الجريئة والخلفية الكاملة).</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>اترك الحقول فارغة لاستخدام ألوان متناسقة تلقائيًا حسب نمط البطاقة المختار (تتحوّل النصوص للفاتح تلقائيًا على البطاقة الجريئة والخلفية الكاملة).</div>"
                 },
                 {
                     "type": "string",
@@ -5565,6 +5562,11 @@
                             "key": "card_style-0"
                         },
                         {
+                            "label": "تصوير غامر",
+                            "value": "overlay",
+                            "key": "card_style-5"
+                        },
+                        {
                             "label": "اقتباس",
                             "value": "quote",
                             "key": "card_style-1"
@@ -5594,23 +5596,23 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "يُطبّق على تصوير العميل في نمط البطاقة «تصوير العملاء».",
+                    "description": "نسبة أبعاد صورة العميل في نمط البطاقة «تصوير العملاء».",
                     "selected": [
                         {
                             "label": "عمودي 4:5",
                             "value": "4/5",
-                            "key": "photo_aspect-0"
+                            "key": "photo_aspect-3"
                         }
                     ],
                     "options": [
                         {
-                            "label": "عمودي 4:5",
-                            "value": "4/5",
+                            "label": "مربع 1:1",
+                            "value": "1/1",
                             "key": "photo_aspect-0"
                         },
                         {
-                            "label": "مربع 1:1",
-                            "value": "1/1",
+                            "label": "عمودي 2:3",
+                            "value": "2/3",
                             "key": "photo_aspect-1"
                         },
                         {
@@ -5619,13 +5621,13 @@
                             "key": "photo_aspect-2"
                         },
                         {
-                            "label": "أفقي 4:3",
-                            "value": "4/3",
+                            "label": "عمودي 4:5",
+                            "value": "4/5",
                             "key": "photo_aspect-3"
                         },
                         {
-                            "label": "أفقي 16:9",
-                            "value": "16/9",
+                            "label": "عمودي 5:7",
+                            "value": "5/7",
                             "key": "photo_aspect-4"
                         }
                     ],
@@ -5634,6 +5636,93 @@
                             "id": "card_style",
                             "operation": "=",
                             "value": "modern"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-image",
+                    "id": "card_aspect",
+                    "label": "نسبة البطاقة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "نسبة أبعاد البطاقة في نمط البطاقة «تصوير غامر».",
+                    "selected": [
+                        {
+                            "label": "عمودي 4:5",
+                            "value": "4/5",
+                            "key": "card_aspect-3"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "مربع 1:1",
+                            "value": "1/1",
+                            "key": "card_aspect-0"
+                        },
+                        {
+                            "label": "عمودي 2:3",
+                            "value": "2/3",
+                            "key": "card_aspect-1"
+                        },
+                        {
+                            "label": "عمودي 3:4",
+                            "value": "3/4",
+                            "key": "card_aspect-2"
+                        },
+                        {
+                            "label": "عمودي 4:5",
+                            "value": "4/5",
+                            "key": "card_aspect-3"
+                        },
+                        {
+                            "label": "عمودي 5:7",
+                            "value": "5/7",
+                            "key": "card_aspect-4"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "card_style",
+                            "operation": "=",
+                            "value": "overlay"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-color-palette",
+                    "id": "overlay_tone",
+                    "label": "لون التأثير الزجاجي",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "لون الطبقة الزجاجية أسفل البطاقة في نمط «تصوير غامر». يُضبط لون النص تلقائيًا ليبقى واضحًا.",
+                    "selected": [
+                        {
+                            "label": "داكن",
+                            "value": "dark",
+                            "key": "overlay_tone-0"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "داكن",
+                            "value": "dark",
+                            "key": "overlay_tone-0"
+                        },
+                        {
+                            "label": "فاتح",
+                            "value": "light",
+                            "key": "overlay_tone-1"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "card_style",
+                            "operation": "=",
+                            "value": "overlay"
                         }
                     ]
                 },

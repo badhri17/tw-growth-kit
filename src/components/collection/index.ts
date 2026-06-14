@@ -13,20 +13,12 @@ import type {
 } from "./types";
 import { collectionStyles } from "./style";
 
-/** Product shape after we fetch full details from the Salla SDK. */
-interface ResolvedProduct {
-  name: string;
-  image?: string;
-  imageAlt?: string;
-  url: string;
-}
-
 /**
  * <growth-collection> — Collection / Bundle slider (مكونات المجموعة)
  * Part of the Growth Kit bundle for Salla Twilight.
  *
  * Two surfaces, one component:
- *   • use_case: "home"   → curated collection slider; per-slide CTA links to a product.
+ *   • use_case: "home"   → curated collection slider; per-slide CTA links anywhere (product / category / page …).
  *   • use_case: "bundle" → "what's inside this kit" on a product page; info-only.
  *
  * Two animation modes:
@@ -171,113 +163,37 @@ export default class GrowthCollection extends LitElement {
     if (!Array.isArray(list)) return [];
     return list.filter((s) => {
       if (!s || typeof s !== "object") return false;
-      return !!(s.image || s.image_opened || s.product);
+      return !!(s.image || s.image_opened || s.link);
     });
   }
 
   // ------------------------------------------------------------
-  // Product resolution
+  // Link resolution
+  //
+  // `slide.link` is a Salla `variable-list` field: the platform resolves the
+  // picked target (product / category / page / brand / blog / external URL) to
+  // a final URL string server-side. We still parse defensively because the
+  // value can arrive as a bare string, a `{ url | value }` object, or a
+  // single-item array wrapping either — and we treat "" / "#" as "no link".
   // ------------------------------------------------------------
 
-  private _productCache = new Map<
-    number,
-    | { status: "loading"; label: string }
-    | { status: "loaded"; data: ResolvedProduct }
-    | { status: "failed" }
-  >();
-
-  private _pickerSelection(
-    val: unknown
-  ): { id: number; label: string } | null {
-    if (!val) return null;
-    if (typeof val === "string" || typeof val === "number") {
-      const id = Number(val);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    const picked = Array.isArray(val) ? val[0] : val;
-    if (!picked) return null;
-    if (typeof picked === "string" || typeof picked === "number") {
-      const id = Number(picked);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    if (typeof picked !== "object") return null;
-    const obj = picked as Record<string, unknown>;
-    const raw = obj.value ?? obj.id ?? obj.product_id;
-    if (raw === undefined || raw === null) return null;
-    const id = typeof raw === "number" ? raw : Number(raw);
-    if (!id || Number.isNaN(id)) return null;
-    const label = String(obj.label ?? obj.name ?? obj.title ?? "").trim();
-    return { id, label };
-  }
-
-  private async _fetchProduct(id: number, label: string) {
-    if (this._productCache.has(id)) return;
-
-    this._productCache.set(id, { status: "loading", label });
-    this.requestUpdate();
-
-    const Salla = (window as Window & { Salla?: any }).Salla;
-    if (!Salla) return;
-
-    try {
-      if (typeof Salla.onReady === "function") await Salla.onReady();
-      const api = Salla.product?.api?.getDetails;
-      if (typeof api !== "function") throw new Error("getDetails unavailable");
-      const res = await api(id);
-      const data = (res?.data ?? res) as Record<string, any> | undefined;
-      if (!data) throw new Error("empty product payload");
-
-      const image: string =
-        data.image?.url ||
-        data.image?.thumbnail ||
-        (Array.isArray(data.images) &&
-          (data.images[0]?.url || data.images[0])) ||
-        data.thumbnail ||
-        data.main_image ||
-        "";
-      const url: string =
-        data.url ||
-        data.urls?.customer ||
-        data.urls?.product ||
-        data.permalink ||
-        `/p${id}`;
-
-      this._productCache.set(id, {
-        status: "loaded",
-        data: {
-          name: String(data.name || data.title || label || `#${id}`),
-          image: image || undefined,
-          imageAlt: String(data.image?.alt || data.name || ""),
-          url,
-        },
-      });
-    } catch (err) {
-      console.warn("[growth-collection] product fetch failed", id, err);
-      this._productCache.set(id, { status: "failed" });
-    }
-    this.requestUpdate();
-  }
-
-  private _resolveProduct(
-    slide: CollectionSlideItem
-  ): ResolvedProduct | null {
-    const sel = this._pickerSelection(slide.product);
-    if (!sel) return null;
-    const cached = this._productCache.get(sel.id);
-    if (!cached) {
-      void this._fetchProduct(sel.id, sel.label);
-      return sel.label
-        ? { name: sel.label, url: "", image: undefined }
-        : null;
-    }
-    if (cached.status === "loaded") return cached.data;
-    if (cached.status === "loading")
-      return cached.label
-        ? { name: cached.label, url: "", image: undefined }
-        : null;
-    return null;
+  private _resolveLink(slide: CollectionSlideItem): string {
+    const raw = slide.link;
+    if (!raw) return "";
+    const pick = Array.isArray(raw) ? raw[0] : raw;
+    if (!pick) return "";
+    const url =
+      typeof pick === "string"
+        ? pick
+        : typeof pick === "object"
+          ? String(
+              (pick as Record<string, unknown>).url ??
+                (pick as Record<string, unknown>).value ??
+                ""
+            )
+          : "";
+    const trimmed = url.trim();
+    return trimmed && trimmed !== "#" ? trimmed : "";
   }
 
   // ------------------------------------------------------------
@@ -551,24 +467,12 @@ export default class GrowthCollection extends LitElement {
   // ------------------------------------------------------------
 
   private _slideImage(
-    slide: CollectionSlideItem,
-    product: ResolvedProduct | null
+    slide: CollectionSlideItem
   ): { closed?: string; opened?: string; alt: string } {
-    const closed = slide.image || product?.image || undefined;
+    const closed = slide.image || undefined;
     const opened = slide.image_opened || undefined;
-    const alt = this._t(slide.title) || product?.name || "";
+    const alt = this._t(slide.title) || "";
     return { closed, opened, alt };
-  }
-
-  private _slideCtaHref(
-    slide: CollectionSlideItem,
-    product: ResolvedProduct | null
-  ): string {
-    return (
-      (typeof slide.cta_url === "string" && slide.cta_url.trim()) ||
-      product?.url ||
-      ""
-    );
   }
 
   // ------------------------------------------------------------
@@ -635,16 +539,9 @@ export default class GrowthCollection extends LitElement {
     // Resolved once per render so the caption + CTA read from the same source
     // as the visible active slide.
     const activeSlide = slides[this._activeIndex];
-    const activeProduct = activeSlide
-      ? this._resolveProduct(activeSlide)
-      : null;
-    const activeTitle = activeSlide
-      ? this._t(activeSlide.title) || activeProduct?.name || ""
-      : "";
+    const activeTitle = activeSlide ? this._t(activeSlide.title) : "";
     const activeDesc = activeSlide ? this._t(activeSlide.description) : "";
-    const activeCtaHref = activeSlide
-      ? this._slideCtaHref(activeSlide, activeProduct)
-      : "";
+    const activeCtaHref = activeSlide ? this._resolveLink(activeSlide) : "";
     const activeCtaLabel = activeSlide
       ? this._t(activeSlide.cta_label) || defaultCtaLabel
       : defaultCtaLabel;
@@ -706,8 +603,7 @@ export default class GrowthCollection extends LitElement {
               const instant =
                 prev !== undefined &&
                 Math.abs(diff - prev) > slides.length / 2;
-              const product = this._resolveProduct(slide);
-              const { closed, opened, alt } = this._slideImage(slide, product);
+              const { closed, opened, alt } = this._slideImage(slide);
               const noOpened = !opened || animation !== "reveal";
               return html`
                 <div
@@ -913,8 +809,7 @@ export default class GrowthCollection extends LitElement {
 
           <div class="col-bag-layer">
             ${slides.map((slide, i) => {
-              const product = this._resolveProduct(slide);
-              const { closed, alt } = this._slideImage(slide, product);
+              const { closed, alt } = this._slideImage(slide);
               let state: "active" | "rising" | "sinking" | "hidden" = "hidden";
               if (i === this._activeIndex)
                 state = this._bagNavigated ? "rising" : "active";

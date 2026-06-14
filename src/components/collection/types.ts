@@ -11,7 +11,7 @@ export type MaybeMultiLang =
 
 /**
  * Two distinct surfaces this component supports:
- *   • home   → curated collection on the storefront home (CTA links to product)
+ *   • home   → curated collection on the storefront home (CTA links anywhere)
  *   • bundle → "what's inside this kit" on a product page (info-only, no CTA)
  */
 export type CollectionUseCase = "home" | "bundle";
@@ -36,8 +36,19 @@ export type CollectionDesktopLayout = "coverflow" | "single";
 export type CollectionDisplayMode = "carousel" | "bag";
 export type CollectionBagSize = "small" | "medium" | "large";
 
-/** Raw Salla product picker payload — parsed defensively at the call site. */
-export type RawProductPick = unknown;
+/**
+ * Value from a Salla `variable-list` link field. The platform resolves the
+ * picked target (product / category / page / brand / blog / external URL) to a
+ * final URL string; we type it loosely because it may arrive as a bare string,
+ * a `{ url | value }` object, or a single-item array wrapping either.
+ * Resolved via `_resolveLink`.
+ */
+export type RawLinkValue =
+  | string
+  | { url?: string; value?: string; label?: string }
+  | Array<string | { url?: string; value?: string; label?: string }>
+  | null
+  | undefined;
 
 export interface CollectionSlideItem {
   /** Primary image. In `reveal` mode this is the "closed" state. */
@@ -49,13 +60,11 @@ export interface CollectionSlideItem {
   /** Slide description — shown under the carousel, synced with active slide. */
   description?: MaybeMultiLang;
   /**
-   * Linked product (home mode). When set, the CTA falls back to the product's
-   * storefront URL and the slide image falls back to the product image if
-   * the merchant didn't upload one.
+   * CTA target (home mode) — Salla `variable-list` link picker. Points the
+   * button at a product / category / page / brand / blog article / offers page
+   * / external URL; resolved to a final URL string by the platform.
    */
-  product?: RawProductPick;
-  /** Optional CTA URL override (takes precedence over linked product URL). */
-  cta_url?: string;
+  link?: RawLinkValue;
   /** Optional per-slide CTA label override. */
   cta_label?: MaybeMultiLang;
 }
