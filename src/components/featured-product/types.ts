@@ -29,6 +29,12 @@ export type FeaturedContentAlign = "right" | "center" | "left";
 export type FeaturedBgType = "color" | "image" | "video";
 
 /**
+ * Glass tone of the frosted overlay panel in the `background` image layout
+ * (drives text colour too): dark veil + light text, or light veil + dark text.
+ */
+export type FeaturedOverlayTone = "dark" | "light";
+
+/**
  * How the product image relates to the card (the merchant-facing
  * "طريقة عرض صورة المنتج"):
  *   • inside     → image sits inside the card, content below (classic).
@@ -88,12 +94,23 @@ export interface FeaturedProductConfig {
   // --- Image display ---
   image_layout?: FeaturedImageLayout;
   image_side?: FeaturedImageSide; // split layout only
+  // aspect_ratio / image_fit / bg_effect(+color) are configured per layout:
+  // each layout owns a uniquely-id'd field so Salla's form builder shows the
+  // right one (it breaks when conditional copies share an id). The base name is
+  // the "inside" copy; "background" reads the base and ignores it.
   aspect_ratio?: FeaturedAspect;
+  aspect_ratio_floating?: FeaturedAspect;
+  aspect_ratio_split?: FeaturedAspect;
   image_fit?: FeaturedImageFit;
+  image_fit_split?: FeaturedImageFit;
 
   // --- Background effect (behind the product image) ---
   bg_effect?: FeaturedBgEffect;
+  bg_effect_floating?: FeaturedBgEffect;
+  bg_effect_split?: FeaturedBgEffect;
   bg_effect_color?: string;
+  bg_effect_color_floating?: string;
+  bg_effect_color_split?: string;
 
   // --- Card ---
   card_style?: FeaturedCardStyle;
@@ -122,6 +139,9 @@ export interface FeaturedProductConfig {
   bg_type?: FeaturedBgType;
   bg_image?: string;
   bg_video?: string;
+
+  // --- Background layout overlay ---
+  bg_overlay_tone?: FeaturedOverlayTone; // frosted panel tone in the "background" image layout
 
   // --- Highlights wrapper ---
   highlights_bg?: string;

@@ -10,6 +10,7 @@ import type {
   FeaturedCardSize,
   FeaturedCardSizeDesktop,
   FeaturedBgType,
+  FeaturedOverlayTone,
   FeaturedCardStyle,
   FeaturedContentAlign,
   FeaturedButtonRadius,
@@ -498,9 +499,37 @@ export default class GrowthFeaturedProduct extends LitElement {
       "floating"
     );
     const side = this._pickValue<FeaturedImageSide>(c.image_side, "start");
-    const aspect = this._pickValue<FeaturedAspect>(c.aspect_ratio, "1/1");
-    const imageFit = this._pickValue<FeaturedImageFit>(c.image_fit, "contain");
-    const bgEffect = this._pickValue<FeaturedBgEffect>(c.bg_effect, "glow");
+    // Aspect, image-fit, bg-effect and its colour are configured per layout in
+    // twilight-bundle.json (Salla's form builder can't hide one field for a
+    // single value, and breaks when copies share an id — so each layout owns a
+    // uniquely-id'd field). The component reads whichever matches the active
+    // layout; "background" falls back to the inside/base field (it ignores them).
+    const aspect = this._pickValue<FeaturedAspect>(
+      layout === "floating"
+        ? c.aspect_ratio_floating
+        : layout === "split"
+        ? c.aspect_ratio_split
+        : c.aspect_ratio,
+      "1/1"
+    );
+    const imageFit = this._pickValue<FeaturedImageFit>(
+      layout === "split" ? c.image_fit_split : c.image_fit,
+      "contain"
+    );
+    const bgEffect = this._pickValue<FeaturedBgEffect>(
+      layout === "floating"
+        ? c.bg_effect_floating
+        : layout === "split"
+        ? c.bg_effect_split
+        : c.bg_effect,
+      "glow"
+    );
+    const effectColor =
+      (layout === "floating"
+        ? c.bg_effect_color_floating
+        : layout === "split"
+        ? c.bg_effect_color_split
+        : c.bg_effect_color) || "";
     const cardStyle = this._pickValue<FeaturedCardStyle>(c.card_style, "soft");
     const cardRadius = this._num(c.card_radius, 24);
     const mediaRadius = Math.max(8, cardRadius - 6);
@@ -515,6 +544,10 @@ export default class GrowthFeaturedProduct extends LitElement {
     const cardSizeDesktop =
       cardSizeDesktopRaw === "inherit" ? cardSizeMobile : cardSizeDesktopRaw;
     const bgType = this._pickValue<FeaturedBgType>(c.bg_type, "color");
+    const bgOverlayTone = this._pickValue<FeaturedOverlayTone>(
+      c.bg_overlay_tone,
+      "dark"
+    );
     const contentAlign = this._pickValue<FeaturedContentAlign>(c.content_align, "right");
     const highlightsBg = c.highlights_bg || "";
 
@@ -592,7 +625,12 @@ export default class GrowthFeaturedProduct extends LitElement {
     const tiltEnabled = !!c.enable_tilt && layout !== "background";
 
     // --- Layout-aware colour resolution (merchant always wins) ---
-    const lightText = layout === "background" || cardStyle === "bold";
+    // In the background layout the frosted panel sets the text tone: a dark
+    // veil wants light text, a light veil wants dark text. "bold" card always
+    // runs light text on its rich gradient.
+    const lightText =
+      (layout === "background" && bgOverlayTone === "dark") ||
+      cardStyle === "bold";
     const cardBgDefault =
       cardStyle === "minimal"
         ? "transparent"
@@ -641,13 +679,12 @@ export default class GrowthFeaturedProduct extends LitElement {
         c.shipping_color || (lightText ? "#7ee0aa" : "#2e7d52")
       }`,
       `--fp-effect: ${
-        c.bg_effect_color || (lightText ? "#d8b478" : "#b08948")
+        effectColor || (lightText ? "#d8b478" : "#b08948")
       }`,
-      // Highlights wrapper background (only when set)
+      // Highlights wrapper background. The framing (tinted box) always renders
+      // with a context-aware default tint resolved in CSS; a merchant colour,
+      // when set, overrides that default.
       highlightsBg ? `--fp-hl-bg: ${highlightsBg}` : "",
-      highlightsBg ? `--fp-hl-radius: 14px` : "",
-      highlightsBg ? `--fp-hl-gap: 0` : "",
-      highlightsBg ? `--fp-hl-item-pad: 0.72rem 1rem` : "",
     ]
       .filter(Boolean)
       .join("; ");
@@ -748,6 +785,38 @@ export default class GrowthFeaturedProduct extends LitElement {
           ></video>`
         : nothing;
 
+    // Background layout is intentionally NOT a card: it's a full-bleed hero
+    // image with the content overlaid on top. The image keeps its natural
+    // aspect ratio (never cropped into a fixed box) and nothing is rounded, so
+    // there is no card surface and no corners to clip or bleed.
+    if (layout === "background") {
+      return html`
+        <section
+          class="fp"
+          style=${hostStyle}
+          data-enter=${this._animState}
+          data-layout="background"
+        >
+          ${bgMedia}
+          ${sectionTitle
+            ? html`<h2 class="fp-section-title">${sectionTitle}</h2>`
+            : nothing}
+          <div class="fp-hero" data-tone=${bgOverlayTone}>
+            ${imageUrl
+              ? html`<img
+                  class="fp-hero-img"
+                  src=${imageUrl}
+                  alt=${imageAlt}
+                  loading="lazy"
+                  draggable="false"
+                />`
+              : nothing}
+            ${content}
+          </div>
+        </section>
+      `;
+    }
+
     return html`
       <section
         class="fp"
@@ -765,6 +834,7 @@ export default class GrowthFeaturedProduct extends LitElement {
           data-layout=${layout}
           data-side=${side}
           data-card=${cardStyle}
+          data-tone=${bgOverlayTone}
         >
           ${media} ${content}
         </div>` : nothing}

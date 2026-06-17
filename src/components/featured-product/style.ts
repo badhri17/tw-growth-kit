@@ -36,6 +36,13 @@ export const featuredProductStyles = css`
     --fp-maxw: 600px;
     --fp-ease: cubic-bezier(0.22, 1, 0.36, 1);
     --fp-img-fit: contain;
+
+    /* Highlights tinted box (framing always on; --fp-hl-bg-default is the
+       context-aware tint, overridden by a merchant colour via --fp-hl-bg). */
+    --fp-hl-radius: 14px;
+    --fp-hl-gap: 4px;
+    --fp-hl-item-pad: 0.72rem 1rem;
+    --fp-hl-bg-default: rgba(20, 24, 31, 0.05);
   }
 
   *,
@@ -254,9 +261,10 @@ export const featuredProductStyles = css`
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--fp-hl-gap, 0.55rem);
-    background: var(--fp-hl-bg, transparent);
-    border-radius: var(--fp-hl-radius, 0);
+    gap: var(--fp-hl-gap);
+    /* Merchant colour wins; otherwise the context-aware default tint. */
+    background: var(--fp-hl-bg, var(--fp-hl-bg-default));
+    border-radius: var(--fp-hl-radius);
     overflow: hidden; /* clips first/last item corners to the border-radius */
   }
   .fp-highlight {
@@ -266,7 +274,18 @@ export const featuredProductStyles = css`
     color: var(--fp-text);
     font-size: 0.97rem;
     line-height: 1.4;
-    padding: var(--fp-hl-item-pad, 0);
+    padding: var(--fp-hl-item-pad);
+  }
+  /* Light-text contexts (bold card, dark glossy overlay) → translucent light
+     tint so the box reads on a dark surface without becoming a solid slab. */
+  .fp-card[data-card="bold"] .fp-highlights,
+  .fp-hero:not([data-tone="light"]) .fp-highlights {
+    --fp-hl-bg-default: rgba(255, 255, 255, 0.12);
+  }
+  /* Light overlay → translucent dark tint that lets the image show through
+     (no solid block over the photo). */
+  .fp-hero[data-tone="light"] .fp-highlights {
+    --fp-hl-bg-default: rgba(20, 24, 31, 0.08);
   }
   .fp-highlight svg {
     width: 20px;
@@ -422,34 +441,72 @@ export const featuredProductStyles = css`
   /* mobile: stacks (image then content). Desktop handled in media query. */
 
   /* =========================================================
-     LAYOUT: background (image fills the card; content overlays)
+     LAYOUT: background — a PRODUCT CARD whose surface is the image.
+     The image keeps its NATURAL aspect ratio (never cropped), but the
+     card is constrained to the same width tiers as every other layout
+     via --fp-maxw-* (the shared "card size" dropdown — no new control)
+     and centred. A glossy frosted overlay carries the content over the
+     lower part of the image. Corners stay clean because the image rounds
+     ITSELF and nothing solid sits behind it.
      ========================================================= */
-  .fp-card[data-layout="background"] {
-    padding: 0;
-    overflow: hidden;
-    min-height: clamp(420px, 70vw, 560px);
-    justify-content: flex-end;
-  }
-  .fp-card[data-layout="background"] .fp-media,
-  .fp-card[data-layout="background"] .fp-media-inner {
-    position: absolute;
-    inset: 0;
-    margin: 0;
-    border-radius: 0;
-    aspect-ratio: auto;
-    height: 100%;
-  }
-  .fp-card[data-layout="background"] .fp-content {
+  .fp-hero {
     position: relative;
+    width: 100%;
+    /* Same width tiers as the other layouts; desktop override below. */
+    max-width: var(--fp-maxw-mob, var(--fp-maxw));
+    margin-inline: auto;
+    overflow: hidden;
+    border-radius: var(--fp-card-radius);
+    /* Even ambient shadow so every corner is grounded the same. */
+    /* Transparent: the image is the surface. A dark fill appears only when
+       there is no image (below) — never behind it, so no corner can bleed. */
+    background: transparent;
+  }
+  /* No image provided → give the card a height + surface so the overlay reads. */
+  .fp-hero:not(:has(.fp-hero-img)) {
+    min-height: 360px;
+    background: #14181f;
+  }
+  /* Full-width image at its OWN aspect ratio (uncropped). It rounds ITSELF to
+     the card radius — a replaced element's border-radius travels with its
+     composited layer, so the corners stay clean even though the overlay's
+     backdrop-filter composites this image. */
+  .fp-hero-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--fp-card-radius);
+  }
+  /* Glossy frosted overlay (backdrop-filter blurs the image behind it) carrying
+     the content over the lower part of the card. */
+  .fp-hero .fp-content {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
     z-index: 2;
     width: 100%;
     padding: clamp(1.5rem, 5vw, 2.75rem);
-    padding-top: clamp(3rem, 10vw, 5rem);
+    padding-top: clamp(0.7rem, 2.5vw, 1rem);
+    border-radius: 0 0 var(--fp-card-radius) var(--fp-card-radius);
+    -webkit-backdrop-filter: blur(16px) saturate(1.35);
+    backdrop-filter: blur(16px) saturate(1.35);
+  }
+  .fp-hero:not([data-tone="light"]) .fp-content {
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.82) 0%,
-      rgba(0, 0, 0, 0.55) 45%,
-      transparent 100%
+      rgba(12, 15, 20, 0.86) 0%,
+      rgba(12, 15, 20, 0.6) 62%,
+      rgba(12, 15, 20, 0.32) 100%
+    );
+    
+    
+  }
+  .fp-hero[data-tone="light"] .fp-content {
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.7) 62%,
+      rgba(255, 255, 255, 0.45) 100%
     );
   }
   /* =========================================================
@@ -492,6 +549,8 @@ export const featuredProductStyles = css`
     transform: none;
     transition: opacity 0.8s var(--fp-ease), transform 0.9s var(--fp-ease);
   }
+  /* Background hero: the image (.fp-hero-img) gets no entrance transform — it
+     just appears, while only the overlaid content animates in. */
   .fp[data-enter="ready"] .fp-content > * {
     opacity: 0;
     transform: translateY(12px);
@@ -574,12 +633,10 @@ export const featuredProductStyles = css`
     .fp-card[data-layout="split"] .fp-content {
       flex: 1 1 50%;
     }
-    .fp-card[data-layout="background"] {
-      --fp-maxw: 760px;
-      min-height: 520px;
-    }
-    .fp-card[data-layout="background"] .fp-content {
-      max-width: 80%;
+    /* Background card width follows the desktop card-size tier, same as the
+       other layouts (falls back to the mobile size, then the default). */
+    .fp-hero {
+      max-width: var(--fp-maxw-desk, var(--fp-maxw-mob, var(--fp-maxw)));
     }
   }
 

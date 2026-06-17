@@ -4195,7 +4195,7 @@
                     "format": "image",
                     "required": false,
                     "description": "اتركه فارغًا لاستخدام صورة المنتج المرتبط تلقائيًا. ارفع صورة هنا لتجاوزها.",
-                    "value": "https://cdn.salla.sa/form-builder/LCEvsO7tZOIfQYRsPJ0VwyLVTnxPGqxBYSmficlh.webp"
+                    "value": "https://cdn.files.salla.network/homepage/1858334818/ca9d41ab-7a49-4f2e-8a8d-53487f20cfed.webp"
                 },
                 {
                     "type": "string",
@@ -4264,7 +4264,7 @@
                             "label": "النص",
                             "format": "text",
                             "multilanguage": true,
-                            "required": true,
+                            "required": false,
                             "placeholder": "مثل: حجم مثالي",
                             "maxLength": 48
                         }
@@ -4289,14 +4289,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-display",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة عرض صورة المنتج</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة  المنتج</div>",
                     "variant": "h5"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-layout-grid",
                     "id": "image_layout",
-                    "label": "طريقة عرض الصورة",
+                    "label": "طريقة عرض المنتج",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -4328,6 +4328,42 @@
                             "label": "كخلفية للبطاقة",
                             "value": "background",
                             "key": "il-bg"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-color-palette",
+                    "id": "bg_overlay_tone",
+                    "label": "لون التأثير الزجاجي",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "لون الطبقة الزجاجية أسفل البطاقة في وضع «كخلفية للبطاقة». يُضبط لون النص تلقائيًا ليبقى واضحًا.",
+                    "selected": [
+                        {
+                            "label": "داكن",
+                            "value": "dark",
+                            "key": "bg_overlay_tone-0"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "داكن",
+                            "value": "dark",
+                            "key": "bg_overlay_tone-0"
+                        },
+                        {
+                            "label": "فاتح",
+                            "value": "light",
+                            "key": "bg_overlay_tone-1"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "background"
                         }
                     ]
                 },
@@ -4368,13 +4404,6 @@
                     ]
                 },
                 {
-                    "type": "static",
-                    "format": "title",
-                    "id": "section-aspect-ratio-preview",
-                    "value": "<div style='margin-bottom:14px;'><img src='https://d.top4top.io/p_3796ccun31.png' alt='مقاسات الصورة' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>",
-                    "variant": "h5"
-                },
-                {
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "aspect_ratio",
@@ -4382,40 +4411,63 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "لا يُطبّق في وضع «كخلفية للبطاقة».",
+                    "description": "يُكتشف تلقائيًا من الصورة في وضع «كخلفية للبطاقة».",
                     "selected": [
-                        {
-                            "label": "مربع ١:١",
-                            "value": "1/1",
-                            "key": "fpar-1-1"
-                        }
+                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar-1-1" }
                     ],
                     "options": [
-                        {
-                            "label": "مربع ١:١",
-                            "value": "1/1",
-                            "key": "fpar-1-1"
-                        },
-                        {
-                            "label": "أفقي ٤:٣",
-                            "value": "4/3",
-                            "key": "fpar-4-3"
-                        },
-                        {
-                            "label": "عمودي ٣:٤",
-                            "value": "3/4",
-                            "key": "fpar-3-4"
-                        },
-                        {
-                            "label": "عريض ١٦:٩",
-                            "value": "16/9",
-                            "key": "fpar-16-9"
-                        },
-                        {
-                            "label": "عمودي ٩:١٦ (ستوري)",
-                            "value": "9/16",
-                            "key": "fpar-9-16"
-                        }
+                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar-1-1" },
+                        { "label": "أفقي ٤:٣", "value": "4/3", "key": "fpar-4-3" },
+                        { "label": "عمودي ٣:٤", "value": "3/4", "key": "fpar-3-4" },
+                        { "label": "عريض ١٦:٩", "value": "16/9", "key": "fpar-16-9" },
+                        { "label": "عمودي ٩:١٦ (ستوري)", "value": "9/16", "key": "fpar-9-16" }
+                    ],
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "aspect_ratio_floating",
+                    "label": "مقاس الصورة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar2-1-1" }
+                    ],
+                    "options": [
+                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar2-1-1" },
+                        { "label": "أفقي ٤:٣", "value": "4/3", "key": "fpar2-4-3" },
+                        { "label": "عمودي ٣:٤", "value": "3/4", "key": "fpar2-3-4" },
+                        { "label": "عريض ١٦:٩", "value": "16/9", "key": "fpar2-16-9" },
+                        { "label": "عمودي ٩:١٦ (ستوري)", "value": "9/16", "key": "fpar2-9-16" }
+                    ],
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "aspect_ratio_split",
+                    "label": "مقاس الصورة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar3-1-1" }
+                    ],
+                    "options": [
+                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar3-1-1" },
+                        { "label": "أفقي ٤:٣", "value": "4/3", "key": "fpar3-4-3" },
+                        { "label": "عمودي ٣:٤", "value": "3/4", "key": "fpar3-3-4" },
+                        { "label": "عريض ١٦:٩", "value": "16/9", "key": "fpar3-16-9" },
+                        { "label": "عمودي ٩:١٦ (ستوري)", "value": "9/16", "key": "fpar3-9-16" }
+                    ],
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "split" }
                     ]
                 },
                 {
@@ -4445,19 +4497,68 @@
                             "value": "cover",
                             "key": "if-cover"
                         }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-image",
+                    "id": "image_fit_split",
+                    "label": "طريقة ملء الصورة للإطار",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "«عرض كامل» يُظهر المنتج بالكامل مع إمكانية ظهور مساحة بيضاء (مناسب لصور بخلفية شفافة أو بيضاء). «ملء الإطار» يكبّر الصورة لتغطية الإطار بالكامل وقد يقص أطرافها.",
+                    "selected": [
+                        {
+                            "label": "عرض كامل صورة المنتج",
+                            "value": "contain",
+                            "key": "if2-contain"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "عرض كامل صورة المنتج",
+                            "value": "contain",
+                            "key": "if2-contain"
+                        },
+                        {
+                            "label": "ملء الإطار بالصورة",
+                            "value": "cover",
+                            "key": "if2-cover"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
                     ]
                 },
                 {
                     "type": "static",
                     "format": "line",
-                    "id": "divider-bg-effect"
+                    "id": "divider-bg-effect",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                    ]
                 },
                 {
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-effect",
                     "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
-                    "variant": "h5"
+                    "variant": "h5",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                    ]
                 },
                 {
                     "type": "items",
@@ -4467,40 +4568,19 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها. لا يظهر في وضع «كخلفية للبطاقة».",
+                    "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها.",
                     "selected": [
-                        {
-                            "label": "توهج متدرج",
-                            "value": "glow",
-                            "key": "be-glow"
-                        }
+                        { "label": "توهج متدرج", "value": "glow", "key": "be-glow" }
                     ],
                     "options": [
-                        {
-                            "label": "بدون",
-                            "value": "none",
-                            "key": "be-none"
-                        },
-                        {
-                            "label": "دائرة ناعمة",
-                            "value": "circle",
-                            "key": "be-circle"
-                        },
-                        {
-                            "label": "توهج متدرج",
-                            "value": "glow",
-                            "key": "be-glow"
-                        },
-                        {
-                            "label": "نقشة منقّطة",
-                            "value": "pattern",
-                            "key": "be-pattern"
-                        },
-                        {
-                            "label": "شكل ضبابي",
-                            "value": "blob",
-                            "key": "be-blob"
-                        }
+                        { "label": "بدون", "value": "none", "key": "be-none" },
+                        { "label": "دائرة ناعمة", "value": "circle", "key": "be-circle" },
+                        { "label": "توهج متدرج", "value": "glow", "key": "be-glow" },
+                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be-pattern" },
+                        { "label": "شكل ضبابي", "value": "blob", "key": "be-blob" }
+                    ],
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "inside" }
                     ]
                 },
                 {
@@ -4511,7 +4591,118 @@
                     "label": "لون تأثير الخلفية",
                     "icon": "sicon-format-fill",
                     "required": false,
-                    "value": "#b08948"
+                    "value": "#b08948",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-bg-effect-floating",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-bg-effect-floating",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
+                    "variant": "h5",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-magic",
+                    "id": "bg_effect_floating",
+                    "label": "تأثير الخلفية خلف الصورة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها.",
+                    "selected": [
+                        { "label": "توهج متدرج", "value": "glow", "key": "be2-glow" }
+                    ],
+                    "options": [
+                        { "label": "بدون", "value": "none", "key": "be2-none" },
+                        { "label": "دائرة ناعمة", "value": "circle", "key": "be2-circle" },
+                        { "label": "توهج متدرج", "value": "glow", "key": "be2-glow" },
+                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be2-pattern" },
+                        { "label": "شكل ضبابي", "value": "blob", "key": "be2-blob" }
+                    ],
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_effect_color_floating",
+                    "label": "لون تأثير الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "value": "#b08948",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "line",
+                    "id": "divider-bg-effect-split",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "split" }
+                    ]
+                },
+                {
+                    "type": "static",
+                    "format": "title",
+                    "id": "section-bg-effect-split",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
+                    "variant": "h5",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "split" }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-magic",
+                    "id": "bg_effect_split",
+                    "label": "تأثير الخلفية خلف الصورة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها.",
+                    "selected": [
+                        { "label": "توهج متدرج", "value": "glow", "key": "be3-glow" }
+                    ],
+                    "options": [
+                        { "label": "بدون", "value": "none", "key": "be3-none" },
+                        { "label": "دائرة ناعمة", "value": "circle", "key": "be3-circle" },
+                        { "label": "توهج متدرج", "value": "glow", "key": "be3-glow" },
+                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be3-pattern" },
+                        { "label": "شكل ضبابي", "value": "blob", "key": "be3-blob" }
+                    ],
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "split" }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_effect_color_split",
+                    "label": "لون تأثير الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "value": "#b08948",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "split" }
+                    ]
                 },
                 {
                     "type": "static",
@@ -4735,38 +4926,14 @@
                     "source": "Manual",
                     "required": false,
                     "selected": [
-                        {
-                            "label": "كبير",
-                            "value": "24",
-                            "key": "fcr-24"
-                        }
+                        { "label": "كبير", "value": "24", "key": "fcr-24" }
                     ],
                     "options": [
-                        {
-                            "label": "بدون انحناء",
-                            "value": "0",
-                            "key": "fcr-0"
-                        },
-                        {
-                            "label": "خفيف",
-                            "value": "8",
-                            "key": "fcr-8"
-                        },
-                        {
-                            "label": "متوسط",
-                            "value": "16",
-                            "key": "fcr-16"
-                        },
-                        {
-                            "label": "كبير",
-                            "value": "24",
-                            "key": "fcr-24"
-                        },
-                        {
-                            "label": "ناعم جداً",
-                            "value": "32",
-                            "key": "fcr-32"
-                        }
+                        { "label": "بدون انحناء", "value": "0", "key": "fcr-0" },
+                        { "label": "خفيف", "value": "8", "key": "fcr-8" },
+                        { "label": "متوسط", "value": "16", "key": "fcr-16" },
+                        { "label": "كبير", "value": "24", "key": "fcr-24" },
+                        { "label": "ناعم جداً", "value": "32", "key": "fcr-32" }
                     ]
                 },
                 {
