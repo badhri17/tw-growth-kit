@@ -435,6 +435,7 @@ export const testimonialsStyles = css`
   }
   .t-card[data-style="overlay"] .t-quote-mark {
     opacity: 0.85;
+    text-align:end;
   }
   .t-card[data-style="overlay"] .t-quote-mark svg {
     width: 30px;
