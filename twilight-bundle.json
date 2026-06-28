@@ -4,11 +4,11 @@
         "en": "Growth Kit"
     },
     "description": {
-        "ar": "مكونات متجر مميزة لرفع معدل التحويل وإبراز هوية المتجر",
-        "en": "Premium storefront components engineered for conversion and brand presence."
+        "ar": null,
+        "en": null
     },
     "author_email": "Badrbadhri+growth@gmail.com",
-    "support_url": "",
+    "support_url": null,
     "repository": "https://github.com/badhri17/tw-growth-kit",
     "components": [
         {
@@ -2073,17 +2073,61 @@
                             "description": "اختر وجهة الزر: منتج، تصنيف، صفحة، ماركة، مقالة، أو رابط خارجي — يتولّى سلة توليد الرابط تلقائيًا. بدون اختيار يُخفى الزر.",
                             "value": null,
                             "sources": [
-                                { "label": "منتج", "key": "products", "value": "products" },
-                                { "label": "منتجات مع وسم", "key": "products_tags", "value": "products_tags" },
-                                { "label": "تصنيف", "key": "categories", "value": "categories" },
-                                { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
-                                { "label": "صفحة تعريفية", "key": "pages", "value": "pages" },
-                                { "label": "مقالة", "key": "blog_articles", "value": "blog_articles" },
-                                { "label": "تصنيف ضمن المدونة", "key": "blog_categories", "value": "blog_categories" },
-                                { "label": "التخفيضات", "key": "offers_link", "value": "offers_link" },
-                                { "label": "الماركات التجارية", "key": "brands_link", "value": "brands_link" },
-                                { "label": "المدونة", "key": "blog_link", "value": "blog_link" },
-                                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                                {
+                                    "label": "منتج",
+                                    "key": "products",
+                                    "value": "products"
+                                },
+                                {
+                                    "label": "منتجات مع وسم",
+                                    "key": "products_tags",
+                                    "value": "products_tags"
+                                },
+                                {
+                                    "label": "تصنيف",
+                                    "key": "categories",
+                                    "value": "categories"
+                                },
+                                {
+                                    "label": "ماركة تجارية",
+                                    "key": "brands",
+                                    "value": "brands"
+                                },
+                                {
+                                    "label": "صفحة تعريفية",
+                                    "key": "pages",
+                                    "value": "pages"
+                                },
+                                {
+                                    "label": "مقالة",
+                                    "key": "blog_articles",
+                                    "value": "blog_articles"
+                                },
+                                {
+                                    "label": "تصنيف ضمن المدونة",
+                                    "key": "blog_categories",
+                                    "value": "blog_categories"
+                                },
+                                {
+                                    "label": "التخفيضات",
+                                    "key": "offers_link",
+                                    "value": "offers_link"
+                                },
+                                {
+                                    "label": "الماركات التجارية",
+                                    "key": "brands_link",
+                                    "value": "brands_link"
+                                },
+                                {
+                                    "label": "المدونة",
+                                    "key": "blog_link",
+                                    "value": "blog_link"
+                                },
+                                {
+                                    "label": "رابط خارجي",
+                                    "key": "custom",
+                                    "value": "custom"
+                                }
                             ],
                             "conditions": [
                                 {
@@ -2989,17 +3033,61 @@
                             "description": "اختر وجهة الزر: منتج، تصنيف، صفحة، ماركة، مقالة، أو رابط خارجي — يتولّى سلة توليد الرابط تلقائيًا. بدون اختيار يُخفى الزر.",
                             "value": null,
                             "sources": [
-                                { "label": "منتج", "key": "products", "value": "products" },
-                                { "label": "منتجات مع وسم", "key": "products_tags", "value": "products_tags" },
-                                { "label": "تصنيف", "key": "categories", "value": "categories" },
-                                { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
-                                { "label": "صفحة تعريفية", "key": "pages", "value": "pages" },
-                                { "label": "مقالة", "key": "blog_articles", "value": "blog_articles" },
-                                { "label": "تصنيف ضمن المدونة", "key": "blog_categories", "value": "blog_categories" },
-                                { "label": "التخفيضات", "key": "offers_link", "value": "offers_link" },
-                                { "label": "الماركات التجارية", "key": "brands_link", "value": "brands_link" },
-                                { "label": "المدونة", "key": "blog_link", "value": "blog_link" },
-                                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                                {
+                                    "label": "منتج",
+                                    "key": "products",
+                                    "value": "products"
+                                },
+                                {
+                                    "label": "منتجات مع وسم",
+                                    "key": "products_tags",
+                                    "value": "products_tags"
+                                },
+                                {
+                                    "label": "تصنيف",
+                                    "key": "categories",
+                                    "value": "categories"
+                                },
+                                {
+                                    "label": "ماركة تجارية",
+                                    "key": "brands",
+                                    "value": "brands"
+                                },
+                                {
+                                    "label": "صفحة تعريفية",
+                                    "key": "pages",
+                                    "value": "pages"
+                                },
+                                {
+                                    "label": "مقالة",
+                                    "key": "blog_articles",
+                                    "value": "blog_articles"
+                                },
+                                {
+                                    "label": "تصنيف ضمن المدونة",
+                                    "key": "blog_categories",
+                                    "value": "blog_categories"
+                                },
+                                {
+                                    "label": "التخفيضات",
+                                    "key": "offers_link",
+                                    "value": "offers_link"
+                                },
+                                {
+                                    "label": "الماركات التجارية",
+                                    "key": "brands_link",
+                                    "value": "brands_link"
+                                },
+                                {
+                                    "label": "المدونة",
+                                    "key": "blog_link",
+                                    "value": "blog_link"
+                                },
+                                {
+                                    "label": "رابط خارجي",
+                                    "key": "custom",
+                                    "value": "custom"
+                                }
                             ]
                         },
                         {
@@ -4413,17 +4501,45 @@
                     "required": false,
                     "description": "يُكتشف تلقائيًا من الصورة في وضع «كخلفية للبطاقة».",
                     "selected": [
-                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar-1-1" }
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar-1-1"
+                        }
                     ],
                     "options": [
-                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar-1-1" },
-                        { "label": "أفقي ٤:٣", "value": "4/3", "key": "fpar-4-3" },
-                        { "label": "عمودي ٣:٤", "value": "3/4", "key": "fpar-3-4" },
-                        { "label": "عريض ١٦:٩", "value": "16/9", "key": "fpar-16-9" },
-                        { "label": "عمودي ٩:١٦ (ستوري)", "value": "9/16", "key": "fpar-9-16" }
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar-1-1"
+                        },
+                        {
+                            "label": "أفقي ٤:٣",
+                            "value": "4/3",
+                            "key": "fpar-4-3"
+                        },
+                        {
+                            "label": "عمودي ٣:٤",
+                            "value": "3/4",
+                            "key": "fpar-3-4"
+                        },
+                        {
+                            "label": "عريض ١٦:٩",
+                            "value": "16/9",
+                            "key": "fpar-16-9"
+                        },
+                        {
+                            "label": "عمودي ٩:١٦ (ستوري)",
+                            "value": "9/16",
+                            "key": "fpar-9-16"
+                        }
                     ],
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
                     ]
                 },
                 {
@@ -4435,17 +4551,45 @@
                     "source": "Manual",
                     "required": false,
                     "selected": [
-                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar2-1-1" }
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar2-1-1"
+                        }
                     ],
                     "options": [
-                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar2-1-1" },
-                        { "label": "أفقي ٤:٣", "value": "4/3", "key": "fpar2-4-3" },
-                        { "label": "عمودي ٣:٤", "value": "3/4", "key": "fpar2-3-4" },
-                        { "label": "عريض ١٦:٩", "value": "16/9", "key": "fpar2-16-9" },
-                        { "label": "عمودي ٩:١٦ (ستوري)", "value": "9/16", "key": "fpar2-9-16" }
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar2-1-1"
+                        },
+                        {
+                            "label": "أفقي ٤:٣",
+                            "value": "4/3",
+                            "key": "fpar2-4-3"
+                        },
+                        {
+                            "label": "عمودي ٣:٤",
+                            "value": "3/4",
+                            "key": "fpar2-3-4"
+                        },
+                        {
+                            "label": "عريض ١٦:٩",
+                            "value": "16/9",
+                            "key": "fpar2-16-9"
+                        },
+                        {
+                            "label": "عمودي ٩:١٦ (ستوري)",
+                            "value": "9/16",
+                            "key": "fpar2-9-16"
+                        }
                     ],
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "floating"
+                        }
                     ]
                 },
                 {
@@ -4457,17 +4601,45 @@
                     "source": "Manual",
                     "required": false,
                     "selected": [
-                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar3-1-1" }
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar3-1-1"
+                        }
                     ],
                     "options": [
-                        { "label": "مربع ١:١", "value": "1/1", "key": "fpar3-1-1" },
-                        { "label": "أفقي ٤:٣", "value": "4/3", "key": "fpar3-4-3" },
-                        { "label": "عمودي ٣:٤", "value": "3/4", "key": "fpar3-3-4" },
-                        { "label": "عريض ١٦:٩", "value": "16/9", "key": "fpar3-16-9" },
-                        { "label": "عمودي ٩:١٦ (ستوري)", "value": "9/16", "key": "fpar3-9-16" }
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar3-1-1"
+                        },
+                        {
+                            "label": "أفقي ٤:٣",
+                            "value": "4/3",
+                            "key": "fpar3-4-3"
+                        },
+                        {
+                            "label": "عمودي ٣:٤",
+                            "value": "3/4",
+                            "key": "fpar3-3-4"
+                        },
+                        {
+                            "label": "عريض ١٦:٩",
+                            "value": "16/9",
+                            "key": "fpar3-16-9"
+                        },
+                        {
+                            "label": "عمودي ٩:١٦ (ستوري)",
+                            "value": "9/16",
+                            "key": "fpar3-9-16"
+                        }
                     ],
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "split" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
                     ]
                 },
                 {
@@ -4547,7 +4719,11 @@
                     "format": "line",
                     "id": "divider-bg-effect",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
                     ]
                 },
                 {
@@ -4557,7 +4733,11 @@
                     "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
                     "variant": "h5",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
                     ]
                 },
                 {
@@ -4570,17 +4750,45 @@
                     "required": false,
                     "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها.",
                     "selected": [
-                        { "label": "توهج متدرج", "value": "glow", "key": "be-glow" }
+                        {
+                            "label": "توهج متدرج",
+                            "value": "glow",
+                            "key": "be-glow"
+                        }
                     ],
                     "options": [
-                        { "label": "بدون", "value": "none", "key": "be-none" },
-                        { "label": "دائرة ناعمة", "value": "circle", "key": "be-circle" },
-                        { "label": "توهج متدرج", "value": "glow", "key": "be-glow" },
-                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be-pattern" },
-                        { "label": "شكل ضبابي", "value": "blob", "key": "be-blob" }
+                        {
+                            "label": "بدون",
+                            "value": "none",
+                            "key": "be-none"
+                        },
+                        {
+                            "label": "دائرة ناعمة",
+                            "value": "circle",
+                            "key": "be-circle"
+                        },
+                        {
+                            "label": "توهج متدرج",
+                            "value": "glow",
+                            "key": "be-glow"
+                        },
+                        {
+                            "label": "نقشة منقّطة",
+                            "value": "pattern",
+                            "key": "be-pattern"
+                        },
+                        {
+                            "label": "شكل ضبابي",
+                            "value": "blob",
+                            "key": "be-blob"
+                        }
                     ],
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
                     ]
                 },
                 {
@@ -4593,7 +4801,11 @@
                     "required": false,
                     "value": "#b08948",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
                     ]
                 },
                 {
@@ -4601,7 +4813,11 @@
                     "format": "line",
                     "id": "divider-bg-effect-floating",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "floating"
+                        }
                     ]
                 },
                 {
@@ -4611,7 +4827,11 @@
                     "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
                     "variant": "h5",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "floating"
+                        }
                     ]
                 },
                 {
@@ -4624,17 +4844,45 @@
                     "required": false,
                     "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها.",
                     "selected": [
-                        { "label": "توهج متدرج", "value": "glow", "key": "be2-glow" }
+                        {
+                            "label": "توهج متدرج",
+                            "value": "glow",
+                            "key": "be2-glow"
+                        }
                     ],
                     "options": [
-                        { "label": "بدون", "value": "none", "key": "be2-none" },
-                        { "label": "دائرة ناعمة", "value": "circle", "key": "be2-circle" },
-                        { "label": "توهج متدرج", "value": "glow", "key": "be2-glow" },
-                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be2-pattern" },
-                        { "label": "شكل ضبابي", "value": "blob", "key": "be2-blob" }
+                        {
+                            "label": "بدون",
+                            "value": "none",
+                            "key": "be2-none"
+                        },
+                        {
+                            "label": "دائرة ناعمة",
+                            "value": "circle",
+                            "key": "be2-circle"
+                        },
+                        {
+                            "label": "توهج متدرج",
+                            "value": "glow",
+                            "key": "be2-glow"
+                        },
+                        {
+                            "label": "نقشة منقّطة",
+                            "value": "pattern",
+                            "key": "be2-pattern"
+                        },
+                        {
+                            "label": "شكل ضبابي",
+                            "value": "blob",
+                            "key": "be2-blob"
+                        }
                     ],
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "floating"
+                        }
                     ]
                 },
                 {
@@ -4647,7 +4895,11 @@
                     "required": false,
                     "value": "#b08948",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "floating"
+                        }
                     ]
                 },
                 {
@@ -4655,7 +4907,11 @@
                     "format": "line",
                     "id": "divider-bg-effect-split",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "split" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
                     ]
                 },
                 {
@@ -4665,7 +4921,11 @@
                     "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
                     "variant": "h5",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "split" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
                     ]
                 },
                 {
@@ -4678,17 +4938,45 @@
                     "required": false,
                     "description": "شكل زخرفي ناعم يظهر خلف صورة المنتج لإبرازها.",
                     "selected": [
-                        { "label": "توهج متدرج", "value": "glow", "key": "be3-glow" }
+                        {
+                            "label": "توهج متدرج",
+                            "value": "glow",
+                            "key": "be3-glow"
+                        }
                     ],
                     "options": [
-                        { "label": "بدون", "value": "none", "key": "be3-none" },
-                        { "label": "دائرة ناعمة", "value": "circle", "key": "be3-circle" },
-                        { "label": "توهج متدرج", "value": "glow", "key": "be3-glow" },
-                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be3-pattern" },
-                        { "label": "شكل ضبابي", "value": "blob", "key": "be3-blob" }
+                        {
+                            "label": "بدون",
+                            "value": "none",
+                            "key": "be3-none"
+                        },
+                        {
+                            "label": "دائرة ناعمة",
+                            "value": "circle",
+                            "key": "be3-circle"
+                        },
+                        {
+                            "label": "توهج متدرج",
+                            "value": "glow",
+                            "key": "be3-glow"
+                        },
+                        {
+                            "label": "نقشة منقّطة",
+                            "value": "pattern",
+                            "key": "be3-pattern"
+                        },
+                        {
+                            "label": "شكل ضبابي",
+                            "value": "blob",
+                            "key": "be3-blob"
+                        }
                     ],
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "split" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
                     ]
                 },
                 {
@@ -4701,7 +4989,11 @@
                     "required": false,
                     "value": "#b08948",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "split" }
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
                     ]
                 },
                 {
@@ -4926,14 +5218,38 @@
                     "source": "Manual",
                     "required": false,
                     "selected": [
-                        { "label": "كبير", "value": "24", "key": "fcr-24" }
+                        {
+                            "label": "كبير",
+                            "value": "24",
+                            "key": "fcr-24"
+                        }
                     ],
                     "options": [
-                        { "label": "بدون انحناء", "value": "0", "key": "fcr-0" },
-                        { "label": "خفيف", "value": "8", "key": "fcr-8" },
-                        { "label": "متوسط", "value": "16", "key": "fcr-16" },
-                        { "label": "كبير", "value": "24", "key": "fcr-24" },
-                        { "label": "ناعم جداً", "value": "32", "key": "fcr-32" }
+                        {
+                            "label": "بدون انحناء",
+                            "value": "0",
+                            "key": "fcr-0"
+                        },
+                        {
+                            "label": "خفيف",
+                            "value": "8",
+                            "key": "fcr-8"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "16",
+                            "key": "fcr-16"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "24",
+                            "key": "fcr-24"
+                        },
+                        {
+                            "label": "ناعم جداً",
+                            "value": "32",
+                            "key": "fcr-32"
+                        }
                     ]
                 },
                 {
