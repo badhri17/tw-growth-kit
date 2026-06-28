@@ -68,6 +68,9 @@ export type FeaturedCardStyle = "minimal" | "soft" | "glass" | "bold";
 /** What the primary button does (store source only). */
 export type FeaturedButtonAction = "add_to_cart" | "buy_now" | "view_product";
 
+/** Idle float animation speed for the product image. */
+export type FeaturedFloatSpeed = "slow" | "normal" | "fast";
+
 /** One short selling point under the product name (max 3). */
 export interface FeaturedHighlight {
   text?: MaybeMultiLang;
@@ -164,6 +167,7 @@ export interface FeaturedProductConfig {
   // --- Motion ---
   enable_entrance_anim?: boolean;
   enable_float_anim?: boolean; // gentle bob of the product image
+  float_anim_speed?: FeaturedFloatSpeed;
   enable_tilt?: boolean; // 3D tilt on pointer move (desktop)
   enable_hover_image?: boolean; // cross-fade to a second image on hover
 }

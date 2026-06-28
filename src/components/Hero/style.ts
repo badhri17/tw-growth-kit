@@ -80,7 +80,7 @@ export const heroStyles = css`
   }
   .bg.is-ken-burns > img,
   .bg.is-ken-burns > picture > img {
-    animation: kenBurns 18s var(--gh-easing) infinite alternate;
+    animation: kenBurns 24s ease-in-out infinite;
   }
   .bg.is-parallax > video,
   .bg.is-parallax > img,
@@ -299,8 +299,15 @@ export const heroStyles = css`
   }
 
   @keyframes kenBurns {
-    0%   { transform: scale(1.00) translate3d(0, 0, 0); }
-    100% { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+    0% {
+      transform: scale(1.04) translate3d(0, 0, 0);
+    }
+    50% {
+      transform: scale(1.14) translate3d(-2%, -1.5%, 0);
+    }
+    100% {
+      transform: scale(1.04) translate3d(0, 0, 0);
+    }
   }
 
   /* --- Split layout (desktop ≥768 px): media on one side, content on the other.

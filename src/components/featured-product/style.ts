@@ -68,9 +68,9 @@ export const featuredProductStyles = css`
     width: 100%;
     margin: 0;
     color: var(--fp-title);
-    font-size: clamp(1.35rem, 3.5vw, 2rem);
-    font-weight: 700;
-    line-height: 1.25;
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
     text-align: center;
     position: relative;
     z-index: 1;
@@ -591,14 +591,15 @@ export const featuredProductStyles = css`
   @keyframes fp-bob {
     0%,
     100% {
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
     50% {
-      transform: translateY(-9px);
+      transform: translateY(calc(var(--fp-float-distance, 18px) * -1))
+        scale(1.025);
     }
   }
   .fp[data-float="on"] .fp-card:not([data-layout="background"]) .fp-img {
-    animation: fp-bob 5.5s ease-in-out infinite;
+    animation: fp-bob var(--fp-float-duration, 5.5s) ease-in-out infinite;
   }
   /* Hold the bob until the entrance settles. */
   .fp[data-enter="ready"] .fp-img {

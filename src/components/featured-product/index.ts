@@ -15,6 +15,7 @@ import type {
   FeaturedContentAlign,
   FeaturedButtonRadius,
   FeaturedButtonAction,
+  FeaturedFloatSpeed,
   MaybeMultiLang,
   ResolvedProduct,
 } from "./types";
@@ -622,6 +623,20 @@ export default class GrowthFeaturedProduct extends LitElement {
 
     // --- Motion ---
     const enableFloat = c.enable_float_anim !== false;
+    const floatSpeed = this._pickValue<FeaturedFloatSpeed>(
+      c.float_anim_speed,
+      "normal"
+    );
+    const floatDurationMap: Record<FeaturedFloatSpeed, string> = {
+      slow: "6.8s",
+      normal: "5s",
+      fast: "3.6s",
+    };
+    const floatDistanceMap: Record<FeaturedFloatSpeed, string> = {
+      slow: "14px",
+      normal: "18px",
+      fast: "22px",
+    };
     const tiltEnabled = !!c.enable_tilt && layout !== "background";
 
     // --- Layout-aware colour resolution (merchant always wins) ---
@@ -681,6 +696,8 @@ export default class GrowthFeaturedProduct extends LitElement {
       `--fp-effect: ${
         effectColor || (lightText ? "#d8b478" : "#b08948")
       }`,
+      `--fp-float-duration: ${floatDurationMap[floatSpeed]}`,
+      `--fp-float-distance: ${floatDistanceMap[floatSpeed]}`,
       // Highlights wrapper background. The framing (tinted box) always renders
       // with a context-aware default tint resolved in CSS; a merchant colour,
       // when set, overrides that default.

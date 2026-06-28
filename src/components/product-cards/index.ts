@@ -1,0 +1,1089 @@
+import { LitElement, html, nothing, type PropertyValues } from "lit";
+import { property, state } from "lit/decorators.js";
+import type {
+  ProductCardsConfig,
+  PcCardItem,
+  PcImageLayout,
+  PcAspect,
+  PcImageFit,
+  PcContentAlign,
+  PcCardSize,
+  PcCardSizeDesktop,
+  PcButtonRadius,
+  PcButtonAction,
+  PcNavPosition,
+  MaybeMultiLang,
+  RawLinkValue,
+  ResolvedProduct,
+} from "./types";
+import { productCardsStyles } from "./style";
+
+type CartState = "idle" | "loading" | "added";
+
+/**
+ * <growth-product-cards> — 3D Product Cards (بطاقات المنتجات ٣D)
+ * Part of the Growth Kit bundle for Salla Twilight.
+ *
+ * A premium depth coverflow where every slide is a full product card. The
+ * active card sits centered at full size; its neighbours shrink, recede and
+ * fade behind it. Each card resolves its own content — link a real store
+ * product (auto-fills name/image/price/url and enables add-to-cart) or override
+ * any field by hand. Visual styling is shared across all cards for consistency.
+ *
+ * RTL-first and mobile-first; respects prefers-reduced-motion.
+ */
+export default class GrowthProductCards extends LitElement {
+  static styles = productCardsStyles;
+
+  /**
+   * Twilight transform injects `Class.registerSallaComponent(...)`.
+   * The polling fallback handles preview contexts where `Salla` loads after
+   * this file executes.
+   */
+  static registerSallaComponent(name: string) {
+    const componentKey = String(name || "").trim();
+    const normalizedBase = componentKey
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]/g, "-");
+    const safeBaseName = normalizedBase.includes("-")
+      ? normalizedBase
+      : `salla-${normalizedBase || "component"}`;
+    const buildDynamicTagName = () =>
+      `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
+
+    const tryRegister = () => {
+      const bundles = (
+        window as Window & {
+          Salla?: {
+            bundles?: {
+              registerComponent?: (
+                key: string,
+                payload: {
+                  component: typeof HTMLElement;
+                  dynamicTagName: string;
+                }
+              ) => void;
+            };
+          };
+        }
+      ).Salla?.bundles;
+
+      if (bundles && typeof bundles.registerComponent === "function") {
+        bundles.registerComponent(componentKey, {
+          component: this as unknown as typeof HTMLElement,
+          dynamicTagName: buildDynamicTagName(),
+        });
+        return true;
+      }
+      return false;
+    };
+    if (tryRegister()) return;
+    const timer = window.setInterval(() => {
+      if (tryRegister()) window.clearInterval(timer);
+    }, 100);
+    window.setTimeout(() => window.clearInterval(timer), 5000);
+  }
+
+  @property({ type: Object })
+  config?: ProductCardsConfig;
+
+  @state() private _activeIndex = 0;
+  /** Drives the header + slides entrance gate. */
+  @state() private _animState: "ready" | "in" = "ready";
+  /** Measured tallest card height — the track's height (px). */
+  @state() private _stageH: number | null = null;
+
+  private _autoplayTimer: number | null = null;
+  private _hoverPaused = false;
+  private _hasInitializedActive = false;
+
+  /** Per-card add-to-cart lifecycle, keyed by card index. */
+  private _cartStates = new Map<number, CartState>();
+  private _cartTimers = new Map<number, number>();
+
+  /** Swipe tracking. */
+  private _swipeStartX: number | null = null;
+  private _swipeStartY: number | null = null;
+  private _swipeActive = false;
+
+  /** Last-rendered wrapped offset per slide — detects a loop wrap to snap it. */
+  private _prevDiff = new Map<number, number>();
+
+  private _resizeRaf: number | null = null;
+
+  // ------------------------------------------------------------
+  // Salla global (lowercase `salla`; some contexts attach `Salla`).
+  // ------------------------------------------------------------
+  private get _salla(): any {
+    const w = window as any;
+    return w.salla ?? w.Salla ?? null;
+  }
+
+  // ------------------------------------------------------------
+  // Value helpers
+  // ------------------------------------------------------------
+
+  private _lang(): "ar" | "en" {
+    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en")
+      ? "en"
+      : "ar";
+  }
+
+  private _t(val: MaybeMultiLang): string {
+    if (!val) return "";
+    if (typeof val === "string") return val;
+    const lang = this._lang();
+    return (val[lang] || val.ar || val.en || "").trim();
+  }
+
+  private _pickValue<T extends string>(val: unknown, fallback: T): T {
+    if (typeof val === "string" && val) return val as T;
+    if (Array.isArray(val) && val.length > 0) {
+      const first = val[0] as { value?: unknown } | undefined;
+      if (first && typeof first.value === "string" && first.value)
+        return first.value as T;
+    }
+    return fallback;
+  }
+
+  private _num(val: unknown, fallback: number): number {
+    if (typeof val === "number" && !Number.isNaN(val)) return val;
+    if (typeof val === "string" && val.trim() !== "") {
+      const n = Number(val);
+      if (!Number.isNaN(n)) return n;
+    }
+    if (Array.isArray(val) && val.length > 0) {
+      const first = val[0] as { value?: unknown } | undefined;
+      if (first?.value !== undefined) return this._num(first.value, fallback);
+    }
+    return fallback;
+  }
+
+  /** Convert Arabic-Indic / Eastern-Arabic digits to Latin for parsing. */
+  private _toLatinDigits(s: string): string {
+    return s
+      .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+      .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+  }
+
+  /** Best-effort numeric extraction from a price value of any shape. */
+  private _parseMoney(v: unknown): number | undefined {
+    if (typeof v === "number") return Number.isNaN(v) ? undefined : v;
+    if (v && typeof v === "object") {
+      const o = v as Record<string, unknown>;
+      return this._parseMoney(o.amount ?? o.value ?? o.price);
+    }
+    if (typeof v !== "string") return undefined;
+    const cleaned = this._toLatinDigits(v)
+      .replace(/[^0-9.,]/g, "")
+      .replace(/,/g, "");
+    if (!cleaned) return undefined;
+    const n = parseFloat(cleaned);
+    return Number.isNaN(n) ? undefined : n;
+  }
+
+  private _formatNum(n: number): string {
+    return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
+  }
+
+  /** Format a numeric amount as currency via the SDK, with a plain fallback. */
+  private _money(n?: number, currency?: string): string {
+    if (n === undefined || n === null || Number.isNaN(n)) return "";
+    const salla = this._salla;
+    try {
+      if (salla && typeof salla.money === "function") {
+        return currency ? salla.money({ amount: n, currency }) : salla.money(n);
+      }
+    } catch {
+      /* fall through */
+    }
+    const v = this._formatNum(n);
+    return currency ? `${v} ${currency}` : v;
+  }
+
+  // ------------------------------------------------------------
+  // Cards
+  // ------------------------------------------------------------
+
+  private _cards(): PcCardItem[] {
+    const list = this.config?.cards;
+    if (!Array.isArray(list)) return [];
+    return list.filter((card) => {
+      if (!card || typeof card !== "object") return false;
+      return !!(
+        card.product ||
+        card.image ||
+        this._t(card.title) ||
+        card.price ||
+        this._t(card.badge)
+      );
+    });
+  }
+
+  // ------------------------------------------------------------
+  // Product resolution (store source) — cache shared, keyed by product id.
+  // ------------------------------------------------------------
+
+  private _productCache = new Map<
+    number,
+    | { status: "loading" }
+    | { status: "loaded"; data: ResolvedProduct }
+    | { status: "failed" }
+  >();
+
+  private _pickerSelection(val: unknown): { id: number; label: string } | null {
+    if (!val) return null;
+    if (typeof val === "string" || typeof val === "number") {
+      const id = Number(val);
+      if (!id || Number.isNaN(id)) return null;
+      return { id, label: "" };
+    }
+    const picked = Array.isArray(val) ? val[0] : val;
+    if (!picked) return null;
+    if (typeof picked === "string" || typeof picked === "number") {
+      const id = Number(picked);
+      if (!id || Number.isNaN(id)) return null;
+      return { id, label: "" };
+    }
+    if (typeof picked !== "object") return null;
+    const obj = picked as Record<string, unknown>;
+    const raw = obj.value ?? obj.id ?? obj.product_id;
+    if (raw === undefined || raw === null) return null;
+    const id = typeof raw === "number" ? raw : Number(raw);
+    if (!id || Number.isNaN(id)) return null;
+    const label = String(obj.label ?? obj.name ?? obj.title ?? "").trim();
+    return { id, label };
+  }
+
+  private async _fetchProduct(id: number) {
+    if (this._productCache.has(id)) return;
+
+    this._productCache.set(id, { status: "loading" });
+    this.requestUpdate();
+
+    const salla = this._salla;
+    if (!salla) {
+      this._productCache.set(id, { status: "failed" });
+      this.requestUpdate();
+      return;
+    }
+
+    try {
+      if (typeof salla.onReady === "function") await salla.onReady();
+      const getDetails =
+        salla.product?.getDetails ?? salla.product?.api?.getDetails;
+      if (typeof getDetails !== "function")
+        throw new Error("getDetails unavailable");
+      const res = await getDetails.call(salla.product, id);
+      const data = (res?.data ?? res) as Record<string, any> | undefined;
+      if (!data) throw new Error("empty product payload");
+
+      const image: string =
+        data.image?.url ||
+        data.image?.thumbnail ||
+        (Array.isArray(data.images) &&
+          (data.images[0]?.url || data.images[0])) ||
+        data.thumbnail ||
+        data.main_image ||
+        "";
+      const url: string =
+        data.url ||
+        data.urls?.customer ||
+        data.urls?.product ||
+        data.permalink ||
+        `/p${id}`;
+
+      const priceVal = this._parseMoney(data.price);
+      const regularVal = this._parseMoney(data.regular_price);
+      const saleVal = this._parseMoney(data.sale_price);
+
+      let regular = regularVal ?? priceVal;
+      let current = priceVal ?? regularVal;
+      if (saleVal !== undefined && saleVal > 0) {
+        current = saleVal;
+        if (regular === undefined || regular <= saleVal)
+          regular = regularVal ?? priceVal ?? saleVal;
+      }
+      const flagged = !!(data.is_on_sale ?? data.on_sale ?? data.has_offer);
+      const onSale =
+        (flagged || saleVal !== undefined) &&
+        regular !== undefined &&
+        current !== undefined &&
+        current < regular;
+
+      const currency: string | undefined =
+        data.currency ||
+        data.price?.currency ||
+        data.regular_price?.currency ||
+        undefined;
+
+      this._productCache.set(id, {
+        status: "loaded",
+        data: {
+          name: String(data.name || data.title || `#${id}`),
+          image: image || undefined,
+          imageAlt: String(data.image?.alt || data.name || ""),
+          url,
+          regular,
+          sale: onSale ? current : undefined,
+          onSale,
+          currency,
+        },
+      });
+    } catch (err) {
+      console.warn("[growth-product-cards] product fetch failed", id, err);
+      this._productCache.set(id, { status: "failed" });
+    }
+    this.requestUpdate();
+  }
+
+  private _resolveCardProduct(card: PcCardItem): ResolvedProduct | null {
+    const sel = this._pickerSelection(card.product);
+    if (!sel) return null;
+    const cached = this._productCache.get(sel.id);
+    if (!cached) {
+      void this._fetchProduct(sel.id);
+      return sel.label ? { name: sel.label, url: "", onSale: false } : null;
+    }
+    if (cached.status === "loaded") return cached.data;
+    if (cached.status === "loading")
+      return sel.label ? { name: sel.label, url: "", onSale: false } : null;
+    return null;
+  }
+
+  /**
+   * `card.link` is a Salla `variable-list` field resolved to a final URL string
+   * server-side. Parse defensively (bare string / `{ url|value }` / single-item
+   * array) and treat "" / "#" as "no link".
+   */
+  private _resolveLink(raw: RawLinkValue): string {
+    if (!raw) return "";
+    const pick = Array.isArray(raw) ? raw[0] : raw;
+    if (!pick) return "";
+    const url =
+      typeof pick === "string"
+        ? pick
+        : typeof pick === "object"
+          ? String(
+              (pick as Record<string, unknown>).url ??
+                (pick as Record<string, unknown>).value ??
+                ""
+            )
+          : "";
+    const trimmed = url.trim();
+    return trimmed && trimmed !== "#" ? trimmed : "";
+  }
+
+  // ------------------------------------------------------------
+  // Lifecycle
+  // ------------------------------------------------------------
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const animDisabled = this.config?.enable_entrance_anim === false;
+
+    if (reduceMotion || animDisabled) {
+      this._animState = "in";
+    } else {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this._animState = "in";
+        });
+      });
+    }
+
+    window.addEventListener("resize", this._onResize, { passive: true });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._teardownAutoplay();
+    window.removeEventListener("resize", this._onResize);
+    if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
+    for (const t of this._cartTimers.values()) clearTimeout(t);
+    this._cartTimers.clear();
+  }
+
+  willUpdate(changed: PropertyValues) {
+    if (!changed.has("config")) return;
+
+    // A fresh config invalidates per-card cart state.
+    this._cartStates.clear();
+
+    const cards = this._cards();
+    if (!this._hasInitializedActive && cards.length > 0) {
+      const wanted = this._num(this.config?.initial_slide, NaN);
+      // Coverflow starts centered so both neighbours peek in.
+      const autoStart = Math.floor(cards.length / 2);
+      const start = Number.isNaN(wanted)
+        ? autoStart
+        : Math.max(0, Math.min(cards.length - 1, Math.round(wanted) - 1));
+      this._activeIndex = start;
+      this._hasInitializedActive = true;
+    } else if (this._activeIndex >= cards.length) {
+      this._activeIndex = Math.max(0, cards.length - 1);
+    }
+
+    this._teardownAutoplay();
+    this._setupAutoplay();
+  }
+
+  updated() {
+    // Snapshot where each slide ended up so the next render can detect a wrap.
+    const n = this._cards().length;
+    this._prevDiff.clear();
+    for (let i = 0; i < n; i++) this._prevDiff.set(i, this._wrappedDiff(i));
+
+    this._measureStage();
+  }
+
+  private _onResize = () => {
+    if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
+    this._resizeRaf = requestAnimationFrame(() => this._measureStage());
+  };
+
+  /**
+   * The track's height must equal the tallest card (cards are kept equal-height,
+   * but we measure the max defensively). offsetHeight ignores the coverflow
+   * scale transforms, so it returns the true layout height. Re-runs when images
+   * load (their dimensions change a card's height).
+   */
+  private _measureStage() {
+    const root = this.shadowRoot;
+    if (!root) return;
+
+    let max = 0;
+    for (const card of root.querySelectorAll<HTMLElement>(".pc-card")) {
+      if (card.offsetHeight > 0) max = Math.max(max, card.offsetHeight);
+    }
+
+    for (const img of root.querySelectorAll<HTMLImageElement>(".pc-img")) {
+      if (!img.complete && !img.dataset.measureHooked) {
+        img.dataset.measureHooked = "1";
+        const remeasure = () => this._measureStage();
+        img.addEventListener("load", remeasure, { once: true });
+        img.addEventListener("error", remeasure, { once: true });
+      }
+    }
+
+    if (max > 0 && max !== this._stageH) this._stageH = max;
+  }
+
+  // ------------------------------------------------------------
+  // Autoplay
+  // ------------------------------------------------------------
+
+  private _setupAutoplay() {
+    const c = this.config || {};
+    if (!c.autoplay) return;
+    if (this._cards().length < 2) return;
+    const delaySec = Math.max(1, this._num(c.autoplay_delay, 5));
+    this._autoplayTimer = window.setInterval(() => {
+      if (this._hoverPaused || this._swipeActive) return;
+      this._goNext();
+    }, delaySec * 1000);
+  }
+
+  private _teardownAutoplay() {
+    if (this._autoplayTimer) {
+      clearInterval(this._autoplayTimer);
+      this._autoplayTimer = null;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Navigation
+  // ------------------------------------------------------------
+
+  private _changeActive(next: number) {
+    if (next === this._activeIndex) return;
+    this._activeIndex = next;
+  }
+
+  private _goPrev = () => {
+    const n = this._cards().length;
+    if (n <= 1) return;
+    const loop = this.config?.loop !== false;
+    let next = this._activeIndex - 1;
+    if (next < 0) next = loop ? n - 1 : 0;
+    this._changeActive(next);
+  };
+
+  private _goNext = () => {
+    const n = this._cards().length;
+    if (n <= 1) return;
+    const loop = this.config?.loop !== false;
+    let next = this._activeIndex + 1;
+    if (next >= n) next = loop ? 0 : n - 1;
+    this._changeActive(next);
+  };
+
+  private _goTo = (idx: number) => {
+    const n = this._cards().length;
+    if (idx < 0 || idx >= n) return;
+    this._changeActive(idx);
+  };
+
+  /** Signed slot offset from the active slide, wrapped the shorter way when
+      looping (so card 0 can sit just before the last). */
+  private _wrappedDiff(i: number): number {
+    const n = this._cards().length;
+    if (n === 0) return 0;
+    let diff = i - this._activeIndex;
+    if (this.config?.loop !== false) {
+      if (diff > n / 2) diff -= n;
+      if (diff < -n / 2) diff += n;
+    }
+    return diff;
+  }
+
+  private _slidePos(
+    i: number
+  ): "active" | "left" | "right" | "far-left" | "far-right" | "hidden" {
+    if (this._cards().length === 0) return "hidden";
+    const diff = this._wrappedDiff(i);
+    if (diff === 0) return "active";
+    if (diff === -1) return "left";
+    if (diff === 1) return "right";
+    if (diff === -2) return "far-left";
+    if (diff === 2) return "far-right";
+    return "hidden";
+  }
+
+  private _isPrevDisabled(): boolean {
+    if (this.config?.loop !== false) return false;
+    return this._activeIndex === 0 || this._cards().length <= 1;
+  }
+  private _isNextDisabled(): boolean {
+    if (this.config?.loop !== false) return false;
+    return (
+      this._activeIndex === this._cards().length - 1 ||
+      this._cards().length <= 1
+    );
+  }
+
+  // ------------------------------------------------------------
+  // Click / swipe
+  // ------------------------------------------------------------
+
+  private _onSlideClick = (e: MouseEvent) => {
+    if (this._swipeActive) return;
+    const slide = e.currentTarget as HTMLElement | null;
+    if (!slide) return;
+    if (slide.dataset.pos === "active") return; // active handles its own clicks
+    const idx = Number(slide.dataset.index);
+    if (Number.isInteger(idx)) this._goTo(idx);
+  };
+
+  private _onPointerDown = (e: PointerEvent) => {
+    if (this._cards().length <= 1) return;
+    this._swipeStartX = e.clientX;
+    this._swipeStartY = e.clientY;
+    this._swipeActive = false;
+  };
+
+  private _onPointerMove = (e: PointerEvent) => {
+    if (this._swipeStartX === null) return;
+    const dx = e.clientX - this._swipeStartX;
+    const dy = e.clientY - (this._swipeStartY ?? e.clientY);
+    if (!this._swipeActive && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy))
+      this._swipeActive = true;
+  };
+
+  private _onPointerUp = (e: PointerEvent) => {
+    if (this._swipeStartX === null) return;
+    const dx = e.clientX - this._swipeStartX;
+    const isRtl = getComputedStyle(this).direction === "rtl";
+    if (this._swipeActive && Math.abs(dx) > 40) {
+      const advance = isRtl ? dx > 0 : dx < 0;
+      if (advance) this._goNext();
+      else this._goPrev();
+    }
+    this._swipeStartX = null;
+    this._swipeStartY = null;
+    window.setTimeout(() => {
+      this._swipeActive = false;
+    }, 50);
+  };
+
+  private _onHoverIn = () => {
+    this._hoverPaused = true;
+  };
+  private _onHoverOut = () => {
+    this._hoverPaused = false;
+  };
+
+  // ------------------------------------------------------------
+  // Add to cart (per card)
+  // ------------------------------------------------------------
+
+  private _setCart(i: number, state: CartState) {
+    this._cartStates.set(i, state);
+    this.requestUpdate();
+  }
+
+  private _onPrimaryClick = async (
+    e: Event,
+    i: number,
+    id: number | undefined,
+    action: PcButtonAction,
+    fallbackHref: string
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (this._cartStates.get(i) === "loading") return;
+
+    const salla = this._salla;
+    const addItem = salla?.cart?.addItem ?? salla?.cart?.api?.addItem;
+
+    // No usable product id or no cart API → degrade to navigation.
+    if (!id || typeof addItem !== "function") {
+      if (fallbackHref) window.location.href = fallbackHref;
+      return;
+    }
+
+    this._setCart(i, "loading");
+    try {
+      await addItem.call(salla.cart, { id, quantity: 1 });
+      this._setCart(i, "added");
+      if (action === "buy_now") {
+        window.location.href = "/cart";
+        return;
+      }
+      const prev = this._cartTimers.get(i);
+      if (prev) clearTimeout(prev);
+      this._cartTimers.set(
+        i,
+        window.setTimeout(() => this._setCart(i, "idle"), 2500)
+      );
+    } catch (err) {
+      console.warn("[growth-product-cards] add to cart failed", err);
+      this._setCart(i, "idle");
+    }
+  };
+
+  private _defaultButtonLabel(action: PcButtonAction): string {
+    const ar = this._lang() === "ar";
+    switch (action) {
+      case "buy_now":
+        return ar ? "اشترِ الآن" : "Buy now";
+      case "view_product":
+        return ar ? "عرض المنتج" : "View product";
+      case "add_to_cart":
+      default:
+        return ar ? "أضف إلى السلة" : "Add to cart";
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Icons
+  // ------------------------------------------------------------
+
+  private _icon(name: "bag" | "arrow" | "check" | "chevron") {
+    switch (name) {
+      case "bag":
+        return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8h12l-1 11.5a1.5 1.5 0 0 1-1.5 1.4H8.5A1.5 1.5 0 0 1 7 19.5z" />
+          <path d="M9 8a3 3 0 0 1 6 0" />
+        </svg>`;
+      case "arrow":
+        return html`<svg class="pc-btn__arrow" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>`;
+      case "check":
+        return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>`;
+      case "chevron":
+        return html`<svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></svg>`;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Render
+  // ------------------------------------------------------------
+
+  render() {
+    const c: ProductCardsConfig = this.config || {};
+    const cards = this._cards();
+
+    // --- Global visual resolution ---
+    const imageLayout = this._pickValue<PcImageLayout>(c.image_layout, "floating");
+    const aspect = this._pickValue<PcAspect>(c.aspect_ratio, "1/1");
+    // Image fit is layout-driven: floating products float (contain), background
+    // fills the card (cover); only "inside" exposes the merchant choice.
+    const imageFit: PcImageFit =
+      imageLayout === "floating"
+        ? "contain"
+        : imageLayout === "background"
+        ? "cover"
+        : this._pickValue<PcImageFit>(c.image_fit, "contain");
+    const contentAlign = this._pickValue<PcContentAlign>(c.content_align, "right");
+    const cardRadius = this._num(c.card_radius, 22);
+
+    const sizeMobile = this._pickValue<PcCardSize>(c.card_size_mobile, "medium");
+    const sizeDesktopRaw = this._pickValue<PcCardSizeDesktop>(
+      c.card_size_desktop,
+      "inherit"
+    );
+    const sizeDesktop =
+      sizeDesktopRaw === "inherit" ? sizeMobile : sizeDesktopRaw;
+
+    // Background layout overlays text on the image → light text on a dark scrim.
+    const lightText = imageLayout === "background";
+    const accent = c.accent_color || "#f0712c";
+    // No solid surface behind the background-layout image (a rounded composited
+    // image over a solid fill bleeds a corner sliver — see the webkit memory).
+    const cardBgDefault =
+      imageLayout === "background" ? "transparent" : "#ffffff";
+
+    const sizeToCardW = (s: PcCardSize, desktop: boolean): string => {
+      if (desktop) {
+        return s === "compact" ? "300px" : s === "large" ? "382px" : "340px";
+      }
+      return s === "compact"
+        ? "min(280px, 76vw)"
+        : s === "large"
+        ? "min(360px, 88vw)"
+        : "min(322px, 82vw)";
+    };
+
+    const btnRadiusMap: Record<PcButtonRadius, string> = {
+      square: "0px",
+      soft: "12px",
+      rounded: "22px",
+      pill: "999px",
+    };
+    const btnRadius =
+      btnRadiusMap[this._pickValue<PcButtonRadius>(c.button_radius, "pill")];
+
+    const hostStyle = [
+      `--pc-bg: ${c.bg_color || "#fbeee0"}`,
+      `--pc-accent: ${accent}`,
+      `--pc-card-bg: ${c.card_bg || cardBgDefault}`,
+      `--pc-card-radius: ${cardRadius}px`,
+      `--pc-aspect: ${aspect}`,
+      `--pc-img-fit: ${imageFit}`,
+      `--pc-card-w: ${sizeToCardW(sizeMobile, false)}`,
+      `--pc-card-w-desk: ${sizeToCardW(sizeDesktop, true)}`,
+      this._stageH ? `--pc-stage-h: ${this._stageH}px` : "",
+      `--pc-title: ${c.title_color || (lightText ? "#ffffff" : "#14181f")}`,
+      `--pc-text: ${
+        c.text_color || (lightText ? "rgba(255,255,255,0.82)" : "#5b6470")
+      }`,
+      `--pc-price: ${c.price_color || accent}`,
+      `--pc-compare: ${
+        c.compare_color || (lightText ? "rgba(255,255,255,0.55)" : "#9aa1ac")
+      }`,
+      `--pc-badge-bg: ${c.badge_bg || accent}`,
+      `--pc-badge-color: ${c.badge_color || "#ffffff"}`,
+      `--pc-btn-bg: ${c.button_bg || accent}`,
+      `--pc-btn-color: ${c.button_color || "#ffffff"}`,
+      `--pc-btn-radius: ${btnRadius}`,
+      `--pc-shipping: ${
+        c.shipping_color || (lightText ? "rgba(255,255,255,0.6)" : "#8a93a0")
+      }`,
+      `--pc-dot-color: ${accent}`,
+    ]
+      .filter(Boolean)
+      .join("; ");
+
+    if (cards.length === 0) {
+      return html`
+        <section class="pc-empty" style=${hostStyle}>
+          <p>
+            ${this._lang() === "ar"
+              ? "أضف بطاقة منتج واحدة على الأقل لعرض الكاروسيل."
+              : "Add at least one product card to show the carousel."}
+          </p>
+        </section>
+      `;
+    }
+
+    const isSingle = cards.length === 1;
+    const title = this._t(c.section_title);
+    const subtitle = this._t(c.section_subtitle);
+    const showNav = c.show_nav_buttons !== false && !isSingle;
+    const navPosition = this._pickValue<PcNavPosition>(c.nav_position, "sides");
+    const showTopNav = showNav && navPosition === "top";
+    const showSideNav = showNav && navPosition === "sides";
+    const showDots = !!c.show_pagination && !isSingle;
+    const enterState = c.enable_entrance_anim === false ? "in" : this._animState;
+
+    const header =
+      title || subtitle || showTopNav
+        ? html`
+            <div class="pc-head" data-enter=${enterState}>
+              <div class="pc-head__text">
+                ${title
+                  ? html`<h2 class="pc-head-title">${title}</h2>`
+                  : nothing}
+                ${subtitle
+                  ? html`<p class="pc-head-sub">${subtitle}</p>`
+                  : nothing}
+              </div>
+              ${showTopNav
+                ? html`<div class="pc-nav-group">
+                    ${this._renderNav("prev", false)}
+                    ${this._renderNav("next", false)}
+                  </div>`
+                : nothing}
+            </div>
+          `
+        : nothing;
+
+    return html`
+      <section
+        class="pc"
+        style=${hostStyle}
+        data-enter=${enterState}
+        data-layout=${imageLayout}
+        @mouseenter=${this._onHoverIn}
+        @mouseleave=${this._onHoverOut}
+      >
+        ${header}
+
+        <div class="pc-stage">
+          <div
+            class="pc-track"
+            @pointerdown=${this._onPointerDown}
+            @pointermove=${this._onPointerMove}
+            @pointerup=${this._onPointerUp}
+            @pointercancel=${this._onPointerUp}
+          >
+            ${cards.map((card, i) => {
+              const diff = this._wrappedDiff(i);
+              const pos = this._slidePos(i);
+              const prev = this._prevDiff.get(i);
+              const instant =
+                prev !== undefined && Math.abs(diff - prev) > cards.length / 2;
+              return html`
+                <div
+                  class="pc-slide"
+                  data-pos=${pos}
+                  data-index=${i}
+                  data-instant=${instant ? "" : nothing}
+                  @click=${this._onSlideClick}
+                >
+                  ${this._renderCard(card, i, {
+                    imageLayout,
+                    contentAlign,
+                  })}
+                </div>
+              `;
+            })}
+          </div>
+
+          ${showSideNav
+            ? html`
+                ${this._renderNav("prev", true)}${this._renderNav("next", true)}
+              `
+            : nothing}
+        </div>
+
+        ${showDots
+          ? html`
+              <div class="pc-dots" role="tablist">
+                ${cards.map(
+                  (_, i) => html`
+                    <button
+                      class="pc-dot"
+                      type="button"
+                      aria-current=${this._activeIndex === i ? "true" : "false"}
+                      aria-label=${`${i + 1}`}
+                      @click=${() => this._goTo(i)}
+                    ></button>
+                  `
+                )}
+              </div>
+            `
+          : nothing}
+      </section>
+    `;
+  }
+
+  private _renderNav(dir: "prev" | "next", side: boolean) {
+    const onClick = dir === "prev" ? this._goPrev : this._goNext;
+    const disabled =
+      dir === "prev" ? this._isPrevDisabled() : this._isNextDisabled();
+    const cls = side
+      ? `pc-nav pc-nav--side pc-nav--${dir}`
+      : `pc-nav pc-nav--${dir}`;
+    return html`
+      <button
+        class=${cls}
+        type="button"
+        @click=${onClick}
+        ?disabled=${disabled}
+        aria-label=${dir === "prev" ? "Previous" : "Next"}
+      >
+        ${this._icon("chevron")}
+      </button>
+    `;
+  }
+
+  private _renderCard(
+    card: PcCardItem,
+    i: number,
+    g: {
+      imageLayout: PcImageLayout;
+      contentAlign: PcContentAlign;
+    }
+  ) {
+    const c = this.config || {};
+    const product = this._resolveCardProduct(card);
+    const hasLinkedProduct = !!this._pickerSelection(card.product);
+
+    const badge = this._t(card.badge);
+    const title = this._t(card.title) || product?.name || "";
+    const description = this._t(card.description);
+    const imageUrl = card.image || product?.image || "";
+    const imageAlt = title || product?.imageAlt || "";
+
+    // --- Pricing ---
+    const showPrice = c.show_price !== false;
+    const showSale = c.show_sale_price !== false;
+    let priceMain = "";
+    let priceCompare = "";
+    if (showPrice) {
+      const priceOverride = this._t(card.price as MaybeMultiLang);
+      const compareOverride = this._t(card.compare_price as MaybeMultiLang);
+      if (priceOverride) {
+        priceMain = priceOverride;
+        const a = this._parseMoney(priceOverride);
+        const b = this._parseMoney(compareOverride);
+        if (showSale && compareOverride && b !== undefined && a !== undefined && b > a) {
+          priceCompare = compareOverride;
+        }
+      } else if (product) {
+        if (product.onSale && product.sale !== undefined) {
+          priceMain = this._money(product.sale, product.currency);
+          if (showSale && product.regular !== undefined) {
+            priceCompare = this._money(product.regular, product.currency);
+          }
+        } else if (product.regular !== undefined) {
+          priceMain = this._money(product.regular, product.currency);
+        }
+      }
+    }
+
+    const shipping = this._t(c.free_shipping_text);
+
+    // --- Button ---
+    const showButton = c.show_button !== false;
+    const action = this._pickValue<PcButtonAction>(
+      c.button_action,
+      "add_to_cart"
+    );
+    const sel = this._pickerSelection(card.product);
+    const resolvedLink = this._resolveLink(card.link);
+    const isLinkButton = !hasLinkedProduct || action === "view_product";
+    const buttonHref =
+      action === "view_product"
+        ? product?.url || resolvedLink || ""
+        : resolvedLink || product?.url || "";
+    const buttonLabel =
+      this._t(card.button_label) ||
+      this._t(c.default_button_label) ||
+      this._defaultButtonLabel(action);
+
+    return html`
+      <article class="pc-card" data-layout=${g.imageLayout}>
+        <div class="pc-media">
+          ${imageUrl
+            ? html`<img
+                class="pc-img"
+                src=${imageUrl}
+                alt=${imageAlt}
+                loading="lazy"
+                draggable="false"
+              />`
+            : nothing}
+          ${badge ? html`<span class="pc-badge">${badge}</span>` : nothing}
+        </div>
+
+        <div class="pc-body" data-align=${g.contentAlign}>
+          ${title ? html`<h3 class="pc-title">${title}</h3>` : nothing}
+          ${priceMain
+            ? html`
+                <div class="pc-price-row">
+                  <span class="pc-price">${priceMain}</span>
+                  ${priceCompare
+                    ? html`<span class="pc-compare">${priceCompare}</span>`
+                    : nothing}
+                </div>
+              `
+            : nothing}
+          ${description ? html`<p class="pc-desc">${description}</p>` : nothing}
+          ${showButton
+            ? html`<div class="pc-actions">
+                ${this._renderButton(
+                  i,
+                  isLinkButton,
+                  buttonHref,
+                  buttonLabel,
+                  action,
+                  sel?.id
+                )}
+              </div>`
+            : nothing}
+          ${shipping
+            ? html`<p class="pc-shipping">${shipping}</p>`
+            : nothing}
+        </div>
+      </article>
+    `;
+  }
+
+  private _renderButton(
+    i: number,
+    isLink: boolean,
+    href: string,
+    label: string,
+    action: PcButtonAction,
+    productId: number | undefined
+  ) {
+    if (isLink) {
+      return html`
+        <a class="pc-btn" href=${href || "#"}>
+          <span>${label}</span>${this._icon("arrow")}
+        </a>
+      `;
+    }
+    const ar = this._lang() === "ar";
+    const state = this._cartStates.get(i) ?? "idle";
+    if (state === "loading") {
+      return html`
+        <button class="pc-btn" type="button" disabled aria-busy="true">
+          <span class="pc-spinner" aria-hidden="true"></span>
+          <span>${ar ? "جارٍ الإضافة…" : "Adding…"}</span>
+        </button>
+      `;
+    }
+    if (state === "added") {
+      return html`
+        <button class="pc-btn" type="button" disabled>
+          ${this._icon("check")}<span>${ar ? "تمت الإضافة" : "Added"}</span>
+        </button>
+      `;
+    }
+    return html`
+      <button
+        class="pc-btn"
+        type="button"
+        @click=${(e: Event) =>
+          this._onPrimaryClick(e, i, productId, action, href)}
+      >
+        ${this._icon("bag")}<span>${label}</span>
+      </button>
+    `;
+  }
+}

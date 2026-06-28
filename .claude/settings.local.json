@@ -20,7 +20,14 @@
       "Bash(curl -s -o slide3.jpg \"https://g.top4top.io/p_38015wuxn3.jpg\")",
       "Bash(npx tsc *)",
       "Bash(pnpm tw-create-component *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(google-chrome-stable --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=1120,880 --force-device-scale-factor=1.5 --virtual-time-budget=9000 --screenshot=/tmp/fp-bg.png http://localhost:5174/harness.html)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(command -v convert)",
+      "Bash(convert fp-bg.png -crop 1680x230+0+150 +repage -resize 300% top-corners.png)",
+      "Bash(google-chrome-stable --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=560,300 --force-device-scale-factor=3 --virtual-time-budget=9000 --screenshot=/tmp/fp-corner.png http://localhost:5174/harness.html)",
+      "Bash(google-chrome-stable --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=560,300 --force-device-scale-factor=3 --virtual-time-budget=9000 --screenshot=/tmp/fp-corner2.png http://localhost:5174/harness.html)",
+      "Bash(git diff *)"
     ]
   }
 }
