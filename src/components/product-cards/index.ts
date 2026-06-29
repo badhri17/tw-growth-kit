@@ -716,14 +716,19 @@ export default class GrowthProductCards extends LitElement {
     const cards = this._cards();
 
     // --- Global visual resolution ---
-    const imageLayout = this._pickValue<PcImageLayout>(c.image_layout, "floating");
-    const aspect = this._pickValue<PcAspect>(c.aspect_ratio, "1/1");
-    // Image fit is layout-driven: floating products float (contain), background
-    // fills the card (cover); only "inside" exposes the merchant choice.
+    const imageLayout = this._pickValue<PcImageLayout>(c.image_layout, "inside");
+    // Background cards are full-bleed in a coverflow that needs one uniform
+    // silhouette, so we lock them to a tall portrait (the aspect field is hidden
+    // in bg mode). Only "inside" exposes the merchant choice — there it sizes the
+    // image frame at the card top.
+    const aspect: PcAspect =
+      imageLayout === "background"
+        ? "3/4"
+        : this._pickValue<PcAspect>(c.aspect_ratio, "1/1");
+    // Image fit is layout-driven: background fills the card (cover); only
+    // "inside" exposes the merchant choice.
     const imageFit: PcImageFit =
-      imageLayout === "floating"
-        ? "contain"
-        : imageLayout === "background"
+      imageLayout === "background"
         ? "cover"
         : this._pickValue<PcImageFit>(c.image_fit, "contain");
     const contentAlign = this._pickValue<PcContentAlign>(c.content_align, "right");

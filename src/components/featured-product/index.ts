@@ -367,28 +367,28 @@ export default class GrowthFeaturedProduct extends LitElement {
   // Pointer tilt (desktop, fine pointers, motion-allowed)
   // ------------------------------------------------------------
 
-  private _tiltAllowed(): boolean {
-    // pointer: fine = mouse/stylus (not touch) — that's the only gate needed.
-    // min-width was removed: it kills the effect inside Salla's admin preview
-    // frame which can be narrower than 768px even on a desktop.
+  private _tiltAllowed(e: PointerEvent): boolean {
+    // Check the actual event instead of the device's primary pointer. Hybrid
+    // laptops often report `pointer: coarse` even while a mouse is in use.
     return (
-      window.matchMedia("(pointer: fine)").matches &&
+      e.pointerType !== "touch" &&
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     );
   }
 
   private _onTiltMove = (e: PointerEvent) => {
-    if (!this._tiltAllowed()) return;
+    if (!this._tiltAllowed(e)) return;
     const media = e.currentTarget as HTMLElement;
     const inner = media.querySelector(".fp-media-inner") as HTMLElement | null;
     if (!inner) return;
     const r = media.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5; // -0.5 … 0.5
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    const max = 7;
-    inner.style.transform = `perspective(900px) rotateY(${px * max}deg) rotateX(${
+    if (!r.width || !r.height) return;
+    const px = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
+    const py = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
+    const max = 10;
+    inner.style.transform = `rotateY(${px * max}deg) rotateX(${
       -py * max
-    }deg)`;
+    }deg) scale3d(1.025, 1.025, 1.025)`;
   };
 
   private _onTiltLeave = (e: PointerEvent) => {
@@ -727,6 +727,7 @@ export default class GrowthFeaturedProduct extends LitElement {
       ? html`
           <div
             class="fp-media"
+            data-tilt=${tiltEnabled ? "on" : "off"}
             @pointermove=${tiltEnabled ? this._onTiltMove : null}
             @pointerleave=${tiltEnabled ? this._onTiltLeave : null}
           >

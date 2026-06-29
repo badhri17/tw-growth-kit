@@ -467,6 +467,10 @@ export default class GrowthHero extends LitElement {
     const desktopLayout = this._pickValue<HeroDesktopLayout>(c.desktop_layout, "background");
     const splitSide = this._pickValue<HeroSplitSide>(c.split_media_side, "left");
     const splitRatio = this._pickValue<HeroSplitRatio>(c.split_ratio, "equal");
+    const splitTextTheme = this._pickValue<HeroTextTheme>(
+      c.split_text_theme,
+      "light"
+    );
     const split =
       desktopLayout === "split" ? this._resolveSplit(splitSide, splitRatio) : null;
 
@@ -523,6 +527,7 @@ export default class GrowthHero extends LitElement {
         data-height=${height}
         data-layout=${desktopLayout}
         data-media-col=${split ? split.mediaCol : "start"}
+        data-split-text-theme=${splitTextTheme}
         data-custom-colors=${customColors ? "on" : "off"}
         data-align-h=${alignH}
         data-align-v=${alignV}

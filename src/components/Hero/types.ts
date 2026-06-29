@@ -79,6 +79,7 @@ export interface HeroConfig {
   split_media_side?: HeroSplitSide;    // which side the media sits on in split mode
   split_ratio?: HeroSplitRatio;        // column width distribution in split mode
   split_content_bg?: string;           // optional bg colour of the content panel
+  split_text_theme?: HeroTextTheme;    // desktop split panel only; mobile uses text_theme
 
   align_h?: HeroAlignH;
   align_v?: HeroAlignV;

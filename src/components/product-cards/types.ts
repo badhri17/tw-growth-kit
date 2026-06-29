@@ -22,13 +22,12 @@ export type MaybeMultiLang =
 
 /**
  * How the product image relates to the card (global) — mirrors Featured
- * Product's "طريقة عرض المنتج" minus "split", which doesn't suit a coverflow of
- * compact cards:
+ * Product's "طريقة عرض المنتج" minus "split"/"floating", which don't suit a
+ * coverflow of compact cards:
  *   • inside     → image in a framed box at the card top, details below.
- *   • floating   → product lifts above the card's top edge with a drop shadow.
  *   • background → image fills the card; details overlay a gradient scrim.
  */
-export type PcImageLayout = "inside" | "floating" | "background";
+export type PcImageLayout = "inside" | "background";
 
 /** Product image aspect ratio inside the card. */
 export type PcAspect = "1/1" | "4/3" | "3/4" | "16/9" | "9/16";

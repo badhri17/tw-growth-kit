@@ -137,6 +137,9 @@ export const featuredProductStyles = css`
     width: 100%;
     flex: none;
   }
+  .fp-media[data-tilt="on"] {
+    perspective: 900px;
+  }
   .fp-media-inner {
     position: relative;
     width: 100%;
@@ -150,6 +153,10 @@ export const featuredProductStyles = css`
        immediately without a promotion delay, even when the child .fp-img is
        already on its own layer for the float-bob animation. */
     will-change: transform;
+  }
+  .fp-media[data-tilt="on"] .fp-media-inner {
+    transform-origin: center;
+    transition: transform 100ms ease-out;
   }
   .fp-img {
     position: absolute;

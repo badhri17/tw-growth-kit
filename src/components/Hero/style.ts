@@ -335,6 +335,10 @@ export const heroStyles = css`
     /* The content side gets its own backdrop — media no longer sits behind it. */
     .hero[data-layout="split"] .content-wrap {
       background: var(--gh-split-content-bg, #0b0b0f);
+      color: #fff;
+    }
+    .hero[data-layout="split"][data-split-text-theme="dark"] .content-wrap {
+      color: #0b0b0f;
     }
   }
 

@@ -235,26 +235,6 @@ export const productCardsStyles = css`
     cursor: default;
   }
 
-  /* ===== شكل المنتج: floating — product lifts above the card's top edge ===== */
-  /* Extra headroom in the stage so the risen product isn't clipped. */
-  .pc[data-layout="floating"] .pc-stage {
-    padding-top: clamp(28px, 7vw, 58px);
-  }
-  .pc-card[data-layout="floating"] {
-    overflow: visible; /* let the product rise above the card */
-  }
-  .pc-card[data-layout="floating"] .pc-media {
-    overflow: visible;
-    background: transparent;
-    border-radius: 0;
-    margin-bottom: -6%; /* pull the body up under the lifted product */
-  }
-  .pc-card[data-layout="floating"] .pc-img {
-    border-radius: 0;
-    transform: translateY(-15%) scale(1.1);
-    filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.3));
-  }
-
   /* ===== شكل المنتج: background — image fills the card, content over a scrim ===== */
   .pc-card[data-layout="background"] {
     aspect-ratio: var(--pc-aspect);

@@ -243,7 +243,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-content-colors",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>🎨 ألوان المحتوى المخصصة</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='13.5' cy='6.5' r='.7' fill='currentColor' stroke='none'/><circle cx='17' cy='10.5' r='.7' fill='currentColor' stroke='none'/><circle cx='8' cy='7.5' r='.7' fill='currentColor' stroke='none'/><circle cx='6.5' cy='12.5' r='.7' fill='currentColor' stroke='none'/><path d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z'/></svg>ألوان المحتوى المخصصة</div>",
                     "variant": "h6"
                 },
                 {
@@ -365,7 +365,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-mobile",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>📱 الجوال — أساسي</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='5' y='2' width='14' height='20' rx='2.5'/><path d='M12 18h.01'/></svg>الجوال — أساسي</div>",
                     "variant": "h6"
                 },
                 {
@@ -430,7 +430,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h6"
                 },
                 {
@@ -500,7 +500,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-color",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🎨 لون الخلفية</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='13.5' cy='6.5' r='.7' fill='currentColor' stroke='none'/><circle cx='17' cy='10.5' r='.7' fill='currentColor' stroke='none'/><circle cx='8' cy='7.5' r='.7' fill='currentColor' stroke='none'/><circle cx='6.5' cy='12.5' r='.7' fill='currentColor' stroke='none'/><path d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z'/></svg>لون الخلفية</div>",
                     "variant": "h6"
                 },
                 {
@@ -611,7 +611,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-advanced",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>⚙️ خيارات متقدمة</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z'/></svg>خيارات متقدمة</div>",
                     "variant": "h6"
                 },
                 {
@@ -737,7 +737,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-desktop-layout",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'>🖥️ تخطيط سطح المكتب</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>تخطيط سطح المكتب</div>",
                     "variant": "h6"
                 },
                 {
@@ -864,7 +864,43 @@
                     "label": "لون خلفية جهة المحتوى (اختياري)",
                     "icon": "sicon-format-fill",
                     "required": false,
-                    "description": "اتركه فارغًا للون داكن افتراضي. عند اختيار لون فاتح غيّر «سمة لون النص» إلى داكن.",
+                    "description": "اتركه فارغًا للون داكن افتراضي. عند اختيار لون فاتح غيّر لون نص التخطيط المقسّم أدناه إلى داكن.",
+                    "conditions": [
+                        {
+                            "id": "desktop_layout",
+                            "operation": "=",
+                            "value": "split"
+                        }
+                    ]
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "split_text_theme",
+                    "label": "لون النص في التخطيط المقسّم",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "description": "يُطبّق على جهة النص في سطح المكتب فقط، ولا يغيّر لون النص على الجوال.",
+                    "selected": [
+                        {
+                            "label": "فاتح (على خلفية داكنة)",
+                            "value": "light",
+                            "key": "stt-light"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "فاتح (على خلفية داكنة)",
+                            "value": "light",
+                            "key": "stt-light"
+                        },
+                        {
+                            "label": "داكن (على خلفية فاتحة)",
+                            "value": "dark",
+                            "key": "stt-dark"
+                        }
+                    ],
                     "conditions": [
                         {
                             "id": "desktop_layout",
@@ -2249,7 +2285,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-crossover",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>وضع العبور ⚡</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>وضع العبور <svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='currentColor' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;' ><path d='M13 2 4 14h7l-1 8 9-12h-7z'/></svg></div>",
                     "variant": "h5"
                 },
                 {
@@ -3104,7 +3140,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-frame-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h6"
                 },
                 {
@@ -4150,7 +4186,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "content-override-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.8;'>💡 <strong>الحقول هنا تتجاوز بيانات المنتج المرتبط.</strong> إذا ربطت منتجًا من المتجر، تُجلب صورته واسمه وسعره تلقائيًا — أي حقل تملأه هنا يحل محل تلك البيانات فقط. اتركه فارغًا لاستخدام بيانات المنتج.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.8;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><path d='M9 18h6M10 22h4'/><path d='M15.1 14c.18-.98.65-1.74 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.4 2.5'/></svg><strong>الحقول هنا تتجاوز بيانات المنتج المرتبط.</strong> إذا ربطت منتجًا من المتجر، تُجلب صورته واسمه وسعره تلقائيًا — أي حقل تملأه هنا يحل محل تلك البيانات فقط. اتركه فارغًا لاستخدام بيانات المنتج.</div>"
                 },
                 {
                     "type": "string",
@@ -4301,8 +4337,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-display",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>طريقة  المنتج</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>شكل المنتج</div>",
                     "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "featured-product-style-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/product-style.webp' alt='مثال توضيحي لأشكال عرض المنتج' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
                 },
                 {
                     "type": "items",
@@ -4315,7 +4357,7 @@
                     "description": "«بجانب التفاصيل» يعرض الصورة والتفاصيل جنبًا إلى جنب على سطح المكتب (وتتراكب عموديًا على الجوال). «طافية» ترفع الصورة فوق حافة البطاقة. «كخلفية» تملأ الصورة البطاقة بالكامل مع نص فوقها.",
                     "selected": [
                         {
-                            "label": "طافية فوق البطاقة",
+                            "label": "خارج من البطاقة",
                             "value": "floating",
                             "key": "il-floating"
                         }
@@ -4327,17 +4369,17 @@
                             "key": "il-inside"
                         },
                         {
-                            "label": "طافية فوق البطاقة",
+                            "label": "خارج من البطاقة",
                             "value": "floating",
                             "key": "il-floating"
                         },
                         {
-                            "label": "بجانب التفاصيل",
+                            "label": "منتج جانبي",
                             "value": "split",
                             "key": "il-split"
                         },
                         {
-                            "label": "كخلفية للبطاقة",
+                            "label": "خلفية للبطاقة",
                             "value": "background",
                             "key": "il-bg"
                         }
@@ -5992,7 +6034,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-cols-mobile",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>📱 عدد الأعمدة — الجوال (أساسي)</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='5' y='2' width='14' height='20' rx='2.5'/><path d='M12 18h.01'/></svg>عدد الأعمدة — الجوال (أساسي)</div>",
                     "variant": "h6"
                 },
                 {
@@ -6033,7 +6075,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-cols-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h6"
                 },
                 {
@@ -7782,7 +7824,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h5"
                 },
                 {
@@ -8289,7 +8331,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "subsection-desktop",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:10px 14px;border-radius:8px;margin:6px 0 14px;font-weight:bold;font-size:14px;'>🖥️ سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:10px 14px;border-radius:8px;margin:6px 0 14px;font-weight:bold;font-size:14px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h5"
                 },
                 {
@@ -8552,7 +8594,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "cards-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>💡 <strong></strong> اربط منتجًا من متجرك ليُملأ تلقائيًا (الاسم، الصورة، السعر، وزر السلة)، أو املأ الحقول يدويًا لتجاوز بياناته. أضف ٣ بطاقات أو أكثر لتجربة الكاروسيل ثلاثي الأبعاد بأفضل شكل.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><path d='M9 18h6M10 22h4'/><path d='M15.1 14c.18-.98.65-1.74 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.4 2.5'/></svg><strong></strong> اربط منتجًا من متجرك ليُملأ تلقائيًا (الاسم، الصورة، السعر، وزر السلة)، أو املأ الحقول يدويًا لتجاوز بياناته. أضف ٣ بطاقات أو أكثر لتجربة الكاروسيل ثلاثي الأبعاد بأفضل شكل.</div>"
                 },
                 {
                     "id": "cards",
@@ -8784,9 +8826,9 @@
                     "required": false,
                     "selected": [
                         {
-                            "label": "طافية فوق البطاقة",
-                            "value": "floating",
-                            "key": "pcil-floating"
+                            "label": "داخل البطاقة",
+                            "value": "inside",
+                            "key": "pcil-inside"
                         }
                     ],
                     "options": [
@@ -8796,17 +8838,12 @@
                             "key": "pcil-inside"
                         },
                         {
-                            "label": "طافية فوق البطاقة",
-                            "value": "floating",
-                            "key": "pcil-floating"
-                        },
-                        {
                             "label": "كخلفية للبطاقة",
                             "value": "background",
                             "key": "pcil-bg"
                         }
                     ],
-                    "description": "«داخل البطاقة»: الصورة في إطار أعلى البطاقة والتفاصيل تحتها. «طافية»: المنتج يبرز فوق حافة البطاقة بظل ناعم لإحساس ثلاثي الأبعاد. «كخلفية»: الصورة تملأ البطاقة بالكامل والتفاصيل فوقها على طبقة متدرجة. يُطبَّق على كل البطاقات."
+                    "description": "«داخل البطاقة»: الصورة في إطار أعلى البطاقة والتفاصيل تحتها. «كخلفية»: الصورة تملأ البطاقة بالكامل والتفاصيل فوقها على طبقة متدرجة. يُطبَّق على كل البطاقات."
                 },
                 {
                     "type": "items",
@@ -8850,7 +8887,14 @@
                             "key": "pcar-9-16"
                         }
                     ],
-                    "description": "يحدّد مقاس إطار الصورة في وضع «داخل البطاقة» و«طافية»، ومقاس البطاقة نفسها في وضع «كخلفية». مربع ١:١ هو الأنسب لصور المنتجات."
+                    "description": "يحدّد مقاس إطار الصورة أعلى البطاقة. مربع ١:١ هو الأنسب لصور المنتجات. (في وضع «كخلفية» يُضبط شكل البطاقة تلقائيًا.)",
+                    "conditions": [
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
+                        }
+                    ]
                 },
                 {
                     "type": "items",
@@ -9003,7 +9047,7 @@
                     "format": "title",
                     "id": "section-shape-desktop",
                     "variant": "h5",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>🖥️ سطح المكتب — تخصيص اختياري</div>"
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>"
                 },
                 {
                     "type": "items",
