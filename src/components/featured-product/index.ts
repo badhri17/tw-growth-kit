@@ -30,7 +30,7 @@ import { featuredProductStyles } from "./style";
  *     enables add-to-cart) or type everything manually for crafted landings.
  *   • Image display: inside the card, floating above it, beside the details
  *     (split), or filling the card as a background.
- *   • Decorative background effect behind the product (circle/glow/pattern/blob).
+ *   • Decorative background effect behind the product (none/circle/glow).
  *   • Card styles: minimal, soft, premium glass, bold offer.
  *   • Pricing, sale price + discount badge, free-shipping line, highlights.
  *   • Premium motion: entrance reveal, idle float, optional pointer tilt.
@@ -523,14 +523,22 @@ export default class GrowthFeaturedProduct extends LitElement {
         : layout === "split"
         ? c.bg_effect_split
         : c.bg_effect,
-      "glow"
+      "none"
     );
     const effectColor =
-      (layout === "floating"
-        ? c.bg_effect_color_floating
-        : layout === "split"
-        ? c.bg_effect_color_split
-        : c.bg_effect_color) || "";
+      bgEffect === "none"
+        ? ""
+        : (layout === "floating"
+            ? bgEffect === "glow"
+              ? c.bg_effect_color_floating_glow
+              : c.bg_effect_color_floating
+            : layout === "split"
+              ? bgEffect === "glow"
+                ? c.bg_effect_color_split_glow
+                : c.bg_effect_color_split
+              : bgEffect === "glow"
+                ? c.bg_effect_color_glow
+                : c.bg_effect_color) || "";
     const cardStyle = this._pickValue<FeaturedCardStyle>(c.card_style, "soft");
     const cardRadius = this._num(c.card_radius, 24);
     const mediaRadius = Math.max(8, cardRadius - 6);
@@ -687,12 +695,15 @@ export default class GrowthFeaturedProduct extends LitElement {
       `--fp-highlight: ${
         c.highlight_color || (lightText ? "#d8b478" : "#b08948")
       }`,
+      `--fp-highlight-text: ${
+        c.highlight_text_color ||
+        c.text_color ||
+        (lightText ? "rgba(255,255,255,0.85)" : "#4b5563")
+      }`,
       `--fp-btn-bg: ${c.button_bg || (lightText ? "#ffffff" : "#14181f")}`,
       `--fp-btn-color: ${c.button_color || (lightText ? "#14181f" : "#ffffff")}`,
       `--fp-btn-radius: ${btnRadius}`,
-      `--fp-shipping: ${
-        c.shipping_color || (lightText ? "#7ee0aa" : "#2e7d52")
-      }`,
+      `--fp-shipping: ${lightText ? "#7ee0aa" : "#2e7d52"}`,
       `--fp-effect: ${
         effectColor || (lightText ? "#d8b478" : "#b08948")
       }`,

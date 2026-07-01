@@ -60,7 +60,7 @@ export type FeaturedButtonRadius = "square" | "soft" | "rounded" | "pill";
 export type FeaturedAspect = "1/1" | "4/3" | "3/4" | "16/9" | "9/16";
 
 /** Decorative shape rendered behind the product image. */
-export type FeaturedBgEffect = "none" | "circle" | "glow" | "pattern" | "blob";
+export type FeaturedBgEffect = "none" | "circle" | "glow";
 
 /** Visual treatment of the card container. */
 export type FeaturedCardStyle = "minimal" | "soft" | "glass" | "bold";
@@ -112,8 +112,11 @@ export interface FeaturedProductConfig {
   bg_effect_floating?: FeaturedBgEffect;
   bg_effect_split?: FeaturedBgEffect;
   bg_effect_color?: string;
+  bg_effect_color_glow?: string;
   bg_effect_color_floating?: string;
+  bg_effect_color_floating_glow?: string;
   bg_effect_color_split?: string;
+  bg_effect_color_split_glow?: string;
 
   // --- Card ---
   card_style?: FeaturedCardStyle;
@@ -159,10 +162,10 @@ export interface FeaturedProductConfig {
   compare_color?: string;
   badge_bg?: string;
   badge_color?: string;
+  highlight_text_color?: string; // highlight copy
   highlight_color?: string; // bullet check icon
   button_bg?: string;
   button_color?: string;
-  shipping_color?: string;
 
   // --- Motion ---
   enable_entrance_anim?: boolean;

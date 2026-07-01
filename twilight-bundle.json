@@ -13,7 +13,7 @@
     "components": [
         {
             "title": "واجهة المتجر (هيرو)",
-            "icon": "sicon-layout-grid",
+            "icon": "sicon-window-layout",
             "name": "Hero",
             "key": "af71c87d-579b-41d6-9395-2697f3197f35",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -35,7 +35,7 @@
                     "type": "string",
                     "icon": "sicon-typography",
                     "id": "eyebrow",
-                    "label": "نص علوي (اختياري)",
+                    "label": "نص علوي",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -61,7 +61,7 @@
                     "type": "string",
                     "icon": "sicon-paragraph",
                     "id": "subtitle",
-                    "label": "النص الوصفي (اختياري)",
+                    "label": "النص الوصفي",
                     "format": "textarea",
                     "multilanguage": true,
                     "required": false,
@@ -243,7 +243,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-content-colors",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='13.5' cy='6.5' r='.7' fill='currentColor' stroke='none'/><circle cx='17' cy='10.5' r='.7' fill='currentColor' stroke='none'/><circle cx='8' cy='7.5' r='.7' fill='currentColor' stroke='none'/><circle cx='6.5' cy='12.5' r='.7' fill='currentColor' stroke='none'/><path d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z'/></svg>ألوان المحتوى المخصصة</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='13.5' cy='6.5' r='.7' fill='currentColor' stroke='none'/><circle cx='17' cy='10.5' r='.7' fill='currentColor' stroke='none'/><circle cx='8' cy='7.5' r='.7' fill='currentColor' stroke='none'/><circle cx='6.5' cy='12.5' r='.7' fill='currentColor' stroke='none'/><path d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z'/></svg>ألوان المحتوى المخصصة</div>",
                     "variant": "h6"
                 },
                 {
@@ -365,7 +365,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-mobile",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='5' y='2' width='14' height='20' rx='2.5'/><path d='M12 18h.01'/></svg>الجوال — أساسي</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='5' y='2' width='14' height='20' rx='2.5'/><path d='M12 18h.01'/></svg>الجوال — أساسي</div>",
                     "variant": "h6"
                 },
                 {
@@ -430,14 +430,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h6"
                 },
                 {
                     "type": "string",
                     "icon": "sicon-video",
                     "id": "video_url_desktop",
-                    "label": "رابط الفيديو على سطح المكتب (اختياري)",
+                    "label": "رابط الفيديو على سطح المكتب",
                     "format": "text",
                     "required": false,
                     "placeholder": "https://…/video-desktop.mp4",
@@ -447,7 +447,7 @@
                     "type": "string",
                     "icon": "sicon-image",
                     "id": "background_image_desktop",
-                    "label": "صورة الخلفية على سطح المكتب (اختياري)",
+                    "label": "صورة الخلفية على سطح المكتب",
                     "format": "image",
                     "required": false,
                     "description": "تستخدم على الشاشات الكبيرة (768 بكسل وأكثر). إذا تركتها فارغة سيتم استخدام صورة الجوال. المقاس المناسب 1920×1080 بكسل."
@@ -456,7 +456,7 @@
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "height_desktop",
-                    "label": "ارتفاع الواجهة على سطح المكتب (اختياري)",
+                    "label": "ارتفاع الواجهة على سطح المكتب",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -500,7 +500,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-color",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='13.5' cy='6.5' r='.7' fill='currentColor' stroke='none'/><circle cx='17' cy='10.5' r='.7' fill='currentColor' stroke='none'/><circle cx='8' cy='7.5' r='.7' fill='currentColor' stroke='none'/><circle cx='6.5' cy='12.5' r='.7' fill='currentColor' stroke='none'/><path d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z'/></svg>لون الخلفية</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='13.5' cy='6.5' r='.7' fill='currentColor' stroke='none'/><circle cx='17' cy='10.5' r='.7' fill='currentColor' stroke='none'/><circle cx='8' cy='7.5' r='.7' fill='currentColor' stroke='none'/><circle cx='6.5' cy='12.5' r='.7' fill='currentColor' stroke='none'/><path d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z'/></svg>لون الخلفية</div>",
                     "variant": "h6"
                 },
                 {
@@ -551,7 +551,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "gradient_to",
-                    "label": "لون التدرج — النهاية (اختياري)",
+                    "label": "لون التدرج — النهاية",
                     "icon": "sicon-color-palette",
                     "required": false,
                     "conditions": [
@@ -611,7 +611,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-advanced",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z'/></svg>خيارات متقدمة</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z'/></svg>خيارات متقدمة</div>",
                     "variant": "h6"
                 },
                 {
@@ -737,7 +737,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-desktop-layout",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>تخطيط سطح المكتب</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:18px;font-weight:bold;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>تخطيط سطح المكتب</div>",
                     "variant": "h6"
                 },
                 {
@@ -861,7 +861,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "split_content_bg",
-                    "label": "لون خلفية جهة المحتوى (اختياري)",
+                    "label": "لون خلفية جهة المحتوى",
                     "icon": "sicon-format-fill",
                     "required": false,
                     "description": "اتركه فارغًا للون داكن افتراضي. عند اختيار لون فاتح غيّر لون نص التخطيط المقسّم أدناه إلى داكن.",
@@ -969,7 +969,7 @@
         },
         {
             "title": "منتجات المجموعة",
-            "icon": "sicon-grid",
+            "icon": "sicon-shopping-basket",
             "name": "collection",
             "key": "c4e7d2a1-9b3f-4c5e-8d6a-7f1b2e3c4d5a",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -1107,7 +1107,7 @@
                             "type": "string",
                             "icon": "sicon-image",
                             "id": "image_opened",
-                            "label": "صورة الكشف (اختياري)",
+                            "label": "صورة الكشف",
                             "format": "image",
                             "required": false,
                             "description": "تُستخدم فقط مع وضع الانيميشن «كشف المنتج». تظهر بدلًا من الصورة الأساسية عند تحديد الشريحة (مثلاً: صورة ثانية أو تفاصيل أقرب لنفس المنتج)."
@@ -1139,7 +1139,7 @@
                             "type": "string",
                             "icon": "sicon-format-text-alt",
                             "id": "cta_label",
-                            "label": "نص الزر المخصص (اختياري)",
+                            "label": "نص الزر المخصص",
                             "format": "text",
                             "multilanguage": true,
                             "required": false,
@@ -1157,7 +1157,7 @@
                             "type": "items",
                             "icon": "sicon-link",
                             "id": "link",
-                            "label": "رابط الزر (اختياري)",
+                            "label": "رابط الزر",
                             "format": "variable-list",
                             "source": "custom",
                             "searchable": true,
@@ -1368,7 +1368,7 @@
                     "type": "string",
                     "icon": "sicon-format-text-alt",
                     "id": "bag_bottom_title",
-                    "label": "نص ختامي تحت الشنطة (اختياري)",
+                    "label": "نص ختامي تحت الشنطة",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -1912,7 +1912,7 @@
         },
         {
             "title": "سلايدر قبل وبعد",
-            "icon": "sicon-image",
+            "icon": "sicon-compare",
             "name": "before-after",
             "key": "b7a3c9e2-4d8f-4a1b-9c5e-7f3a2b1d6e8c",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -1941,7 +1941,7 @@
                     "type": "string",
                     "icon": "sicon-paragraph",
                     "id": "subtitle",
-                    "label": "النص الوصفي (اختياري)",
+                    "label": "النص الوصفي",
                     "format": "textarea",
                     "multilanguage": true,
                     "required": false,
@@ -2012,7 +2012,7 @@
                             "type": "string",
                             "icon": "sicon-paragraph",
                             "id": "caption",
-                            "label": "تسمية أسفل الصورة (اختياري)",
+                            "label": "تسمية أسفل الصورة",
                             "format": "text",
                             "multilanguage": true,
                             "required": false,
@@ -2023,7 +2023,7 @@
                             "type": "items",
                             "icon": "sicon-bag",
                             "id": "product",
-                            "label": "المنتج المرتبط (اختياري)",
+                            "label": "المنتج المرتبط",
                             "format": "dropdown-list",
                             "source": "products",
                             "searchable": true,
@@ -2285,7 +2285,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-crossover",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>وضع العبور <svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='currentColor' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;' ><path d='M13 2 4 14h7l-1 8 9-12h-7z'/></svg></div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>وضع العبور <svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='currentColor' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;' ><path d='M13 2 4 14h7l-1 8 9-12h-7z'/></svg></div>",
                     "variant": "h5"
                 },
                 {
@@ -2862,7 +2862,7 @@
         },
         {
             "title": "سلايدر القصة",
-            "icon": "sicon-image-gallery",
+            "icon": "sicon-portrait-carousel",
             "name": "story-slider",
             "key": "602490c6-49f2-4084-9f43-66b82d0e52e6",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -2964,7 +2964,7 @@
                             "type": "string",
                             "icon": "sicon-image",
                             "id": "image_desktop",
-                            "label": "صورة سطح المكتب (اختياري)",
+                            "label": "صورة سطح المكتب",
                             "format": "image",
                             "required": false,
                             "description": "تُستخدم على الشاشات الكبيرة (٧٦٨ بكسل وأكثر). مفيدة عندما تريد صورة أعرض أو أعلى دقة على سطح المكتب. إذا تركتها فارغة سيتم استخدام صورة الجوال."
@@ -2973,7 +2973,7 @@
                             "type": "string",
                             "icon": "sicon-video",
                             "id": "video",
-                            "label": "رابط فيديو (اختياري)",
+                            "label": "رابط فيديو",
                             "format": "text",
                             "required": false,
                             "placeholder": "https://…/clip.mp4",
@@ -3017,7 +3017,7 @@
                             "type": "string",
                             "icon": "sicon-format-text-alt",
                             "id": "cta_label",
-                            "label": "نص الزر (اختياري)",
+                            "label": "نص الزر",
                             "format": "text",
                             "multilanguage": true,
                             "required": false,
@@ -3029,7 +3029,7 @@
                             "type": "items",
                             "icon": "sicon-link",
                             "id": "link",
-                            "label": "رابط الزر (اختياري)",
+                            "label": "رابط الزر",
                             "format": "variable-list",
                             "source": "custom",
                             "searchable": true,
@@ -3140,14 +3140,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-frame-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h6"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "aspect_ratio_desktop",
-                    "label": "مقاس السلايدر على سطح المكتب (اختياري)",
+                    "label": "مقاس السلايدر على سطح المكتب",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -4186,13 +4186,13 @@
                     "type": "static",
                     "format": "description",
                     "id": "content-override-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.8;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><path d='M9 18h6M10 22h4'/><path d='M15.1 14c.18-.98.65-1.74 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.4 2.5'/></svg><strong>الحقول هنا تتجاوز بيانات المنتج المرتبط.</strong> إذا ربطت منتجًا من المتجر، تُجلب صورته واسمه وسعره تلقائيًا — أي حقل تملأه هنا يحل محل تلك البيانات فقط. اتركه فارغًا لاستخدام بيانات المنتج.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.8;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><path d='M9 18h6M10 22h4'/><path d='M15.1 14c.18-.98.65-1.74 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.4 2.5'/></svg><strong>الحقول هنا تتجاوز بيانات المنتج المرتبط.</strong> إذا ربطت منتجًا من المتجر، تُجلب صورته واسمه وسعره تلقائيًا — أي حقل تملأه هنا يحل محل تلك البيانات فقط. اتركه فارغًا لاستخدام بيانات المنتج.</div>"
                 },
                 {
                     "type": "string",
                     "icon": "sicon-format-text-alt",
                     "id": "section_title",
-                    "label": "عنوان القسم (اختياري)",
+                    "label": "عنوان القسم",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -4249,7 +4249,7 @@
                     "type": "string",
                     "icon": "sicon-typography",
                     "id": "eyebrow",
-                    "label": "نص علوي صغير (اختياري)",
+                    "label": "نص علوي صغير",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -4323,7 +4323,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "highlights_bg",
-                    "label": "لون خلفية إطار المميزات (اختياري)",
+                    "label": "لون خلفية إطار المميزات",
                     "icon": "sicon-format-fill",
                     "required": false,
                     "description": "لون خلفية للإطار الذي يضم كل نقاط المميزات. اتركه فارغًا لعرضهم بدون خلفية."
@@ -4465,7 +4465,7 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "يُكتشف تلقائيًا من الصورة في وضع «كخلفية للبطاقة».",
+                    "description": "",
                     "selected": [
                         { "label": "مربع ١:١", "value": "1/1", "key": "fpar-1-1" }
                     ],
@@ -4608,7 +4608,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-bg-effect",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف المنتج</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية خلف صورة المنتج</div>",
                     "variant": "h5",
                     "conditions": [
                         { "id": "image_layout", "operation": "=", "value": "inside" }
@@ -4629,9 +4629,7 @@
                     "options": [
                         { "label": "بدون", "value": "none", "key": "be-none" },
                         { "label": "دائرة ناعمة", "value": "circle", "key": "be-circle" },
-                        { "label": "توهج متدرج", "value": "glow", "key": "be-glow" },
-                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be-pattern" },
-                        { "label": "شكل ضبابي", "value": "blob", "key": "be-blob" }
+                        { "label": "توهج متدرج", "value": "glow", "key": "be-glow" }
                     ],
                     "conditions": [
                         { "id": "image_layout", "operation": "=", "value": "inside" }
@@ -4647,7 +4645,20 @@
                     "required": false,
                     "value": "#b08948",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "inside" }
+                        { "id": "bg_effect", "operation": "=", "value": "circle" }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_effect_color_glow",
+                    "label": "لون تأثير الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "value": "#b08948",
+                    "conditions": [
+                        { "id": "bg_effect", "operation": "=", "value": "glow" }
                     ]
                 },
                 {
@@ -4669,6 +4680,15 @@
                     ]
                 },
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "bg-effect-preview-floating",
+                    "value": "<img src='https://radaar.b-cdn.net/growth%20bundle/bg-behind-product.webp' alt='خلفية خلف المنتج' style='display:block;width:100%;height:auto;border-radius:10px;'>",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                    ]
+                },
+                {
                     "type": "items",
                     "icon": "sicon-magic",
                     "id": "bg_effect_floating",
@@ -4683,9 +4703,7 @@
                     "options": [
                         { "label": "بدون", "value": "none", "key": "be2-none" },
                         { "label": "دائرة ناعمة", "value": "circle", "key": "be2-circle" },
-                        { "label": "توهج متدرج", "value": "glow", "key": "be2-glow" },
-                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be2-pattern" },
-                        { "label": "شكل ضبابي", "value": "blob", "key": "be2-blob" }
+                        { "label": "توهج متدرج", "value": "glow", "key": "be2-glow" }
                     ],
                     "conditions": [
                         { "id": "image_layout", "operation": "=", "value": "floating" }
@@ -4701,7 +4719,20 @@
                     "required": false,
                     "value": "#b08948",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "floating" }
+                        { "id": "bg_effect_floating", "operation": "=", "value": "circle" }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_effect_color_floating_glow",
+                    "label": "لون تأثير الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "value": "#b08948",
+                    "conditions": [
+                        { "id": "bg_effect_floating", "operation": "=", "value": "glow" }
                     ]
                 },
                 {
@@ -4723,6 +4754,15 @@
                     ]
                 },
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "bg-effect-preview-split",
+                    "value": "<img src='https://radaar.b-cdn.net/growth%20bundle/bg-behind-product.webp' alt='خلفية خلف المنتج' style='display:block;width:100%;height:auto;border-radius:10px;'>",
+                    "conditions": [
+                        { "id": "image_layout", "operation": "=", "value": "split" }
+                    ]
+                },
+                {
                     "type": "items",
                     "icon": "sicon-magic",
                     "id": "bg_effect_split",
@@ -4737,9 +4777,7 @@
                     "options": [
                         { "label": "بدون", "value": "none", "key": "be3-none" },
                         { "label": "دائرة ناعمة", "value": "circle", "key": "be3-circle" },
-                        { "label": "توهج متدرج", "value": "glow", "key": "be3-glow" },
-                        { "label": "نقشة منقّطة", "value": "pattern", "key": "be3-pattern" },
-                        { "label": "شكل ضبابي", "value": "blob", "key": "be3-blob" }
+                        { "label": "توهج متدرج", "value": "glow", "key": "be3-glow" }
                     ],
                     "conditions": [
                         { "id": "image_layout", "operation": "=", "value": "split" }
@@ -4755,7 +4793,20 @@
                     "required": false,
                     "value": "#b08948",
                     "conditions": [
-                        { "id": "image_layout", "operation": "=", "value": "split" }
+                        { "id": "bg_effect_split", "operation": "=", "value": "circle" }
+                    ]
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "bg_effect_color_split_glow",
+                    "label": "لون تأثير الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "value": "#b08948",
+                    "conditions": [
+                        { "id": "bg_effect_split", "operation": "=", "value": "glow" }
                     ]
                 },
                 {
@@ -4769,6 +4820,12 @@
                     "id": "section-section-bg",
                     "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>خلفية القسم</div>",
                     "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "section-bg-preview",
+                    "value": "<img src='https://radaar.b-cdn.net/growth%20bundle/products-section-bg.webp' alt='خلفية القسم' style='display:block;width:100%;height:auto;border-radius:10px;'>"
                 },
                 {
                     "type": "items",
@@ -4846,43 +4903,49 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-card",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>نمط البطاقة</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>تخصيص البطاقة</div>",
                     "variant": "h5"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "card-shape-preview",
+                    "value": "<img src='https://radaar.b-cdn.net/growth%20bundle/prodcut-card-shape.webp' alt='تخصيص البطاقة' style='display:block;width:100%;height:auto;border-radius:10px;'>"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-layout-grid",
                     "id": "card_style",
-                    "label": "نمط البطاقة",
+                    "label": "شكل البطاقة",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "«بسيط» بدون خلفية، «ناعمة» بطاقة بيضاء بظل خفيف، «زجاجي فاخر» بطاقة شفافة بضبابية، «عرض جريئة» بطاقة داكنة متدرجة للعروض.",
+                    "description": "«بسيطة مفرغة» بدون خلفية، «ناعمة» بخلفية وظل خفيف، «زجاجية» شفافة بضبابية، و«داكنة» متدرجة للعروض.",
                     "selected": [
                         {
-                            "label": "بطاقة ناعمة",
+                            "label": "ناعمة",
                             "value": "soft",
                             "key": "cs-soft"
                         }
                     ],
                     "options": [
                         {
-                            "label": "بسيط",
+                            "label": "بسيطة مفرغة",
                             "value": "minimal",
                             "key": "cs-minimal"
                         },
                         {
-                            "label": "بطاقة ناعمة",
+                            "label": "ناعمة",
                             "value": "soft",
                             "key": "cs-soft"
                         },
                         {
-                            "label": "زجاجي فاخر",
+                            "label": "زجاجية",
                             "value": "glass",
                             "key": "cs-glass"
                         },
                         {
-                            "label": "بطاقة دارك مود",
+                            "label": "داكنة",
                             "value": "bold",
                             "key": "cs-bold"
                         }
@@ -4931,7 +4994,7 @@
                     "type": "items",
                     "icon": "sicon-layout-grid",
                     "id": "card_size_desktop",
-                    "label": "حجم البطاقة على سطح المكتب (اختياري)",
+                    "label": "حجم البطاقة على سطح المكتب",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -5049,7 +5112,7 @@
                     "type": "string",
                     "icon": "sicon-shipping-fast",
                     "id": "free_shipping_text",
-                    "label": "نص الشحن (اختياري)",
+                    "label": "نص الشحن",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -5155,7 +5218,7 @@
                     "type": "string",
                     "icon": "sicon-format-text-alt",
                     "id": "button_label",
-                    "label": "نص الزر (اختياري)",
+                    "label": "نص الزر",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -5168,7 +5231,7 @@
                     "type": "string",
                     "icon": "sicon-link",
                     "id": "button_url",
-                    "label": "رابط الزر (اختياري)",
+                    "label": "رابط الزر",
                     "format": "text",
                     "required": false,
                     "placeholder": "مثل: /products/my-product",
@@ -5207,7 +5270,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "card_bg",
-                    "label": "لون خلفية البطاقة (اختياري)",
+                    "label": "لون خلفية البطاقة",
                     "icon": "sicon-format-fill",
                     "required": false
                 },
@@ -5216,7 +5279,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "eyebrow_color",
-                    "label": "لون النص العلوي (اختياري)",
+                    "label": "لون النص العلوي",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5225,7 +5288,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "title_color",
-                    "label": "لون العنوان (اختياري)",
+                    "label": "لون العنوان",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5234,7 +5297,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "text_color",
-                    "label": "لون الوصف والمميزات (اختياري)",
+                    "label": "لون الوصف",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5243,7 +5306,16 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "price_color",
-                    "label": "لون السعر (اختياري)",
+                    "label": "لون السعر",
+                    "icon": "sicon-color-palette",
+                    "required": false
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "id": "highlight_text_color",
+                    "label": "لون نص المميزات",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5252,7 +5324,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "compare_color",
-                    "label": "لون السعر قبل الخصم (اختياري)",
+                    "label": "لون السعر قبل الخصم",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5261,7 +5333,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "highlight_color",
-                    "label": "لون علامة المميزات (اختياري)",
+                    "label": "لون علامة المميزات",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5270,7 +5342,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "badge_bg",
-                    "label": "لون خلفية شارة الخصم (اختياري)",
+                    "label": "لون خلفية شارة الخصم",
                     "icon": "sicon-format-fill",
                     "required": false
                 },
@@ -5279,7 +5351,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "badge_color",
-                    "label": "لون نص شارة الخصم (اختياري)",
+                    "label": "لون نص شارة الخصم",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5288,7 +5360,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "button_bg",
-                    "label": "لون خلفية الزر (اختياري)",
+                    "label": "لون خلفية الزر",
                     "icon": "sicon-format-fill",
                     "required": false
                 },
@@ -5297,16 +5369,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "button_color",
-                    "label": "لون نص الزر (اختياري)",
-                    "icon": "sicon-color-palette",
-                    "required": false
-                },
-                {
-                    "type": "string",
-                    "format": "color",
-                    "inputType": "color",
-                    "id": "shipping_color",
-                    "label": "لون نص الشحن (اختياري)",
+                    "label": "لون نص الزر",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -5423,7 +5486,7 @@
         },
         {
             "title": "آراء العملاء",
-            "icon": "sicon-comment",
+            "icon": "sicon-quote",
             "name": "testimonials",
             "key": "72a17268-f2e7-4ca0-a485-ec04fc98b012",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -5439,7 +5502,7 @@
                     "type": "string",
                     "icon": "sicon-typography",
                     "id": "eyebrow",
-                    "label": "نص علوي (اختياري)",
+                    "label": "نص علوي",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -5463,7 +5526,7 @@
                     "type": "string",
                     "icon": "sicon-paragraph",
                     "id": "section_subtitle",
-                    "label": "النص الوصفي (اختياري)",
+                    "label": "النص الوصفي",
                     "format": "textarea",
                     "multilanguage": true,
                     "required": false,
@@ -5475,7 +5538,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-summary",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>ملخص التقييم (اختياري)</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'>ملخص التقييم</div>",
                     "variant": "h5"
                 },
                 {
@@ -5686,7 +5749,7 @@
                             "type": "items",
                             "icon": "sicon-bag",
                             "id": "product",
-                            "label": "المنتج المرتبط (اختياري)",
+                            "label": "المنتج المرتبط",
                             "format": "dropdown-list",
                             "source": "products",
                             "searchable": true,
@@ -6034,7 +6097,7 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-cols-mobile",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='5' y='2' width='14' height='20' rx='2.5'/><path d='M12 18h.01'/></svg>عدد الأعمدة — الجوال (أساسي)</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='5' y='2' width='14' height='20' rx='2.5'/><path d='M12 18h.01'/></svg>عدد الأعمدة — الجوال (أساسي)</div>",
                     "variant": "h6"
                 },
                 {
@@ -6075,14 +6138,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-cols-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-weight:bold;font-size:0.9em;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h6"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-columns",
                     "id": "columns_desktop",
-                    "label": "عدد الأعمدة على سطح المكتب (اختياري)",
+                    "label": "عدد الأعمدة على سطح المكتب",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -6747,7 +6810,7 @@
         },
         {
             "title": "المنتج التفاعلي",
-            "icon": "sicon-image",
+            "icon": "sicon-touch-type",
             "name": "interactive-product",
             "key": "343b21e2-5f91-4f97-aeec-d5e5333a0e1f",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -6763,7 +6826,7 @@
                     "type": "string",
                     "icon": "sicon-typography",
                     "id": "eyebrow",
-                    "label": "نص علوي (اختياري)",
+                    "label": "نص علوي",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -6788,7 +6851,7 @@
                     "type": "string",
                     "icon": "sicon-paragraph",
                     "id": "section_subtitle",
-                    "label": "النص الوصفي (اختياري)",
+                    "label": "النص الوصفي",
                     "format": "textarea",
                     "multilanguage": true,
                     "required": false,
@@ -7338,7 +7401,7 @@
         },
         {
             "title": "النص التفاعلي",
-            "icon": "sicon-typography",
+            "icon": "sicon-format-text",
             "name": "interactive-text",
             "key": "fa893952-e32a-4dd1-8931-951e21f2f10b",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -7354,7 +7417,7 @@
                     "type": "string",
                     "icon": "sicon-typography",
                     "id": "eyebrow",
-                    "label": "نص علوي (اختياري)",
+                    "label": "نص علوي",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -7379,7 +7442,7 @@
                     "type": "string",
                     "icon": "sicon-magic-wand",
                     "id": "highlight_words",
-                    "label": "كلمات مميزة من العنوان (اختياري)",
+                    "label": "كلمات مميزة من العنوان",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -7430,7 +7493,7 @@
                     "type": "string",
                     "icon": "sicon-format-text-alt",
                     "id": "subtitle",
-                    "label": "العنوان الفرعي (اختياري)",
+                    "label": "العنوان الفرعي",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -7442,7 +7505,7 @@
                     "type": "string",
                     "icon": "sicon-paragraph",
                     "id": "paragraph",
-                    "label": "الفقرة (اختياري)",
+                    "label": "الفقرة",
                     "format": "textarea",
                     "multilanguage": true,
                     "required": false,
@@ -7467,7 +7530,7 @@
                     "type": "string",
                     "icon": "sicon-format-text-alt",
                     "id": "button_text",
-                    "label": "نص الزر (اختياري)",
+                    "label": "نص الزر",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -7824,14 +7887,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "section-desktop",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h5"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "text_size_desktop",
-                    "label": "حجم النص (اختياري)",
+                    "label": "حجم النص",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -8056,7 +8119,7 @@
         },
         {
             "title": "معرض لايف ستايل",
-            "icon": "sicon-image-carousel",
+            "icon": "sicon-images",
             "name": "lifestyle-gallery",
             "key": "29bfe3b8-5829-441a-b4ba-5abbf58bf494",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -8086,7 +8149,7 @@
                     "type": "string",
                     "icon": "sicon-format-text-alt",
                     "id": "section_pretitle",
-                    "label": "سطر إضافي فوق العنوان (اختياري)",
+                    "label": "سطر إضافي فوق العنوان",
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
@@ -8206,7 +8269,7 @@
                             "type": "string",
                             "icon": "sicon-format-text-alt",
                             "id": "cta_label",
-                            "label": "نص الزر المخصص (اختياري)",
+                            "label": "نص الزر المخصص",
                             "format": "text",
                             "multilanguage": true,
                             "required": false,
@@ -8331,14 +8394,14 @@
                     "type": "static",
                     "format": "title",
                     "id": "subsection-desktop",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:10px 14px;border-radius:8px;margin:6px 0 14px;font-weight:bold;font-size:14px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:10px 14px;border-radius:8px;margin:6px 0 14px;font-weight:bold;font-size:14px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>",
                     "variant": "h5"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "height_desktop",
-                    "label": "ارتفاع المعرض (اختياري)",
+                    "label": "ارتفاع المعرض",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -8376,7 +8439,7 @@
                     "type": "items",
                     "icon": "sicon-keyboard_arrow_down",
                     "id": "desktop_slides",
-                    "label": "عدد الشرائح الظاهرة (اختياري)",
+                    "label": "عدد الشرائح الظاهرة",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -8542,7 +8605,7 @@
         },
         {
             "title": "منتجات 3d",
-            "icon": "sicon-layers",
+            "icon": "sicon-stack",
             "name": "product-cards",
             "key": "50e52be9-21e0-4554-8e39-86af94cd9aff",
             "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
@@ -8571,7 +8634,7 @@
                     "type": "string",
                     "icon": "sicon-paragraph",
                     "id": "section_subtitle",
-                    "label": "وصف القسم (اختياري)",
+                    "label": "وصف القسم",
                     "format": "textarea",
                     "required": false,
                     "multilanguage": true,
@@ -8594,7 +8657,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "cards-note",
-                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><path d='M9 18h6M10 22h4'/><path d='M15.1 14c.18-.98.65-1.74 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.4 2.5'/></svg><strong></strong> اربط منتجًا من متجرك ليُملأ تلقائيًا (الاسم، الصورة، السعر، وزر السلة)، أو املأ الحقول يدويًا لتجاوز بياناته. أضف ٣ بطاقات أو أكثر لتجربة الكاروسيل ثلاثي الأبعاد بأفضل شكل.</div>"
+                    "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><path d='M9 18h6M10 22h4'/><path d='M15.1 14c.18-.98.65-1.74 1.4-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.4 2.5'/></svg><strong></strong> اربط منتجًا من متجرك ليُملأ تلقائيًا (الاسم، الصورة، السعر، وزر السلة)، أو املأ الحقول يدويًا لتجاوز بياناته. أضف ٣ بطاقات أو أكثر لتجربة الكاروسيل ثلاثي الأبعاد بأفضل شكل.</div>"
                 },
                 {
                     "id": "cards",
@@ -8641,7 +8704,7 @@
                             "type": "items",
                             "icon": "sicon-bag",
                             "id": "product",
-                            "label": "اختر المنتج (اختياري)",
+                            "label": "اختر المنتج",
                             "format": "dropdown-list",
                             "source": "products",
                             "searchable": true,
@@ -8667,7 +8730,7 @@
                             "type": "string",
                             "icon": "sicon-bookmark",
                             "id": "badge",
-                            "label": "نص الشارة (اختياري)",
+                            "label": "نص الشارة",
                             "format": "text",
                             "required": false,
                             "multilanguage": true,
@@ -8714,7 +8777,7 @@
                             "type": "string",
                             "icon": "sicon-dollar-sign",
                             "id": "compare_price",
-                            "label": "السعر قبل الخصم (اختياري)",
+                            "label": "السعر قبل الخصم",
                             "format": "text",
                             "required": false,
                             "placeholder": "مثل: ١٩٩ ر.س",
@@ -8725,7 +8788,7 @@
                             "type": "items",
                             "icon": "sicon-link",
                             "id": "link",
-                            "label": "رابط الزر (اختياري)",
+                            "label": "رابط الزر",
                             "format": "variable-list",
                             "source": "custom",
                             "searchable": true,
@@ -9047,13 +9110,13 @@
                     "format": "title",
                     "id": "section-shape-desktop",
                     "variant": "h5",
-                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>"
+                    "value": "<div style='background:radial-gradient(circle at left center,#6241d9 0%,#3b2878 35%,#160f2a 62%,#020204 100%);color:#fff;padding:12px 12px;border-radius:10px;margin-bottom:18px;font-weight:bold;font-size:18px;'><svg width='1.05em' height='1.05em' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='display:inline-block;vertical-align:-0.15em;margin-inline-end:7px;'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>سطح المكتب — تخصيص اختياري</div>"
                 },
                 {
                     "type": "items",
                     "icon": "sicon-layout-grid",
                     "id": "card_size_desktop",
-                    "label": "حجم البطاقة على سطح المكتب (اختياري)",
+                    "label": "حجم البطاقة على سطح المكتب",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
@@ -9123,7 +9186,7 @@
                     "type": "string",
                     "icon": "sicon-shipping-fast",
                     "id": "free_shipping_text",
-                    "label": "سطر الشحن/الإرجاع (اختياري)",
+                    "label": "سطر الشحن/الإرجاع",
                     "format": "text",
                     "required": false,
                     "multilanguage": true,
@@ -9467,7 +9530,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "card_bg",
-                    "label": "لون خلفية البطاقة (اختياري)",
+                    "label": "لون خلفية البطاقة",
                     "icon": "sicon-format-fill",
                     "required": false
                 },
@@ -9476,7 +9539,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "title_color",
-                    "label": "لون العنوان (اختياري)",
+                    "label": "لون العنوان",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -9485,7 +9548,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "text_color",
-                    "label": "لون الوصف (اختياري)",
+                    "label": "لون الوصف",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -9494,7 +9557,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "price_color",
-                    "label": "لون السعر (اختياري)",
+                    "label": "لون السعر",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -9503,7 +9566,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "compare_color",
-                    "label": "لون السعر قبل الخصم (اختياري)",
+                    "label": "لون السعر قبل الخصم",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -9512,7 +9575,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "badge_bg",
-                    "label": "لون خلفية الشارة (اختياري)",
+                    "label": "لون خلفية الشارة",
                     "icon": "sicon-format-fill",
                     "required": false
                 },
@@ -9521,7 +9584,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "badge_color",
-                    "label": "لون نص الشارة (اختياري)",
+                    "label": "لون نص الشارة",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -9530,7 +9593,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "button_bg",
-                    "label": "لون خلفية الزر (اختياري)",
+                    "label": "لون خلفية الزر",
                     "icon": "sicon-format-fill",
                     "required": false
                 },
@@ -9539,7 +9602,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "button_color",
-                    "label": "لون نص الزر (اختياري)",
+                    "label": "لون نص الزر",
                     "icon": "sicon-color-palette",
                     "required": false
                 },
@@ -9548,7 +9611,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "shipping_color",
-                    "label": "لون سطر الشحن (اختياري)",
+                    "label": "لون سطر الشحن",
                     "icon": "sicon-color-palette",
                     "required": false
                 },

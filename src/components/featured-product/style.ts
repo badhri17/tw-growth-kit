@@ -211,26 +211,6 @@ export const featuredProductStyles = css`
     opacity: 0.4;
     filter: blur(8px);
   }
-  .fp-effect[data-effect="pattern"]::before {
-    width: 92%;
-    height: 92%;
-    border-radius: 20px;
-    background-image: radial-gradient(
-      var(--fp-effect) 1.4px,
-      transparent 1.4px
-    );
-    background-size: 16px 16px;
-    opacity: 0.18;
-  }
-  .fp-effect[data-effect="blob"]::before {
-    width: 104%;
-    aspect-ratio: 1;
-    background: var(--fp-effect);
-    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
-    opacity: 0.2;
-    filter: blur(6px);
-  }
-
   /* ---------- Content ---------- */
   .fp-content {
     display: flex;
@@ -278,7 +258,7 @@ export const featuredProductStyles = css`
     display: flex;
     align-items: center;
     gap: 0.55rem;
-    color: var(--fp-text);
+    color: var(--fp-highlight-text, var(--fp-text));
     font-size: 0.97rem;
     line-height: 1.4;
     padding: var(--fp-hl-item-pad);
