@@ -1,5 +1,6 @@
-import { LitElement, html, nothing, type PropertyValues } from "lit";
+import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
+import { GrowthElement } from "../../shared/growth-element";
 import type {
   CollectionConfig,
   CollectionAnimation,
@@ -9,7 +10,6 @@ import type {
   CollectionDisplayMode,
   CollectionSlideItem,
   CollectionUseCase,
-  MaybeMultiLang,
 } from "./types";
 import { collectionStyles } from "./style";
 
@@ -33,53 +33,9 @@ import { collectionStyles } from "./style";
  *                rises out of a merchant-uploaded bag image while the
  *                previous one sinks back into it.
  */
-export default class GrowthCollection extends LitElement {
+export default class GrowthCollection extends GrowthElement {
   static styles = collectionStyles;
 
-  /** Twilight transform injects `Class.registerSallaComponent(...)`. */
-  static registerSallaComponent(name: string) {
-    const componentKey = String(name || "").trim();
-    const normalizedBase = componentKey
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]/g, "-");
-    const safeBaseName = normalizedBase.includes("-")
-      ? normalizedBase
-      : `salla-${normalizedBase || "component"}`;
-    const buildDynamicTagName = () =>
-      `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
-
-    const tryRegister = () => {
-      const bundles = (
-        window as Window & {
-          Salla?: {
-            bundles?: {
-              registerComponent?: (
-                key: string,
-                payload: {
-                  component: typeof HTMLElement;
-                  dynamicTagName: string;
-                }
-              ) => void;
-            };
-          };
-        }
-      ).Salla?.bundles;
-
-      if (bundles && typeof bundles.registerComponent === "function") {
-        bundles.registerComponent(componentKey, {
-          component: this as unknown as typeof HTMLElement,
-          dynamicTagName: buildDynamicTagName(),
-        });
-        return true;
-      }
-      return false;
-    };
-    if (tryRegister()) return;
-    const timer = window.setInterval(() => {
-      if (tryRegister()) window.clearInterval(timer);
-    }, 100);
-    window.setTimeout(() => window.clearInterval(timer), 5000);
-  }
 
   @property({ type: Object })
   config?: CollectionConfig;
@@ -103,6 +59,9 @@ export default class GrowthCollection extends LitElement {
   private _captionTimer: number | null = null;
   private _hoverPaused = false;
   private _hasInitializedActive = false;
+  /** Whether the section is visible — autoplay pauses while off-screen. */
+  private _inView = true;
+  private _io: IntersectionObserver | null = null;
 
   /** Swipe tracking on the track. */
   private _swipeStartX: number | null = null;
@@ -117,39 +76,8 @@ export default class GrowthCollection extends LitElement {
   // Helpers
   // ------------------------------------------------------------
 
-  private _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    const lang = (document.documentElement.lang || "ar")
-      .toLowerCase()
-      .startsWith("en")
-      ? "en"
-      : "ar";
-    return (val[lang] || val.ar || val.en || "").trim();
-  }
 
-  private _pickValue<T extends string>(val: unknown, fallback: T): T {
-    if (typeof val === "string" && val) return val as T;
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first && typeof first.value === "string" && first.value)
-        return first.value as T;
-    }
-    return fallback;
-  }
 
-  private _num(val: unknown, fallback: number): number {
-    if (typeof val === "number" && !Number.isNaN(val)) return val;
-    if (typeof val === "string" && val.trim() !== "") {
-      const n = Number(val);
-      if (!Number.isNaN(n)) return n;
-    }
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first?.value !== undefined) return this._num(first.value, fallback);
-    }
-    return fallback;
-  }
 
   private _displayMode(): CollectionDisplayMode {
     return this._pickValue<CollectionDisplayMode>(
@@ -218,11 +146,29 @@ export default class GrowthCollection extends LitElement {
         });
       });
     }
+
+    // Pause autoplay when scrolled out of view (saves CPU and prevents the
+    // slider from racing on a long page).
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this._inView = ent.isIntersecting;
+          this._teardownAutoplay();
+          if (this._inView) this._setupAutoplay();
+        },
+        { threshold: 0.15 }
+      );
+      this._io.observe(this);
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._teardownAutoplay();
+    this._io?.disconnect();
+    this._io = null;
     if (this._captionTimer) {
       clearTimeout(this._captionTimer);
       this._captionTimer = null;
@@ -307,6 +253,7 @@ export default class GrowthCollection extends LitElement {
   private _setupAutoplay() {
     const c = this.config || {};
     if (!c.autoplay) return;
+    if (!this._inView) return;
     if (this._slides().length < 2) return;
     const delaySec = Math.max(1, this._num(c.autoplay_delay, 5));
     this._autoplayTimer = window.setInterval(() => {

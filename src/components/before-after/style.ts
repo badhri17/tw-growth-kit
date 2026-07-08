@@ -709,6 +709,12 @@ export const beforeAfterStyles = css`
   .ba-x[data-pause-hover]:hover .ba-x-track {
     animation-play-state: paused;
   }
+  /* Off-screen (host attribute set by IntersectionObserver): freeze the
+     continuous marquee + divider glow so they don't burn compositor time. */
+  :host([out-of-view]) .ba-x-track,
+  :host([out-of-view]) .ba-x-divider {
+    animation-play-state: paused;
+  }
 
   /* Each group carries its own trailing gap so two groups tile with a
      period of exactly 50% of the track. */

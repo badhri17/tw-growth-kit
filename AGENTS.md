@@ -42,7 +42,19 @@ Three Vite plugins from `@salla.sa/twilight-bundles` drive the build:
 | `sallaBuildPlugin` | Bundles each component into a separate `dist/<name>.js`; marks `lit` as external |
 | `sallaDemoPlugin` | Spins up a demo page for development |
 
-The transform plugin injects `ClassName.registerSallaComponent(key)` into each component, which calls `window.Salla.bundles.registerComponent(key, { component, dynamicTagName })`. The `Hero` component includes a manual `registerSallaComponent` static method with a polling fallback for contexts where `Salla` loads after the component file executes — follow this pattern for robustness in demo mode.
+The transform plugin appends `ClassName.registerSallaComponent(key)` to each component file, which calls `window.Salla.bundles.registerComponent(key, { component, dynamicTagName })`. The static method lives on the shared `GrowthElement` base class (statics inherit), with a polling fallback for contexts where `Salla` loads after the component file executes.
+
+⚠️ The transform takes `ClassName` from the **first `class <word>` token in the file — comments included**. Never write the word "class" followed by another word (even inside a doc comment) above the component class declaration, or registration silently targets the wrong name.
+
+### Shared code — `src/shared/`
+
+Cross-component code has a single source of truth in `src/shared/`:
+
+- `growth-element.ts` — `GrowthElement` base class (extends `LitElement`) that every component extends: the `registerSallaComponent` bridge plus protected helpers `_t` (multilang), `_lang`, `_pickValue` (dropdowns), `_num` / `_toLatinDigits` (numbers, Arabic-Indic digit aware).
+- `product.ts` — Salla product plumbing: `sallaGlobal`, `pickerSelection`, `fetchProductDetails`, `parseMoney`, `formatMoney`, and the `ResolvedProduct` shape.
+- `types.ts` — `MaybeMultiLang`.
+
+Component isolation in `dist/` is preserved by `duplicateSharedPerComponentPlugin` in `vite.config.ts`: it tags every `src/shared/*` import with the importing component (`?gk=<name>`) so Rollup inlines a private copy into each `dist/<name>.js`. **Do not remove it** — without it the multi-entry build splits shared modules into hashed chunk files (`dist/growth-element-<hash>.js`), breaking the one-self-contained-file-per-component contract. Corollary: module-level state in `src/shared/` is per-component at runtime, never shared across components.
 
 ### `twilight-bundle.json` — the source of truth for the admin UI
 
@@ -57,47 +69,32 @@ The `fields` array drives what the Salla merchant panel renders as settings. Fie
 Each component lives in `src/components/<name>/` with `index.ts` as the entry point. Optional `style.ts` and `types.ts` can be co-located.
 
 Every component must:
-1. Extend `LitElement` and export the class as default
+1. Extend `GrowthElement` (from `src/shared/growth-element`) and export the class as default
 2. Declare a single `@property({ type: Object }) config?` that receives all merchant settings
 3. Have a matching entry in `twilight-bundle.json`
 
 ```ts
-export default class MyComponent extends LitElement {
+import { GrowthElement } from "../../shared/growth-element";
+
+export default class MyComponent extends GrowthElement {
   @property({ type: Object })
   config?: { title?: string; /* ... */ };
 
   static styles = css`/* ... */`;
 
   render() {
-    return html`<div>${this.config?.title}</div>`;
+    return html`<div>${this._t(this.config?.title)}</div>`;
   }
 }
 ```
 
 ### Handling multilanguage values
 
-Fields marked `multilanguage: true` arrive as `string | { ar?: string; en?: string } | null`. Resolve using a helper like `_t()` in `Hero`:
-
-```ts
-private _t(val: MaybeMultiLang): string {
-  if (!val) return "";
-  if (typeof val === "string") return val;
-  const lang = document.documentElement.lang?.startsWith("en") ? "en" : "ar";
-  return (val[lang] || val.ar || val.en || "").trim();
-}
-```
+Fields marked `multilanguage: true` arrive as `string | { ar?: string; en?: string } | null`. Resolve with the inherited `this._t(value)` from `GrowthElement` — never re-implement it per component.
 
 ### Handling dropdown-list values
 
-`items` fields (dropdowns) can arrive as a plain string **or** as `[{ label, value }]`. Use a `_pickValue` guard:
-
-```ts
-private _pickValue<T extends string>(val: unknown, fallback: T): T {
-  if (typeof val === "string" && val) return val as T;
-  if (Array.isArray(val) && val[0]?.value) return val[0].value as T;
-  return fallback;
-}
-```
+`items` fields (dropdowns) can arrive as a plain string **or** as `[{ label, value }]` — resolve with the inherited `this._pickValue(value, fallback)`. Numeric fields (which may arrive as strings, Arabic-Indic digits, or dropdown arrays) go through the inherited `this._num(value, fallback)`. Both live on `GrowthElement`.
 
 ### Windows-specific note
 

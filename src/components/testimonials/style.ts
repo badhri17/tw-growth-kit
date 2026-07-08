@@ -627,6 +627,11 @@ export const testimonialsStyles = css`
   .t-marquee-row[data-pause="hover"]:hover .t-marquee-track {
     animation-play-state: paused;
   }
+  /* Off-screen (host attribute set by IntersectionObserver): freeze the
+     marquee so it doesn't burn compositor time while invisible. */
+  :host([out-of-view]) .t-marquee-track {
+    animation-play-state: paused;
+  }
   .t-marquee-cell {
     flex: 0 0 auto;
     width: clamp(258px, 80vw, 320px);

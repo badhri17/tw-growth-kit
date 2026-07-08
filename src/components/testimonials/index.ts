@@ -1,5 +1,13 @@
-import { LitElement, html, nothing } from "lit";
+import { html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
+import { GrowthElement } from "../../shared/growth-element";
+import {
+  fetchProductDetails,
+  formatMoney,
+  parseMoney,
+  pickerSelection,
+  sallaGlobal,
+} from "../../shared/product";
 import type {
   TestimonialsConfig,
   TestimonialItem,
@@ -14,7 +22,6 @@ import type {
   TestimonialMarqueeDirection,
   TestimonialPhotoAspect,
   TestimonialOverlayTone,
-  MaybeMultiLang,
   ResolvedProduct,
 } from "./types";
 import { testimonialsStyles } from "./style";
@@ -50,57 +57,9 @@ interface CardOpts {
  *
  * RTL-first and mobile-first throughout; respects prefers-reduced-motion.
  */
-export default class GrowthTestimonials extends LitElement {
+export default class GrowthTestimonials extends GrowthElement {
   static styles = testimonialsStyles;
 
-  /**
-   * Twilight transform injects `Class.registerSallaComponent(...)`.
-   * The polling fallback handles preview contexts where `Salla` loads after
-   * this file executes.
-   */
-  static registerSallaComponent(name: string) {
-    const componentKey = String(name || "").trim();
-    const normalizedBase = componentKey
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]/g, "-");
-    const safeBaseName = normalizedBase.includes("-")
-      ? normalizedBase
-      : `salla-${normalizedBase || "component"}`;
-    const buildDynamicTagName = () =>
-      `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
-
-    const tryRegister = () => {
-      const bundles = (
-        window as Window & {
-          Salla?: {
-            bundles?: {
-              registerComponent?: (
-                key: string,
-                payload: {
-                  component: typeof HTMLElement;
-                  dynamicTagName: string;
-                }
-              ) => void;
-            };
-          };
-        }
-      ).Salla?.bundles;
-
-      if (bundles && typeof bundles.registerComponent === "function") {
-        bundles.registerComponent(componentKey, {
-          component: this as unknown as typeof HTMLElement,
-          dynamicTagName: buildDynamicTagName(),
-        });
-        return true;
-      }
-      return false;
-    };
-    if (tryRegister()) return;
-    const timer = window.setInterval(() => {
-      if (tryRegister()) window.clearInterval(timer);
-    }, 100);
-    window.setTimeout(() => window.clearInterval(timer), 5000);
-  }
 
   @property({ type: Object })
   config?: TestimonialsConfig;
@@ -117,105 +76,30 @@ export default class GrowthTestimonials extends LitElement {
   private _autoplayTimer: number | null = null;
   private _scrollRaf: number | null = null;
   private _interactionPaused = false;
+  /** Whether the section is visible — carousel autoplay and the marquee
+      pause while off-screen (the CSS side keys off the host attribute). */
+  private _inView = true;
+  private _io: IntersectionObserver | null = null;
   /** Pointer-drag (desktop) state for the carousel track. */
   private _dragActive = false;
   private _dragStartX = 0;
   private _dragStartScroll = 0;
   private _dragMoved = false;
 
-  // ------------------------------------------------------------
-  // Salla global (lowercase `salla` is the SDK; some contexts also attach `Salla`).
-  // ------------------------------------------------------------
+  /** Salla SDK global — see shared/product.ts. */
   private get _salla(): any {
-    const w = window as any;
-    return w.salla ?? w.Salla ?? null;
+    return sallaGlobal();
   }
 
   // ------------------------------------------------------------
   // Value helpers
   // ------------------------------------------------------------
 
-  private _lang(): "ar" | "en" {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en")
-      ? "en"
-      : "ar";
-  }
 
   private _isRtl(): boolean {
     return getComputedStyle(this).direction === "rtl";
   }
 
-  private _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    const lang = this._lang();
-    return (val[lang] || val.ar || val.en || "").trim();
-  }
-
-  private _pickValue<T extends string>(val: unknown, fallback: T): T {
-    if (typeof val === "string" && val) return val as T;
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first && typeof first.value === "string" && first.value)
-        return first.value as T;
-    }
-    return fallback;
-  }
-
-  private _num(val: unknown, fallback: number): number {
-    if (typeof val === "number" && !Number.isNaN(val)) return val;
-    if (typeof val === "string" && val.trim() !== "") {
-      const n = Number(this._toLatinDigits(val));
-      if (!Number.isNaN(n)) return n;
-    }
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first?.value !== undefined) return this._num(first.value, fallback);
-    }
-    return fallback;
-  }
-
-  /** Convert Arabic-Indic / Eastern-Arabic digits to Latin for parsing. */
-  private _toLatinDigits(s: string): string {
-    return s
-      .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
-      .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
-  }
-
-  /** Best-effort numeric extraction from a price value of any shape. */
-  private _parseMoney(v: unknown): number | undefined {
-    if (typeof v === "number") return Number.isNaN(v) ? undefined : v;
-    if (v && typeof v === "object") {
-      const o = v as Record<string, unknown>;
-      return this._parseMoney(o.amount ?? o.value ?? o.price);
-    }
-    if (typeof v !== "string") return undefined;
-    const cleaned = this._toLatinDigits(v)
-      .replace(/[^0-9.,]/g, "")
-      .replace(/,/g, "");
-    if (!cleaned) return undefined;
-    const n = parseFloat(cleaned);
-    return Number.isNaN(n) ? undefined : n;
-  }
-
-  private _formatNum(n: number): string {
-    return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
-  }
-
-  /** Format a numeric amount as currency via the SDK, with a plain fallback. */
-  private _money(n?: number, currency?: string): string {
-    if (n === undefined || n === null || Number.isNaN(n)) return "";
-    const salla = this._salla;
-    try {
-      if (salla && typeof salla.money === "function") {
-        return currency ? salla.money({ amount: n, currency }) : salla.money(n);
-      }
-    } catch {
-      /* fall through to plain formatting */
-    }
-    const v = this._formatNum(n);
-    return currency ? `${v} ${currency}` : v;
-  }
 
   /** Round a rating to one decimal and trim trailing zeros ("5.0" → "5"). */
   private _formatRating(n: number): string {
@@ -273,106 +157,16 @@ export default class GrowthTestimonials extends LitElement {
     | { status: "failed" }
   >();
 
-  private _pickerSelection(
-    val: unknown
-  ): { id: number; label: string } | null {
-    if (!val) return null;
-    if (typeof val === "string" || typeof val === "number") {
-      const id = Number(val);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    const picked = Array.isArray(val) ? val[0] : val;
-    if (!picked) return null;
-    if (typeof picked === "string" || typeof picked === "number") {
-      const id = Number(picked);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    if (typeof picked !== "object") return null;
-    const obj = picked as Record<string, unknown>;
-    const raw = obj.value ?? obj.id ?? obj.product_id;
-    if (raw === undefined || raw === null) return null;
-    const id = typeof raw === "number" ? raw : Number(raw);
-    if (!id || Number.isNaN(id)) return null;
-    const label = String(obj.label ?? obj.name ?? obj.title ?? "").trim();
-    return { id, label };
-  }
 
   private async _fetchProduct(id: number, label: string) {
     if (this._productCache.has(id)) return;
+
     this._productCache.set(id, { status: "loading", label });
     this.requestUpdate();
 
-    const salla = this._salla;
-    if (!salla) {
-      this._productCache.set(id, { status: "failed" });
-      this.requestUpdate();
-      return;
-    }
-
     try {
-      if (typeof salla.onReady === "function") await salla.onReady();
-      const getDetails =
-        salla.product?.getDetails ?? salla.product?.api?.getDetails;
-      if (typeof getDetails !== "function")
-        throw new Error("getDetails unavailable");
-      const res = await getDetails.call(salla.product, id);
-      const data = (res?.data ?? res) as Record<string, any> | undefined;
-      if (!data) throw new Error("empty product payload");
-
-      const image: string =
-        data.image?.url ||
-        data.image?.thumbnail ||
-        (Array.isArray(data.images) &&
-          (data.images[0]?.url || data.images[0])) ||
-        data.thumbnail ||
-        data.main_image ||
-        "";
-      const url: string =
-        data.url ||
-        data.urls?.customer ||
-        data.urls?.product ||
-        data.permalink ||
-        `/p${id}`;
-
-      const priceVal = this._parseMoney(data.price);
-      const regularVal = this._parseMoney(data.regular_price);
-      const saleVal = this._parseMoney(data.sale_price);
-
-      let regular = regularVal ?? priceVal;
-      let current = priceVal ?? regularVal;
-      if (saleVal !== undefined && saleVal > 0) {
-        current = saleVal;
-        if (regular === undefined || regular <= saleVal)
-          regular = regularVal ?? priceVal ?? saleVal;
-      }
-      const flagged = !!(data.is_on_sale ?? data.on_sale ?? data.has_offer);
-      const onSale =
-        (flagged || saleVal !== undefined) &&
-        regular !== undefined &&
-        current !== undefined &&
-        current < regular;
-
-      const currency: string | undefined =
-        data.currency ||
-        data.price?.currency ||
-        data.regular_price?.currency ||
-        undefined;
-
-      this._productCache.set(id, {
-        status: "loaded",
-        data: {
-          name: String(data.name || data.title || label || `#${id}`),
-          image: image || undefined,
-          imageAlt: String(data.image?.alt || data.name || ""),
-          url,
-          regular,
-          sale: onSale ? current : undefined,
-          onSale,
-          currency,
-        },
-      });
+      const data = await fetchProductDetails(id, label);
+      this._productCache.set(id, { status: "loaded", data });
     } catch (err) {
       console.warn("[growth-testimonials] product fetch failed", id, err);
       this._productCache.set(id, { status: "failed" });
@@ -381,7 +175,7 @@ export default class GrowthTestimonials extends LitElement {
   }
 
   private _resolveProduct(item: TestimonialItem): ResolvedProduct | null {
-    const sel = this._pickerSelection(item.product);
+    const sel = pickerSelection(item.product);
     if (!sel) return null;
     const cached = this._productCache.get(sel.id);
     if (!cached) {
@@ -426,6 +220,23 @@ export default class GrowthTestimonials extends LitElement {
       this._carouselPage = 0;
     };
     this._mql.addEventListener("change", this._onMqlChange);
+
+    // Pause autoplay when scrolled out of view (saves CPU and prevents the
+    // carousel from racing on a long page).
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this._inView = ent.isIntersecting;
+          this.toggleAttribute("out-of-view", !this._inView);
+          this._teardownAutoplay();
+          if (this._inView) this._setupAutoplay();
+        },
+        { threshold: 0.15 }
+      );
+      this._io.observe(this);
+    }
   }
 
   disconnectedCallback() {
@@ -433,6 +244,8 @@ export default class GrowthTestimonials extends LitElement {
     if (this._mql && this._onMqlChange)
       this._mql.removeEventListener("change", this._onMqlChange);
     this._teardownAutoplay();
+    this._io?.disconnect();
+    this._io = null;
     if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf);
   }
 
@@ -540,6 +353,7 @@ export default class GrowthTestimonials extends LitElement {
     const layout = this._pickValue<TestimonialsLayout>(c.layout, "marquee");
     if (layout !== "carousel" || !c.carousel_autoplay) return;
     if (this._interactionPaused) return;
+    if (!this._inView) return;
     if (this._pageCount(this._items().length) < 2) return;
 
     const delay = Math.max(2, this._num(c.carousel_autoplay_delay, 5)) * 1000;
@@ -645,18 +459,18 @@ export default class GrowthTestimonials extends LitElement {
     if (priceOverride) {
       price = priceOverride;
       if (compareOverride) {
-        const a = this._parseMoney(priceOverride);
-        const b = this._parseMoney(compareOverride);
+        const a = parseMoney(priceOverride);
+        const b = parseMoney(compareOverride);
         if (a !== undefined && b !== undefined && b > a)
           compare = compareOverride;
       }
     } else if (product) {
       if (product.onSale && product.sale !== undefined) {
-        price = this._money(product.sale, product.currency);
+        price = formatMoney(product.sale, product.currency);
         if (product.regular !== undefined)
-          compare = this._money(product.regular, product.currency);
+          compare = formatMoney(product.regular, product.currency);
       } else if (product.regular !== undefined) {
-        price = this._money(product.regular, product.currency);
+        price = formatMoney(product.regular, product.currency);
       }
     }
 

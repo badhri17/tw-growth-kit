@@ -1,5 +1,11 @@
-import { LitElement, html, nothing, type PropertyValues } from "lit";
+import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
+import { GrowthElement } from "../../shared/growth-element";
+import {
+  fetchProductDetails,
+  pickerSelection,
+  sallaGlobal,
+} from "../../shared/product";
 import type {
   BeforeAfterConfig,
   BeforeAfterAspect,
@@ -7,11 +13,10 @@ import type {
   BeforeAfterSlideItem,
   CrossoverItemSize,
   CrossoverSpeed,
-  MaybeMultiLang,
 } from "./types";
 import { beforeAfterStyles } from "./style";
 
-/** Product shape after we fetch full details from the Salla SDK. */
+/** The subset of the fetched product the chip renders (no pricing here). */
 interface ResolvedProduct {
   name: string;
   image?: string;
@@ -31,51 +36,9 @@ interface ResolvedProduct {
  *   • Optional autoplay (paused on hover/drag), optional loop, optional pagination dots.
  *   • Respects prefers-reduced-motion.
  */
-export default class GrowthBeforeAfter extends LitElement {
+export default class GrowthBeforeAfter extends GrowthElement {
   static styles = beforeAfterStyles;
 
-  /**
-   * Twilight transform injects `Class.registerSallaComponent(...)`.
-   * The polling fallback handles preview contexts where `Salla` loads after this file.
-   */
-  static registerSallaComponent(name: string) {
-    const componentKey = String(name || "").trim();
-    const normalizedBase = componentKey
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]/g, "-");
-    const safeBaseName = normalizedBase.includes("-")
-      ? normalizedBase
-      : `salla-${normalizedBase || "component"}`;
-    const buildDynamicTagName = () =>
-      `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
-
-    const tryRegister = () => {
-      const bundles = (window as Window & {
-        Salla?: {
-          bundles?: {
-            registerComponent?: (
-              key: string,
-              payload: { component: typeof HTMLElement; dynamicTagName: string }
-            ) => void;
-          };
-        };
-      }).Salla?.bundles;
-
-      if (bundles && typeof bundles.registerComponent === "function") {
-        bundles.registerComponent(componentKey, {
-          component: this as unknown as typeof HTMLElement,
-          dynamicTagName: buildDynamicTagName(),
-        });
-        return true;
-      }
-      return false;
-    };
-    if (tryRegister()) return;
-    const timer = window.setInterval(() => {
-      if (tryRegister()) window.clearInterval(timer);
-    }, 100);
-    window.setTimeout(() => window.clearInterval(timer), 5000);
-  }
 
   @property({ type: Object })
   config?: BeforeAfterConfig;
@@ -95,45 +58,17 @@ export default class GrowthBeforeAfter extends LitElement {
   private _entranceFinishTimer: number | null = null;
   private _hoverPaused = false;
   private _hasInitializedActive = false;
+  /** Whether the section is visible — autoplay and the crossover marquee
+      pause while off-screen (the CSS side keys off the host attribute). */
+  private _inView = true;
+  private _io: IntersectionObserver | null = null;
 
   // ------------------------------------------------------------
   // Helpers
   // ------------------------------------------------------------
 
-  private _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    const lang = (document.documentElement.lang || "ar")
-      .toLowerCase()
-      .startsWith("en")
-      ? "en"
-      : "ar";
-    return (val[lang] || val.ar || val.en || "").trim();
-  }
 
-  private _pickValue<T extends string>(val: unknown, fallback: T): T {
-    if (typeof val === "string" && val) return val as T;
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first && typeof first.value === "string" && first.value)
-        return first.value as T;
-    }
-    return fallback;
-  }
 
-  /** Coerce a config number value that may arrive as a string from settings. */
-  private _num(val: unknown, fallback: number): number {
-    if (typeof val === "number" && !Number.isNaN(val)) return val;
-    if (typeof val === "string" && val.trim() !== "") {
-      const n = Number(val);
-      if (!Number.isNaN(n)) return n;
-    }
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first?.value !== undefined) return this._num(first.value, fallback);
-    }
-    return fallback;
-  }
 
   /** Filter slides that have at least one valid image so we don't render blanks. */
   private _slides() {
@@ -161,34 +96,6 @@ export default class GrowthBeforeAfter extends LitElement {
     | { status: "failed" }
   >();
 
-  /** Pull { id, label } out of the picker selection. */
-  private _pickerSelection(
-    val: unknown
-  ): { id: number; label: string } | null {
-    if (!val) return null;
-    // Picker may arrive as: a single object, an array of objects, or a bare id/string.
-    if (typeof val === "string" || typeof val === "number") {
-      const id = Number(val);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    const picked = Array.isArray(val) ? val[0] : val;
-    if (!picked) return null;
-    if (typeof picked === "string" || typeof picked === "number") {
-      const id = Number(picked);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    if (typeof picked !== "object") return null;
-    const obj = picked as Record<string, unknown>;
-    const raw = obj.value ?? obj.id ?? obj.product_id;
-    if (raw === undefined || raw === null) return null;
-    const id = typeof raw === "number" ? raw : Number(raw);
-    if (!id || Number.isNaN(id)) return null;
-    const label = String(obj.label ?? obj.name ?? obj.title ?? "").trim();
-    return { id, label };
-  }
-
   /**
    * Kick off (or no-op if already done/in-flight) a fetch for the picked
    * product. Resolves the Salla SDK ready-promise first so the API is
@@ -200,44 +107,15 @@ export default class GrowthBeforeAfter extends LitElement {
     this._productCache.set(id, { status: "loading", label });
     this.requestUpdate();
 
-    const Salla = (window as Window & { Salla?: any }).Salla;
-    if (!Salla) {
+    if (!sallaGlobal()) {
       // No SDK (e.g. local Vite demo) — keep the loading state so the chip
       // still renders with the picker label + skeleton thumb instead of vanishing.
       return;
     }
 
     try {
-      if (typeof Salla.onReady === "function") await Salla.onReady();
-      const api = Salla.product?.api?.getDetails;
-      if (typeof api !== "function") throw new Error("getDetails unavailable");
-      const res = await api(id);
-      const data = (res?.data ?? res) as Record<string, any> | undefined;
-      if (!data) throw new Error("empty product payload");
-
-      // Be liberal in what we accept — Salla products expose image as
-      // `{ url, alt }` but some surfaces ship `images[0].url` or `thumbnail`.
-      const image: string =
-        data.image?.url ||
-        data.image?.thumbnail ||
-        (Array.isArray(data.images) && (data.images[0]?.url || data.images[0])) ||
-        data.thumbnail ||
-        data.main_image ||
-        "";
-      const url: string =
-        data.url ||
-        data.urls?.customer ||
-        data.urls?.product ||
-        data.permalink ||
-        `/p${id}`;
-
-      const resolved = {
-        name: String(data.name || data.title || label || `#${id}`),
-        image: image || undefined,
-        imageAlt: String(data.image?.alt || data.name || ""),
-        url,
-      };
-      this._productCache.set(id, { status: "loaded", data: resolved });
+      const data = await fetchProductDetails(id, label);
+      this._productCache.set(id, { status: "loaded", data });
     } catch (err) {
       console.warn("[growth-before-after] product fetch failed", id, err);
       this._productCache.set(id, { status: "failed" });
@@ -255,7 +133,7 @@ export default class GrowthBeforeAfter extends LitElement {
   private _resolveProduct(
     slide: BeforeAfterSlideItem
   ): (ResolvedProduct & { loading: boolean }) | null {
-    const sel = this._pickerSelection(slide.product);
+    const sel = pickerSelection(slide.product);
     if (!sel) {
       // Empty array == "no product picked"; only warn on truly unexpected shapes.
       const empty =
@@ -382,11 +260,30 @@ export default class GrowthBeforeAfter extends LitElement {
     window.addEventListener("mouseup", this._onUp);
     window.addEventListener("touchmove", this._onMove, { passive: false });
     window.addEventListener("touchend", this._onUp);
+
+    // Pause autoplay when scrolled out of view (saves CPU and prevents the
+    // slider from racing on a long page).
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this._inView = ent.isIntersecting;
+          this.toggleAttribute("out-of-view", !this._inView);
+          this._teardownAutoplay();
+          if (this._inView) this._setupAutoplay();
+        },
+        { threshold: 0.15 }
+      );
+      this._io.observe(this);
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._teardownAutoplay();
+    this._io?.disconnect();
+    this._io = null;
     if (this._entranceFinishTimer) {
       clearTimeout(this._entranceFinishTimer);
       this._entranceFinishTimer = null;
@@ -436,6 +333,7 @@ export default class GrowthBeforeAfter extends LitElement {
     // Crossover mode has its own continuous CSS motion — no slide autoplay.
     if (c.crossover_enabled) return;
     if (!c.autoplay) return;
+    if (!this._inView) return;
     if (this._slides().length < 2) return;
     const delaySec = Math.max(1, this._num(c.autoplay_delay, 5));
     this._autoplayTimer = window.setInterval(() => {

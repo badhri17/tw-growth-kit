@@ -1,5 +1,6 @@
-import { LitElement, html, nothing } from "lit";
+import { html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
+import { GrowthElement } from "../../shared/growth-element";
 import type {
   HeroConfig,
   HeroHeight,
@@ -14,7 +15,6 @@ import type {
   HeroTextTheme,
   HeroGradientType,
   HeroBgFill,
-  MaybeMultiLang,
 } from "./types";
 import { heroStyles } from "./style";
 
@@ -31,50 +31,8 @@ import { heroStyles } from "./style";
  *   • RTL-aware; inherits document direction by default.
  *   • Respects prefers-reduced-motion for all motion effects.
  */
-export default class GrowthHero extends LitElement {
+export default class GrowthHero extends GrowthElement {
   static styles = heroStyles;
-
-  /**
-   * Twilight transform injects `Class.registerSallaComponent(...)`.
-   * In some preview contexts, the helper is attached to HTMLElement later,
-   * so we provide a safe bridge to avoid runtime crashes.
-   */
-  static registerSallaComponent(name: string) {
-    const componentKey = String(name || "").trim();
-    const normalizedBase = componentKey
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]/g, "-");
-    const safeBaseName = normalizedBase.includes("-") ? normalizedBase : `salla-${normalizedBase || "component"}`;
-    const buildDynamicTagName = () => `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
-
-    const tryRegister = () => {
-      const bundles = (window as Window & {
-        Salla?: {
-          bundles?: {
-            registerComponent?: (
-              key: string,
-              payload: { component: typeof HTMLElement; dynamicTagName: string }
-            ) => void;
-          };
-        };
-      }).Salla?.bundles;
-
-      if (bundles && typeof bundles.registerComponent === "function") {
-        bundles.registerComponent(componentKey, {
-          component: this as unknown as typeof HTMLElement,
-          dynamicTagName: buildDynamicTagName(),
-        });
-        return true;
-      }
-      return false;
-    };
-    if (tryRegister()) return;
-    // In demo mode the helper may load after component evaluation.
-    const timer = window.setInterval(() => {
-      if (tryRegister()) window.clearInterval(timer);
-    }, 100);
-    window.setTimeout(() => window.clearInterval(timer), 5000);
-  }
 
   @property({ type: Object })
   config?: HeroConfig;
@@ -105,14 +63,6 @@ export default class GrowthHero extends LitElement {
   // ------------------------------------------------------------
   // Helpers
   // ------------------------------------------------------------
-
-  /** Pull the right string out of a multilang value. */
-  private _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    const lang = (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
-    return (val[lang] || val.ar || val.en || "").trim();
-  }
 
   /** Active video URL for the current device tier, falling back to mobile when desktop is unset. */
   private _currentVideoUrl(): string {
@@ -239,16 +189,6 @@ export default class GrowthHero extends LitElement {
       startFr: mediaAtStart ? mediaFr : contentFr,
       endFr: mediaAtStart ? contentFr : mediaFr,
     };
-  }
-
-  /** Dropdown-list values from settings may come as [{label, value}]. */
-  private _pickValue<T extends string>(val: unknown, fallback: T): T {
-    if (typeof val === "string" && val) return val as T;
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first && typeof first.value === "string" && first.value) return first.value as T;
-    }
-    return fallback;
   }
 
   // ------------------------------------------------------------
@@ -559,6 +499,7 @@ export default class GrowthHero extends LitElement {
                     src=${c.background_image || ""}
                     alt=""
                     loading="eager"
+                    fetchpriority="high"
                     decoding="async"
                   />
                 </picture>

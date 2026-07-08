@@ -1,9 +1,14 @@
-import { LitElement, html, nothing, type PropertyValues } from "lit";
+import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
+import { GrowthElement } from "../../shared/growth-element";
+import {
+  fetchProductDetails,
+  pickerSelection,
+  sallaGlobal,
+} from "../../shared/product";
 import type {
   GalleryConfig,
   GallerySlideItem,
-  MaybeMultiLang,
 } from "./types";
 import { galleryStyles } from "./style";
 
@@ -44,53 +49,9 @@ const SNAP_MS = 600;
  * the signature material split/reveal effect. Vanilla port of the effect
  * (no Swiper), drag + snap done with pointer events and an rAF tween.
  */
-export default class GrowthLifestyleGallery extends LitElement {
+export default class GrowthLifestyleGallery extends GrowthElement {
   static styles = galleryStyles;
 
-  /** Twilight transform injects `Class.registerSallaComponent(...)`. */
-  static registerSallaComponent(name: string) {
-    const componentKey = String(name || "").trim();
-    const normalizedBase = componentKey
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]/g, "-");
-    const safeBaseName = normalizedBase.includes("-")
-      ? normalizedBase
-      : `salla-${normalizedBase || "component"}`;
-    const buildDynamicTagName = () =>
-      `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
-
-    const tryRegister = () => {
-      const bundles = (
-        window as Window & {
-          Salla?: {
-            bundles?: {
-              registerComponent?: (
-                key: string,
-                payload: {
-                  component: typeof HTMLElement;
-                  dynamicTagName: string;
-                }
-              ) => void;
-            };
-          };
-        }
-      ).Salla?.bundles;
-
-      if (bundles && typeof bundles.registerComponent === "function") {
-        bundles.registerComponent(componentKey, {
-          component: this as unknown as typeof HTMLElement,
-          dynamicTagName: buildDynamicTagName(),
-        });
-        return true;
-      }
-      return false;
-    };
-    if (tryRegister()) return;
-    const timer = window.setInterval(() => {
-      if (tryRegister()) window.clearInterval(timer);
-    }, 100);
-    window.setTimeout(() => window.clearInterval(timer), 5000);
-  }
 
   @property({ type: Object })
   config?: GalleryConfig;
@@ -135,39 +96,6 @@ export default class GrowthLifestyleGallery extends LitElement {
   // Helpers
   // ------------------------------------------------------------
 
-  private _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    const lang = (document.documentElement.lang || "ar")
-      .toLowerCase()
-      .startsWith("en")
-      ? "en"
-      : "ar";
-    return (val[lang] || val.ar || val.en || "").trim();
-  }
-
-  private _pickValue<T extends string>(val: unknown, fallback: T): T {
-    if (typeof val === "string" && val) return val as T;
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first && typeof first.value === "string" && first.value)
-        return first.value as T;
-    }
-    return fallback;
-  }
-
-  private _num(val: unknown, fallback: number): number {
-    if (typeof val === "number" && !Number.isNaN(val)) return val;
-    if (typeof val === "string" && val.trim() !== "") {
-      const n = Number(val);
-      if (!Number.isNaN(n)) return n;
-    }
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first?.value !== undefined) return this._num(first.value, fallback);
-    }
-    return fallback;
-  }
 
   private _slides(): GallerySlideItem[] {
     const list = this.config?.slides;
@@ -189,31 +117,6 @@ export default class GrowthLifestyleGallery extends LitElement {
     | { status: "failed" }
   >();
 
-  private _pickerSelection(
-    val: unknown
-  ): { id: number; label: string } | null {
-    if (!val) return null;
-    if (typeof val === "string" || typeof val === "number") {
-      const id = Number(val);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    const picked = Array.isArray(val) ? val[0] : val;
-    if (!picked) return null;
-    if (typeof picked === "string" || typeof picked === "number") {
-      const id = Number(picked);
-      if (!id || Number.isNaN(id)) return null;
-      return { id, label: "" };
-    }
-    if (typeof picked !== "object") return null;
-    const obj = picked as Record<string, unknown>;
-    const raw = obj.value ?? obj.id ?? obj.product_id;
-    if (raw === undefined || raw === null) return null;
-    const id = typeof raw === "number" ? raw : Number(raw);
-    if (!id || Number.isNaN(id)) return null;
-    const label = String(obj.label ?? obj.name ?? obj.title ?? "").trim();
-    return { id, label };
-  }
 
   private async _fetchProduct(id: number, label: string) {
     if (this._productCache.has(id)) return;
@@ -221,41 +124,15 @@ export default class GrowthLifestyleGallery extends LitElement {
     this._productCache.set(id, { status: "loading", label });
     this.requestUpdate();
 
-    const Salla = (window as Window & { Salla?: any }).Salla;
-    if (!Salla) return;
+    if (!sallaGlobal()) {
+      // No SDK (e.g. local Vite demo) — keep the loading state so the
+      // picker label still renders instead of the card vanishing.
+      return;
+    }
 
     try {
-      if (typeof Salla.onReady === "function") await Salla.onReady();
-      const api = Salla.product?.api?.getDetails;
-      if (typeof api !== "function") throw new Error("getDetails unavailable");
-      const res = await api(id);
-      const data = (res?.data ?? res) as Record<string, any> | undefined;
-      if (!data) throw new Error("empty product payload");
-
-      const image: string =
-        data.image?.url ||
-        data.image?.thumbnail ||
-        (Array.isArray(data.images) &&
-          (data.images[0]?.url || data.images[0])) ||
-        data.thumbnail ||
-        data.main_image ||
-        "";
-      const url: string =
-        data.url ||
-        data.urls?.customer ||
-        data.urls?.product ||
-        data.permalink ||
-        `/p${id}`;
-
-      this._productCache.set(id, {
-        status: "loaded",
-        data: {
-          name: String(data.name || data.title || label || `#${id}`),
-          image: image || undefined,
-          imageAlt: String(data.image?.alt || data.name || ""),
-          url,
-        },
-      });
+      const data = await fetchProductDetails(id, label);
+      this._productCache.set(id, { status: "loaded", data });
     } catch (err) {
       console.warn("[growth-lifestyle-gallery] product fetch failed", id, err);
       this._productCache.set(id, { status: "failed" });
@@ -264,7 +141,7 @@ export default class GrowthLifestyleGallery extends LitElement {
   }
 
   private _resolveProduct(slide: GallerySlideItem): ResolvedProduct | null {
-    const sel = this._pickerSelection(slide.product);
+    const sel = pickerSelection(slide.product);
     if (!sel) return null;
     const cached = this._productCache.get(sel.id);
     if (!cached) {

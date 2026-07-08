@@ -1,5 +1,6 @@
-import { html, nothing, LitElement, type PropertyValues } from "lit";
+import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
+import { GrowthElement } from "../../shared/growth-element";
 import type {
   AnimationSpeed,
   AnimationStyle,
@@ -9,7 +10,6 @@ import type {
   EnterDirection,
   HighlightStyle,
   InteractiveTextConfig,
-  MaybeMultiLang,
   SectionSpacing,
   TextAlign,
   TextSegment,
@@ -48,57 +48,9 @@ const MAX_SPLIT_WORDS = 80;
  *
  * RTL-first and mobile-first throughout; respects prefers-reduced-motion.
  */
-export default class GrowthInteractiveText extends LitElement {
+export default class GrowthInteractiveText extends GrowthElement {
   static styles = interactiveTextStyles;
 
-  /**
-   * Twilight transform injects `Class.registerSallaComponent(...)`.
-   * The polling fallback handles preview contexts where `Salla` loads after
-   * this file executes.
-   */
-  static registerSallaComponent(name: string) {
-    const componentKey = String(name || "").trim();
-    const normalizedBase = componentKey
-      .toLowerCase()
-      .replace(/[^a-z0-9._-]/g, "-");
-    const safeBaseName = normalizedBase.includes("-")
-      ? normalizedBase
-      : `salla-${normalizedBase || "component"}`;
-    const buildDynamicTagName = () =>
-      `${safeBaseName}-${Math.random().toString(36).substring(2, 8)}`;
-
-    const tryRegister = () => {
-      const bundles = (
-        window as Window & {
-          Salla?: {
-            bundles?: {
-              registerComponent?: (
-                key: string,
-                payload: {
-                  component: typeof HTMLElement;
-                  dynamicTagName: string;
-                }
-              ) => void;
-            };
-          };
-        }
-      ).Salla?.bundles;
-
-      if (bundles && typeof bundles.registerComponent === "function") {
-        bundles.registerComponent(componentKey, {
-          component: this as unknown as typeof HTMLElement,
-          dynamicTagName: buildDynamicTagName(),
-        });
-        return true;
-      }
-      return false;
-    };
-    if (tryRegister()) return;
-    const timer = window.setInterval(() => {
-      if (tryRegister()) window.clearInterval(timer);
-    }, 100);
-    window.setTimeout(() => window.clearInterval(timer), 5000);
-  }
 
   @property({ type: Object })
   config?: InteractiveTextConfig;
@@ -118,13 +70,6 @@ export default class GrowthInteractiveText extends LitElement {
   // Value helpers
   // ------------------------------------------------------------
 
-  private _lang(): "ar" | "en" {
-    return (document.documentElement.lang || "ar")
-      .toLowerCase()
-      .startsWith("en")
-      ? "en"
-      : "ar";
-  }
 
   private _isRtl(): boolean {
     const dir = (document.documentElement.dir || "").toLowerCase();
@@ -133,22 +78,7 @@ export default class GrowthInteractiveText extends LitElement {
     return this._lang() === "ar";
   }
 
-  private _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    const lang = this._lang();
-    return (val[lang] || val.ar || val.en || "").trim();
-  }
 
-  private _pickValue<T extends string>(val: unknown, fallback: T): T {
-    if (typeof val === "string" && val) return val as T;
-    if (Array.isArray(val) && val.length > 0) {
-      const first = val[0] as { value?: unknown } | undefined;
-      if (first && typeof first.value === "string" && first.value)
-        return first.value as T;
-    }
-    return fallback;
-  }
 
   /** #rgb / #rrggbb → translucent rgba; anything else falls back to color-mix. */
   private _softColor(c: string, alpha: number): string {

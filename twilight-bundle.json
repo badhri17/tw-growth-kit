@@ -16,7 +16,7 @@
             "icon": "sicon-window-layout",
             "name": "Hero",
             "key": "af71c87d-579b-41d6-9395-2697f3197f35",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/hero-preview.gif",
             "fields": [
                 {
                     "type": "static",
@@ -972,7 +972,7 @@
             "icon": "sicon-shopping-basket",
             "name": "collection",
             "key": "c4e7d2a1-9b3f-4c5e-8d6a-7f1b2e3c4d5a",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/collection-main.gif",
             "fields": [
                 {
                     "type": "static",
@@ -1915,7 +1915,7 @@
             "icon": "sicon-compare",
             "name": "before-after",
             "key": "b7a3c9e2-4d8f-4a1b-9c5e-7f3a2b1d6e8c",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/beforeafter-main.gif",
             "fields": [
                 {
                     "type": "static",
@@ -8122,7 +8122,7 @@
             "icon": "sicon-images",
             "name": "lifestyle-gallery",
             "key": "29bfe3b8-5829-441a-b4ba-5abbf58bf494",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/interactive-product.gif",
             "fields": [
                 {
                     "type": "static",
