@@ -3911,6 +3911,11 @@
                             "key": "sov-db"
                         },
                         {
+                            "label": "زجاجي ضبابي من الأسفل",
+                            "value": "glass-bottom",
+                            "key": "sov-gb"
+                        },
+                        {
                             "label": "تدرّج داكن من الأعلى",
                             "value": "dark-top",
                             "key": "sov-dt"
@@ -5886,7 +5891,7 @@
                             "key": "card_style-0"
                         },
                         {
-                            "label": "تصوير غامر",
+                            "label": "تصوير العملاء كخلفية",
                             "value": "overlay",
                             "key": "card_style-5"
                         },
@@ -5965,64 +5970,13 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-image",
-                    "id": "card_aspect",
-                    "label": "نسبة البطاقة",
-                    "format": "dropdown-list",
-                    "source": "Manual",
-                    "required": false,
-                    "description": "نسبة أبعاد البطاقة في نمط البطاقة «تصوير غامر».",
-                    "selected": [
-                        {
-                            "label": "عمودي 4:5",
-                            "value": "4/5",
-                            "key": "card_aspect-3"
-                        }
-                    ],
-                    "options": [
-                        {
-                            "label": "مربع 1:1",
-                            "value": "1/1",
-                            "key": "card_aspect-0"
-                        },
-                        {
-                            "label": "عمودي 2:3",
-                            "value": "2/3",
-                            "key": "card_aspect-1"
-                        },
-                        {
-                            "label": "عمودي 3:4",
-                            "value": "3/4",
-                            "key": "card_aspect-2"
-                        },
-                        {
-                            "label": "عمودي 4:5",
-                            "value": "4/5",
-                            "key": "card_aspect-3"
-                        },
-                        {
-                            "label": "عمودي 5:7",
-                            "value": "5/7",
-                            "key": "card_aspect-4"
-                        }
-                    ],
-                    "conditions": [
-                        {
-                            "id": "card_style",
-                            "operation": "=",
-                            "value": "overlay"
-                        }
-                    ]
-                },
-                {
-                    "type": "items",
                     "icon": "sicon-color-palette",
                     "id": "overlay_tone",
                     "label": "لون التأثير الزجاجي",
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "لون الطبقة الزجاجية أسفل البطاقة في نمط «تصوير غامر». يُضبط لون النص تلقائيًا ليبقى واضحًا.",
+                    "description": "لون الطبقة الزجاجية أسفل البطاقة في نمط «تصوير العملاء كخلفية». يُضبط لون النص تلقائيًا ليبقى واضحًا.",
                     "selected": [
                         {
                             "label": "داكن",

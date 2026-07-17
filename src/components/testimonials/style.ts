@@ -371,6 +371,7 @@ export const testimonialsStyles = css`
     justify-content: flex-end;
     /* Solid fallback shows through when an item has no photo. */
     background: #14181f;
+    border:none;
   }
   .t-card[data-style="overlay"][data-tone="light"] {
     background: #e9e7e2;
@@ -407,7 +408,6 @@ export const testimonialsStyles = css`
       rgba(15, 18, 22, 0.76),
       rgba(15, 18, 22, 0.46)
     );
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
     --t-text: rgba(255, 255, 255, 0.92);
     --t-name: #ffffff;

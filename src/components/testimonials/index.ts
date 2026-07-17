@@ -832,16 +832,16 @@ export default class GrowthTestimonials extends GrowthElement {
   private _buildHostStyle(c: TestimonialsConfig): string {
     const cols = this._resolveColumns();
     const cardRadius = this._num(c.card_radius, 20);
-    // Each photo style carries its own ratio field (Salla conditions match a single
-    // card_style), so resolve from the field that matches the active style.
     const cardStyle = this._pickValue<TestimonialCardStyle>(
       c.card_style,
       "modern"
     );
-    const aspect = this._pickValue<TestimonialPhotoAspect>(
-      cardStyle === "overlay" ? c.card_aspect : c.photo_aspect,
-      "4/5"
-    );
+    // Full-background cards stay uniformly 4:5 across marquee, carousel, and grid.
+    // The separate photo-led style keeps its merchant-configurable image ratio.
+    const aspect: TestimonialPhotoAspect =
+      cardStyle === "overlay"
+        ? "4/5"
+        : this._pickValue<TestimonialPhotoAspect>(c.photo_aspect, "4/5");
     const parts = [
       c.bg_color ? `--t-bg:${c.bg_color}` : "",
       c.title_color ? `--t-title:${c.title_color}` : "",

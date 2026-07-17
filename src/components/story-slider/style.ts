@@ -205,6 +205,31 @@ export const storySliderStyles = css`
       rgba(0, 0, 0, 0) 80%
     );
   }
+  .ss-frame[data-overlay="glass-bottom"] .ss-scrim {
+    inset: auto 0 0;
+    height: 60%;
+    background: linear-gradient(
+      to top,
+      rgba(8, 8, 12, calc(var(--ss-overlay-a) * 0.62)) 0%,
+      rgba(18, 18, 24, calc(var(--ss-overlay-a) * 0.38)) 58%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
+    -webkit-mask-image: linear-gradient(
+      to top,
+      #000 0%,
+      #000 58%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to top,
+      #000 0%,
+      #000 58%,
+      transparent 100%
+    );
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
   .ss-frame[data-overlay="dark-top"] .ss-scrim {
     background: linear-gradient(
       to bottom,

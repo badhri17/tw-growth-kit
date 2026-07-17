@@ -115,6 +115,7 @@ export type StoryAspectDesktop = StoryAspect | "inherit";
 export type StoryOverlayStyle =
   | "none"
   | "dark-bottom" // gradient up from bottom
+  | "glass-bottom" // frosted-glass region fading up from bottom
   | "dark-top" // gradient down from top
   | "dark-full" // even dark wash
   | "light-full" // even light wash

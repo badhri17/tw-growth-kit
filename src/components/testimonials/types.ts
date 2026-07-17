@@ -100,7 +100,6 @@ export interface TestimonialsConfig {
   card_style?: TestimonialCardStyle;
   card_radius?: TestimonialCardRadius;
   photo_aspect?: TestimonialPhotoAspect; // "modern" photo box ratio
-  card_aspect?: TestimonialPhotoAspect; // "overlay" full-bleed card ratio
   overlay_tone?: TestimonialOverlayTone; // "overlay" frosted panel tone
 
   // --- Element toggles ---
