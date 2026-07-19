@@ -5494,7 +5494,7 @@
             "icon": "sicon-quote",
             "name": "testimonials",
             "key": "72a17268-f2e7-4ca0-a485-ec04fc98b012",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/testomonials.gif",
             "fields": [
                 {
                     "type": "static",
@@ -6767,7 +6767,7 @@
             "icon": "sicon-touch-type",
             "name": "interactive-product",
             "key": "343b21e2-5f91-4f97-aeec-d5e5333a0e1f",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/explore-product.gif",
             "fields": [
                 {
                     "type": "static",
@@ -7375,7 +7375,6 @@
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
-                    "value": "لماذا نحن",
                     "placeholder": "مثل: لماذا نحن",
                     "description": "نص صغير بلون مميز يظهر فوق العنوان الرئيسي.",
                     "maxLength": 60
@@ -7388,8 +7387,8 @@
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
-                    "value": "تجربة تسوّق تستحقها بكل تفاصيلها",
-                    "placeholder": "مثل: تجربة تسوّق تستحقها بكل تفاصيلها",
+                    "value": "منتجات مختارة بعناية لتصنع لك تجربة تسوّق لا تُنسى",
+                    "placeholder": "مثل: منتجات مختارة بعناية لتصنع لك تجربة تسوّق لا تُنسى",
                     "maxLength": 120
                 },
                 {
@@ -7400,8 +7399,8 @@
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
-                    "value": "تستحقها",
-                    "placeholder": "مثل: تستحقها",
+                    "value": "لا تُنسى",
+                    "placeholder": "مثل: لا تُنسى",
                     "description": "اكتب جزءًا من العنوان كما هو تمامًا ليظهر بالنمط المميز أدناه.",
                     "maxLength": 80
                 },
@@ -7451,7 +7450,6 @@
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
-                    "value": "جودة نختارها بعناية، وخدمة تُشبهك",
                     "placeholder": "جملة قصيرة تحت العنوان الرئيسي.",
                     "maxLength": 160
                 },
@@ -7463,7 +7461,6 @@
                     "format": "textarea",
                     "multilanguage": true,
                     "required": false,
-                    "value": "نختار منتجاتنا من أفضل المصادر ونفحصها قطعة قطعة قبل أن تصل إليك.\nفريق الدعم جاهز للرد على استفساراتك على مدار الساعة.\nوسياسة استبدال مرنة تضمن لك راحة البال مع كل طلب.",
                     "placeholder": "نص تفصيلي يظهر تحت العناوين.",
                     "description": "اضغط Enter لفصل الأسطر — كل سطر يتحرك على حدة عند اختيار حركة «سطر بسطر».",
                     "maxLength": 700
@@ -7488,7 +7485,7 @@
                     "format": "text",
                     "multilanguage": true,
                     "required": false,
-                    "value": "اكتشف المزيد",
+                    "value": "تسوّق الآن",
                     "placeholder": "مثل: تسوّق الآن",
                     "description": "اتركه فارغًا لإخفاء الزر.",
                     "maxLength": 40
@@ -8562,7 +8559,7 @@
             "icon": "sicon-stack",
             "name": "product-cards",
             "key": "50e52be9-21e0-4554-8e39-86af94cd9aff",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/3d-products.gif",
             "fields": [
                 {
                     "type": "static",
