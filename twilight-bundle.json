@@ -2020,6 +2020,16 @@
                             "maxLength": 80
                         },
                         {
+                            "type": "boolean",
+                            "icon": "sicon-toggle-off",
+                            "id": "show_product",
+                            "label": "ربط الشريحة بمنتج",
+                            "format": "switch",
+                            "selected": true,
+                            "required": false,
+                            "description": "اختياري. عطّل هذا الخيار لإلغاء ربط المنتج وإخفاء بطاقته، حتى لو سبق اختيار منتج لهذه الشريحة."
+                        },
+                        {
                             "type": "items",
                             "icon": "sicon-bag",
                             "id": "product",
@@ -2034,7 +2044,14 @@
                             "options": [],
                             "maxLength": 1,
                             "minLength": 0,
-                            "value": []
+                            "value": [],
+                            "conditions": [
+                                {
+                                    "id": "show_product",
+                                    "operation": "=",
+                                    "value": true
+                                }
+                            ]
                         }
                     ]
                 },
@@ -5549,6 +5566,12 @@
                 {
                     "type": "static",
                     "format": "description",
+                    "id": "summary-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/reviews-summray.webp' alt='مثال توضيحي لملخص التقييم' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
+                    "type": "static",
+                    "format": "description",
                     "id": "summary-note",
                     "value": "<div style='background-color:#6036c11f;color:#6036C1;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;line-height:1.7;'>يظهر أسفل العنوان كشارة ثقة: متوسط التقييم + النجوم + عدد المقيّمين.</div>"
                 },
@@ -5838,7 +5861,7 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "«شريط متحرك»: صفوف تنزلق تلقائيًا. «سلايدر»: تنقّل بالأسهم والنقاط. «شبكة»: أعمدة منتظمة. «شبكة متداخلة»: أعمدة بارتفاعات مختلفة.",
+                    "description": "«شريط متحرك»: صفوف تنزلق تلقائيًا. «سلايدر»: تنقّل بالأسهم والنقاط. «شبكة منتظمة»: صفوف وأعمدة متساوية. «شبكة متراصة (تخطيط بنترست)»: بطاقات بأطوال مختلفة تتراص بدون فراغات كبيرة.",
                     "selected": [
                         {
                             "label": "شريط متحرك",
@@ -5858,12 +5881,12 @@
                             "key": "layout-1"
                         },
                         {
-                            "label": "شبكة",
+                            "label": "شبكة منتظمة",
                             "value": "grid",
                             "key": "layout-2"
                         },
                         {
-                            "label": "شبكة متداخلة",
+                            "label": "شبكة متراصة (تخطيط بنترست)",
                             "value": "masonry",
                             "key": "layout-3"
                         }

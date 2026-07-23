@@ -395,12 +395,6 @@ export const featuredProductStyles = css`
      LAYOUT: floating (image lifts above the card top edge)
      ========================================================= */
 
-  /* Extra top padding on the section so the floating image has room to breathe.
-     Must be ≥ the card margin-top below to keep the image inside the section. */
-  .fp[data-layout="floating"] {
-    padding-top: clamp(160px, 35vw, 290px);
-  }
-
   /* The card is pushed down so the image can rise above it. */
   .fp-card[data-layout="floating"] {
     margin-top: clamp(120px, 32vw, 240px);

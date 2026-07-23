@@ -133,6 +133,11 @@ export default class GrowthBeforeAfter extends GrowthElement {
   private _resolveProduct(
     slide: BeforeAfterSlideItem
   ): (ResolvedProduct & { loading: boolean }) | null {
+    // The Salla product picker cannot always clear a previous selection.
+    // This switch lets merchants explicitly unlink the slide without losing
+    // the saved selection in case they decide to enable it again later.
+    if (slide.show_product === false) return null;
+
     const sel = pickerSelection(slide.product);
     if (!sel) {
       // Empty array == "no product picked"; only warn on truly unexpected shapes.

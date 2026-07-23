@@ -22,6 +22,8 @@ export interface BeforeAfterSlideItem {
   before_image?: string;
   after_image?: string;
   caption?: MaybeMultiLang;
+  /** Explicitly false disables the optional product link for this slide. */
+  show_product?: boolean;
   /** Salla product picker value — array of resolved product objects (length 0 or 1). */
   product?: RawProductPick;
 }
