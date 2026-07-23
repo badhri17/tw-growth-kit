@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Context
 
-**Growth Kit** is a premium custom component bundle for the **Salla Themes Marketplace**, targeting Arabic-speaking (primarily Saudi) merchants. The goal is to make Salla store home pages feel premium and conversion-optimized, differentiating from the basic built-in theme components.
+**عناصر النمو** is a premium custom component bundle for the **Salla Themes Marketplace**, targeting Arabic-speaking (primarily Saudi) merchants. The goal is to make Salla store home pages feel premium and conversion-optimized, differentiating from the basic built-in theme components.
 
 - **Platform:** Salla Twilight Engine — 60,000+ merchants
 - **Bundle v1 components:** 5 (Hero, Story Slider, Before & After, Featured Product, Collection Components)
