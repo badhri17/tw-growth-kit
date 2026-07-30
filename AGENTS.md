@@ -50,7 +50,7 @@ The transform plugin appends `ClassName.registerSallaComponent(key)` to each com
 
 Cross-component code has a single source of truth in `src/shared/`:
 
-- `growth-element.ts` — `GrowthElement` base class (extends `LitElement`) that every component extends: the `registerSallaComponent` bridge plus protected helpers `_t` (multilang), `_lang`, `_pickValue` (dropdowns), `_num` / `_toLatinDigits` (numbers, Arabic-Indic digit aware).
+- `growth-element.ts` — `GrowthElement` base class (extends `LitElement`) that every component extends: the `registerSallaComponent` bridge plus protected helpers `localizedString` (multilang), `_lang`, `_pickValue` (dropdowns), `_num` / `_toLatinDigits` (numbers, Arabic-Indic digit aware).
 - `product.ts` — Salla product plumbing: `sallaGlobal`, `pickerSelection`, `fetchProductDetails`, `parseMoney`, `formatMoney`, and the `ResolvedProduct` shape.
 - `types.ts` — `MaybeMultiLang`.
 
@@ -83,14 +83,14 @@ export default class MyComponent extends GrowthElement {
   static styles = css`/* ... */`;
 
   render() {
-    return html`<div>${this._t(this.config?.title)}</div>`;
+    return html`<div>${this.localizedString(this.config?.title)}</div>`;
   }
 }
 ```
 
 ### Handling multilanguage values
 
-Fields marked `multilanguage: true` arrive as `string | { ar?: string; en?: string } | null`. Resolve with the inherited `this._t(value)` from `GrowthElement` — never re-implement it per component.
+Fields marked `multilanguage: true` arrive as `string | { ar?: string; en?: string } | null`. Resolve with the inherited `this.localizedString(value)` from `GrowthElement` — never re-implement it per component. Use the explicit helper name so Salla's publication checks can verify that every rendered value has been localized.
 
 ### Handling dropdown-list values
 

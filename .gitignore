@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build output
-dist/
+# Salla publication consumes the production files under dist/, so they are
+# intentionally tracked after running `pnpm run build`.
 .vite/
 
 # Logs

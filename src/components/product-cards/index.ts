@@ -93,9 +93,9 @@ export default class GrowthProductCards extends GrowthElement {
       return !!(
         card.product ||
         card.image ||
-        this._t(card.title) ||
+        this.localizedString(card.title) ||
         card.price ||
-        this._t(card.badge)
+        this.localizedString(card.badge)
       );
     });
   }
@@ -605,8 +605,8 @@ export default class GrowthProductCards extends GrowthElement {
     }
 
     const isSingle = cards.length === 1;
-    const title = this._t(c.section_title);
-    const subtitle = this._t(c.section_subtitle);
+    const localizedSectionTitle = this.localizedString(c.section_title);
+    const localizedSectionSubtitle = this.localizedString(c.section_subtitle);
     const showNav = c.show_nav_buttons !== false && !isSingle;
     const navPosition = this._pickValue<PcNavPosition>(c.nav_position, "sides");
     const showTopNav = showNav && navPosition === "top";
@@ -615,15 +615,15 @@ export default class GrowthProductCards extends GrowthElement {
     const enterState = c.enable_entrance_anim === false ? "in" : this._animState;
 
     const header =
-      title || subtitle || showTopNav
+      localizedSectionTitle || localizedSectionSubtitle || showTopNav
         ? html`
             <div class="pc-head" data-enter=${enterState}>
               <div class="pc-head__text">
-                ${title
-                  ? html`<h2 class="pc-head-title">${title}</h2>`
+                ${localizedSectionTitle
+                  ? html`<h2 class="pc-head-title">${localizedSectionTitle}</h2>`
                   : nothing}
-                ${subtitle
-                  ? html`<p class="pc-head-sub">${subtitle}</p>`
+                ${localizedSectionSubtitle
+                  ? html`<p class="pc-head-sub">${localizedSectionSubtitle}</p>`
                   : nothing}
               </div>
               ${showTopNav
@@ -738,11 +738,12 @@ export default class GrowthProductCards extends GrowthElement {
     const product = this._resolveCardProduct(card);
     const hasLinkedProduct = !!pickerSelection(card.product);
 
-    const badge = this._t(card.badge);
-    const title = this._t(card.title) || product?.name || "";
-    const description = this._t(card.description);
+    const localizedBadge = this.localizedString(card.badge);
+    const localizedTitle =
+      this.localizedString(card.title) || product?.name || "";
+    const localizedDescription = this.localizedString(card.description);
     const imageUrl = card.image || product?.image || "";
-    const imageAlt = title || product?.imageAlt || "";
+    const imageAlt = localizedTitle || product?.imageAlt || "";
 
     // --- Pricing ---
     const showPrice = c.show_price !== false;
@@ -750,8 +751,10 @@ export default class GrowthProductCards extends GrowthElement {
     let priceMain = "";
     let priceCompare = "";
     if (showPrice) {
-      const priceOverride = this._t(card.price as MaybeMultiLang);
-      const compareOverride = this._t(card.compare_price as MaybeMultiLang);
+      const priceOverride = this.localizedString(card.price as MaybeMultiLang);
+      const compareOverride = this.localizedString(
+        card.compare_price as MaybeMultiLang
+      );
       if (priceOverride) {
         priceMain = priceOverride;
         const a = parseMoney(priceOverride);
@@ -771,7 +774,7 @@ export default class GrowthProductCards extends GrowthElement {
       }
     }
 
-    const shipping = this._t(c.free_shipping_text);
+    const shipping = this.localizedString(c.free_shipping_text);
 
     // --- Button ---
     const showButton = c.show_button !== false;
@@ -787,8 +790,8 @@ export default class GrowthProductCards extends GrowthElement {
         ? product?.url || resolvedLink || ""
         : resolvedLink || product?.url || "";
     const buttonLabel =
-      this._t(card.button_label) ||
-      this._t(c.default_button_label) ||
+      this.localizedString(card.button_label) ||
+      this.localizedString(c.default_button_label) ||
       this._defaultButtonLabel(action);
 
     return html`
@@ -803,11 +806,15 @@ export default class GrowthProductCards extends GrowthElement {
                 draggable="false"
               />`
             : nothing}
-          ${badge ? html`<span class="pc-badge">${badge}</span>` : nothing}
+          ${localizedBadge
+            ? html`<span class="pc-badge">${localizedBadge}</span>`
+            : nothing}
         </div>
 
         <div class="pc-body" data-align=${g.contentAlign}>
-          ${title ? html`<h3 class="pc-title">${title}</h3>` : nothing}
+          ${localizedTitle
+            ? html`<h3 class="pc-title">${localizedTitle}</h3>`
+            : nothing}
           ${priceMain
             ? html`
                 <div class="pc-price-row">
@@ -818,7 +825,9 @@ export default class GrowthProductCards extends GrowthElement {
                 </div>
               `
             : nothing}
-          ${description ? html`<p class="pc-desc">${description}</p>` : nothing}
+          ${localizedDescription
+            ? html`<p class="pc-desc">${localizedDescription}</p>`
+            : nothing}
           ${showButton
             ? html`<div class="pc-actions">
                 ${this._renderButton(

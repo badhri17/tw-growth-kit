@@ -114,8 +114,8 @@ export default class GrowthTestimonials extends GrowthElement {
     return list.filter((it) => {
       if (!it || typeof it !== "object") return false;
       return !!(
-        this._t(it.quote) ||
-        this._t(it.name) ||
+        this.localizedString(it.quote) ||
+        this.localizedString(it.name) ||
         it.photo ||
         it.avatar ||
         it.product
@@ -448,7 +448,8 @@ export default class GrowthTestimonials extends GrowthElement {
 
   private _renderChip(item: TestimonialItem, chipStyle: TestimonialChipStyle) {
     const product = this._resolveProduct(item);
-    const name = this._t(item.product_name) || product?.name || "";
+    const localizedProductName =
+      this.localizedString(item.product_name) || product?.name || "";
     const image = item.product_image || product?.image || "";
     const url = (item.product_url || "").trim() || product?.url || "";
 
@@ -474,16 +475,18 @@ export default class GrowthTestimonials extends GrowthElement {
       }
     }
 
-    if (!name && !image && !price) return nothing;
+    if (!localizedProductName && !image && !price) return nothing;
 
     const inner = html`
       ${image
         ? html`<span class="t-chip-media"
-            ><img src=${image} alt=${name || ""} loading="lazy"
+            ><img src=${image} alt=${localizedProductName} loading="lazy"
           /></span>`
         : nothing}
       <span class="t-chip-body">
-        ${name ? html`<span class="t-chip-name">${name}</span>` : nothing}
+        ${localizedProductName
+          ? html`<span class="t-chip-name">${localizedProductName}</span>`
+          : nothing}
         ${price
           ? html`<span class="t-chip-prices">
               <span class="t-chip-price">${price}</span>
@@ -519,9 +522,9 @@ export default class GrowthTestimonials extends GrowthElement {
     cardStyle: TestimonialCardStyle,
     opts: CardOpts
   ) {
-    const name = this._t(item.name);
-    const meta = this._t(item.meta);
-    const quote = this._t(item.quote);
+    const localizedName = this.localizedString(item.name);
+    const localizedMeta = this.localizedString(item.meta);
+    const localizedQuote = this.localizedString(item.quote);
 
     // Photo-led styles show the customer's own product photo (UGC); others use the
     // round avatar. In "modern" the photo can be toggled off (text-only card); in
@@ -542,16 +545,20 @@ export default class GrowthTestimonials extends GrowthElement {
       : nothing;
 
     const author = (withAvatar: boolean) =>
-      name || meta || (withAvatar && avatar)
+      localizedName || localizedMeta || (withAvatar && avatar)
         ? html`<div class="t-author">
             ${withAvatar && avatar
               ? html`<span class="t-avatar"
-                  ><img src=${avatar} alt=${name || ""} loading="lazy"
+                  ><img src=${avatar} alt=${localizedName} loading="lazy"
                 /></span>`
               : nothing}
             <div class="t-author-meta">
-              ${name ? html`<span class="t-name">${name}</span>` : nothing}
-              ${meta ? html`<span class="t-meta">${meta}</span>` : nothing}
+              ${localizedName
+                ? html`<span class="t-name">${localizedName}</span>`
+                : nothing}
+              ${localizedMeta
+                ? html`<span class="t-meta">${localizedMeta}</span>`
+                : nothing}
             </div>
           </div>`
         : nothing;
@@ -564,21 +571,25 @@ export default class GrowthTestimonials extends GrowthElement {
             ? html`<div class="t-photo">
                 <img
                   src=${photo}
-                  alt=${name ? `تصوير العميل: ${name}` : "تصوير العميل"}
+                  alt=${localizedName
+                    ? `تصوير العميل: ${localizedName}`
+                    : "تصوير العميل"}
                   loading="lazy"
                 />
-                ${name || meta
+                ${localizedName || localizedMeta
                   ? html`<span class="t-photo-chip">
                       ${avatar
                         ? html`<img
                             class="t-photo-chip-avatar"
                             src=${avatar}
-                            alt=${name || ""}
+                            alt=${localizedName}
                             loading="lazy"
                           />`
                         : nothing}
                       <span class="t-photo-chip-text"
-                        >${name}${meta ? html`, ${meta}` : nothing}</span
+                        >${localizedName}${localizedMeta
+                          ? html`, ${localizedMeta}`
+                          : nothing}</span
                       >
                     </span>`
                   : nothing}
@@ -586,7 +597,9 @@ export default class GrowthTestimonials extends GrowthElement {
             : nothing}
           <div class="t-body">
             ${!photo ? author(true) : nothing} ${ratingBlock}
-            ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
+            ${localizedQuote
+              ? html`<p class="t-quote">${localizedQuote}</p>`
+              : nothing}
             ${chipBlock}
           </div>
         </article>
@@ -610,7 +623,9 @@ export default class GrowthTestimonials extends GrowthElement {
             ? html`<img
                 class="t-overlay-photo"
                 src=${photo}
-                alt=${name ? `تصوير العميل: ${name}` : "تصوير العميل"}
+                alt=${localizedName
+                  ? `تصوير العميل: ${localizedName}`
+                  : "تصوير العميل"}
                 loading="lazy"
               />`
             : nothing}
@@ -619,7 +634,9 @@ export default class GrowthTestimonials extends GrowthElement {
               ? html`<span class="t-quote-mark">${this._icon("quote")}</span>`
               : nothing}
             ${ratingBlock}
-            ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
+            ${localizedQuote
+              ? html`<p class="t-quote">${localizedQuote}</p>`
+              : nothing}
             ${author(true)} ${chipBlock}
           </div>
         </article>
@@ -635,7 +652,9 @@ export default class GrowthTestimonials extends GrowthElement {
               ? html`<span class="t-quote-mark">${this._icon("quote")}</span>`
               : nothing}
             ${ratingBlock}
-            ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
+            ${localizedQuote
+              ? html`<p class="t-quote">${localizedQuote}</p>`
+              : nothing}
             ${chipBlock}
           </div>
           ${author(true)}
@@ -650,7 +669,9 @@ export default class GrowthTestimonials extends GrowthElement {
           ? html`<span class="t-quote-mark">${this._icon("quote")}</span>`
           : nothing}
         ${ratingBlock}
-        ${quote ? html`<p class="t-quote">${quote}</p>` : nothing}
+        ${localizedQuote
+          ? html`<p class="t-quote">${localizedQuote}</p>`
+          : nothing}
         ${author(true)} ${chipBlock}
       </article>
     `;
@@ -899,13 +920,13 @@ export default class GrowthTestimonials extends GrowthElement {
 
     const hostStyle = this._buildHostStyle(c);
 
-    const eyebrow = this._t(c.eyebrow);
-    const title = this._t(c.section_title);
-    const subtitle = this._t(c.section_subtitle);
+    const localizedEyebrow = this.localizedString(c.eyebrow);
+    const localizedSectionTitle = this.localizedString(c.section_title);
+    const localizedSectionSubtitle = this.localizedString(c.section_subtitle);
 
     const showSummary = c.show_summary === true;
     const summaryRating = Math.max(0, Math.min(5, this._num(c.summary_rating, 0)));
-    const summaryCount = this._t(c.summary_count_text);
+    const summaryCount = this.localizedString(c.summary_count_text);
     const hasSummary = showSummary && (summaryRating > 0 || !!summaryCount);
 
     if (items.length === 0) {
@@ -919,14 +940,23 @@ export default class GrowthTestimonials extends GrowthElement {
     }
 
     const header =
-      eyebrow || title || subtitle || hasSummary
+      localizedEyebrow ||
+      localizedSectionTitle ||
+      localizedSectionSubtitle ||
+      hasSummary
         ? html`<header
             class="t-header"
             data-anim=${enableAnim ? this._animState : "in"}
           >
-            ${eyebrow ? html`<p class="t-eyebrow">${eyebrow}</p>` : nothing}
-            ${title ? html`<h2 class="t-title">${title}</h2>` : nothing}
-            ${subtitle ? html`<p class="t-subtitle">${subtitle}</p>` : nothing}
+            ${localizedEyebrow
+              ? html`<p class="t-eyebrow">${localizedEyebrow}</p>`
+              : nothing}
+            ${localizedSectionTitle
+              ? html`<h2 class="t-title">${localizedSectionTitle}</h2>`
+              : nothing}
+            ${localizedSectionSubtitle
+              ? html`<p class="t-subtitle">${localizedSectionSubtitle}</p>`
+              : nothing}
             ${hasSummary
               ? html`<div class="t-summary">
                   ${summaryRating > 0

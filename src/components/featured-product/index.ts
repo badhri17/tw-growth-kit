@@ -346,20 +346,21 @@ export default class GrowthFeaturedProduct extends GrowthElement {
     const contentAlign = this._pickValue<FeaturedContentAlign>(c.content_align, "right");
     const highlightsBg = c.highlights_bg || "";
 
-    const sectionTitle = this._t(c.section_title);
+    const sectionTitle = this.localizedString(c.section_title);
     const product = this._resolveProduct();
     const hasLinkedProduct = !!pickerSelection(c.product);
 
     // --- Content (overrides fall back to the linked product) ---
-    const eyebrow = this._t(c.eyebrow);
-    const title = this._t(c.title) || product?.name || "";
-    const description = this._t(c.description);
+    const localizedEyebrow = this.localizedString(c.eyebrow);
+    const localizedTitle =
+      this.localizedString(c.title) || product?.name || "";
+    const localizedDescription = this.localizedString(c.description);
     const imageUrl = c.image || product?.image || "";
     const imageHover = c.enable_hover_image ? (c.image_hover || "") : "";
-    const imageAlt = title || product?.imageAlt || "";
+    const imageAlt = localizedTitle || product?.imageAlt || "";
 
     const highlights = (Array.isArray(c.highlights) ? c.highlights : [])
-      .map((h) => this._t(h?.text))
+      .map((h) => this.localizedString(h?.text))
       .filter(Boolean)
       .slice(0, 3);
 
@@ -371,8 +372,10 @@ export default class GrowthFeaturedProduct extends GrowthElement {
     let priceCompare = "";
     if (showPrice) {
       // Override fields always win; fall back to linked product data.
-      const priceOverride = this._t(c.price as MaybeMultiLang);
-      const compareOverride = this._t(c.compare_price as MaybeMultiLang);
+      const priceOverride = this.localizedString(c.price as MaybeMultiLang);
+      const compareOverride = this.localizedString(
+        c.compare_price as MaybeMultiLang
+      );
       if (priceOverride) {
         priceMain = priceOverride;
         const a = parseMoney(priceOverride);
@@ -392,7 +395,7 @@ export default class GrowthFeaturedProduct extends GrowthElement {
       }
     }
 
-    const shipping = this._t(c.free_shipping_text);
+    const shipping = this.localizedString(c.free_shipping_text);
 
     // --- Button ---
     const showButton = c.show_button !== false;
@@ -413,7 +416,7 @@ export default class GrowthFeaturedProduct extends GrowthElement {
         ? product?.url || c.button_url || ""
         : c.button_url || "";
     const buttonLabel =
-      this._t(c.button_label) || this._defaultButtonLabel(action);
+      this.localizedString(c.button_label) || this._defaultButtonLabel(action);
 
     // --- Motion ---
     const enableFloat = c.enable_float_anim !== false;
@@ -504,7 +507,12 @@ export default class GrowthFeaturedProduct extends GrowthElement {
       .join("; ");
 
     const hasCardContent = !!(
-      imageUrl || title || description || highlights.length || priceMain || hasLinkedProduct
+      imageUrl ||
+      localizedTitle ||
+      localizedDescription ||
+      highlights.length ||
+      priceMain ||
+      hasLinkedProduct
     );
     if (!hasCardContent && !sectionTitle) {
       return html`
@@ -555,8 +563,12 @@ export default class GrowthFeaturedProduct extends GrowthElement {
 
     const content = html`
       <div class="fp-content" data-align=${contentAlign}>
-        ${eyebrow ? html`<p class="fp-eyebrow">${eyebrow}</p>` : nothing}
-        ${title ? html`<h2 class="fp-title">${title}</h2>` : nothing}
+        ${localizedEyebrow
+          ? html`<p class="fp-eyebrow">${localizedEyebrow}</p>`
+          : nothing}
+        ${localizedTitle
+          ? html`<h2 class="fp-title">${localizedTitle}</h2>`
+          : nothing}
         ${highlights.length
           ? html`
               <ul class="fp-highlights">
@@ -568,7 +580,9 @@ export default class GrowthFeaturedProduct extends GrowthElement {
               </ul>
             `
           : nothing}
-        ${description ? html`<p class="fp-desc">${description}</p>` : nothing}
+        ${localizedDescription
+          ? html`<p class="fp-desc">${localizedDescription}</p>`
+          : nothing}
         ${priceMain
           ? html`
               <div class="fp-price-row">

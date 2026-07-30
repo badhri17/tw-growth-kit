@@ -695,10 +695,11 @@ export default class GrowthLifestyleGallery extends GrowthElement {
     const c: GalleryConfig = this.config || {};
     const slides = this._slides();
 
-    const title = this._t(c.section_title);
-    const pretitle = this._t(c.section_pretitle);
+    const localizedSectionTitle = this.localizedString(c.section_title);
+    const localizedPretitle = this.localizedString(c.section_pretitle);
     const showOverlay = c.show_overlay !== false;
-    const defaultCtaLabel = this._t(c.default_cta_label) || "اكتشف المنتج";
+    const defaultCtaLabel =
+      this.localizedString(c.default_cta_label) || "اكتشف المنتج";
     // Arrows are opt-in (bundle default is off — the reference is drag-only).
     const showNav = c.show_nav_buttons === true && slides.length > 1;
     const loop = this._loop();
@@ -746,14 +747,14 @@ export default class GrowthLifestyleGallery extends GrowthElement {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${title || pretitle
+        ${localizedSectionTitle || localizedPretitle
           ? html`
               <div class="lsg-header">
                 <h2 class="lsg-title">
-                  ${pretitle
-                    ? html`<span class="lsg-pretitle">${pretitle}</span>`
+                  ${localizedPretitle
+                    ? html`<span class="lsg-pretitle">${localizedPretitle}</span>`
                     : nothing}
-                  ${title}
+                  ${localizedSectionTitle}
                 </h2>
               </div>
             `
@@ -770,12 +771,14 @@ export default class GrowthLifestyleGallery extends GrowthElement {
             ${slides.map((slide) => {
               const product = this._resolveProduct(slide);
               const image = slide.image || product?.image || "";
-              const name = this._t(slide.title) || product?.name || "";
+              const localizedName =
+                this.localizedString(slide.title) || product?.name || "";
               const href =
                 (typeof slide.cta_url === "string" && slide.cta_url.trim()) ||
                 product?.url ||
                 "";
-              const ctaLabel = this._t(slide.cta_label) || defaultCtaLabel;
+              const ctaLabel =
+                this.localizedString(slide.cta_label) || defaultCtaLabel;
               return html`
                 <div class="lsg-slide">
                   <div class="lsg-wrap">
@@ -784,16 +787,16 @@ export default class GrowthLifestyleGallery extends GrowthElement {
                         ? html`<img
                             class="lsg-img"
                             src=${image}
-                            alt=${name}
+                            alt=${localizedName}
                             loading="lazy"
                             draggable="false"
                           />`
                         : html`<div class="lsg-img-empty"></div>`}
-                      ${showOverlay && (name || href)
+                      ${showOverlay && (localizedName || href)
                         ? html`
                             <div class="lsg-overlay">
-                              ${name
-                                ? html`<span class="lsg-name">${name}</span>`
+                              ${localizedName
+                                ? html`<span class="lsg-name">${localizedName}</span>`
                                 : nothing}
                               ${href
                                 ? html`<a

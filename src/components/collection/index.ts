@@ -418,7 +418,7 @@ export default class GrowthCollection extends GrowthElement {
   ): { closed?: string; opened?: string; alt: string } {
     const closed = slide.image || undefined;
     const opened = slide.image_opened || undefined;
-    const alt = this._t(slide.title) || "";
+    const alt = this.localizedString(slide.title) || "";
     return { closed, opened, alt };
   }
 
@@ -441,10 +441,13 @@ export default class GrowthCollection extends GrowthElement {
       "coverflow"
     );
 
-    const title = this._t(c.section_title ?? c.title);
+    const localizedSectionTitle = this.localizedString(
+      c.section_title ?? c.title
+    );
     const showCaption = c.show_caption !== false;
     const showCta = useCase === "home" && c.show_cta !== false;
-    const defaultCtaLabel = this._t(c.default_cta_label) || "تسوّق الآن";
+    const defaultCtaLabel =
+      this.localizedString(c.default_cta_label) || "تسوّق الآن";
     const showNav = c.show_nav_buttons !== false;
     const showDots = !!c.show_pagination;
     const enableAnim = c.enable_entrance_anim !== false;
@@ -486,18 +489,22 @@ export default class GrowthCollection extends GrowthElement {
     // Resolved once per render so the caption + CTA read from the same source
     // as the visible active slide.
     const activeSlide = slides[this._activeIndex];
-    const activeTitle = activeSlide ? this._t(activeSlide.title) : "";
-    const activeDesc = activeSlide ? this._t(activeSlide.description) : "";
+    const activeTitle = activeSlide
+      ? this.localizedString(activeSlide.title)
+      : "";
+    const activeDesc = activeSlide
+      ? this.localizedString(activeSlide.description)
+      : "";
     const activeCtaHref = activeSlide ? this._resolveLink(activeSlide) : "";
     const activeCtaLabel = activeSlide
-      ? this._t(activeSlide.cta_label) || defaultCtaLabel
+      ? this.localizedString(activeSlide.cta_label) || defaultCtaLabel
       : defaultCtaLabel;
     const hasCaption = !!(showCaption && (activeTitle || activeDesc));
 
     if (displayMode === "bag") {
       return this._renderBag(c, slides, {
         hostStyle,
-        title,
+        sectionTitle: localizedSectionTitle,
         enableAnim,
         showNav,
         showDots,
@@ -521,13 +528,13 @@ export default class GrowthCollection extends GrowthElement {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${title
+        ${localizedSectionTitle
           ? html`
               <div
                 class="col-header"
                 data-anim=${enableAnim ? this._animState : "in"}
               >
-                <h2 class="col-title">${title}</h2>
+                <h2 class="col-title">${localizedSectionTitle}</h2>
               </div>
             `
           : nothing}
@@ -678,7 +685,7 @@ export default class GrowthCollection extends GrowthElement {
     slides: CollectionSlideItem[],
     v: {
       hostStyle: string;
-      title: string;
+      sectionTitle: string;
       enableAnim: boolean;
       showNav: boolean;
       showDots: boolean;
@@ -696,7 +703,7 @@ export default class GrowthCollection extends GrowthElement {
       c.bag_product_size,
       "medium"
     );
-    const bottomTitle = this._t(c.bag_bottom_title);
+    const bottomTitle = this.localizedString(c.bag_bottom_title);
     const isSingle = slides.length === 1;
     const upPath = "M18 15l-6-6-6 6";
     const downPath = "M6 9l6 6 6-6";
@@ -721,13 +728,13 @@ export default class GrowthCollection extends GrowthElement {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${v.title
+        ${v.sectionTitle
           ? html`
               <div
                 class="col-header"
                 data-anim=${v.enableAnim ? this._animState : "in"}
               >
-                <h2 class="col-title">${v.title}</h2>
+                <h2 class="col-title">${v.sectionTitle}</h2>
               </div>
             `
           : nothing}

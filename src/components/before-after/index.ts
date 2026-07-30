@@ -183,6 +183,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
   private _renderProductChip(
     product: ResolvedProduct & { loading: boolean }
   ) {
+    const localizedProductName = this.localizedString(product.name);
     const arrow = html`<svg
       class="ba-product-chip__arrow"
       viewBox="0 0 24 24"
@@ -201,22 +202,22 @@ export default class GrowthBeforeAfter extends GrowthElement {
         />`
       : html`<span class="ba-product-chip__thumb ba-product-chip__thumb--skeleton"></span>`;
 
-    const name = html`<span class="ba-product-chip__name"
-      >${product.name || ""}</span
+    const productNameContent = html`<span class="ba-product-chip__name"
+      >${localizedProductName}</span
     >`;
 
     if (product.loading || !product.url) {
       return html`<span class="ba-product-chip ba-product-chip--loading">
-        ${thumb}${name}${arrow}
+        ${thumb}${productNameContent}${arrow}
       </span>`;
     }
 
     return html`<a
       class="ba-product-chip"
       href=${product.url}
-      aria-label=${product.name || "View product"}
+      aria-label=${localizedProductName || "View product"}
     >
-      ${thumb}${name}${arrow}
+      ${thumb}${productNameContent}${arrow}
     </a>`;
   }
 
@@ -540,7 +541,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
               : s.after_image || s.before_image;
           const alt = hidden
             ? ""
-            : this._t(s.caption) ||
+            : this.localizedString(s.caption) ||
               (kind === "before" ? labelBefore : labelAfter);
           return html`<div class="ba-x-card">
             ${src
@@ -608,10 +609,10 @@ export default class GrowthBeforeAfter extends GrowthElement {
   render() {
     const c: BeforeAfterConfig = this.config || {};
     const slides = this._slides();
-    const title = this._t(c.title);
-    const subtitle = this._t(c.subtitle);
-    const labelBefore = this._t(c.label_before) || "قبل";
-    const labelAfter = this._t(c.label_after) || "بعد";
+    const localizedSectionTitle = this.localizedString(c.title);
+    const localizedSectionSubtitle = this.localizedString(c.subtitle);
+    const labelBefore = this.localizedString(c.label_before) || "قبل";
+    const labelAfter = this.localizedString(c.label_after) || "بعد";
     const showLabels = c.show_labels !== false;
     const aspect = this._pickValue<BeforeAfterAspect>(c.aspect_ratio, "1/1");
     const layout = this._pickValue<BeforeAfterDesktopLayout>(
@@ -655,15 +656,17 @@ export default class GrowthBeforeAfter extends GrowthElement {
     const chevronPath = "m9 6 6 6-6 6";
 
     const header =
-      title || subtitle
+      localizedSectionTitle || localizedSectionSubtitle
         ? html`
             <div
               class="ba-header"
               data-anim=${enableAnim ? this._animState : "in"}
             >
-              ${title ? html`<h2 class="ba-title">${title}</h2>` : nothing}
-              ${subtitle
-                ? html`<p class="ba-subtitle">${subtitle}</p>`
+              ${localizedSectionTitle
+                ? html`<h2 class="ba-title">${localizedSectionTitle}</h2>`
+                : nothing}
+              ${localizedSectionSubtitle
+                ? html`<p class="ba-subtitle">${localizedSectionSubtitle}</p>`
                 : nothing}
             </div>
           `
@@ -701,7 +704,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
           <div class="ba-track">
             ${slides.map((slide, i) => {
               const pos = this._slidePos(i);
-              const caption = this._t(slide.caption);
+              const localizedCaption = this.localizedString(slide.caption);
               const product = this._resolveProduct(slide);
               const positionPct = this._positions[i] ?? 50;
               const cardStyle = `--pos: ${positionPct}%`;
@@ -745,8 +748,8 @@ export default class GrowthBeforeAfter extends GrowthElement {
                           >
                         `
                       : nothing}
-                    ${caption && !product
-                      ? html`<span class="ba-caption">${caption}</span>`
+                    ${localizedCaption && !product
+                      ? html`<span class="ba-caption">${localizedCaption}</span>`
                       : nothing}
                     ${product ? this._renderProductChip(product) : nothing}
                   </div>

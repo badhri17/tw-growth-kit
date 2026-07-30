@@ -418,13 +418,13 @@ export default class GrowthHero extends GrowthElement {
     // per element; elements left blank keep following text_theme.
     const customColors = c.enable_custom_colors === true;
 
-    const eyebrow = this._t(c.eyebrow);
-    const headline = this._t(c.headline) || "Welcome";
-    const subtitle = this._t(c.subtitle);
-    const primaryLabel = this._t(c.primary_label);
+    const localizedEyebrow = this.localizedString(c.eyebrow);
+    const localizedHeadline = this.localizedString(c.headline) || "Welcome";
+    const localizedSubtitle = this.localizedString(c.subtitle);
+    const localizedPrimaryLabel = this.localizedString(c.primary_label);
 
     const trustPoints = (Array.isArray(c.trust_points) ? c.trust_points : [])
-      .map((tp) => this._t(tp?.text))
+      .map((tp) => this.localizedString(tp?.text))
       .filter(Boolean)
       .slice(0, 3);
 
@@ -472,7 +472,7 @@ export default class GrowthHero extends GrowthElement {
         data-align-h=${alignH}
         data-align-v=${alignV}
         data-text-theme=${textTheme}
-        aria-label=${headline}
+        aria-label=${localizedHeadline}
       >
         <div class=${bgClasses}>
           ${mode === "video"
@@ -512,17 +512,21 @@ export default class GrowthHero extends GrowthElement {
 
         <div class="content-wrap">
           <div class="content" data-anim=${enableAnim ? this._animState : "in"}>
-            ${eyebrow ? html`<p class="eyebrow">${eyebrow}</p>` : nothing}
-            <h1 class="headline">${headline}</h1>
-            ${subtitle ? html`<p class="subtitle">${subtitle}</p>` : nothing}
-            ${primaryLabel
+            ${localizedEyebrow
+              ? html`<p class="eyebrow">${localizedEyebrow}</p>`
+              : nothing}
+            <h1 class="headline">${localizedHeadline}</h1>
+            ${localizedSubtitle
+              ? html`<p class="subtitle">${localizedSubtitle}</p>`
+              : nothing}
+            ${localizedPrimaryLabel
               ? html`
                   <div class="ctas">
                     <a
                       class="btn ${c.primary_outline ? "btn-outline" : "btn-primary"}"
                       href=${c.primary_url || "#"}
                     >
-                      ${primaryLabel}
+                      ${localizedPrimaryLabel}
                     </a>
                   </div>
                 `

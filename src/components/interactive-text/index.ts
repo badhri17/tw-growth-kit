@@ -117,15 +117,17 @@ export default class GrowthInteractiveText extends GrowthElement {
   private _segments(text: string, needle: string): TextSegment[] {
     if (!text) return [];
     const ranges = this._matchRanges(text, needle);
-    if (ranges.length === 0) return [{ text, hl: false }];
+    if (ranges.length === 0) return [{ value: text, hl: false }];
     const segs: TextSegment[] = [];
     let pos = 0;
     for (const [start, end] of ranges) {
-      if (start > pos) segs.push({ text: text.slice(pos, start), hl: false });
-      segs.push({ text: text.slice(start, end), hl: true });
+      if (start > pos)
+        segs.push({ value: text.slice(pos, start), hl: false });
+      segs.push({ value: text.slice(start, end), hl: true });
       pos = end;
     }
-    if (pos < text.length) segs.push({ text: text.slice(pos), hl: false });
+    if (pos < text.length)
+      segs.push({ value: text.slice(pos), hl: false });
     return segs;
   }
 
@@ -143,7 +145,7 @@ export default class GrowthInteractiveText extends GrowthElement {
       const start = m.index;
       const end = start + m[0].length;
       out.push({
-        text: m[0],
+        value: m[0],
         hl: ranges.some(([s, e]) => start < e && end > s),
       });
     }
@@ -232,12 +234,12 @@ export default class GrowthInteractiveText extends GrowthElement {
   }
 
   private _startTyping() {
-    if (this._t(this.config?.title).length === 0) {
+    if (this.localizedString(this.config?.title).length === 0) {
       this._typingDone = true;
       return;
     }
     this._typingTimer = window.setInterval(() => {
-      const len = this._t(this.config?.title).length;
+      const len = this.localizedString(this.config?.title).length;
       if (this._typedCount >= len) {
         this._stopTyping();
         // Small pause before the caret hands over to the blocks below.
@@ -287,15 +289,20 @@ export default class GrowthInteractiveText extends GrowthElement {
     );
     const btnStyle = this._pickValue<ButtonStyle>(c.button_style, "solid");
 
-    const eyebrow = this._t(c.eyebrow);
-    const title = this._t(c.title);
-    const highlight = this._t(c.highlight_words);
-    const subtitle = this._t(c.subtitle);
-    const paragraph = this._t(c.paragraph);
-    const btnText = this._t(c.button_text);
+    const localizedEyebrow = this.localizedString(c.eyebrow);
+    const localizedTitle = this.localizedString(c.title);
+    const localizedHighlight = this.localizedString(c.highlight_words);
+    const localizedSubtitle = this.localizedString(c.subtitle);
+    const localizedParagraph = this.localizedString(c.paragraph);
+    const localizedButtonText = this.localizedString(c.button_text);
     const btnUrl = (c.button_url || "").trim();
 
-    if (!eyebrow && !title && !subtitle && !paragraph) {
+    if (
+      !localizedEyebrow &&
+      !localizedTitle &&
+      !localizedSubtitle &&
+      !localizedParagraph
+    ) {
       return html`<section
         class="it"
         data-theme=${theme}
@@ -318,10 +325,16 @@ export default class GrowthInteractiveText extends GrowthElement {
     const wordStep = 0.055 * mult;
     const lineStep = 0.18 * mult;
 
-    const titleWords = anim === "words" ? this._words(title, highlight) : [];
-    const titleLines = anim === "lines" ? this._lines(title) : [];
-    const paraWords = anim === "words" ? this._words(paragraph, "") : [];
-    const paraLines = anim === "lines" ? this._lines(paragraph) : [];
+    const titleWords =
+      anim === "words"
+        ? this._words(localizedTitle, localizedHighlight)
+        : [];
+    const titleLines =
+      anim === "lines" ? this._lines(localizedTitle) : [];
+    const paraWords =
+      anim === "words" ? this._words(localizedParagraph, "") : [];
+    const paraLines =
+      anim === "lines" ? this._lines(localizedParagraph) : [];
     const splitParaWords =
       anim === "words" &&
       paraWords.length > 0 &&
@@ -329,34 +342,34 @@ export default class GrowthInteractiveText extends GrowthElement {
 
     let cursor = 0.08;
     const delays = {
-      eyebrow: 0,
-      title: 0,
-      subtitle: 0,
-      paragraph: 0,
-      button: 0,
+      eyebrowDelay: 0,
+      titleDelay: 0,
+      subtitleDelay: 0,
+      paragraphDelay: 0,
+      buttonDelay: 0,
     };
-    if (eyebrow) {
-      delays.eyebrow = cursor;
+    if (localizedEyebrow) {
+      delays.eyebrowDelay = cursor;
       cursor += blockStep;
     }
-    if (title) {
-      delays.title = cursor;
+    if (localizedTitle) {
+      delays.titleDelay = cursor;
       if (anim === "words") cursor += titleWords.length * wordStep + 0.1;
       else if (anim === "lines") cursor += titleLines.length * lineStep;
       else cursor += blockStep;
     }
-    if (subtitle) {
-      delays.subtitle = cursor;
+    if (localizedSubtitle) {
+      delays.subtitleDelay = cursor;
       cursor += blockStep;
     }
-    if (paragraph) {
-      delays.paragraph = cursor;
+    if (localizedParagraph) {
+      delays.paragraphDelay = cursor;
       if (anim === "lines") cursor += paraLines.length * lineStep;
       else if (splitParaWords) cursor += paraWords.length * wordStep;
       else cursor += blockStep;
     }
-    if (btnText) {
-      delays.button = cursor;
+    if (localizedButtonText) {
+      delays.buttonDelay = cursor;
       cursor += blockStep;
     }
 
@@ -364,15 +377,15 @@ export default class GrowthInteractiveText extends GrowthElement {
     // mode it waits for its own characters to finish typing instead.
     const hlDraw =
       anim === "typing"
-        ? (title.length * this._typingInterval()) / 1000 + 0.4
+        ? (localizedTitle.length * this._typingInterval()) / 1000 + 0.4
         : cursor + 0.1;
 
     // In typewriter mode the blocks below the title are gated by data-typed,
     // so their delays restart from zero once typing completes.
     if (anim === "typing") {
-      delays.subtitle = 0;
-      delays.paragraph = 0.12 * mult;
-      delays.button = 0.24 * mult;
+      delays.subtitleDelay = 0;
+      delays.paragraphDelay = 0.12 * mult;
+      delays.buttonDelay = 0.24 * mult;
     }
 
     // Effect of plain blocks for the current mode (split units animate
@@ -439,62 +452,62 @@ export default class GrowthInteractiveText extends GrowthElement {
         data-dir=${rtl ? "rtl" : "ltr"}
       >
         <div class="it-inner">
-          ${eyebrow
+          ${localizedEyebrow
             ? html`<p
                 class="it-eyebrow it-block"
                 data-fx=${anim === "reveal" ? "none" : blockFx}
-                style="--d:${delays.eyebrow.toFixed(2)}s"
+                style="--d:${delays.eyebrowDelay.toFixed(2)}s"
               >
-                ${this._wrapReveal(anim, html`${eyebrow}`)}
+                ${this._wrapReveal(anim, html`${localizedEyebrow}`)}
               </p>`
             : nothing}
-          ${title
+          ${localizedTitle
             ? this._renderTitle(
                 anim,
-                title,
-                highlight,
+                localizedTitle,
+                localizedHighlight,
                 hlStyle,
                 titleWords,
                 titleLines,
-                delays.title,
+                delays.titleDelay,
                 wordStep,
                 lineStep,
                 blockFx
               )
             : nothing}
-          ${subtitle
+          ${localizedSubtitle
             ? html`<p
                 class="it-subtitle it-block ${anim === "typing"
                   ? "it-post"
                   : ""}"
                 data-fx=${anim === "reveal" ? "none" : blockFx}
-                style="--d:${delays.subtitle.toFixed(2)}s"
+                style="--d:${delays.subtitleDelay.toFixed(2)}s"
               >
-                ${this._wrapReveal(anim, html`${subtitle}`)}
+                ${this._wrapReveal(anim, html`${localizedSubtitle}`)}
               </p>`
             : nothing}
-          ${paragraph
+          ${localizedParagraph
             ? this._renderParagraph(
                 anim,
-                paragraph,
+                localizedParagraph,
                 paraWords,
                 paraLines,
                 splitParaWords,
-                delays.paragraph,
+                delays.paragraphDelay,
                 wordStep,
                 lineStep,
                 blockFx
               )
             : nothing}
-          ${btnText
+          ${localizedButtonText
             ? html`<a
                 class="it-btn it-block ${anim === "typing" ? "it-post" : ""}"
                 data-style=${btnStyle}
                 data-fx=${anim === "reveal" ? "rise" : blockFx}
-                style="--d:${delays.button.toFixed(2)}s"
+                style="--d:${delays.buttonDelay.toFixed(2)}s"
                 href=${btnUrl || "#"}
               >
-                <span>${btnText}</span>
+                <span>${localizedButtonText}</span>
                 ${btnStyle === "ghost"
                   ? html`<span class="it-btn-arrow" aria-hidden="true"
                       >${rtl ? "←" : "→"}</span
@@ -518,8 +531,8 @@ export default class GrowthInteractiveText extends GrowthElement {
   private _renderInlineSegments(segs: TextSegment[], hlStyle: HighlightStyle) {
     return segs.map((s) =>
       s.hl
-        ? html`<span class="it-hl" data-hl=${hlStyle}>${s.text}</span>`
-        : html`${s.text}`
+        ? html`<span class="it-hl" data-hl=${hlStyle}>${s.value}</span>`
+        : html`${s.value}`
     );
   }
 
@@ -535,14 +548,14 @@ export default class GrowthInteractiveText extends GrowthElement {
             class="it-w ${w.hl ? "it-hl" : ""}"
             data-hl=${w.hl ? hlStyle : nothing}
             style="--d:${(base + i * step).toFixed(2)}s"
-            >${w.text}</span
+            >${w.value}</span
           >${" "}`
     );
   }
 
   private _renderTitle(
     anim: AnimationStyle,
-    title: string,
+    localizedTitle: string,
     highlight: string,
     hlStyle: HighlightStyle,
     words: TextSegment[],
@@ -575,7 +588,7 @@ export default class GrowthInteractiveText extends GrowthElement {
       );
     } else if (anim === "typing") {
       inner = html`${this._renderTyped(
-        this._segments(title, highlight),
+        this._segments(localizedTitle, highlight),
         hlStyle
       )}${this._entered && !this._typingDone
         ? html`<span class="it-caret" aria-hidden="true"></span>`
@@ -584,7 +597,7 @@ export default class GrowthInteractiveText extends GrowthElement {
       inner = this._wrapReveal(
         anim,
         html`${this._renderInlineSegments(
-          this._segments(title, highlight),
+          this._segments(localizedTitle, highlight),
           hlStyle
         )}`
       );
@@ -594,7 +607,9 @@ export default class GrowthInteractiveText extends GrowthElement {
       class="it-title it-block"
       data-fx=${fragmented || anim === "reveal" ? "none" : blockFx}
       style="--d:${base.toFixed(2)}s"
-      aria-label=${fragmented ? title.replace(/\s+/g, " ") : nothing}
+      aria-label=${fragmented
+        ? localizedTitle.replace(/\s+/g, " ")
+        : nothing}
     >
       ${fragmented ? html`<span aria-hidden="true">${inner}</span>` : inner}
     </h2>`;
@@ -606,13 +621,13 @@ export default class GrowthInteractiveText extends GrowthElement {
     const out = [];
     for (const s of segs) {
       if (remaining <= 0) break;
-      const take = Math.min(s.text.length, remaining);
+      const take = Math.min(s.value.length, remaining);
       remaining -= take;
-      const text = s.text.slice(0, take);
+      const typedValue = s.value.slice(0, take);
       out.push(
         s.hl
-          ? html`<span class="it-hl" data-hl=${hlStyle}>${text}</span>`
-          : html`${text}`
+          ? html`<span class="it-hl" data-hl=${hlStyle}>${typedValue}</span>`
+          : html`${typedValue}`
       );
     }
     return out;
@@ -620,7 +635,7 @@ export default class GrowthInteractiveText extends GrowthElement {
 
   private _renderParagraph(
     anim: AnimationStyle,
-    paragraph: string,
+    localizedParagraph: string,
     words: TextSegment[],
     lines: string[],
     splitWords: boolean,
@@ -646,7 +661,7 @@ export default class GrowthInteractiveText extends GrowthElement {
     } else if (split) {
       inner = this._renderWordSpans(words, "color", base, wordStep);
     } else {
-      inner = this._wrapReveal(anim, html`${paragraph}`);
+      inner = this._wrapReveal(anim, html`${localizedParagraph}`);
     }
 
     return html`<p
@@ -654,7 +669,9 @@ export default class GrowthInteractiveText extends GrowthElement {
       data-split=${split ? "true" : nothing}
       data-fx=${split || anim === "reveal" ? "none" : blockFx}
       style="--d:${base.toFixed(2)}s"
-      aria-label=${split ? paragraph.replace(/\s+/g, " ") : nothing}
+      aria-label=${split
+        ? localizedParagraph.replace(/\s+/g, " ")
+        : nothing}
     >
       ${split ? html`<span aria-hidden="true">${inner}</span>` : inner}
     </p>`;

@@ -1,6 +1,18 @@
 import { LitElement } from "lit";
 import type { MaybeMultiLang } from "./types";
 
+/** Resolve a Salla multilanguage field to one render-safe string. */
+export function localizedString(
+  val: MaybeMultiLang,
+  language: "ar" | "en"
+): string {
+  if (typeof val === "string") return val;
+  if (!val || typeof val !== "object") return "";
+
+  const resolved = val[language] || val.ar || val.en || "";
+  return typeof resolved === "string" ? resolved.trim() : "";
+}
+
 /** Convert Arabic-Indic / Eastern-Arabic digits to Latin for parsing. */
 export function toLatinDigits(s: string): string {
   return s
@@ -78,11 +90,9 @@ export class GrowthElement extends LitElement {
       : "ar";
   }
 
-  /** Pull the right string out of a multilang value. */
-  protected _t(val: MaybeMultiLang): string {
-    if (!val) return "";
-    if (typeof val === "string") return val;
-    return (val[this._lang()] || val.ar || val.en || "").trim();
+  /** Pull the store-language string out of a Salla multilanguage value. */
+  protected localizedString(val: MaybeMultiLang): string {
+    return localizedString(val, this._lang());
   }
 
   /** Dropdown-list values from settings may come as [{ label, value }]. */

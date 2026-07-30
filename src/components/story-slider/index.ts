@@ -551,9 +551,10 @@ export default class GrowthStorySlider extends GrowthElement {
 
     const hostStyle = this._buildHostStyle(c);
 
-    const sectionTitle = this._t(c.section_title);
-    const sectionSubtitle = this._t(c.section_subtitle);
-    const defaultCtaLabel = this._t(c.default_cta_label) || "تسوّق الآن";
+    const sectionTitle = this.localizedString(c.section_title);
+    const sectionSubtitle = this.localizedString(c.section_subtitle);
+    const defaultCtaLabel =
+      this.localizedString(c.default_cta_label) || "تسوّق الآن";
 
     if (slides.length === 0) {
       return html`
@@ -693,14 +694,17 @@ export default class GrowthStorySlider extends GrowthElement {
               // `image_desktop` is an optional larger/wider override for ≥768px.
               const baseSrc = slide.image || "";
               const desktopSrc = slide.image_desktop || baseSrc;
-              const title = this._t(slide.title);
-              const alt = title || `slide ${i + 1}`;
-              const desc = this._t(slide.description);
-              const eyebrow = this._t(slide.eyebrow);
-              const badge = this._t(slide.badge);
+              const localizedTitle = this.localizedString(slide.title);
+              const alt = localizedTitle || `slide ${i + 1}`;
+              const localizedDescription = this.localizedString(
+                slide.description
+              );
+              const localizedEyebrow = this.localizedString(slide.eyebrow);
+              const localizedBadge = this.localizedString(slide.badge);
               const ctaHref = this._resolveLink(slide);
               const ctaLabel =
-                this._t(slide.cta_label) || (ctaHref ? defaultCtaLabel : "");
+                this.localizedString(slide.cta_label) ||
+                (ctaHref ? defaultCtaLabel : "");
               const slideStyle = slide.text_color
                 ? `--ss-slide-title-color: ${slide.text_color}; --ss-slide-text-color: ${slide.text_color};`
                 : "";
@@ -749,19 +753,19 @@ export default class GrowthStorySlider extends GrowthElement {
                         `}
                   </div>
                   <div class="ss-scrim"></div>
-                  ${badge
-                    ? html`<span class="ss-badge">${badge}</span>`
+                  ${localizedBadge
+                    ? html`<span class="ss-badge">${localizedBadge}</span>`
                     : nothing}
                   <div class="ss-content">
                     <div class="ss-content-inner">
-                      ${eyebrow
-                        ? html`<p class="ss-eyebrow">${eyebrow}</p>`
+                      ${localizedEyebrow
+                        ? html`<p class="ss-eyebrow">${localizedEyebrow}</p>`
                         : nothing}
-                      ${title
-                        ? html`<h3 class="ss-title">${title}</h3>`
+                      ${localizedTitle
+                        ? html`<h3 class="ss-title">${localizedTitle}</h3>`
                         : nothing}
-                      ${desc
-                        ? html`<p class="ss-desc">${desc}</p>`
+                      ${localizedDescription
+                        ? html`<p class="ss-desc">${localizedDescription}</p>`
                         : nothing}
                       ${ctaHref && ctaLabel
                         ? html`

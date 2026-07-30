@@ -75,7 +75,9 @@ export default class GrowthInteractiveProduct extends GrowthElement {
       (h) =>
         !!h &&
         typeof h === "object" &&
-        (!!h.image || !!this._t(h.title) || !!this._t(h.description))
+        (!!h.image ||
+          !!this.localizedString(h.title) ||
+          !!this.localizedString(h.description))
     );
   }
 
@@ -250,9 +252,9 @@ export default class GrowthInteractiveProduct extends GrowthElement {
 
     const hostStyle = this._buildHostStyle(c, detailAspect);
 
-    const eyebrow = this._t(c.eyebrow);
-    const title = this._t(c.section_title);
-    const subtitle = this._t(c.section_subtitle);
+    const localizedEyebrow = this.localizedString(c.eyebrow);
+    const localizedSectionTitle = this.localizedString(c.section_title);
+    const localizedSectionSubtitle = this.localizedString(c.section_subtitle);
 
     const image = (c.product_image || "").trim();
     const hotspots = this._hotspots();
@@ -270,12 +272,16 @@ export default class GrowthInteractiveProduct extends GrowthElement {
     }
 
     const header =
-      eyebrow || title || subtitle
+      localizedEyebrow || localizedSectionTitle || localizedSectionSubtitle
         ? html`<header class="ip-header">
-            ${eyebrow ? html`<p class="ip-eyebrow">${eyebrow}</p>` : nothing}
-            ${title ? html`<h2 class="ip-title">${title}</h2>` : nothing}
-            ${subtitle
-              ? html`<p class="ip-subtitle">${subtitle}</p>`
+            ${localizedEyebrow
+              ? html`<p class="ip-eyebrow">${localizedEyebrow}</p>`
+              : nothing}
+            ${localizedSectionTitle
+              ? html`<h2 class="ip-title">${localizedSectionTitle}</h2>`
+              : nothing}
+            ${localizedSectionSubtitle
+              ? html`<p class="ip-subtitle">${localizedSectionSubtitle}</p>`
               : nothing}
           </header>`
         : nothing;
@@ -293,7 +299,8 @@ export default class GrowthInteractiveProduct extends GrowthElement {
         data-pulse=${pulse ? "on" : "off"}
         data-enter=${enterState}
         style=${hostStyle}
-        aria-label=${title || (ar ? "مميزات المنتج" : "Product features")}
+        aria-label=${localizedSectionTitle ||
+        (ar ? "مميزات المنتج" : "Product features")}
         @pointerenter=${this._pauseInteraction}
         @pointerleave=${this._resumeInteraction}
         @focusin=${this._pauseInteraction}
@@ -332,7 +339,9 @@ export default class GrowthInteractiveProduct extends GrowthElement {
           ${image
             ? hotspots.map((h, i) => {
                 const { x, y } = this._pos(h, i);
-                const label = this._t(h.title) || `${ar ? "ميزة" : "Feature"} ${i + 1}`;
+                const label =
+                  this.localizedString(h.title) ||
+                  `${ar ? "ميزة" : "Feature"} ${i + 1}`;
                 return html`<button
                   type="button"
                   class="ip-hotspot"
@@ -363,8 +372,10 @@ export default class GrowthInteractiveProduct extends GrowthElement {
       "4/3"
     );
     const img = activeHotspot?.image || "";
-    const title = this._t(activeHotspot?.title);
-    const desc = this._t(activeHotspot?.description);
+    const localizedTitle = this.localizedString(activeHotspot?.title);
+    const localizedDescription = this.localizedString(
+      activeHotspot?.description
+    );
 
     return html`
       <aside class="ip-details" aria-live="polite">
@@ -377,16 +388,16 @@ export default class GrowthInteractiveProduct extends GrowthElement {
             ? html`<img
                 class="ip-detail-img is-enter"
                 src=${img}
-                alt=${title || (ar ? "صورة الميزة" : "Feature image")}
+                alt=${localizedTitle || (ar ? "صورة الميزة" : "Feature image")}
                 loading="lazy"
               />`
             : nothing}
         </div>
-        ${title
-          ? html`<h3 class="ip-detail-title is-enter">${title}</h3>`
+        ${localizedTitle
+          ? html`<h3 class="ip-detail-title is-enter">${localizedTitle}</h3>`
           : nothing}
-        ${desc
-          ? html`<p class="ip-detail-desc is-enter">${desc}</p>`
+        ${localizedDescription
+          ? html`<p class="ip-detail-desc is-enter">${localizedDescription}</p>`
           : nothing}
         ${showPills && hotspots.length > 1
           ? html`<div class="ip-pills">
@@ -396,7 +407,7 @@ export default class GrowthInteractiveProduct extends GrowthElement {
                   class="ip-pill"
                   data-active=${i === active ? "true" : "false"}
                   aria-pressed=${i === active ? "true" : "false"}
-                  aria-label=${this._t(h.title) ||
+                  aria-label=${this.localizedString(h.title) ||
                   `${ar ? "ميزة رقم" : "Feature"} ${i + 1}`}
                   @click=${() => this._setActive(i)}
                 >

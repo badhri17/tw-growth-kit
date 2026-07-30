@@ -106,6 +106,6 @@ export interface InteractiveTextConfig {
 
 /** A run of title text, flagged when it falls inside the highlight match. */
 export interface TextSegment {
-  text: string;
+  value: string;
   hl: boolean;
 }
