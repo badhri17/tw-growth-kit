@@ -27,6 +27,7 @@ pnpm-debug.log*
 *.ntvs*
 *.njsproj
 *.sln
+.claude/
 
 # OS
 .DS_Store
