@@ -1,10 +1,10 @@
-import { LitElement as V, css as O, html as o, nothing as n } from "lit";
+import { LitElement as V, css as O, html as o, nothing as r } from "lit";
 import { property as U, state as f } from "lit/decorators.js";
 function q(c, t) {
   if (typeof c == "string") return c;
   if (!c || typeof c != "object") return "";
-  const a = c[t] || c.ar || c.en || "";
-  return typeof a == "string" ? a.trim() : "";
+  const e = c[t] || c.ar || c.en || "";
+  return typeof e == "string" ? e.trim() : "";
 }
 function Y(c) {
   return c.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
@@ -17,10 +17,10 @@ class E extends V {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = e.includes("-") ? e : `salla-${e || "component"}`, s = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, l = () => {
-      var r;
-      const d = (r = window.Salla) == null ? void 0 : r.bundles;
-      return d && typeof d.registerComponent == "function" ? (d.registerComponent(a, {
+    const e = String(t || "").trim(), a = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = a.includes("-") ? a : `salla-${a || "component"}`, s = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, l = () => {
+      var n;
+      const d = (n = window.Salla) == null ? void 0 : n.bundles;
+      return d && typeof d.registerComponent == "function" ? (d.registerComponent(e, {
         component: this,
         dynamicTagName: s()
       }), !0) : !1;
@@ -40,14 +40,14 @@ class E extends V {
     return q(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
-  _pickValue(t, a) {
+  _pickValue(t, e) {
     if (typeof t == "string" && t) return t;
     if (Array.isArray(t) && t.length > 0) {
-      const e = t[0];
-      if (e && typeof e.value == "string" && e.value)
-        return e.value;
+      const a = t[0];
+      if (a && typeof a.value == "string" && a.value)
+        return a.value;
     }
-    return a;
+    return e;
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
@@ -55,17 +55,17 @@ class E extends V {
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
-  _num(t, a) {
+  _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(Y(t.trim()));
-      if (!Number.isNaN(e)) return e;
+      const a = Number(Y(t.trim()));
+      if (!Number.isNaN(a)) return a;
     }
     if (Array.isArray(t) && t.length > 0) {
-      const e = t[0];
-      if ((e == null ? void 0 : e.value) !== void 0) return this._num(e.value, a);
+      const a = t[0];
+      if ((a == null ? void 0 : a.value) !== void 0) return this._num(a.value, e);
     }
-    return a;
+    return e;
   }
 }
 const W = O`
@@ -893,46 +893,58 @@ const W = O`
     }
   }
 `;
-var F = Object.defineProperty, m = (c, t, a, e) => {
+var F = Object.defineProperty, m = (c, t, e, a) => {
   for (var i = void 0, s = c.length - 1, l; s >= 0; s--)
-    (l = c[s]) && (i = l(t, a, i) || i);
-  return i && F(t, a, i), i;
+    (l = c[s]) && (i = l(t, e, i) || i);
+  return i && F(t, e, i), i;
 };
-const P = class P extends E {
+const A = class A extends E {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._animState = "ready", this._captionState = "in", this._bagLeavingIndex = null, this._bagNavigated = !1, this._bagProdRatio = null, this._bagImgRatio = null, this._autoplayTimer = null, this._captionTimer = null, this._hoverPaused = !1, this._hasInitializedActive = !1, this._inView = !0, this._io = null, this._swipeStartX = null, this._swipeStartY = null, this._swipeActive = !1, this._prevDiff = /* @__PURE__ */ new Map(), this._goPrev = () => {
       var i;
       const t = this._slides().length;
       if (t <= 1) return;
-      const a = ((i = this.config) == null ? void 0 : i.loop) !== !1;
-      let e = this._activeIndex - 1;
-      e < 0 && (e = a ? t - 1 : 0), this._changeActive(e);
+      const e = ((i = this.config) == null ? void 0 : i.loop) !== !1;
+      let a = this._activeIndex - 1;
+      a < 0 && (a = e ? t - 1 : 0), this._changeActive(a);
     }, this._goNext = () => {
       var i;
       const t = this._slides().length;
       if (t <= 1) return;
-      const a = ((i = this.config) == null ? void 0 : i.loop) !== !1;
-      let e = this._activeIndex + 1;
-      e >= t && (e = a ? 0 : t - 1), this._changeActive(e);
+      const e = ((i = this.config) == null ? void 0 : i.loop) !== !1;
+      let a = this._activeIndex + 1;
+      a >= t && (a = e ? 0 : t - 1), this._changeActive(a);
     }, this._goTo = (t) => {
-      const a = this._slides().length;
-      t < 0 || t >= a || this._changeActive(t);
+      const e = this._slides().length;
+      t < 0 || t >= e || this._changeActive(t);
     }, this._onSlideClick = (t) => {
       if (this._swipeActive) return;
-      const a = t.currentTarget;
-      if (!a || a.dataset.pos === "active") return;
-      const e = Number(a.dataset.index);
-      Number.isInteger(e) && this._goTo(e);
+      const e = t.currentTarget;
+      if (!e || e.dataset.pos === "active") return;
+      const a = Number(e.dataset.index);
+      Number.isInteger(a) && this._goTo(a);
     }, this._onPointerDown = (t) => {
-      this._slides().length <= 1 || (this._swipeStartX = t.clientX, this._swipeStartY = t.clientY, this._swipeActive = !1);
+      var e;
+      if (!(this._slides().length <= 1)) {
+        try {
+          (e = t.currentTarget) == null || e.setPointerCapture(t.pointerId);
+        } catch {
+        }
+        this._swipeStartX = t.clientX, this._swipeStartY = t.clientY, this._swipeActive = !1;
+      }
     }, this._onPointerMove = (t) => {
       if (this._swipeStartX === null) return;
-      const a = t.clientX - this._swipeStartX, e = t.clientY - (this._swipeStartY ?? t.clientY);
-      !this._swipeActive && Math.abs(a) > 10 && Math.abs(a) > Math.abs(e) && (this._swipeActive = !0);
+      const e = t.clientX - this._swipeStartX, a = t.clientY - (this._swipeStartY ?? t.clientY);
+      !this._swipeActive && Math.abs(e) > 10 && Math.abs(e) > Math.abs(a) && (this._swipeActive = !0);
     }, this._onPointerUp = (t) => {
+      try {
+        const i = t.currentTarget;
+        i != null && i.hasPointerCapture(t.pointerId) && i.releasePointerCapture(t.pointerId);
+      } catch {
+      }
       if (this._swipeStartX === null) return;
-      const a = t.clientX - this._swipeStartX, e = getComputedStyle(this).direction === "rtl";
-      this._swipeActive && Math.abs(a) > 40 && ((e ? a > 0 : a < 0) ? this._goNext() : this._goPrev()), this._swipeStartX = null, this._swipeStartY = null, window.setTimeout(() => {
+      const e = t.clientX - this._swipeStartX, a = getComputedStyle(this).direction === "rtl";
+      this._swipeActive && Math.abs(e) > 40 && ((a ? e > 0 : e < 0) ? this._goNext() : this._goPrev()), this._swipeStartX = null, this._swipeStartY = null, window.setTimeout(() => {
         this._swipeActive = !1;
       }, 50);
     }, this._onHoverIn = () => {
@@ -952,9 +964,9 @@ const P = class P extends E {
     );
   }
   _slides() {
-    var a;
-    const t = (a = this.config) == null ? void 0 : a.slides;
-    return Array.isArray(t) ? t.filter((e) => !e || typeof e != "object" ? !1 : !!(e.image || e.image_opened || e.link)) : [];
+    var e;
+    const t = (e = this.config) == null ? void 0 : e.slides;
+    return Array.isArray(t) ? t.filter((a) => !a || typeof a != "object" ? !1 : !!(a.image || a.image_opened || a.link)) : [];
   }
   // ------------------------------------------------------------
   // Link resolution
@@ -966,12 +978,12 @@ const P = class P extends E {
   // single-item array wrapping either — and we treat "" / "#" as "no link".
   // ------------------------------------------------------------
   _resolveLink(t) {
-    const a = t.link;
-    if (!a) return "";
-    const e = Array.isArray(a) ? a[0] : a;
+    const e = t.link;
     if (!e) return "";
-    const s = (typeof e == "string" ? e : typeof e == "object" ? String(
-      e.url ?? e.value ?? ""
+    const a = Array.isArray(e) ? e[0] : e;
+    if (!a) return "";
+    const s = (typeof a == "string" ? a : typeof a == "object" ? String(
+      a.url ?? a.value ?? ""
     ) : "").trim();
     return s && s !== "#" ? s : "";
   }
@@ -979,12 +991,12 @@ const P = class P extends E {
   // Lifecycle
   // ------------------------------------------------------------
   connectedCallback() {
-    var e;
+    var a;
     super.connectedCallback();
     const t = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
-    ).matches, a = ((e = this.config) == null ? void 0 : e.enable_entrance_anim) === !1;
-    t || a ? this._animState = "in" : requestAnimationFrame(() => {
+    ).matches, e = ((a = this.config) == null ? void 0 : a.enable_entrance_anim) === !1;
+    t || e ? this._animState = "in" : requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this._animState = "in";
       });
@@ -1001,19 +1013,19 @@ const P = class P extends E {
     super.disconnectedCallback(), this._teardownAutoplay(), (t = this._io) == null || t.disconnect(), this._io = null, this._captionTimer && (clearTimeout(this._captionTimer), this._captionTimer = null);
   }
   willUpdate(t) {
-    var e;
+    var a;
     if (!t.has("config")) return;
-    const a = this._slides();
-    if (!this._hasInitializedActive && a.length > 0) {
-      const i = this._num((e = this.config) == null ? void 0 : e.initial_slide, NaN), s = this._displayMode() === "bag" ? 0 : Math.floor(a.length / 2), l = Number.isNaN(i) ? s : Math.max(0, Math.min(a.length - 1, Math.round(i) - 1));
+    const e = this._slides();
+    if (!this._hasInitializedActive && e.length > 0) {
+      const i = this._num((a = this.config) == null ? void 0 : a.initial_slide, NaN), s = this._displayMode() === "bag" ? 0 : Math.floor(e.length / 2), l = Number.isNaN(i) ? s : Math.max(0, Math.min(e.length - 1, Math.round(i) - 1));
       this._activeIndex = l, this._hasInitializedActive = !0;
-    } else this._activeIndex >= a.length && (this._activeIndex = Math.max(0, a.length - 1));
+    } else this._activeIndex >= e.length && (this._activeIndex = Math.max(0, e.length - 1));
     this._teardownAutoplay(), this._setupAutoplay();
   }
   updated() {
     const t = this._slides().length;
     this._prevDiff.clear();
-    for (let a = 0; a < t; a++) this._prevDiff.set(a, this._wrappedDiff(a));
+    for (let e = 0; e < t; e++) this._prevDiff.set(e, this._wrappedDiff(e));
     this._displayMode() === "bag" && this._measureBagImages();
   }
   /**
@@ -1025,15 +1037,15 @@ const P = class P extends E {
   _measureBagImages() {
     const t = this.shadowRoot;
     if (!t) return;
-    const a = (r) => r.naturalWidth > 0 ? r.naturalHeight / r.naturalWidth : (r.dataset.measureHooked || (r.dataset.measureHooked = "1", r.addEventListener("load", () => this.requestUpdate(), {
+    const e = (n) => n.naturalWidth > 0 ? n.naturalHeight / n.naturalWidth : (n.dataset.measureHooked || (n.dataset.measureHooked = "1", n.addEventListener("load", () => this.requestUpdate(), {
       once: !0
     })), 0);
-    let e = 0;
-    for (const r of t.querySelectorAll(
+    let a = 0;
+    for (const n of t.querySelectorAll(
       ".col-bag-slide img"
     ))
-      e = Math.max(e, a(r));
-    const i = t.querySelector(".col-bag-img"), s = i ? a(i) : 0, l = (r) => Math.round(r * 100) / 100, h = e > 0 ? l(e) : null, d = s > 0 ? l(s) : null;
+      a = Math.max(a, e(n));
+    const i = t.querySelector(".col-bag-img"), s = i ? e(i) : 0, l = (n) => Math.round(n * 100) / 100, h = a > 0 ? l(a) : null, d = s > 0 ? l(s) : null;
     h !== this._bagProdRatio && (this._bagProdRatio = h), d !== this._bagImgRatio && (this._bagImgRatio = d);
   }
   // ------------------------------------------------------------
@@ -1042,10 +1054,10 @@ const P = class P extends E {
   _setupAutoplay() {
     const t = this.config || {};
     if (!t.autoplay || !this._inView || this._slides().length < 2) return;
-    const a = Math.max(1, this._num(t.autoplay_delay, 5));
+    const e = Math.max(1, this._num(t.autoplay_delay, 5));
     this._autoplayTimer = window.setInterval(() => {
       this._hoverPaused || this._swipeActive || this._goNext();
-    }, a * 1e3);
+    }, e * 1e3);
   }
   _teardownAutoplay() {
     this._autoplayTimer && (clearInterval(this._autoplayTimer), this._autoplayTimer = null);
@@ -1066,15 +1078,15 @@ const P = class P extends E {
       around the ring when looping (so slide 0 can sit just left of the last). */
   _wrappedDiff(t) {
     var i;
-    const a = this._slides().length;
-    if (a === 0) return 0;
-    let e = t - this._activeIndex;
-    return ((i = this.config) == null ? void 0 : i.loop) !== !1 && (e > a / 2 && (e -= a), e < -a / 2 && (e += a)), e;
+    const e = this._slides().length;
+    if (e === 0) return 0;
+    let a = t - this._activeIndex;
+    return ((i = this.config) == null ? void 0 : i.loop) !== !1 && (a > e / 2 && (a -= e), a < -e / 2 && (a += e)), a;
   }
   _slidePos(t) {
     if (this._slides().length === 0) return "hidden";
-    const a = this._wrappedDiff(t);
-    return a === 0 ? "active" : a === -1 ? "left" : a === 1 ? "right" : a === -2 ? "far-left" : a === 2 ? "far-right" : "hidden";
+    const e = this._wrappedDiff(t);
+    return e === 0 ? "active" : e === -1 ? "left" : e === 1 ? "right" : e === -2 ? "far-left" : e === 2 ? "far-right" : "hidden";
   }
   _isPrevDisabled() {
     var t;
@@ -1088,14 +1100,14 @@ const P = class P extends E {
   // Render helpers
   // ------------------------------------------------------------
   _slideImage(t) {
-    const a = t.image || void 0, e = t.image_opened || void 0, i = this.localizedString(t.title) || "";
-    return { closed: a, opened: e, alt: i };
+    const e = t.image || void 0, a = t.image_opened || void 0, i = this.localizedString(t.title) || "";
+    return { closed: e, opened: a, alt: i };
   }
   // ------------------------------------------------------------
   // Render
   // ------------------------------------------------------------
   render() {
-    const t = this.config || {}, a = this._slides(), e = this._displayMode(), i = this._pickValue(t.use_case, "home"), s = this._pickValue(
+    const t = this.config || {}, e = this._slides(), a = this._displayMode(), i = this._pickValue(t.use_case, "home"), s = this._pickValue(
       t.slide_animation,
       "simple"
     ), l = this._pickValue(t.aspect_ratio, "1/1"), h = this._pickValue(
@@ -1103,7 +1115,7 @@ const P = class P extends E {
       "coverflow"
     ), d = this.localizedString(
       t.section_title ?? t.title
-    ), r = t.show_caption !== !1, w = i === "home" && t.show_cta !== !1, y = this.localizedString(t.default_cta_label) || "تسوّق الآن", $ = t.show_nav_buttons !== !1, _ = !!t.show_pagination, g = t.enable_entrance_anim !== !1, k = this._num(t.card_radius, 20), x = [
+    ), n = t.show_caption !== !1, w = i === "home" && t.show_cta !== !1, y = this.localizedString(t.default_cta_label) || "تسوّق الآن", $ = t.show_nav_buttons !== !1, _ = !!t.show_pagination, g = t.enable_entrance_anim !== !1, k = this._num(t.card_radius, 20), x = [
       t.bg_color ? `--col-bg: ${t.bg_color}` : "",
       t.title_color ? `--col-title-color: ${t.title_color}` : "",
       t.caption_title_color ? `--col-caption-title-color: ${t.caption_title_color}` : "",
@@ -1117,20 +1129,20 @@ const P = class P extends E {
       t.bag_circle_color ? `--bag-circle-color: ${t.bag_circle_color}` : "",
       `--col-aspect: ${l}`
     ].filter(Boolean).join("; ");
-    if (a.length === 0)
+    if (e.length === 0)
       return o`
         <section class="col-empty" style=${x}>
           <p>أضف صورة واحدة على الأقل لكل شريحة للبدء.</p>
         </section>
       `;
-    const v = a.length === 1, M = "m9 6 6 6-6 6", B = "M5 12h14M13 6l6 6-6 6", u = a[this._activeIndex], S = u ? this.localizedString(u.title) : "", z = u ? this.localizedString(u.description) : "", I = u ? this._resolveLink(u) : "", T = u && this.localizedString(u.cta_label) || y, N = !!(r && (S || z));
-    return e === "bag" ? this._renderBag(t, a, {
+    const v = e.length === 1, C = "m9 6 6 6-6 6", B = "M5 12h14M13 6l6 6-6 6", u = e[this._activeIndex], S = u ? this.localizedString(u.title) : "", z = u ? this.localizedString(u.description) : "", I = u ? this._resolveLink(u) : "", T = u && this.localizedString(u.cta_label) || y, M = !!(n && (S || z));
+    return a === "bag" ? this._renderBag(t, e, {
       hostStyle: x,
       sectionTitle: d,
       enableAnim: g,
       showNav: $,
       showDots: _,
-      hasCaption: N,
+      hasCaption: M,
       activeTitle: S,
       activeDesc: z,
       showCta: w,
@@ -1154,7 +1166,7 @@ const P = class P extends E {
               >
                 <h2 class="col-title">${d}</h2>
               </div>
-            ` : n}
+            ` : r}
 
         <div
           class="col-stage"
@@ -1164,14 +1176,14 @@ const P = class P extends E {
           @pointercancel=${this._onPointerUp}
         >
           <div class="col-track">
-            ${a.map((C, b) => {
-      const L = this._wrappedDiff(b), Z = this._slidePos(b), D = this._prevDiff.get(b), j = D !== void 0 && Math.abs(L - D) > a.length / 2, { closed: X, opened: A, alt: R } = this._slideImage(C), H = !A || s !== "reveal";
+            ${e.map((N, b) => {
+      const L = this._wrappedDiff(b), Z = this._slidePos(b), D = this._prevDiff.get(b), j = D !== void 0 && Math.abs(L - D) > e.length / 2, { closed: X, opened: P, alt: R } = this._slideImage(N), H = !P || s !== "reveal";
       return o`
                 <div
                   class="col-slide"
                   data-pos=${Z}
                   data-index=${b}
-                  data-instant=${j ? "" : n}
+                  data-instant=${j ? "" : r}
                   @click=${this._onSlideClick}
                 >
                   <div
@@ -1183,14 +1195,14 @@ const P = class P extends E {
                           alt=${R}
                           loading="lazy"
                           draggable="false"
-                        />` : n}
-                    ${s === "reveal" && A ? o`<img
+                        />` : r}
+                    ${s === "reveal" && P ? o`<img
                           class="col-img-opened"
-                          src=${A}
+                          src=${P}
                           alt=${R}
                           loading="lazy"
                           draggable="false"
-                        />` : n}
+                        />` : r}
                   </div>
                 </div>
               `;
@@ -1206,7 +1218,7 @@ const P = class P extends E {
                   aria-label="Previous"
                 >
                   <svg viewBox="0 0 24 24">
-                    <path d=${M} />
+                    <path d=${C} />
                   </svg>
                 </button>
                 <button
@@ -1217,18 +1229,18 @@ const P = class P extends E {
                   aria-label="Next"
                 >
                   <svg viewBox="0 0 24 24">
-                    <path d=${M} />
+                    <path d=${C} />
                   </svg>
                 </button>
-              ` : n}
+              ` : r}
         </div>
 
-        ${N ? o`
+        ${M ? o`
               <div class="col-caption" data-state=${this._captionState}>
-                ${S ? o`<h3 class="col-caption__title">${S}</h3>` : n}
-                ${z ? o`<p class="col-caption__desc">${z}</p>` : n}
+                ${S ? o`<h3 class="col-caption__title">${S}</h3>` : r}
+                ${z ? o`<p class="col-caption__desc">${z}</p>` : r}
               </div>
-            ` : n}
+            ` : r}
         ${w && I ? o`
               <div class="col-cta-wrap">
                 <a
@@ -1242,12 +1254,12 @@ const P = class P extends E {
                   </svg>
                 </a>
               </div>
-            ` : n}
+            ` : r}
 
         ${!v && _ ? o`
               <div class="col-dots" role="tablist">
-                ${a.map(
-      (C, b) => o`
+                ${e.map(
+      (N, b) => o`
                     <button
                       class="col-dot"
                       type="button"
@@ -1258,7 +1270,7 @@ const P = class P extends E {
                   `
     )}
               </div>
-            ` : n}
+            ` : r}
       </section>
     `;
   }
@@ -1268,12 +1280,12 @@ const P = class P extends E {
    * navigation the new product rises out of the bag while the previous one
    * sinks back in. Products need transparent (PNG/WebP) images to sell it.
    */
-  _renderBag(t, a, e) {
+  _renderBag(t, e, a) {
     const i = typeof t.bag_image == "string" ? t.bag_image.trim() : "", s = this._pickValue(t.bag_size, "medium"), l = this._pickValue(
       t.bag_product_size,
       "medium"
-    ), h = this.localizedString(t.bag_bottom_title), d = a.length === 1, r = "M18 15l-6-6-6 6", w = "M6 9l6 6 6-6", y = "M5 12h14M13 6l6 6-6 6", $ = [
-      e.hostStyle,
+    ), h = this.localizedString(t.bag_bottom_title), d = e.length === 1, n = "M18 15l-6-6-6 6", w = "M6 9l6 6 6-6", y = "M5 12h14M13 6l6 6-6 6", $ = [
+      a.hostStyle,
       this._bagProdRatio !== null ? `--bag-prod-ratio: ${this._bagProdRatio}` : "",
       this._bagImgRatio !== null ? `--bag-ratio: ${this._bagImgRatio}` : ""
     ].filter(Boolean).join("; ");
@@ -1286,20 +1298,20 @@ const P = class P extends E {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${e.sectionTitle ? o`
+        ${a.sectionTitle ? o`
               <div
                 class="col-header"
-                data-anim=${e.enableAnim ? this._animState : "in"}
+                data-anim=${a.enableAnim ? this._animState : "in"}
               >
-                <h2 class="col-title">${e.sectionTitle}</h2>
+                <h2 class="col-title">${a.sectionTitle}</h2>
               </div>
-            ` : n}
-        ${e.hasCaption ? o`
+            ` : r}
+        ${a.hasCaption ? o`
               <div class="col-caption" data-state=${this._captionState}>
-                ${e.activeTitle ? o`<h3 class="col-caption__title">${e.activeTitle}</h3>` : n}
-                ${e.activeDesc ? o`<p class="col-caption__desc">${e.activeDesc}</p>` : n}
+                ${a.activeTitle ? o`<h3 class="col-caption__title">${a.activeTitle}</h3>` : r}
+                ${a.activeDesc ? o`<p class="col-caption__desc">${a.activeDesc}</p>` : r}
               </div>
-            ` : n}
+            ` : r}
 
         <div
           class="col-bag-stage"
@@ -1312,7 +1324,7 @@ const P = class P extends E {
           <div class="col-bag-fog" aria-hidden="true"></div>
 
           <div class="col-bag-layer">
-            ${a.map((_, g) => {
+            ${e.map((_, g) => {
       const { closed: k, alt: x } = this._slideImage(_);
       let v = "hidden";
       return g === this._activeIndex ? v = this._bagNavigated ? "rising" : "active" : g === this._bagLeavingIndex && (v = "sinking"), o`
@@ -1322,7 +1334,7 @@ const P = class P extends E {
                         alt=${x}
                         loading="lazy"
                         draggable="false"
-                      />` : n}
+                      />` : r}
                 </div>
               `;
     })}
@@ -1334,8 +1346,8 @@ const P = class P extends E {
                 alt=""
                 aria-hidden="true"
                 draggable="false"
-              />` : n}
-          ${!d && e.showNav ? o`
+              />` : r}
+          ${!d && a.showNav ? o`
                 <button
                   class="col-bag-nav col-bag-nav--up"
                   type="button"
@@ -1343,7 +1355,7 @@ const P = class P extends E {
                   ?disabled=${this._isNextDisabled()}
                   aria-label="Next"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${r} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${n} /></svg>
                 </button>
                 <button
                   class="col-bag-nav col-bag-nav--down"
@@ -1354,27 +1366,27 @@ const P = class P extends E {
                 >
                   <svg viewBox="0 0 24 24"><path d=${w} /></svg>
                 </button>
-              ` : n}
+              ` : r}
         </div>
 
-        ${h ? o`<div class="col-bag-bottom">${h}</div>` : n}
-        ${e.showCta && e.activeCtaHref ? o`
+        ${h ? o`<div class="col-bag-bottom">${h}</div>` : r}
+        ${a.showCta && a.activeCtaHref ? o`
               <div class="col-cta-wrap">
                 <a
                   class="col-cta"
-                  href=${e.activeCtaHref}
-                  aria-label=${e.activeCtaLabel}
+                  href=${a.activeCtaHref}
+                  aria-label=${a.activeCtaLabel}
                 >
-                  <span>${e.activeCtaLabel}</span>
+                  <span>${a.activeCtaLabel}</span>
                   <svg viewBox="0 0 24 24">
                     <path d=${y} />
                   </svg>
                 </a>
               </div>
-            ` : n}
-        ${!d && e.showDots ? o`
+            ` : r}
+        ${!d && a.showDots ? o`
               <div class="col-dots" role="tablist">
-                ${a.map(
+                ${e.map(
       (_, g) => o`
                     <button
                       class="col-dot"
@@ -1386,13 +1398,13 @@ const P = class P extends E {
                   `
     )}
               </div>
-            ` : n}
+            ` : r}
       </section>
     `;
   }
 };
-P.styles = W;
-let p = P;
+A.styles = W;
+let p = A;
 m([
   U({ type: Object })
 ], p.prototype, "config");

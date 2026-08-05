@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { GrowthElement } from "../../shared/growth-element";
 import type {
   HeroConfig,
@@ -55,6 +56,8 @@ export default class GrowthHero extends GrowthElement {
   /** Polls for autoplay-blocked videos (Safari Low Power Mode). */
   private _autoplayCheckTimer: number | null = null;
   private _io: IntersectionObserver | null = null;
+  /** Whether the hero is on-screen — gates parallax + the Ken Burns animation. */
+  private _inView = true;
   private _rafId: number | null = null;
   private _onScroll?: () => void;
   private _mql?: MediaQueryList;
@@ -211,14 +214,36 @@ export default class GrowthHero extends GrowthElement {
       this._videoFailed = false;
     };
     this._mql.addEventListener("change", this._onMqlChange);
+
+    // Ken Burns is a 24s infinite animation and parallax runs off scroll — both
+    // keep burning compositor time long after the hero has scrolled away. Mirror
+    // the `out-of-view` attribute so CSS can pause the animation, and skip the
+    // parallax work entirely while off-screen.
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this._inView = ent.isIntersecting;
+          this.toggleAttribute("out-of-view", !this._inView);
+        },
+        { threshold: 0 }
+      );
+      this._io.observe(this);
+    }
   }
 
   firstUpdated() {
     // _setupVideo() is handled by updated() via src-change detection (first + subsequent).
-    this._setupParallax();
+    // Parallax is handled by updated() too — see _syncParallax().
   }
 
   updated() {
+    // Salla injects `config` as a property, which may land after the first
+    // render. Re-evaluate every cycle so a late config still wires parallax
+    // (and un-wires it if the merchant turns the toggle off).
+    this._syncParallax();
+
     const v = this.renderRoot.querySelector("video") as HTMLVideoElement | null;
     if (!v) {
       this._videoEl = null;
@@ -347,16 +372,35 @@ export default class GrowthHero extends GrowthElement {
   // Parallax: subtle Y-transform tied to scroll, throttled via rAF.
   // ------------------------------------------------------------
 
-  private _setupParallax() {
-    if (!this.config?.enable_parallax) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  /**
+   * Idempotent parallax wiring. Called from updated() so it survives a config
+   * that arrives after the first render, and tears down if the toggle flips off.
+   */
+  private _syncParallax() {
+    const wanted =
+      !!this.config?.enable_parallax &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (wanted === !!this._onScroll) return;
+    if (wanted) this._setupParallax();
+    else this._teardownParallax();
+  }
 
+  private _teardownParallax() {
+    if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
+    this._onScroll = undefined;
+    if (this._rafId) {
+      cancelAnimationFrame(this._rafId);
+      this._rafId = null;
+    }
+  }
+
+  private _setupParallax() {
     const bg = this.renderRoot.querySelector(".bg") as HTMLElement | null;
     if (!bg) return;
 
     let ticking = false;
     this._onScroll = () => {
-      if (ticking) return;
+      if (ticking || !this._inView) return;
       ticking = true;
       this._rafId = requestAnimationFrame(() => {
         const rect = this.getBoundingClientRect();
@@ -375,8 +419,7 @@ export default class GrowthHero extends GrowthElement {
   private _teardown() {
     if (this._fallbackTimer) clearTimeout(this._fallbackTimer);
     if (this._autoplayCheckTimer) clearTimeout(this._autoplayCheckTimer);
-    if (this._rafId) cancelAnimationFrame(this._rafId);
-    if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
+    this._teardownParallax();
     this._io?.disconnect();
     this._io = null;
     this._videoEl = null;
@@ -479,7 +522,7 @@ export default class GrowthHero extends GrowthElement {
             ? html`
                 <video
                   src=${this._currentVideoUrl()}
-                  poster=${this._currentImageUrl() || ""}
+                  poster=${ifDefined(this._currentImageUrl() || undefined)}
                   ?autoplay=${c.video_autoplay !== false}
                   ?loop=${c.video_loop !== false}
                   ?muted=${c.video_muted !== false}
@@ -496,7 +539,9 @@ export default class GrowthHero extends GrowthElement {
                     ? html`<source media="(min-width: 768px)" srcset=${c.background_image_desktop}>`
                     : nothing}
                   <img
-                    src=${c.background_image || ""}
+                    src=${ifDefined(
+                      c.background_image || c.background_image_desktop || undefined
+                    )}
                     alt=""
                     loading="eager"
                     fetchpriority="high"

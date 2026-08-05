@@ -134,7 +134,23 @@ export default class GrowthFeaturedProduct extends GrowthElement {
         });
       });
     }
+
+    // The floating "bob" is an infinite animation — mirror an `out-of-view`
+    // attribute so CSS can park it once the section scrolls away.
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this.toggleAttribute("out-of-view", !ent.isIntersecting);
+        },
+        { threshold: 0 }
+      );
+      this._io.observe(this);
+    }
   }
+
+  private _io: IntersectionObserver | null = null;
 
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -142,6 +158,12 @@ export default class GrowthFeaturedProduct extends GrowthElement {
       clearTimeout(this._cartResetTimer);
       this._cartResetTimer = null;
     }
+    if (this._tiltRaf !== null) {
+      cancelAnimationFrame(this._tiltRaf);
+      this._tiltRaf = null;
+    }
+    this._io?.disconnect();
+    this._io = null;
   }
 
   willUpdate(changed: PropertyValues) {
@@ -153,31 +175,61 @@ export default class GrowthFeaturedProduct extends GrowthElement {
   // Pointer tilt (desktop, fine pointers, motion-allowed)
   // ------------------------------------------------------------
 
+  /** Hoisted so we don't allocate a MediaQueryList on every pointermove. */
+  private _reducedMotionMql?: MediaQueryList;
+  /** Media-box geometry, cached per gesture — see _onTiltMove. */
+  private _tiltRect: DOMRect | null = null;
+  private _tiltRaf: number | null = null;
+
   private _tiltAllowed(e: PointerEvent): boolean {
     // Check the actual event instead of the device's primary pointer. Hybrid
     // laptops often report `pointer: coarse` even while a mouse is in use.
-    return (
-      e.pointerType !== "touch" &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    );
+    if (e.pointerType === "touch") return false;
+    if (!this._reducedMotionMql)
+      this._reducedMotionMql = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      );
+    return !this._reducedMotionMql.matches;
   }
 
+  /**
+   * Tilt runs at pointer frequency (120 Hz+ on high-refresh screens), so both
+   * halves are kept off the critical path: the media box is measured once per
+   * gesture instead of per move, and the transform write is batched into a rAF.
+   * Reading getBoundingClientRect() straight after writing style.transform on
+   * every move forced a synchronous layout each time.
+   */
   private _onTiltMove = (e: PointerEvent) => {
     if (!this._tiltAllowed(e)) return;
     const media = e.currentTarget as HTMLElement;
     const inner = media.querySelector(".fp-media-inner") as HTMLElement | null;
     if (!inner) return;
-    const r = media.getBoundingClientRect();
+
+    if (!this._tiltRect) this._tiltRect = media.getBoundingClientRect();
+    const r = this._tiltRect;
     if (!r.width || !r.height) return;
+
     const px = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
     const py = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
     const max = 10;
-    inner.style.transform = `rotateY(${px * max}deg) rotateX(${
-      -py * max
-    }deg) scale3d(1.025, 1.025, 1.025)`;
+
+    if (this._tiltRaf !== null) cancelAnimationFrame(this._tiltRaf);
+    this._tiltRaf = requestAnimationFrame(() => {
+      this._tiltRaf = null;
+      inner.style.transform = `rotateY(${px * max}deg) rotateX(${
+        -py * max
+      }deg) scale3d(1.025, 1.025, 1.025)`;
+    });
   };
 
   private _onTiltLeave = (e: PointerEvent) => {
+    // Geometry may change between gestures (scroll, resize, layout shift) —
+    // drop the cache so the next gesture re-measures once.
+    this._tiltRect = null;
+    if (this._tiltRaf !== null) {
+      cancelAnimationFrame(this._tiltRaf);
+      this._tiltRaf = null;
+    }
     const media = e.currentTarget as HTMLElement;
     const inner = media.querySelector(".fp-media-inner") as HTMLElement | null;
     if (inner) inner.style.transform = "";

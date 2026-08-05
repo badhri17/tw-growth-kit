@@ -261,11 +261,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
       });
     }
 
-    // Global drag listeners — arrow-function fields keep refs stable for removal.
-    window.addEventListener("mousemove", this._onMove);
-    window.addEventListener("mouseup", this._onUp);
-    window.addEventListener("touchmove", this._onMove, { passive: false });
-    window.addEventListener("touchend", this._onUp);
+    // Drag listeners are NOT bound here — see _bindDragListeners().
 
     // Pause autoplay when scrolled out of view (saves CPU and prevents the
     // slider from racing on a long page).
@@ -294,10 +290,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
       clearTimeout(this._entranceFinishTimer);
       this._entranceFinishTimer = null;
     }
-    window.removeEventListener("mousemove", this._onMove);
-    window.removeEventListener("mouseup", this._onUp);
-    window.removeEventListener("touchmove", this._onMove);
-    window.removeEventListener("touchend", this._onUp);
+    this._unbindDragListeners();
   }
 
   willUpdate(changed: PropertyValues) {
@@ -421,12 +414,44 @@ export default class GrowthBeforeAfter extends GrowthElement {
   // Comparison-slider drag interaction (active slide only)
   // ------------------------------------------------------------
 
+  /**
+   * Window-level move/up listeners so a drag keeps tracking once the pointer
+   * leaves the card. Bound ONLY for the duration of a drag: `touchmove` has to
+   * be non-passive (we preventDefault to stop the page scrolling under the
+   * divider), and a non-passive touchmove listener sitting on `window`
+   * permanently would take the whole page off the browser's threaded-scrolling
+   * fast path — janking every scroll on the merchant's storefront, not just
+   * this section.
+   */
+  private _dragListenersBound = false;
+
+  private _bindDragListeners() {
+    if (this._dragListenersBound) return;
+    this._dragListenersBound = true;
+    window.addEventListener("mousemove", this._onMove);
+    window.addEventListener("mouseup", this._onUp);
+    window.addEventListener("touchmove", this._onMove, { passive: false });
+    window.addEventListener("touchend", this._onUp);
+    window.addEventListener("touchcancel", this._onUp);
+  }
+
+  private _unbindDragListeners() {
+    if (!this._dragListenersBound) return;
+    this._dragListenersBound = false;
+    window.removeEventListener("mousemove", this._onMove);
+    window.removeEventListener("mouseup", this._onUp);
+    window.removeEventListener("touchmove", this._onMove);
+    window.removeEventListener("touchend", this._onUp);
+    window.removeEventListener("touchcancel", this._onUp);
+  }
+
   private _onDown = (e: MouseEvent | TouchEvent) => {
     // Only the active slide is interactive.
     const target = e.currentTarget as HTMLElement | null;
     const slide = target?.closest(".ba-slide") as HTMLElement | null;
     if (!slide || slide.dataset.pos !== "active") return;
     this._dragging = true;
+    this._bindDragListeners();
     e.preventDefault();
     this._updatePosition(e);
   };
@@ -439,7 +464,8 @@ export default class GrowthBeforeAfter extends GrowthElement {
   };
 
   private _onUp = () => {
-    if (this._dragging) this._dragging = false;
+    this._dragging = false;
+    this._unbindDragListeners();
   };
 
   private _onCardClick = (e: MouseEvent) => {

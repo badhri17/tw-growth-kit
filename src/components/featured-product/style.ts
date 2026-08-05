@@ -582,6 +582,12 @@ export const featuredProductStyles = css`
   .fp[data-float="on"] .fp-card:not([data-layout="background"]) .fp-img {
     animation: fp-bob var(--fp-float-duration, 5.5s) ease-in-out infinite;
   }
+  /* Stop compositing the infinite float once the section scrolls away. Must
+     out-specify (and follow) the shorthand above — the animation shorthand
+     resets animation-play-state to running. */
+  :host([out-of-view]) .fp[data-float="on"] .fp-card .fp-img {
+    animation-play-state: paused;
+  }
   /* Hold the bob until the entrance settles. */
   .fp[data-enter="ready"] .fp-img {
     animation: none !important;

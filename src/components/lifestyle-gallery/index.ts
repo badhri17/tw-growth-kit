@@ -187,6 +187,7 @@ export default class GrowthLifestyleGallery extends GrowthElement {
     this._stopTransition();
     this._resizeObserver?.disconnect();
     this._resizeObserver = null;
+    this._stageBound = null;
   }
 
   willUpdate(changed: PropertyValues) {
@@ -196,25 +197,44 @@ export default class GrowthLifestyleGallery extends GrowthElement {
   }
 
   firstUpdated() {
+    this._bindStage();
+  }
+
+  /**
+   * Wire the stage's ResizeObserver + drag-click guard. Idempotent, and called
+   * from updated() as well as firstUpdated(): Salla injects `config` as a
+   * property, so the first render is often the empty state, which has no
+   * `.lsg-stage` at all. Binding only in firstUpdated() left the gallery with
+   * no resize observer for the rest of the page's life — it never re-measured
+   * on viewport resize or orientation change.
+   */
+  private _stageBound: HTMLElement | null = null;
+
+  private _bindStage() {
     const stage = this.renderRoot.querySelector<HTMLElement>(".lsg-stage");
-    if (stage) {
-      this._resizeObserver = new ResizeObserver(() => this._onResize());
-      this._resizeObserver.observe(stage);
-      // After a real drag, swallow the click so CTA links don't fire.
-      stage.addEventListener(
-        "click",
-        (e) => {
-          if (this._dragging) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-        },
-        true
-      );
-    }
+    if (!stage || stage === this._stageBound) return;
+
+    // A re-render replaced the stage node — drop the observer on the old one.
+    this._resizeObserver?.disconnect();
+
+    this._stageBound = stage;
+    this._resizeObserver = new ResizeObserver(() => this._onResize());
+    this._resizeObserver.observe(stage);
+    // After a real drag, swallow the click so CTA links don't fire.
+    stage.addEventListener(
+      "click",
+      (e) => {
+        if (this._dragging) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
   }
 
   updated() {
+    this._bindStage();
     this._cacheEls();
     this._measure();
     // While a CSS snap transition is in flight the target styles are already

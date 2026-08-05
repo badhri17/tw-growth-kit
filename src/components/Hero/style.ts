@@ -82,6 +82,11 @@ export const heroStyles = css`
   .bg.is-ken-burns > picture > img {
     animation: kenBurns 24s ease-in-out infinite;
   }
+  /* Stop compositing the 24s loop once the hero has scrolled away. */
+  :host([out-of-view]) .bg.is-ken-burns > img,
+  :host([out-of-view]) .bg.is-ken-burns > picture > img {
+    animation-play-state: paused;
+  }
   .bg.is-parallax > video,
   .bg.is-parallax > img,
   .bg.is-parallax > picture > img {

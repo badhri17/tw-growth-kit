@@ -1,15 +1,16 @@
-import { LitElement as B, css as I, nothing as m, html as c } from "lit";
+import { LitElement as j, css as B, nothing as m, html as c } from "lit";
 import { property as D, state as w } from "lit/decorators.js";
+import { ifDefined as E } from "lit/directives/if-defined.js";
 function N(o, t) {
   if (typeof o == "string") return o;
   if (!o || typeof o != "object") return "";
   const e = o[t] || o.ar || o.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
-function E(o) {
+function L(o) {
   return o.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class U extends B {
+class U extends j {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -19,17 +20,17 @@ class U extends B {
   static registerSallaComponent(t) {
     const e = String(t || "").trim(), i = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), a = i.includes("-") ? i : `salla-${i || "component"}`, r = () => `${a}-${Math.random().toString(36).substring(2, 8)}`, n = () => {
       var g;
-      const l = (g = window.Salla) == null ? void 0 : g.bundles;
-      return l && typeof l.registerComponent == "function" ? (l.registerComponent(e, {
+      const s = (g = window.Salla) == null ? void 0 : g.bundles;
+      return s && typeof s.registerComponent == "function" ? (s.registerComponent(e, {
         component: this,
         dynamicTagName: r()
       }), !0) : !1;
     };
     if (n()) return;
-    const s = window.setInterval(() => {
-      n() && window.clearInterval(s);
+    const l = window.setInterval(() => {
+      n() && window.clearInterval(l);
     }, 100);
-    window.setTimeout(() => window.clearInterval(s), 5e3);
+    window.setTimeout(() => window.clearInterval(l), 5e3);
   }
   /** Resolved document language. */
   _lang() {
@@ -51,14 +52,14 @@ class U extends B {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return E(t);
+    return L(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const i = Number(E(t.trim()));
+      const i = Number(L(t.trim()));
       if (!Number.isNaN(i)) return i;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -68,7 +69,7 @@ class U extends B {
     return e;
   }
 }
-const P = I`
+const G = B`
   :host {
     /* Inherits from the theme so Arabic font, brand colours, and dir flow through. */
     display: block;
@@ -149,6 +150,11 @@ const P = I`
   .bg.is-ken-burns > img,
   .bg.is-ken-burns > picture > img {
     animation: kenBurns 24s ease-in-out infinite;
+  }
+  /* Stop compositing the 24s loop once the hero has scrolled away. */
+  :host([out-of-view]) .bg.is-ken-burns > img,
+  :host([out-of-view]) .bg.is-ken-burns > picture > img {
+    animation-play-state: paused;
   }
   .bg.is-parallax > video,
   .bg.is-parallax > img,
@@ -420,14 +426,14 @@ const P = I`
     .hero[data-align-h="end"]    .ctas { align-items: flex-end; }
   }
 `;
-var G = Object.defineProperty, y = (o, t, e, i) => {
+var O = Object.defineProperty, y = (o, t, e, i) => {
   for (var a = void 0, r = o.length - 1, n; r >= 0; r--)
     (n = o[r]) && (a = n(t, e, a) || a);
-  return a && G(t, e, a), a;
+  return a && O(t, e, a), a;
 };
 const k = class k extends U {
   constructor() {
-    super(...arguments), this._videoFailed = !1, this._animState = "ready", this._isDesktop = !1, this._videoEl = null, this._videoGeneration = 0, this._lastVideoSrc = "", this._fallbackTimer = null, this._autoplayCheckTimer = null, this._io = null, this._rafId = null;
+    super(...arguments), this._videoFailed = !1, this._animState = "ready", this._isDesktop = !1, this._videoEl = null, this._videoGeneration = 0, this._lastVideoSrc = "", this._fallbackTimer = null, this._autoplayCheckTimer = null, this._io = null, this._inView = !0, this._rafId = null;
   }
   // ------------------------------------------------------------
   // Helpers
@@ -516,11 +522,11 @@ const k = class k extends U {
    * each column its width share (the bigger share goes to whatever the ratio names).
    */
   _resolveSplit(t, e) {
-    const a = this._dir() === "ltr" ? t === "left" : t === "right", r = "1.25fr", n = "1fr", s = e === "media" ? r : n, l = e === "content" ? r : n;
+    const a = this._dir() === "ltr" ? t === "left" : t === "right", r = "1.25fr", n = "1fr", l = e === "media" ? r : n, s = e === "content" ? r : n;
     return {
       mediaCol: a ? "start" : "end",
-      startFr: a ? s : l,
-      endFr: a ? l : s
+      startFr: a ? l : s,
+      endFr: a ? s : l
     };
   }
   // ------------------------------------------------------------
@@ -531,12 +537,18 @@ const k = class k extends U {
       requestAnimationFrame(() => this._animState = "in");
     }), this._mql = window.matchMedia("(min-width: 768px)"), this._isDesktop = this._mql.matches, this._onMqlChange = () => {
       this._isDesktop = this._mql.matches, this._videoFailed = !1;
-    }, this._mql.addEventListener("change", this._onMqlChange);
+    }, this._mql.addEventListener("change", this._onMqlChange), "IntersectionObserver" in window && (this._io = new IntersectionObserver(
+      (t) => {
+        const e = t[0];
+        e && (this._inView = e.isIntersecting, this.toggleAttribute("out-of-view", !this._inView));
+      },
+      { threshold: 0 }
+    ), this._io.observe(this));
   }
   firstUpdated() {
-    this._setupParallax();
   }
   updated() {
+    this._syncParallax();
     const t = this.renderRoot.querySelector("video");
     if (!t) {
       this._videoEl = null;
@@ -569,24 +581,24 @@ const k = class k extends U {
       t.currentTime > 0 && (a(), t.removeEventListener("timeupdate", n));
     };
     t.addEventListener("timeupdate", n);
-    const s = () => {
+    const l = () => {
       var d;
       e === this._videoGeneration && (a(), ((d = this.config) == null ? void 0 : d.battery_saver_fallback) !== !1 && this._currentImageUrl() && (this._videoFailed = !0));
     };
-    let l = 0;
+    let s = 0;
     const g = () => {
       if (e === this._videoGeneration && !(!t.isConnected || !t.paused || t.currentTime > 0)) {
         if (t.readyState >= 2) {
-          s();
+          l();
           return;
         }
-        ++l < 10 && (this._autoplayCheckTimer = window.setTimeout(g, 1500));
+        ++s < 10 && (this._autoplayCheckTimer = window.setTimeout(g, 1500));
       }
     }, _ = () => {
       if (e !== this._videoGeneration) return;
       const d = t.play();
       d && typeof d.then == "function" && d.catch((f) => {
-        (f == null ? void 0 : f.name) === "NotAllowedError" ? s() : r();
+        (f == null ? void 0 : f.name) === "NotAllowedError" ? l() : r();
       }), this._autoplayCheckTimer && clearTimeout(this._autoplayCheckTimer), this._autoplayCheckTimer = window.setTimeout(g, 2e3);
     };
     t.readyState >= 1 ? _() : t.addEventListener("loadedmetadata", _, { once: !0 }), this._fallbackTimer = window.setTimeout(() => {
@@ -596,31 +608,41 @@ const k = class k extends U {
   // ------------------------------------------------------------
   // Parallax: subtle Y-transform tied to scroll, throttled via rAF.
   // ------------------------------------------------------------
+  /**
+   * Idempotent parallax wiring. Called from updated() so it survives a config
+   * that arrives after the first render, and tears down if the toggle flips off.
+   */
+  _syncParallax() {
+    var e;
+    const t = !!((e = this.config) != null && e.enable_parallax) && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    t !== !!this._onScroll && (t ? this._setupParallax() : this._teardownParallax());
+  }
+  _teardownParallax() {
+    this._onScroll && window.removeEventListener("scroll", this._onScroll), this._onScroll = void 0, this._rafId && (cancelAnimationFrame(this._rafId), this._rafId = null);
+  }
   _setupParallax() {
-    var i;
-    if (!((i = this.config) != null && i.enable_parallax) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = this.renderRoot.querySelector(".bg");
     if (!t) return;
     let e = !1;
     this._onScroll = () => {
-      e || (e = !0, this._rafId = requestAnimationFrame(() => {
-        const a = this.getBoundingClientRect(), r = window.innerHeight || 800, n = (a.top + a.height / 2 - r / 2) / r, s = Math.max(-1, Math.min(1, n)) * 80;
-        t.style.setProperty("--gh-parallax", `${-s}px`), e = !1;
+      e || !this._inView || (e = !0, this._rafId = requestAnimationFrame(() => {
+        const i = this.getBoundingClientRect(), a = window.innerHeight || 800, r = (i.top + i.height / 2 - a / 2) / a, n = Math.max(-1, Math.min(1, r)) * 80;
+        t.style.setProperty("--gh-parallax", `${-n}px`), e = !1;
       }));
     }, window.addEventListener("scroll", this._onScroll, { passive: !0 }), this._onScroll();
   }
   _teardown() {
     var t;
-    this._fallbackTimer && clearTimeout(this._fallbackTimer), this._autoplayCheckTimer && clearTimeout(this._autoplayCheckTimer), this._rafId && cancelAnimationFrame(this._rafId), this._onScroll && window.removeEventListener("scroll", this._onScroll), (t = this._io) == null || t.disconnect(), this._io = null, this._videoEl = null;
+    this._fallbackTimer && clearTimeout(this._fallbackTimer), this._autoplayCheckTimer && clearTimeout(this._autoplayCheckTimer), this._teardownParallax(), (t = this._io) == null || t.disconnect(), this._io = null, this._videoEl = null;
   }
   // ------------------------------------------------------------
   // Render
   // ------------------------------------------------------------
   render() {
-    const t = this.config || {}, e = this._pickValue(t.height_mobile, "large"), i = this._pickValue(t.height_desktop, "inherit"), a = this._isDesktop && i !== "inherit" ? i : e, r = this._pickValue(t.align_h, "start"), n = this._pickValue(t.align_v, "middle"), s = this._pickValue(t.text_theme, "light"), l = this._pickValue(t.overlay_style, "dark-bottom"), g = this._pickValue(t.overlay_intensity, "medium"), _ = this._overlayAlpha(g), d = t.enable_entrance_anim !== !1, f = !!t.enable_ken_burns, x = !!t.enable_parallax, $ = this._pickValue(t.desktop_layout, "background"), L = this._pickValue(t.split_media_side, "left"), q = this._pickValue(t.split_ratio, "equal"), F = this._pickValue(
+    const t = this.config || {}, e = this._pickValue(t.height_mobile, "large"), i = this._pickValue(t.height_desktop, "inherit"), a = this._isDesktop && i !== "inherit" ? i : e, r = this._pickValue(t.align_h, "start"), n = this._pickValue(t.align_v, "middle"), l = this._pickValue(t.text_theme, "light"), s = this._pickValue(t.overlay_style, "dark-bottom"), g = this._pickValue(t.overlay_intensity, "medium"), _ = this._overlayAlpha(g), d = t.enable_entrance_anim !== !1, f = !!t.enable_ken_burns, x = !!t.enable_parallax, $ = this._pickValue(t.desktop_layout, "background"), I = this._pickValue(t.split_media_side, "left"), q = this._pickValue(t.split_ratio, "equal"), F = this._pickValue(
       t.split_text_theme,
       "light"
-    ), u = $ === "split" ? this._resolveSplit(L, q) : null, p = t.enable_custom_colors === !0, S = this.localizedString(t.eyebrow), T = this.localizedString(t.headline) || "Welcome", C = this.localizedString(t.subtitle), z = this.localizedString(t.primary_label), V = (Array.isArray(t.trust_points) ? t.trust_points : []).map((b) => this.localizedString(b == null ? void 0 : b.text)).filter(Boolean).slice(0, 3), v = this._mode, A = this._buildBackground(), M = [
+    ), u = $ === "split" ? this._resolveSplit(I, q) : null, p = t.enable_custom_colors === !0, S = this.localizedString(t.eyebrow), T = this.localizedString(t.headline) || "Welcome", C = this.localizedString(t.subtitle), V = this.localizedString(t.primary_label), z = (Array.isArray(t.trust_points) ? t.trust_points : []).map((b) => this.localizedString(b == null ? void 0 : b.text)).filter(Boolean).slice(0, 3), v = this._mode, A = this._buildBackground(), P = [
       `--gh-overlay-a: ${_}`,
       t.content_max_width ? `--gh-content-max: ${t.content_max_width}px` : "",
       A ? `--gh-bg: ${A}` : "",
@@ -632,7 +654,7 @@ const k = class k extends U {
       p && t.subtitle_color ? `--gh-subtitle-color: ${t.subtitle_color}` : "",
       p && t.button_bg_color ? `--gh-btn-bg: ${t.button_bg_color}` : "",
       p && t.button_text_color ? `--gh-btn-fg: ${t.button_text_color}` : ""
-    ].filter(Boolean).join("; "), j = [
+    ].filter(Boolean).join("; "), M = [
       "bg",
       v === "gradient" ? "is-gradient" : "",
       v === "image" && f ? "is-ken-burns" : "",
@@ -641,7 +663,7 @@ const k = class k extends U {
     return c`
       <section
         class="hero"
-        style=${M}
+        style=${P}
         data-height=${a}
         data-layout=${$}
         data-media-col=${u ? u.mediaCol : "start"}
@@ -649,14 +671,14 @@ const k = class k extends U {
         data-custom-colors=${p ? "on" : "off"}
         data-align-h=${r}
         data-align-v=${n}
-        data-text-theme=${s}
+        data-text-theme=${l}
         aria-label=${T}
       >
-        <div class=${j}>
+        <div class=${M}>
           ${v === "video" ? c`
                 <video
                   src=${this._currentVideoUrl()}
-                  poster=${this._currentImageUrl() || ""}
+                  poster=${E(this._currentImageUrl() || void 0)}
                   ?autoplay=${t.video_autoplay !== !1}
                   ?loop=${t.video_loop !== !1}
                   ?muted=${t.video_muted !== !1}
@@ -669,7 +691,9 @@ const k = class k extends U {
                 <picture>
                   ${t.background_image_desktop ? c`<source media="(min-width: 768px)" srcset=${t.background_image_desktop}>` : m}
                   <img
-                    src=${t.background_image || ""}
+                    src=${E(
+      t.background_image || t.background_image_desktop || void 0
+    )}
                     alt=""
                     loading="eager"
                     fetchpriority="high"
@@ -677,7 +701,7 @@ const k = class k extends U {
                   />
                 </picture>
               ` : m}
-          ${l !== "none" ? c`<div class="overlay" data-style=${l}></div>` : m}
+          ${s !== "none" ? c`<div class="overlay" data-style=${s}></div>` : m}
         </div>
 
         <div class="content-wrap">
@@ -685,19 +709,19 @@ const k = class k extends U {
             ${S ? c`<p class="eyebrow">${S}</p>` : m}
             <h1 class="headline">${T}</h1>
             ${C ? c`<p class="subtitle">${C}</p>` : m}
-            ${z ? c`
+            ${V ? c`
                   <div class="ctas">
                     <a
                       class="btn ${t.primary_outline ? "btn-outline" : "btn-primary"}"
                       href=${t.primary_url || "#"}
                     >
-                      ${z}
+                      ${V}
                     </a>
                   </div>
                 ` : m}
-            ${V.length ? c`
+            ${z.length ? c`
                   <ul class="trust">
-                    ${V.map(
+                    ${z.map(
       (b) => c`
                         <li class="trust-item">
                           <svg
@@ -726,7 +750,7 @@ const k = class k extends U {
     `;
   }
 };
-k.styles = P;
+k.styles = G;
 let h = k;
 y([
   D({ type: Object })

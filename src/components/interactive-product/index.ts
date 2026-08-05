@@ -128,11 +128,29 @@ export default class GrowthInteractiveProduct extends GrowthElement {
         });
       });
     }
+
+    // The hotspot pulse is an infinite animation — mirror an `out-of-view`
+    // attribute so CSS can park it once the section scrolls away.
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this.toggleAttribute("out-of-view", !ent.isIntersecting);
+        },
+        { threshold: 0 }
+      );
+      this._io.observe(this);
+    }
   }
+
+  private _io: IntersectionObserver | null = null;
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._teardownAutoplay();
+    this._io?.disconnect();
+    this._io = null;
   }
 
   updated(_changed: PropertyValues) {

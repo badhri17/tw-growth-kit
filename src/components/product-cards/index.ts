@@ -56,6 +56,9 @@ export default class GrowthProductCards extends GrowthElement {
   private _autoplayTimer: number | null = null;
   private _hoverPaused = false;
   private _hasInitializedActive = false;
+  /** Whether the section is visible — autoplay pauses while off-screen. */
+  private _inView = true;
+  private _io: IntersectionObserver | null = null;
 
   /** Per-card add-to-cart lifecycle, keyed by card index. */
   private _cartStates = new Map<number, CartState>();
@@ -70,6 +73,8 @@ export default class GrowthProductCards extends GrowthElement {
   private _prevDiff = new Map<number, number>();
 
   private _resizeRaf: number | null = null;
+  /** Gates the stage re-measure in updated() — see the comment there. */
+  private _needsMeasure = true;
 
   /** Salla SDK global — see shared/product.ts. */
   private get _salla(): any {
@@ -188,11 +193,29 @@ export default class GrowthProductCards extends GrowthElement {
     }
 
     window.addEventListener("resize", this._onResize, { passive: true });
+
+    // Pause autoplay when scrolled out of view (saves CPU and prevents the
+    // carousel from racing on a long page).
+    if ("IntersectionObserver" in window) {
+      this._io = new IntersectionObserver(
+        (entries) => {
+          const ent = entries[0];
+          if (!ent) return;
+          this._inView = ent.isIntersecting;
+          this._teardownAutoplay();
+          if (this._inView) this._setupAutoplay();
+        },
+        { threshold: 0.15 }
+      );
+      this._io.observe(this);
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._teardownAutoplay();
+    this._io?.disconnect();
+    this._io = null;
     window.removeEventListener("resize", this._onResize);
     if (this._resizeRaf) cancelAnimationFrame(this._resizeRaf);
     for (const t of this._cartTimers.values()) clearTimeout(t);
@@ -202,8 +225,10 @@ export default class GrowthProductCards extends GrowthElement {
   willUpdate(changed: PropertyValues) {
     if (!changed.has("config")) return;
 
-    // A fresh config invalidates per-card cart state.
+    // A fresh config invalidates per-card cart state, and can change card
+    // heights — so the stage needs re-measuring after this render.
     this._cartStates.clear();
+    this._needsMeasure = true;
 
     const cards = this._cards();
     if (!this._hasInitializedActive && cards.length > 0) {
@@ -229,7 +254,14 @@ export default class GrowthProductCards extends GrowthElement {
     this._prevDiff.clear();
     for (let i = 0; i < n; i++) this._prevDiff.set(i, this._wrappedDiff(i));
 
-    this._measureStage();
+    // _measureStage() reads offsetHeight for every card, forcing a synchronous
+    // layout. Navigation (the common case — every autoplay tick and swipe)
+    // can't change card heights, so only re-measure when something that can
+    // actually has: a new config, a resize, or an image finishing loading.
+    if (this._needsMeasure) {
+      this._needsMeasure = false;
+      this._measureStage();
+    }
   }
 
   private _onResize = () => {
@@ -271,6 +303,7 @@ export default class GrowthProductCards extends GrowthElement {
   private _setupAutoplay() {
     const c = this.config || {};
     if (!c.autoplay) return;
+    if (!this._inView) return;
     if (this._cards().length < 2) return;
     const delaySec = Math.max(1, this._num(c.autoplay_delay, 5));
     this._autoplayTimer = window.setInterval(() => {
@@ -372,6 +405,14 @@ export default class GrowthProductCards extends GrowthElement {
 
   private _onPointerDown = (e: PointerEvent) => {
     if (this._cards().length <= 1) return;
+    // Capture so a release outside the track still lands on our pointerup.
+    // Without it, _swipeStartX stays non-null after the pointer leaves and the
+    // next move over the track resumes a phantom drag from the stale origin.
+    try {
+      (e.currentTarget as HTMLElement | null)?.setPointerCapture(e.pointerId);
+    } catch {
+      /* capture is best-effort */
+    }
     this._swipeStartX = e.clientX;
     this._swipeStartY = e.clientY;
     this._swipeActive = false;
@@ -386,6 +427,12 @@ export default class GrowthProductCards extends GrowthElement {
   };
 
   private _onPointerUp = (e: PointerEvent) => {
+    try {
+      const el = e.currentTarget as HTMLElement | null;
+      if (el?.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    } catch {
+      /* capture is best-effort */
+    }
     if (this._swipeStartX === null) return;
     const dx = e.clientX - this._swipeStartX;
     const isRtl = getComputedStyle(this).direction === "rtl";

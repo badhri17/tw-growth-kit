@@ -373,6 +373,14 @@ export default class GrowthCollection extends GrowthElement {
 
   private _onPointerDown = (e: PointerEvent) => {
     if (this._slides().length <= 1) return;
+    // Capture so a release outside the stage still lands on our pointerup.
+    // Without it, _swipeStartX stays non-null after the pointer leaves and the
+    // next move over the stage resumes a phantom drag from the stale origin.
+    try {
+      (e.currentTarget as HTMLElement | null)?.setPointerCapture(e.pointerId);
+    } catch {
+      /* capture is best-effort */
+    }
     this._swipeStartX = e.clientX;
     this._swipeStartY = e.clientY;
     this._swipeActive = false;
@@ -387,6 +395,12 @@ export default class GrowthCollection extends GrowthElement {
   };
 
   private _onPointerUp = (e: PointerEvent) => {
+    try {
+      const el = e.currentTarget as HTMLElement | null;
+      if (el?.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    } catch {
+      /* capture is best-effort */
+    }
     if (this._swipeStartX === null) return;
     const dx = e.clientX - this._swipeStartX;
     const isRtl = getComputedStyle(this).direction === "rtl";

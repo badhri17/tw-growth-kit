@@ -410,6 +410,14 @@ export default class GrowthStorySlider extends GrowthElement {
     // Mouse interaction is covered by the mouseenter/mouseleave hover handlers.
     if (e.pointerType === "touch") this._pauseForInteraction();
     if (this.config?.enable_drag === false) return;
+    // Capture so a release outside the frame still lands on our pointerup.
+    // Without it, _swipeStartX stays non-null after the pointer leaves and the
+    // next move over the frame resumes a phantom drag from the stale origin.
+    try {
+      (e.currentTarget as HTMLElement | null)?.setPointerCapture(e.pointerId);
+    } catch {
+      /* capture is best-effort */
+    }
     this._swipeStartX = e.clientX;
     this._swipeStartY = e.clientY;
     this._swipeActive = false;
@@ -424,6 +432,12 @@ export default class GrowthStorySlider extends GrowthElement {
   };
 
   private _onPointerUp = (e: PointerEvent) => {
+    try {
+      const el = e.currentTarget as HTMLElement | null;
+      if (el?.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    } catch {
+      /* capture is best-effort */
+    }
     if (this._swipeStartX !== null) {
       const dx = e.clientX - this._swipeStartX;
       if (this._swipeActive && Math.abs(dx) > 40) {

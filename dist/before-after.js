@@ -1,15 +1,15 @@
-import { LitElement as E, css as L, html as s, nothing as h } from "lit";
+import { LitElement as M, css as X, html as s, nothing as h } from "lit";
 import { property as j, state as N } from "lit/decorators.js";
-function V(n, e) {
+function B(n, e) {
   if (typeof n == "string") return n;
   if (!n || typeof n != "object") return "";
   const t = n[e] || n.ar || n.en || "";
   return typeof t == "string" ? t.trim() : "";
 }
-function A(n) {
+function T(n) {
   return n.replace(/[٠-٩]/g, (e) => String(e.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (e) => String(e.charCodeAt(0) - 1776));
 }
-class R extends E {
+class V extends M {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -37,7 +37,7 @@ class R extends E {
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(e) {
-    return V(e, this._lang());
+    return B(e, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(e, t) {
@@ -51,14 +51,14 @@ class R extends E {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(e) {
-    return A(e);
+    return T(e);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(e, t) {
     if (typeof e == "number" && !Number.isNaN(e)) return e;
     if (typeof e == "string" && e.trim() !== "") {
-      const a = Number(A(e.trim()));
+      const a = Number(T(e.trim()));
       if (!Number.isNaN(a)) return a;
     }
     if (Array.isArray(e) && e.length > 0) {
@@ -68,11 +68,11 @@ class R extends E {
     return t;
   }
 }
-function X() {
+function E() {
   const n = window;
   return n.salla ?? n.Salla ?? null;
 }
-function Y(n) {
+function R(n) {
   if (!n) return null;
   if (typeof n == "string" || typeof n == "number") {
     const o = Number(n);
@@ -92,21 +92,21 @@ function Y(n) {
   const i = String(t.label ?? t.name ?? t.title ?? "").trim();
   return { id: r, label: i };
 }
-function I(n) {
+function L(n) {
   if (typeof n == "number") return Number.isNaN(n) ? void 0 : n;
   if (n && typeof n == "object") {
     const a = n;
-    return I(a.amount ?? a.value ?? a.price);
+    return L(a.amount ?? a.value ?? a.price);
   }
   if (typeof n != "string") return;
-  const e = A(n).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  const e = T(n).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!e) return;
   const t = parseFloat(e);
   return Number.isNaN(t) ? void 0 : t;
 }
-async function F(n, e = "") {
-  var k, g, $, p, b, x, w, y, T, P, M;
-  const t = X();
+async function Y(n, e = "") {
+  var k, g, $, p, b, x, w, y, I, P, A;
+  const t = E();
   if (!t) throw new Error("Salla SDK unavailable");
   typeof t.onReady == "function" && await t.onReady();
   const a = ((k = t.product) == null ? void 0 : k.getDetails) ?? (($ = (g = t.product) == null ? void 0 : g.api) == null ? void 0 : $.getDetails);
@@ -114,14 +114,14 @@ async function F(n, e = "") {
     throw new Error("getDetails unavailable");
   const r = await a.call(t.product, n), i = (r == null ? void 0 : r.data) ?? r;
   if (!i) throw new Error("empty product payload");
-  const o = ((p = i.image) == null ? void 0 : p.url) || ((b = i.image) == null ? void 0 : b.thumbnail) || Array.isArray(i.images) && (((x = i.images[0]) == null ? void 0 : x.url) || i.images[0]) || i.thumbnail || i.main_image || "", d = i.url || ((w = i.urls) == null ? void 0 : w.customer) || ((y = i.urls) == null ? void 0 : y.product) || i.permalink || `/p${n}`, l = I(i.price), c = I(i.regular_price), u = I(i.sale_price);
+  const o = ((p = i.image) == null ? void 0 : p.url) || ((b = i.image) == null ? void 0 : b.thumbnail) || Array.isArray(i.images) && (((x = i.images[0]) == null ? void 0 : x.url) || i.images[0]) || i.thumbnail || i.main_image || "", d = i.url || ((w = i.urls) == null ? void 0 : w.customer) || ((y = i.urls) == null ? void 0 : y.product) || i.permalink || `/p${n}`, l = L(i.price), c = L(i.regular_price), u = L(i.sale_price);
   let f = c ?? l, _ = l ?? c;
   u !== void 0 && u > 0 && (_ = u, (f === void 0 || f <= u) && (f = c ?? l ?? u));
-  const S = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || u !== void 0) && f !== void 0 && _ !== void 0 && _ < f, m = i.currency || ((T = i.price) == null ? void 0 : T.currency) || ((P = i.regular_price) == null ? void 0 : P.currency) || void 0;
+  const S = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || u !== void 0) && f !== void 0 && _ !== void 0 && _ < f, m = i.currency || ((I = i.price) == null ? void 0 : I.currency) || ((P = i.regular_price) == null ? void 0 : P.currency) || void 0;
   return {
     name: String(i.name || i.title || e || `#${n}`),
     image: o || void 0,
-    imageAlt: String(((M = i.image) == null ? void 0 : M.alt) || i.name || ""),
+    imageAlt: String(((A = i.image) == null ? void 0 : A.alt) || i.name || ""),
     url: d,
     regular: f,
     sale: S ? _ : void 0,
@@ -129,7 +129,7 @@ async function F(n, e = "") {
     currency: m
   };
 }
-const O = L`
+const F = X`
   :host {
     display: block;
     font-family: inherit;
@@ -1018,12 +1018,12 @@ const O = L`
     }
   }
 `;
-var B = Object.defineProperty, z = (n, e, t, a) => {
+var O = Object.defineProperty, z = (n, e, t, a) => {
   for (var r = void 0, i = n.length - 1, o; i >= 0; i--)
     (o = n[i]) && (r = o(e, t, r) || r);
-  return r && B(e, t, r), r;
+  return r && O(e, t, r), r;
 };
-const D = class D extends R {
+const D = class D extends V {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._positions = [], this._animState = "ready", this._entranceState = "enter", this._entranceDone = !1, this._dragging = !1, this._autoplayTimer = null, this._entranceFinishTimer = null, this._hoverPaused = !1, this._hasInitializedActive = !1, this._inView = !0, this._io = null, this._productCache = /* @__PURE__ */ new Map(), this._goPrev = () => {
       var a;
@@ -1040,13 +1040,13 @@ const D = class D extends R {
     }, this._goTo = (e) => {
       const t = this._slides().length;
       e < 0 || e >= t || (this._activeIndex = e);
-    }, this._onDown = (e) => {
+    }, this._dragListenersBound = !1, this._onDown = (e) => {
       const t = e.currentTarget, a = t == null ? void 0 : t.closest(".ba-slide");
-      !a || a.dataset.pos !== "active" || (this._dragging = !0, e.preventDefault(), this._updatePosition(e));
+      !a || a.dataset.pos !== "active" || (this._dragging = !0, this._bindDragListeners(), e.preventDefault(), this._updatePosition(e));
     }, this._onMove = (e) => {
       this._dragging && ("touches" in e && e.preventDefault(), this._updatePosition(e));
     }, this._onUp = () => {
-      this._dragging && (this._dragging = !1);
+      this._dragging = !1, this._unbindDragListeners();
     }, this._onCardClick = (e) => {
       var a;
       const t = (a = e.currentTarget) == null ? void 0 : a.closest(
@@ -1076,9 +1076,9 @@ const D = class D extends R {
    * available even when this component loads before the storefront JS.
    */
   async _fetchProduct(e, t) {
-    if (!this._productCache.has(e) && (this._productCache.set(e, { status: "loading", label: t }), this.requestUpdate(), !!X())) {
+    if (!this._productCache.has(e) && (this._productCache.set(e, { status: "loading", label: t }), this.requestUpdate(), !!E())) {
       try {
-        const a = await F(e, t);
+        const a = await Y(e, t);
         this._productCache.set(e, { status: "loaded", data: a });
       } catch (a) {
         console.warn("[growth-before-after] product fetch failed", e, a), this._productCache.set(e, { status: "failed" });
@@ -1095,7 +1095,7 @@ const D = class D extends R {
    */
   _resolveProduct(e) {
     if (e.show_product === !1) return null;
-    const t = Y(e.product);
+    const t = R(e.product);
     if (!t)
       return !e.product || Array.isArray(e.product) && e.product.length === 0 || console.warn(
         "[growth-before-after] could not parse picker selection",
@@ -1150,7 +1150,7 @@ const D = class D extends R {
           this._entranceDone = !0, this._entranceFinishTimer = null;
         }, 1350);
       });
-    }), window.addEventListener("mousemove", this._onMove), window.addEventListener("mouseup", this._onUp), window.addEventListener("touchmove", this._onMove, { passive: !1 }), window.addEventListener("touchend", this._onUp), "IntersectionObserver" in window && (this._io = new IntersectionObserver(
+    }), "IntersectionObserver" in window && (this._io = new IntersectionObserver(
       (r) => {
         const i = r[0];
         i && (this._inView = i.isIntersecting, this.toggleAttribute("out-of-view", !this._inView), this._teardownAutoplay(), this._inView && this._setupAutoplay());
@@ -1160,7 +1160,7 @@ const D = class D extends R {
   }
   disconnectedCallback() {
     var e;
-    super.disconnectedCallback(), this._teardownAutoplay(), (e = this._io) == null || e.disconnect(), this._io = null, this._entranceFinishTimer && (clearTimeout(this._entranceFinishTimer), this._entranceFinishTimer = null), window.removeEventListener("mousemove", this._onMove), window.removeEventListener("mouseup", this._onUp), window.removeEventListener("touchmove", this._onMove), window.removeEventListener("touchend", this._onUp);
+    super.disconnectedCallback(), this._teardownAutoplay(), (e = this._io) == null || e.disconnect(), this._io = null, this._entranceFinishTimer && (clearTimeout(this._entranceFinishTimer), this._entranceFinishTimer = null), this._unbindDragListeners();
   }
   willUpdate(e) {
     var i, o;
@@ -1207,6 +1207,12 @@ const D = class D extends R {
   _isNextDisabled() {
     var e;
     return ((e = this.config) == null ? void 0 : e.loop) !== !1 ? !1 : this._activeIndex === this._slides().length - 1 || this._slides().length <= 1;
+  }
+  _bindDragListeners() {
+    this._dragListenersBound || (this._dragListenersBound = !0, window.addEventListener("mousemove", this._onMove), window.addEventListener("mouseup", this._onUp), window.addEventListener("touchmove", this._onMove, { passive: !1 }), window.addEventListener("touchend", this._onUp), window.addEventListener("touchcancel", this._onUp));
+  }
+  _unbindDragListeners() {
+    this._dragListenersBound && (this._dragListenersBound = !1, window.removeEventListener("mousemove", this._onMove), window.removeEventListener("mouseup", this._onUp), window.removeEventListener("touchmove", this._onMove), window.removeEventListener("touchend", this._onUp), window.removeEventListener("touchcancel", this._onUp));
   }
   _updatePosition(e) {
     var o;
@@ -1452,7 +1458,7 @@ const D = class D extends R {
     `;
   }
 };
-D.styles = O;
+D.styles = F;
 let v = D;
 z([
   j({ type: Object })

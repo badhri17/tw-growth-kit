@@ -6,7 +6,7 @@ function bt(i, t) {
   const e = i[t] || i.ar || i.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
-function I(i) {
+function P(i) {
   return i.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
 class wt extends gt {
@@ -51,14 +51,14 @@ class wt extends gt {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return I(t);
+    return P(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const a = Number(I(t.trim()));
+      const a = Number(P(t.trim()));
       if (!Number.isNaN(a)) return a;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -68,11 +68,11 @@ class wt extends gt {
     return e;
   }
 }
-function Y() {
+function q() {
   const i = window;
   return i.salla ?? i.Salla ?? null;
 }
-function O(i) {
+function j(i) {
   if (!i) return null;
   if (typeof i == "string" || typeof i == "number") {
     const s = Number(i);
@@ -99,39 +99,39 @@ function S(i) {
     return S(a.amount ?? a.value ?? a.price);
   }
   if (typeof i != "string") return;
-  const t = I(i).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  const t = P(i).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!t) return;
   const e = parseFloat(t);
   return Number.isNaN(e) ? void 0 : e;
 }
-function yt(i) {
+function _t(i) {
   return Number.isInteger(i) ? String(i) : i.toFixed(2).replace(/\.?0+$/, "");
 }
-function P(i, t) {
+function I(i, t) {
   if (i == null || Number.isNaN(i)) return "";
-  const e = Y();
+  const e = q();
   try {
     if (e && typeof e.money == "function")
       return t ? e.money({ amount: i, currency: t }) : e.money(i);
   } catch {
   }
-  const a = yt(i);
+  const a = _t(i);
   return t ? `${a} ${t}` : a;
 }
-async function vt(i, t = "") {
-  var L, N, w, l, C, A, v, x, y, M, k;
-  const e = Y();
+async function yt(i, t = "") {
+  var R, N, w, l, A, C, y, x, _, M, k;
+  const e = q();
   if (!e) throw new Error("Salla SDK unavailable");
   typeof e.onReady == "function" && await e.onReady();
-  const a = ((L = e.product) == null ? void 0 : L.getDetails) ?? ((w = (N = e.product) == null ? void 0 : N.api) == null ? void 0 : w.getDetails);
+  const a = ((R = e.product) == null ? void 0 : R.getDetails) ?? ((w = (N = e.product) == null ? void 0 : N.api) == null ? void 0 : w.getDetails);
   if (typeof a != "function")
     throw new Error("getDetails unavailable");
   const n = await a.call(e.product, i), r = (n == null ? void 0 : n.data) ?? n;
   if (!r) throw new Error("empty product payload");
-  const s = ((l = r.image) == null ? void 0 : l.url) || ((C = r.image) == null ? void 0 : C.thumbnail) || Array.isArray(r.images) && (((A = r.images[0]) == null ? void 0 : A.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((v = r.urls) == null ? void 0 : v.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${i}`, p = S(r.price), h = S(r.regular_price), u = S(r.sale_price);
+  const s = ((l = r.image) == null ? void 0 : l.url) || ((A = r.image) == null ? void 0 : A.thumbnail) || Array.isArray(r.images) && (((C = r.images[0]) == null ? void 0 : C.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((y = r.urls) == null ? void 0 : y.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${i}`, p = S(r.price), h = S(r.regular_price), u = S(r.sale_price);
   let g = h ?? p, b = p ?? h;
   u !== void 0 && u > 0 && (b = u, (g === void 0 || g <= u) && (g = h ?? p ?? u));
-  const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || u !== void 0) && g !== void 0 && b !== void 0 && b < g, z = r.currency || ((y = r.price) == null ? void 0 : y.currency) || ((M = r.regular_price) == null ? void 0 : M.currency) || void 0;
+  const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || u !== void 0) && g !== void 0 && b !== void 0 && b < g, z = r.currency || ((_ = r.price) == null ? void 0 : _.currency) || ((M = r.regular_price) == null ? void 0 : M.currency) || void 0;
   return {
     name: String(r.name || r.title || t || `#${i}`),
     image: s || void 0,
@@ -143,7 +143,7 @@ async function vt(i, t = "") {
     currency: z
   };
 }
-const _t = ut`
+const vt = ut`
   :host {
     display: block;
     font-family: inherit;
@@ -715,6 +715,12 @@ const _t = ut`
   .fp[data-float="on"] .fp-card:not([data-layout="background"]) .fp-img {
     animation: fp-bob var(--fp-float-duration, 5.5s) ease-in-out infinite;
   }
+  /* Stop compositing the infinite float once the section scrolls away. Must
+     out-specify (and follow) the shorthand above — the animation shorthand
+     resets animation-play-state to running. */
+  :host([out-of-view]) .fp[data-float="on"] .fp-card .fp-img {
+    animation-play-state: paused;
+  }
   /* Hold the bob until the entrance settles. */
   .fp[data-enter="ready"] .fp-img {
     animation: none !important;
@@ -787,22 +793,26 @@ const _t = ut`
     }
   }
 `;
-var xt = Object.defineProperty, U = (i, t, e, a) => {
+var xt = Object.defineProperty, Y = (i, t, e, a) => {
   for (var n = void 0, r = i.length - 1, s; r >= 0; r--)
     (s = i[r]) && (n = s(t, e, n) || n);
   return n && xt(t, e, n), n;
 };
-const H = class H extends wt {
+const F = class F extends wt {
   constructor() {
-    super(...arguments), this._animState = "ready", this._cartState = "idle", this._cartResetTimer = null, this._productCache = /* @__PURE__ */ new Map(), this._onTiltMove = (t) => {
+    super(...arguments), this._animState = "ready", this._cartState = "idle", this._cartResetTimer = null, this._productCache = /* @__PURE__ */ new Map(), this._io = null, this._tiltRect = null, this._tiltRaf = null, this._onTiltMove = (t) => {
       if (!this._tiltAllowed(t)) return;
       const e = t.currentTarget, a = e.querySelector(".fp-media-inner");
       if (!a) return;
-      const n = e.getBoundingClientRect();
+      this._tiltRect || (this._tiltRect = e.getBoundingClientRect());
+      const n = this._tiltRect;
       if (!n.width || !n.height) return;
       const r = Math.max(-1, Math.min(1, (t.clientX - n.left) / n.width * 2 - 1)), s = Math.max(-1, Math.min(1, (t.clientY - n.top) / n.height * 2 - 1)), c = 10;
-      a.style.transform = `rotateY(${r * c}deg) rotateX(${-s * c}deg) scale3d(1.025, 1.025, 1.025)`;
+      this._tiltRaf !== null && cancelAnimationFrame(this._tiltRaf), this._tiltRaf = requestAnimationFrame(() => {
+        this._tiltRaf = null, a.style.transform = `rotateY(${r * c}deg) rotateX(${-s * c}deg) scale3d(1.025, 1.025, 1.025)`;
+      });
     }, this._onTiltLeave = (t) => {
+      this._tiltRect = null, this._tiltRaf !== null && (cancelAnimationFrame(this._tiltRaf), this._tiltRaf = null);
       const a = t.currentTarget.querySelector(".fp-media-inner");
       a && (a.style.transform = "");
     }, this._onPrimaryClick = async (t) => {
@@ -811,7 +821,7 @@ const H = class H extends wt {
       const e = this.config || {}, a = this._pickValue(
         e.button_action,
         "add_to_cart"
-      ), n = O(e.product), r = this._resolveProduct(), s = n == null ? void 0 : n.id, c = this._salla, p = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (u = c == null ? void 0 : c.cart) == null ? void 0 : u.api) == null ? void 0 : g.addItem);
+      ), n = j(e.product), r = this._resolveProduct(), s = n == null ? void 0 : n.id, c = this._salla, p = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (u = c == null ? void 0 : c.cart) == null ? void 0 : u.api) == null ? void 0 : g.addItem);
       if (!s || typeof p != "function") {
         r != null && r.url && (window.location.href = r.url);
         return;
@@ -832,13 +842,13 @@ const H = class H extends wt {
   }
   /** Salla SDK global — see shared/product.ts. */
   get _salla() {
-    return Y();
+    return q();
   }
   async _fetchProduct(t) {
     if (!this._productCache.has(t)) {
       this._productCache.set(t, { status: "loading" }), this.requestUpdate();
       try {
-        const e = await vt(t);
+        const e = await yt(t);
         this._productCache.set(t, { status: "loaded", data: e });
       } catch (e) {
         console.warn("[growth-featured-product] product fetch failed", t, e), this._productCache.set(t, { status: "failed" });
@@ -848,7 +858,7 @@ const H = class H extends wt {
   }
   _resolveProduct() {
     var a;
-    const t = O((a = this.config) == null ? void 0 : a.product);
+    const t = j((a = this.config) == null ? void 0 : a.product);
     if (!t) return null;
     const e = this._productCache.get(t.id);
     return e ? e.status === "loaded" ? e.data : e.status === "loading" && t.label ? { name: t.label, url: "", onSale: !1 } : null : (this._fetchProduct(t.id), t.label ? { name: t.label, url: "", onSale: !1 } : null);
@@ -866,19 +876,25 @@ const H = class H extends wt {
       requestAnimationFrame(() => {
         this._animState = "in";
       });
-    });
+    }), "IntersectionObserver" in window && (this._io = new IntersectionObserver(
+      (n) => {
+        const r = n[0];
+        r && this.toggleAttribute("out-of-view", !r.isIntersecting);
+      },
+      { threshold: 0 }
+    ), this._io.observe(this));
   }
   disconnectedCallback() {
-    super.disconnectedCallback(), this._cartResetTimer && (clearTimeout(this._cartResetTimer), this._cartResetTimer = null);
+    var t;
+    super.disconnectedCallback(), this._cartResetTimer && (clearTimeout(this._cartResetTimer), this._cartResetTimer = null), this._tiltRaf !== null && (cancelAnimationFrame(this._tiltRaf), this._tiltRaf = null), (t = this._io) == null || t.disconnect(), this._io = null;
   }
   willUpdate(t) {
     t.has("config") && (this._cartState = "idle");
   }
-  // ------------------------------------------------------------
-  // Pointer tilt (desktop, fine pointers, motion-allowed)
-  // ------------------------------------------------------------
   _tiltAllowed(t) {
-    return t.pointerType !== "touch" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    return t.pointerType === "touch" ? !1 : (this._reducedMotionMql || (this._reducedMotionMql = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    )), !this._reducedMotionMql.matches);
   }
   _defaultButtonLabel(t) {
     const e = this._lang() === "ar";
@@ -946,30 +962,30 @@ const H = class H extends wt {
     ), b = this._pickValue(
       t.card_size_desktop,
       "inherit"
-    ), q = b === "inherit" ? g : b, T = this._pickValue(t.bg_type, "color"), z = this._pickValue(
+    ), U = b === "inherit" ? g : b, T = this._pickValue(t.bg_type, "color"), z = this._pickValue(
       t.bg_overlay_tone,
       "dark"
-    ), L = this._pickValue(t.content_align, "right"), N = t.highlights_bg || "", w = this.localizedString(t.section_title), l = this._resolveProduct(), C = !!O(t.product), A = this.localizedString(t.eyebrow), v = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", x = this.localizedString(t.description), y = t.image || (l == null ? void 0 : l.image) || "", M = t.enable_hover_image && t.image_hover || "", k = v || (l == null ? void 0 : l.imageAlt) || "", R = (Array.isArray(t.highlights) ? t.highlights : []).map((f) => this.localizedString(f == null ? void 0 : f.text)).filter(Boolean).slice(0, 3), at = t.show_price !== !1, F = t.show_sale_price !== !1;
-    let $ = "", E = "";
+    ), R = this._pickValue(t.content_align, "right"), N = t.highlights_bg || "", w = this.localizedString(t.section_title), l = this._resolveProduct(), A = !!j(t.product), C = this.localizedString(t.eyebrow), y = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", x = this.localizedString(t.description), _ = t.image || (l == null ? void 0 : l.image) || "", M = t.enable_hover_image && t.image_hover || "", k = y || (l == null ? void 0 : l.imageAlt) || "", D = (Array.isArray(t.highlights) ? t.highlights : []).map((f) => this.localizedString(f == null ? void 0 : f.text)).filter(Boolean).slice(0, 3), at = t.show_price !== !1, H = t.show_sale_price !== !1;
+    let $ = "", L = "";
     if (at) {
-      const f = this.localizedString(t.price), j = this.localizedString(
+      const f = this.localizedString(t.price), V = this.localizedString(
         t.compare_price
       );
       if (f) {
         $ = f;
-        const Z = S(f), tt = S(j);
-        F && j && tt !== void 0 && Z !== void 0 && tt > Z && (E = j);
-      } else l && (l.onSale && l.sale !== void 0 ? ($ = P(l.sale, l.currency), F && l.regular !== void 0 && (E = P(l.regular, l.currency))) : l.regular !== void 0 && ($ = P(l.regular, l.currency)));
+        const Z = S(f), tt = S(V);
+        H && V && tt !== void 0 && Z !== void 0 && tt > Z && (L = V);
+      } else l && (l.onSale && l.sale !== void 0 ? ($ = I(l.sale, l.currency), H && l.regular !== void 0 && (L = I(l.regular, l.currency))) : l.regular !== void 0 && ($ = I(l.regular, l.currency)));
     }
     const X = this.localizedString(t.free_shipping_text), it = t.show_button !== !1, rt = {
       square: "0px",
       soft: "12px",
       rounded: "22px",
       pill: "999px"
-    }[this._pickValue(t.button_radius, "pill")], D = this._pickValue(
+    }[this._pickValue(t.button_radius, "pill")], E = this._pickValue(
       t.button_action,
       "add_to_cart"
-    ), nt = !C || D === "view_product", ot = D === "view_product" ? (l == null ? void 0 : l.url) || t.button_url || "" : t.button_url || "", st = this.localizedString(t.button_label) || this._defaultButtonLabel(D), lt = t.enable_float_anim !== !1, K = this._pickValue(
+    ), nt = !A || E === "view_product", ot = E === "view_product" ? (l == null ? void 0 : l.url) || t.button_url || "" : t.button_url || "", st = this.localizedString(t.button_label) || this._defaultButtonLabel(E), lt = t.enable_float_anim !== !1, K = this._pickValue(
       t.float_anim_speed,
       "normal"
     ), ct = {
@@ -980,10 +996,10 @@ const H = class H extends wt {
       slow: "14px",
       normal: "18px",
       fast: "22px"
-    }, B = !!t.enable_tilt && e !== "background", m = e === "background" && z === "dark" || p === "bold", dt = p === "minimal" ? "transparent" : p === "glass" ? "rgba(255,255,255,0.55)" : p === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", G = (f) => f === "compact" ? "min(420px, 82%)" : f === "large" ? "min(860px, 96%)" : f === "full" ? "100%" : "var(--fp-maxw)", V = [
+    }, B = !!t.enable_tilt && e !== "background", m = e === "background" && z === "dark" || p === "bold", dt = p === "minimal" ? "transparent" : p === "glass" ? "rgba(255,255,255,0.55)" : p === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", G = (f) => f === "compact" ? "min(420px, 82%)" : f === "large" ? "min(860px, 96%)" : f === "full" ? "100%" : "var(--fp-maxw)", O = [
       t.bg_color ? `--fp-bg: ${t.bg_color}` : "",
       `--fp-maxw-mob: ${G(g)}`,
-      `--fp-maxw-desk: ${G(q)}`,
+      `--fp-maxw-desk: ${G(U)}`,
       `--fp-card-bg: ${t.card_bg || dt}`,
       `--fp-card-radius: ${h}px`,
       `--fp-media-radius: ${u}px`,
@@ -1009,16 +1025,16 @@ const H = class H extends wt {
       // with a context-aware default tint resolved in CSS; a merchant colour,
       // when set, overrides that default.
       N ? `--fp-hl-bg: ${N}` : ""
-    ].filter(Boolean).join("; "), W = !!(y || v || x || R.length || $ || C);
+    ].filter(Boolean).join("; "), W = !!(_ || y || x || D.length || $ || A);
     if (!W && !w)
       return o`
-        <section class="fp-empty" style=${V}>
+        <section class="fp-empty" style=${O}>
           <p>
             ${this._lang() === "ar" ? "اربط منتجًا أو أضف صورة وعنوانًا لعرض المنتج المميز." : "Link a product or add an image and title to show the featured product."}
           </p>
         </section>
       `;
-    const ft = s !== "none" && e !== "background", ht = y ? o`
+    const ft = s !== "none" && e !== "background", ht = _ ? o`
           <div
             class="fp-media"
             data-tilt=${B ? "on" : "off"}
@@ -1029,7 +1045,7 @@ const H = class H extends wt {
             <div class="fp-media-inner">
               <img
                 class="fp-img"
-                src=${y}
+                src=${_}
                 alt=${k}
                 loading="lazy"
                 draggable="false"
@@ -1044,12 +1060,12 @@ const H = class H extends wt {
             </div>
           </div>
         ` : d, J = o`
-      <div class="fp-content" data-align=${L}>
-        ${A ? o`<p class="fp-eyebrow">${A}</p>` : d}
-        ${v ? o`<h2 class="fp-title">${v}</h2>` : d}
-        ${R.length ? o`
+      <div class="fp-content" data-align=${R}>
+        ${C ? o`<p class="fp-eyebrow">${C}</p>` : d}
+        ${y ? o`<h2 class="fp-title">${y}</h2>` : d}
+        ${D.length ? o`
               <ul class="fp-highlights">
-                ${R.map(
+                ${D.map(
       (f) => o`
                     <li class="fp-highlight">${this._icon("check")}<span>${f}</span></li>
                   `
@@ -1060,11 +1076,11 @@ const H = class H extends wt {
         ${$ ? o`
               <div class="fp-price-row">
                 <span class="fp-price">${$}</span>
-                ${E ? o`<span class="fp-compare">${E}</span>` : d}
+                ${L ? o`<span class="fp-compare">${L}</span>` : d}
               </div>
             ` : d}
         ${X ? o`<p class="fp-shipping">${this._icon("truck")}<span>${X}</span></p>` : d}
-        ${it ? o`<div class="fp-actions">${this._renderButton(nt, ot, st, D)}</div>` : d}
+        ${it ? o`<div class="fp-actions">${this._renderButton(nt, ot, st, E)}</div>` : d}
       </div>
     `, Q = T === "image" && t.bg_image ? o`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : T === "video" && t.bg_video ? o`<video
             class="fp-sbg"
@@ -1077,16 +1093,16 @@ const H = class H extends wt {
     return e === "background" ? o`
         <section
           class="fp"
-          style=${V}
+          style=${O}
           data-enter=${this._animState}
           data-layout="background"
         >
           ${Q}
           ${w ? o`<h2 class="fp-section-title">${w}</h2>` : d}
           <div class="fp-hero" data-tone=${z}>
-            ${y ? o`<img
+            ${_ ? o`<img
                   class="fp-hero-img"
-                  src=${y}
+                  src=${_}
                   alt=${k}
                   loading="lazy"
                   draggable="false"
@@ -1097,7 +1113,7 @@ const H = class H extends wt {
       ` : o`
       <section
         class="fp"
-        style=${V}
+        style=${O}
         data-enter=${this._animState}
         data-float=${lt ? "on" : "off"}
         data-layout=${e}
@@ -1141,18 +1157,18 @@ const H = class H extends wt {
     `;
   }
 };
-H.styles = _t;
-let _ = H;
-U([
+F.styles = vt;
+let v = F;
+Y([
   mt({ type: Object })
-], _.prototype, "config");
-U([
+], v.prototype, "config");
+Y([
   et()
-], _.prototype, "_animState");
-U([
+], v.prototype, "_animState");
+Y([
   et()
-], _.prototype, "_cartState");
-typeof _ < "u" && _.registerSallaComponent("salla-featured-product");
+], v.prototype, "_cartState");
+typeof v < "u" && v.registerSallaComponent("salla-featured-product");
 export {
-  _ as default
+  v as default
 };

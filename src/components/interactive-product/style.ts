@@ -305,6 +305,12 @@ export const interactiveProductStyles = css`
   .ip[data-pulse="on"] .ip-hotspot:not([data-active="true"])::before {
     animation: ip-pulse 2.4s var(--ip-ease) infinite;
   }
+  /* Stop compositing the infinite pulse once the section scrolls away. Must
+     out-specify (and follow) the shorthand above — the animation shorthand
+     resets animation-play-state to running. */
+  :host([out-of-view]) .ip[data-pulse="on"] .ip-hotspot::before {
+    animation-play-state: paused;
+  }
 
   @keyframes ip-pulse {
     0% {
