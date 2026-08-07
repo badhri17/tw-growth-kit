@@ -9995,5 +9995,8 @@
                 }
             ]
         }
+    ],
+    "features": [
+        "landing-page-templates"
     ]
 }
