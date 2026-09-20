@@ -789,18 +789,22 @@ const V = class V extends W {
       const i = Number(e.dataset.index);
       Number.isInteger(i) && this._goTo(i);
     }, this._onPointerDown = (t) => {
-      var e;
-      if (!(this._cards().length <= 1)) {
+      this._cards().length <= 1 || (this._swipeStartX = t.clientX, this._swipeStartY = t.clientY, this._swipeActive = !1);
+    }, this._onPointerMove = (t) => {
+      var r;
+      if (this._swipeStartX === null) return;
+      if (t.pointerType === "mouse" && t.buttons === 0) {
+        this._swipeStartX = null, this._swipeStartY = null;
+        return;
+      }
+      const e = t.clientX - this._swipeStartX, i = t.clientY - (this._swipeStartY ?? t.clientY);
+      if (!this._swipeActive && Math.abs(e) > 10 && Math.abs(e) > Math.abs(i)) {
+        this._swipeActive = !0;
         try {
-          (e = t.currentTarget) == null || e.setPointerCapture(t.pointerId);
+          (r = t.currentTarget) == null || r.setPointerCapture(t.pointerId);
         } catch {
         }
-        this._swipeStartX = t.clientX, this._swipeStartY = t.clientY, this._swipeActive = !1;
       }
-    }, this._onPointerMove = (t) => {
-      if (this._swipeStartX === null) return;
-      const e = t.clientX - this._swipeStartX, i = t.clientY - (this._swipeStartY ?? t.clientY);
-      !this._swipeActive && Math.abs(e) > 10 && Math.abs(e) > Math.abs(i) && (this._swipeActive = !0);
     }, this._onPointerUp = (t) => {
       try {
         const r = t.currentTarget;
@@ -1044,7 +1048,7 @@ const V = class V extends W {
     const t = this.config || {}, e = this._cards(), i = this._pickValue(t.image_layout, "inside"), r = i === "background" ? "3/4" : this._pickValue(t.aspect_ratio, "1/1"), a = i === "background" ? "cover" : this._pickValue(t.image_fit, "contain"), s = this._pickValue(t.content_align, "right"), d = this._num(t.card_radius, 22), c = this._pickValue(t.card_size_mobile, "medium"), p = this._pickValue(
       t.card_size_desktop,
       "inherit"
-    ), u = p === "inherit" ? c : p, l = i === "background", f = t.accent_color || "#f0712c", I = i === "background" ? "transparent" : "#ffffff", g = (M, m) => m ? M === "compact" ? "300px" : M === "large" ? "382px" : "340px" : M === "compact" ? "min(280px, 76vw)" : M === "large" ? "min(360px, 88vw)" : "min(322px, 82vw)", S = {
+    ), u = p === "inherit" ? c : p, l = i === "background", f = t.accent_color || "#f0712c", T = i === "background" ? "transparent" : "#ffffff", g = (M, m) => m ? M === "compact" ? "300px" : M === "large" ? "382px" : "340px" : M === "compact" ? "min(280px, 76vw)" : M === "large" ? "min(360px, 88vw)" : "min(322px, 82vw)", S = {
       square: "0px",
       soft: "12px",
       rounded: "22px",
@@ -1052,7 +1056,7 @@ const V = class V extends W {
     }[this._pickValue(t.button_radius, "pill")], z = [
       `--pc-bg: ${t.bg_color || "#fbeee0"}`,
       `--pc-accent: ${f}`,
-      `--pc-card-bg: ${t.card_bg || I}`,
+      `--pc-card-bg: ${t.card_bg || T}`,
       `--pc-card-radius: ${d}px`,
       `--pc-aspect: ${r}`,
       `--pc-img-fit: ${a}`,
@@ -1079,7 +1083,7 @@ const V = class V extends W {
           </p>
         </section>
       `;
-    const b = e.length === 1, v = this.localizedString(t.section_title), _ = this.localizedString(t.section_subtitle), A = t.show_nav_buttons !== !1 && !b, N = this._pickValue(t.nav_position, "sides"), C = A && N === "top", w = A && N === "sides", x = !!t.show_pagination && !b, y = t.enable_entrance_anim === !1 ? "in" : this._animState, T = v || _ || C ? o`
+    const b = e.length === 1, v = this.localizedString(t.section_title), _ = this.localizedString(t.section_subtitle), A = t.show_nav_buttons !== !1 && !b, N = this._pickValue(t.nav_position, "sides"), C = A && N === "top", w = A && N === "sides", x = !!t.show_pagination && !b, y = t.enable_entrance_anim === !1 ? "in" : this._animState, I = v || _ || C ? o`
             <div class="pc-head" data-enter=${y}>
               <div class="pc-head__text">
                 ${v ? o`<h2 class="pc-head-title">${v}</h2>` : h}
@@ -1100,7 +1104,7 @@ const V = class V extends W {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${T}
+        ${I}
 
         <div class="pc-stage">
           <div
@@ -1167,7 +1171,7 @@ const V = class V extends W {
     `;
   }
   _renderCard(t, e, i) {
-    const r = this.config || {}, a = this._resolveCardProduct(t), s = !!X(t.product), d = this.localizedString(t.badge), c = this.localizedString(t.title) || (a == null ? void 0 : a.name) || "", p = this.localizedString(t.description), u = t.image || (a == null ? void 0 : a.image) || "", l = c || (a == null ? void 0 : a.imageAlt) || "", f = r.show_price !== !1, I = r.show_sale_price !== !1;
+    const r = this.config || {}, a = this._resolveCardProduct(t), s = !!X(t.product), d = this.localizedString(t.badge), c = this.localizedString(t.title) || (a == null ? void 0 : a.name) || "", p = this.localizedString(t.description), u = t.image || (a == null ? void 0 : a.image) || "", l = c || (a == null ? void 0 : a.imageAlt) || "", f = r.show_price !== !1, T = r.show_sale_price !== !1;
     let g = "", $ = "";
     if (f) {
       const w = this.localizedString(t.price), x = this.localizedString(
@@ -1175,9 +1179,9 @@ const V = class V extends W {
       );
       if (w) {
         g = w;
-        const y = P(w), T = P(x);
-        I && x && T !== void 0 && y !== void 0 && T > y && ($ = x);
-      } else a && (a.onSale && a.sale !== void 0 ? (g = j(a.sale, a.currency), I && a.regular !== void 0 && ($ = j(a.regular, a.currency))) : a.regular !== void 0 && (g = j(a.regular, a.currency)));
+        const y = P(w), I = P(x);
+        T && x && I !== void 0 && y !== void 0 && I > y && ($ = x);
+      } else a && (a.onSale && a.sale !== void 0 ? (g = j(a.sale, a.currency), T && a.regular !== void 0 && ($ = j(a.regular, a.currency))) : a.regular !== void 0 && (g = j(a.regular, a.currency)));
     }
     const S = this.localizedString(r.free_shipping_text), z = r.show_button !== !1, b = this._pickValue(
       r.button_action,

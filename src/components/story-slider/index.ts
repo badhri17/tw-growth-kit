@@ -410,14 +410,11 @@ export default class GrowthStorySlider extends GrowthElement {
     // Mouse interaction is covered by the mouseenter/mouseleave hover handlers.
     if (e.pointerType === "touch") this._pauseForInteraction();
     if (this.config?.enable_drag === false) return;
-    // Capture so a release outside the frame still lands on our pointerup.
-    // Without it, _swipeStartX stays non-null after the pointer leaves and the
-    // next move over the frame resumes a phantom drag from the stale origin.
-    try {
-      (e.currentTarget as HTMLElement | null)?.setPointerCapture(e.pointerId);
-    } catch {
-      /* capture is best-effort */
-    }
+    // No pointer capture here. Capturing on pointerdown makes the browser
+    // retarget the eventual `click` to the frame (nearest common ancestor of
+    // the pointerdown and pointerup targets), so buttons and links inside it
+    // never receive their click. Capture happens in _onPointerMove instead,
+    // once a horizontal swipe is actually recognised.
     this._swipeStartX = e.clientX;
     this._swipeStartY = e.clientY;
     this._swipeActive = false;
@@ -425,10 +422,27 @@ export default class GrowthStorySlider extends GrowthElement {
 
   private _onPointerMove = (e: PointerEvent) => {
     if (this._swipeStartX === null) return;
+    // A mouse moving with no button held means the press was released outside
+    // the frame before a swipe started (nothing was captured yet) — drop the
+    // stale origin instead of resuming a phantom drag from it.
+    if (e.pointerType === "mouse" && e.buttons === 0) {
+      this._swipeStartX = null;
+      this._swipeStartY = null;
+      return;
+    }
     const dx = e.clientX - this._swipeStartX;
     const dy = e.clientY - (this._swipeStartY ?? e.clientY);
-    if (!this._swipeActive && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy))
+    if (!this._swipeActive && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
       this._swipeActive = true;
+      // Capture now so a release outside the frame still lands on our
+      // pointerup — and so a swipe that began on a button/link doesn't end
+      // in a click on it.
+      try {
+        (e.currentTarget as HTMLElement | null)?.setPointerCapture(e.pointerId);
+      } catch {
+        /* capture is best-effort */
+      }
+    }
   };
 
   private _onPointerUp = (e: PointerEvent) => {

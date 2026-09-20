@@ -1369,18 +1369,23 @@ const D = class D extends ot {
       const s = this._slides().length;
       t < 0 || t >= s || t !== this._activeIndex && (this._lastDir = t > this._activeIndex ? "forward" : "backward", this._setLeaving(), this._activeIndex = t, this._resetAutoplayCountdown());
     }, this._onPointerDown = (t) => {
-      var s, e;
-      if (!(this._slides().length <= 1) && (t.pointerType === "touch" && this._pauseForInteraction(), ((s = this.config) == null ? void 0 : s.enable_drag) !== !1)) {
+      var s;
+      this._slides().length <= 1 || (t.pointerType === "touch" && this._pauseForInteraction(), ((s = this.config) == null ? void 0 : s.enable_drag) !== !1 && (this._swipeStartX = t.clientX, this._swipeStartY = t.clientY, this._swipeActive = !1));
+    }, this._onPointerMove = (t) => {
+      var a;
+      if (this._swipeStartX === null) return;
+      if (t.pointerType === "mouse" && t.buttons === 0) {
+        this._swipeStartX = null, this._swipeStartY = null;
+        return;
+      }
+      const s = t.clientX - this._swipeStartX, e = t.clientY - (this._swipeStartY ?? t.clientY);
+      if (!this._swipeActive && Math.abs(s) > 10 && Math.abs(s) > Math.abs(e)) {
+        this._swipeActive = !0;
         try {
-          (e = t.currentTarget) == null || e.setPointerCapture(t.pointerId);
+          (a = t.currentTarget) == null || a.setPointerCapture(t.pointerId);
         } catch {
         }
-        this._swipeStartX = t.clientX, this._swipeStartY = t.clientY, this._swipeActive = !1;
       }
-    }, this._onPointerMove = (t) => {
-      if (this._swipeStartX === null) return;
-      const s = t.clientX - this._swipeStartX, e = t.clientY - (this._swipeStartY ?? t.clientY);
-      !this._swipeActive && Math.abs(s) > 10 && Math.abs(s) > Math.abs(e) && (this._swipeActive = !0);
     }, this._onPointerUp = (t) => {
       try {
         const s = t.currentTarget;
@@ -1613,7 +1618,7 @@ const D = class D extends ot {
           <p class="ss-empty">أضف صورة واحدة على الأقل لكل شريحة للبدء.</p>
         </section>
       `;
-    const g = s.length === 1, k = s.length, I = this._activeIndex + 1, S = I / k * 100, M = (t.pagination_separator || "/").toString(), _ = l.startsWith("inside-bottom"), z = n === "inside-bottom", X = !g && (_ && d !== "none" && d !== "thumbnails" && d !== "progress" || z), G = Math.max(1, this._num(t.autoplay_delay, 5)), P = this._pickValue(
+    const g = s.length === 1, k = s.length, S = this._activeIndex + 1, I = S / k * 100, M = (t.pagination_separator || "/").toString(), _ = l.startsWith("inside-bottom"), z = n === "inside-bottom", X = !g && (_ && d !== "none" && d !== "thumbnails" && d !== "progress" || z), G = Math.max(1, this._num(t.autoplay_delay, 5)), P = this._pickValue(
       t.autoplay_progress,
       "none"
     ), O = P !== "none" && t.autoplay === !0 && !g, Z = t.pause_out_of_view !== !1 && !this._inView, J = O && (this._interactionPaused || this._swipeActive || Z), v = "m9 6 6 6-6 6", Q = "M5 12h14M13 6l6 6-6 6", b = "M2 7h22M16 1l8 6-8 6";
@@ -1780,9 +1785,9 @@ const D = class D extends ot {
                   ${_ ? this._renderPagination(
       d,
       s,
-      I,
-      k,
       S,
+      k,
+      I,
       M
     ) : r`<span class="ss-spacer"></span>`}
                   ${x && z ? this._renderArrow("next", i, v, b) : r`<span class="ss-spacer"></span>`}
@@ -1793,7 +1798,7 @@ const D = class D extends ot {
           ${!g && d === "progress" && _ ? r`
                 <div
                   class="ss-pag-progress"
-                  style=${`--ss-pag-progress: ${S}%`}
+                  style=${`--ss-pag-progress: ${I}%`}
                 ></div>
               ` : o}
 
@@ -1819,9 +1824,9 @@ const D = class D extends ot {
               ${h ? this._renderPagination(
         d,
         s,
-        I,
-        k,
         S,
+        k,
+        I,
         M
       ) : o}
               ${m ? r`
