@@ -39,6 +39,8 @@ interface CardOpts {
   showQuoteMark: boolean;
   showProduct: boolean;
   chipStyle: TestimonialChipStyle;
+  /** Image loading hint — the marquee forces "eager" so cards never pop in mid-scroll. */
+  imgLoading: "lazy" | "eager";
 }
 
 /**
@@ -70,6 +72,9 @@ export default class GrowthTestimonials extends GrowthElement {
   @state() private _carouselPage = 0;
   /** Reactive desktop flag so cards-per-view re-evaluates on resize. */
   @state() private _isDesktop = false;
+  /** Marquee pause toggle (WCAG 2.2.2: moving content must be stoppable — hover
+      alone covers neither touch nor keyboard). */
+  @state() private _marqueePaused = false;
 
   private _mql?: MediaQueryList;
   private _onMqlChange?: () => void;
@@ -130,9 +135,11 @@ export default class GrowthTestimonials extends GrowthElement {
       this._pickValue<TestimonialsColumns>(c.columns_mobile, "1"),
       1
     );
+    // "3", not "inherit": a testimonial wall reads badly as a single desktop
+    // column, so the schema defaults to 3 and the runtime fallback matches it.
     const dRaw = this._pickValue<TestimonialsColumnsDesktop>(
       c.columns_desktop,
-      "inherit"
+      "3"
     );
     const d = dRaw === "inherit" ? m : this._num(dRaw, 3);
     return {
@@ -382,6 +389,10 @@ export default class GrowthTestimonials extends GrowthElement {
     this._setupAutoplay();
   };
 
+  private _toggleMarquee = () => {
+    this._marqueePaused = !this._marqueePaused;
+  };
+
   // ------------------------------------------------------------
   // Icons
   // ------------------------------------------------------------
@@ -402,6 +413,19 @@ export default class GrowthTestimonials extends GrowthElement {
   private _quoteMarkIcon() {
     return html`<svg viewBox="0 0 24 24" fill="currentColor"
       aria-hidden="true"><path d="M9.5 7C6.5 7 4 9.5 4 12.5V19h6.5v-6.5H7.2c0-1.8 1.5-3 3.3-3V7zm10 0C16.5 7 14 9.5 14 12.5V19h6.5v-6.5h-3.3c0-1.8 1.5-3 3.3-3V7z" /></svg>`;
+  }
+
+  private _pauseIcon() {
+    return html`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect x="6" y="5" width="4" height="14" rx="1" />
+      <rect x="14" y="5" width="4" height="14" rx="1" />
+    </svg>`;
+  }
+
+  private _playIcon() {
+    return html`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5z" />
+    </svg>`;
   }
 
   // ------------------------------------------------------------
@@ -449,7 +473,11 @@ export default class GrowthTestimonials extends GrowthElement {
   // Render: product chip
   // ------------------------------------------------------------
 
-  private _renderChip(item: TestimonialItem, chipStyle: TestimonialChipStyle) {
+  private _renderChip(
+    item: TestimonialItem,
+    chipStyle: TestimonialChipStyle,
+    imgLoading: CardOpts["imgLoading"]
+  ) {
     const product = this._resolveProduct(item);
     const localizedProductName =
       this.localizedString(item.product_name) || product?.name || "";
@@ -483,7 +511,7 @@ export default class GrowthTestimonials extends GrowthElement {
     const inner = html`
       ${image
         ? html`<span class="t-chip-media"
-            ><img src=${image} alt=${localizedProductName} loading="lazy"
+            ><img src=${image} alt=${localizedProductName} loading=${imgLoading}
           /></span>`
         : nothing}
       <span class="t-chip-body">
@@ -544,7 +572,7 @@ export default class GrowthTestimonials extends GrowthElement {
       ? this._renderRating(item, opts.ratingStyle)
       : nothing;
     const chipBlock = opts.showProduct
-      ? this._renderChip(item, opts.chipStyle)
+      ? this._renderChip(item, opts.chipStyle, opts.imgLoading)
       : nothing;
 
     const author = (withAvatar: boolean) =>
@@ -552,7 +580,7 @@ export default class GrowthTestimonials extends GrowthElement {
         ? html`<div class="t-author">
             ${withAvatar && avatar
               ? html`<span class="t-avatar"
-                  ><img src=${avatar} alt=${localizedName} loading="lazy"
+                  ><img src=${avatar} alt=${localizedName} loading=${opts.imgLoading}
                 /></span>`
               : nothing}
             <div class="t-author-meta">
@@ -577,7 +605,7 @@ export default class GrowthTestimonials extends GrowthElement {
                   alt=${localizedName
                     ? `تصوير العميل: ${localizedName}`
                     : "تصوير العميل"}
-                  loading="lazy"
+                  loading=${opts.imgLoading}
                 />
                 ${localizedName || localizedMeta
                   ? html`<span class="t-photo-chip">
@@ -586,7 +614,7 @@ export default class GrowthTestimonials extends GrowthElement {
                             class="t-photo-chip-avatar"
                             src=${avatar}
                             alt=${localizedName}
-                            loading="lazy"
+                            loading=${opts.imgLoading}
                           />`
                         : nothing}
                       <span class="t-photo-chip-text"
@@ -629,7 +657,7 @@ export default class GrowthTestimonials extends GrowthElement {
                 alt=${localizedName
                   ? `تصوير العميل: ${localizedName}`
                   : "تصوير العميل"}
-                loading="lazy"
+                loading=${opts.imgLoading}
               />`
             : nothing}
           <div class="t-overlay-panel">
@@ -698,10 +726,10 @@ export default class GrowthTestimonials extends GrowthElement {
       c.marquee_speed,
       "normal"
     );
-    const baseDir = this._pickValue<TestimonialMarqueeDirection>(
-      c.marquee_direction,
-      "forward"
-    );
+    // Row direction is not merchant-configurable: it already follows the page
+    // direction (`:dir(rtl)` flips the keyframes), and with two rows the second
+    // one simply runs opposite to the first.
+    const baseDir: TestimonialMarqueeDirection = "forward";
     const pauseHover = c.marquee_pause_hover !== false;
     // Seconds-per-card so every row scrolls at the same px/sec regardless of how
     // many cards it holds (the repeat factor cancels out in the duration below).
@@ -722,16 +750,28 @@ export default class GrowthTestimonials extends GrowthElement {
       return oneSet;
     };
 
+    // Marquee images load eagerly: cells sit off-screen horizontally, so a lazy
+    // image only starts fetching as it scrolls into view and pops in mid-row.
+    // Both copies share URLs, so nothing is downloaded twice.
+    const marqueeOpts: CardOpts = { ...opts, imgLoading: "eager" };
+
     const renderRow = (
       source: TestimonialItem[],
       dir: TestimonialMarqueeDirection
     ) => {
       const oneSet = buildOneSet(source);
+      // The second copy exists only to make the loop seamless: hide it from
+      // assistive tech AND take it out of the tab order (`inert`), otherwise
+      // keyboard users tab through every product chip twice.
       const cards = (copy: number) =>
         oneSet.map(
           (item, i) =>
-            html`<div class="t-marquee-cell" aria-hidden=${copy === 1 ? "true" : "false"}>
-              ${this._renderCard(item, i, cardStyle, opts)}
+            html`<div
+              class="t-marquee-cell"
+              aria-hidden=${copy === 1 ? "true" : nothing}
+              ?inert=${copy === 1}
+            >
+              ${this._renderCard(item, i, cardStyle, marqueeOpts)}
             </div>`
         );
       const dur = Math.max(12, oneSet.length * perCard);
@@ -745,20 +785,48 @@ export default class GrowthTestimonials extends GrowthElement {
       </div>`;
     };
 
+    // Visible pause/play control. Hover-pause is desktop-only and focus-pause
+    // is keyboard-only; this is the one mechanism touch users get.
+    const paused = this._marqueePaused;
+    const isAr = this._lang() === "ar";
+    const pauseToggle = html`<button
+      type="button"
+      class="t-marquee-toggle"
+      aria-label=${paused
+        ? isAr
+          ? "تشغيل الحركة"
+          : "Play"
+        : isAr
+        ? "إيقاف الحركة"
+        : "Pause"}
+      @click=${this._toggleMarquee}
+    >
+      ${paused ? this._playIcon() : this._pauseIcon()}
+    </button>`;
+
     if (rows >= 2 && items.length > 1) {
       const half = Math.ceil(items.length / 2);
       const rowA = items.slice(0, half);
       const rowB = items.slice(half);
       const altDir: TestimonialMarqueeDirection =
         baseDir === "forward" ? "backward" : "forward";
-      return html`<div class="t-marquee" data-rows="2">
+      return html`<div
+        class="t-marquee"
+        data-rows="2"
+        data-paused=${paused ? "true" : "false"}
+      >
         ${renderRow(rowA, baseDir)}
         ${renderRow(rowB.length ? rowB : rowA, altDir)}
+        ${pauseToggle}
       </div>`;
     }
 
-    return html`<div class="t-marquee" data-rows="1">
-      ${renderRow(items, baseDir)}
+    return html`<div
+      class="t-marquee"
+      data-rows="1"
+      data-paused=${paused ? "true" : "false"}
+    >
+      ${renderRow(items, baseDir)} ${pauseToggle}
     </div>`;
   }
 
@@ -853,8 +921,23 @@ export default class GrowthTestimonials extends GrowthElement {
   // Render: host style (CSS custom properties)
   // ------------------------------------------------------------
 
+  /** Section background image URL, escaped for use inside a CSS `url('…')`. */
+  private _bgImageUrl(c: TestimonialsConfig): string {
+    const raw = (c.bg_image || "").toString().trim();
+    if (!raw) return "";
+    return raw.replace(
+      /['"()\\\s]/g,
+      (ch) => "%" + ch.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0")
+    );
+  }
+
   private _buildHostStyle(c: TestimonialsConfig): string {
     const cols = this._resolveColumns();
+    // Optional background image; the --t-bg tint over it is 0–80% opaque so
+    // cards stay legible on any photo.
+    const bgImage = this._bgImageUrl(c);
+    const bgOverlay =
+      Math.max(0, Math.min(100, this._num(c.bg_overlay_opacity, 60))) / 100;
     const cardRadius = this._num(c.card_radius, 20);
     const cardStyle = this._pickValue<TestimonialCardStyle>(
       c.card_style,
@@ -868,6 +951,8 @@ export default class GrowthTestimonials extends GrowthElement {
         : this._pickValue<TestimonialPhotoAspect>(c.photo_aspect, "4/5");
     const parts = [
       c.bg_color ? `--t-bg:${c.bg_color}` : "",
+      bgImage ? `--t-bg-image:url('${bgImage}')` : "",
+      bgImage ? `--t-bg-overlay:${bgOverlay}` : "",
       c.title_color ? `--t-title:${c.title_color}` : "",
       c.subtitle_color ? `--t-subtitle:${c.subtitle_color}` : "",
       c.card_bg ? `--t-card-bg:${c.card_bg}` : "",
@@ -878,6 +963,8 @@ export default class GrowthTestimonials extends GrowthElement {
       c.star_color ? `--t-star:${c.star_color}` : "",
       c.star_empty_color ? `--t-star-empty:${c.star_empty_color}` : "",
       c.accent_color ? `--t-accent:${c.accent_color}` : "",
+      c.nav_bg ? `--t-nav-bg:${c.nav_bg}` : "",
+      c.nav_color ? `--t-nav-fg:${c.nav_color}` : "",
       c.chip_bg ? `--t-chip-bg:${c.chip_bg}` : "",
       c.chip_name_color ? `--t-chip-name:${c.chip_name_color}` : "",
       c.chip_price_color ? `--t-chip-price:${c.chip_price_color}` : "",
@@ -919,21 +1006,27 @@ export default class GrowthTestimonials extends GrowthElement {
       showQuoteMark: c.show_quote_mark !== false,
       showProduct: c.show_product !== false,
       chipStyle,
+      imgLoading: "lazy",
     };
 
     const hostStyle = this._buildHostStyle(c);
+    const hasBgImage = !!this._bgImageUrl(c);
 
     const localizedEyebrow = this.localizedString(c.eyebrow);
     const localizedSectionTitle = this.localizedString(c.section_title);
     const localizedSectionSubtitle = this.localizedString(c.section_subtitle);
 
-    const showSummary = c.show_summary === true;
+    const showSummary = c.show_summary !== false;
     const summaryRating = Math.max(0, Math.min(5, this._num(c.summary_rating, 0)));
     const summaryCount = this.localizedString(c.summary_count_text);
     const hasSummary = showSummary && (summaryRating > 0 || !!summaryCount);
 
     if (items.length === 0) {
-      return html`<section class="t-section" style=${hostStyle}>
+      return html`<section
+        class="t-section"
+        style=${hostStyle}
+        ?data-bg-image=${hasBgImage}
+      >
         <p class="t-empty">
           ${this._lang() === "ar"
             ? "أضف رأي عميل واحدًا على الأقل لعرض هذا القسم."
@@ -991,6 +1084,7 @@ export default class GrowthTestimonials extends GrowthElement {
       <section
         class="t-section"
         style=${hostStyle}
+        ?data-bg-image=${hasBgImage}
         data-layout=${layout}
         data-card=${cardStyle}
         data-anim=${enableAnim ? this._animState : "in"}

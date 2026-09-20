@@ -44,6 +44,7 @@ export type TestimonialChipStyle = "card" | "inline";
 /** Marquee tuning. */
 export type TestimonialMarqueeRows = "1" | "2";
 export type TestimonialMarqueeSpeed = "slow" | "normal" | "fast";
+/** Internal only — the second of two rows runs "backward"; never a merchant field. */
 export type TestimonialMarqueeDirection = "forward" | "backward";
 
 /** Carousel autoplay cadence (seconds). */
@@ -114,7 +115,6 @@ export interface TestimonialsConfig {
   // --- Marquee ---
   marquee_rows?: TestimonialMarqueeRows;
   marquee_speed?: TestimonialMarqueeSpeed;
-  marquee_direction?: TestimonialMarqueeDirection;
   marquee_pause_hover?: boolean;
 
   // --- Carousel ---
@@ -128,8 +128,12 @@ export interface TestimonialsConfig {
   enable_entrance_anim?: boolean;
   enable_hover_lift?: boolean;
 
-  // --- Colors ---
+  // --- Section background ---
   bg_color?: string;
+  bg_image?: string; // optional photo behind the whole section
+  bg_overlay_opacity?: string | number; // 0–80: opacity of the bg_color tint over the image
+
+  // --- Colors ---
   title_color?: string;
   subtitle_color?: string;
   card_bg?: string;
@@ -139,7 +143,9 @@ export interface TestimonialsConfig {
   text_color?: string;
   star_color?: string;
   star_empty_color?: string;
-  accent_color?: string; // quote marks, eyebrow, dots, arrows
+  accent_color?: string; // quote marks, eyebrow, active dot
+  nav_bg?: string; // control buttons (carousel arrows + marquee pause toggle) background
+  nav_color?: string; // control buttons icon colour
   chip_bg?: string;
   chip_name_color?: string;
   chip_price_color?: string;

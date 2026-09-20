@@ -1,15 +1,15 @@
-import { LitElement as I, css as E, html as o, nothing as n } from "lit";
-import { property as L, state as M } from "lit/decorators.js";
-function O(s, t) {
-  if (typeof s == "string") return s;
-  if (!s || typeof s != "object") return "";
-  const a = s[t] || s.ar || s.en || "";
-  return typeof a == "string" ? a.trim() : "";
+import { LitElement as L, css as V, html as o, nothing as s } from "lit";
+import { property as O, state as N } from "lit/decorators.js";
+function E(n, t) {
+  if (typeof n == "string") return n;
+  if (!n || typeof n != "object") return "";
+  const e = n[t] || n.ar || n.en || "";
+  return typeof e == "string" ? e.trim() : "";
 }
-function C(s) {
-  return s.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
+function P(n) {
+  return n.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class j extends I {
+class j extends L {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -17,10 +17,10 @@ class j extends I {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), r = e.includes("-") ? e : `salla-${e || "component"}`, i = () => `${r}-${Math.random().toString(36).substring(2, 8)}`, l = () => {
+    const e = String(t || "").trim(), a = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), r = a.includes("-") ? a : `salla-${a || "component"}`, i = () => `${r}-${Math.random().toString(36).substring(2, 8)}`, l = () => {
       var p;
-      const h = (p = window.Salla) == null ? void 0 : p.bundles;
-      return h && typeof h.registerComponent == "function" ? (h.registerComponent(a, {
+      const d = (p = window.Salla) == null ? void 0 : p.bundles;
+      return d && typeof d.registerComponent == "function" ? (d.registerComponent(e, {
         component: this,
         dynamicTagName: i()
       }), !0) : !1;
@@ -37,113 +37,113 @@ class j extends I {
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return O(t, this._lang());
+    return E(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
-  _pickValue(t, a) {
+  _pickValue(t, e) {
     if (typeof t == "string" && t) return t;
     if (Array.isArray(t) && t.length > 0) {
-      const e = t[0];
-      if (e && typeof e.value == "string" && e.value)
-        return e.value;
+      const a = t[0];
+      if (a && typeof a.value == "string" && a.value)
+        return a.value;
     }
-    return a;
+    return e;
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return C(t);
+    return P(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
-  _num(t, a) {
+  _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(C(t.trim()));
-      if (!Number.isNaN(e)) return e;
+      const a = Number(P(t.trim()));
+      if (!Number.isNaN(a)) return a;
     }
     if (Array.isArray(t) && t.length > 0) {
-      const e = t[0];
-      if ((e == null ? void 0 : e.value) !== void 0) return this._num(e.value, a);
+      const a = t[0];
+      if ((a == null ? void 0 : a.value) !== void 0) return this._num(a.value, e);
     }
-    return a;
+    return e;
   }
 }
-function A() {
-  const s = window;
-  return s.salla ?? s.Salla ?? null;
+function T() {
+  const n = window;
+  return n.salla ?? n.Salla ?? null;
 }
-function B(s) {
-  if (!s) return null;
-  if (typeof s == "string" || typeof s == "number") {
-    const l = Number(s);
+function B(n) {
+  if (!n) return null;
+  if (typeof n == "string" || typeof n == "number") {
+    const l = Number(n);
     return !l || Number.isNaN(l) ? null : { id: l, label: "" };
   }
-  const t = Array.isArray(s) ? s[0] : s;
+  const t = Array.isArray(n) ? n[0] : n;
   if (!t) return null;
   if (typeof t == "string" || typeof t == "number") {
     const l = Number(t);
     return !l || Number.isNaN(l) ? null : { id: l, label: "" };
   }
   if (typeof t != "object") return null;
-  const a = t, e = a.value ?? a.id ?? a.product_id;
-  if (e == null) return null;
-  const r = typeof e == "number" ? e : Number(e);
+  const e = t, a = e.value ?? e.id ?? e.product_id;
+  if (a == null) return null;
+  const r = typeof a == "number" ? a : Number(a);
   if (!r || Number.isNaN(r)) return null;
-  const i = String(a.label ?? a.name ?? a.title ?? "").trim();
+  const i = String(e.label ?? e.name ?? e.title ?? "").trim();
   return { id: r, label: i };
 }
-function $(s) {
-  if (typeof s == "number") return Number.isNaN(s) ? void 0 : s;
-  if (s && typeof s == "object") {
-    const e = s;
-    return $(e.amount ?? e.value ?? e.price);
+function q(n) {
+  if (typeof n == "number") return Number.isNaN(n) ? void 0 : n;
+  if (n && typeof n == "object") {
+    const a = n;
+    return q(a.amount ?? a.value ?? a.price);
   }
-  if (typeof s != "string") return;
-  const t = C(s).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  if (typeof n != "string") return;
+  const t = P(n).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!t) return;
-  const a = parseFloat(t);
-  return Number.isNaN(a) ? void 0 : a;
+  const e = parseFloat(t);
+  return Number.isNaN(e) ? void 0 : e;
 }
-function X(s) {
-  return Number.isInteger(s) ? String(s) : s.toFixed(2).replace(/\.?0+$/, "");
+function U(n) {
+  return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
 }
-function S(s, t) {
-  if (s == null || Number.isNaN(s)) return "";
-  const a = A();
+function z(n, t) {
+  if (n == null || Number.isNaN(n)) return "";
+  const e = T();
   try {
-    if (a && typeof a.money == "function")
-      return t ? a.money({ amount: s, currency: t }) : a.money(s);
+    if (e && typeof e.money == "function")
+      return t ? e.money({ amount: n, currency: t }) : e.money(n);
   } catch {
   }
-  const e = X(s);
-  return t ? `${e} ${t}` : e;
+  const a = U(n);
+  return t ? `${a} ${t}` : a;
 }
-async function H(s, t = "") {
-  var v, y, w, x, k, z, P, T, D, R, V;
-  const a = A();
-  if (!a) throw new Error("Salla SDK unavailable");
-  typeof a.onReady == "function" && await a.onReady();
-  const e = ((v = a.product) == null ? void 0 : v.getDetails) ?? ((w = (y = a.product) == null ? void 0 : y.api) == null ? void 0 : w.getDetails);
-  if (typeof e != "function")
+async function X(n, t = "") {
+  var x, b, y, v, _, $, S, M, A, R, I;
+  const e = T();
+  if (!e) throw new Error("Salla SDK unavailable");
+  typeof e.onReady == "function" && await e.onReady();
+  const a = ((x = e.product) == null ? void 0 : x.getDetails) ?? ((y = (b = e.product) == null ? void 0 : b.api) == null ? void 0 : y.getDetails);
+  if (typeof a != "function")
     throw new Error("getDetails unavailable");
-  const r = await e.call(a.product, s), i = (r == null ? void 0 : r.data) ?? r;
+  const r = await a.call(e.product, n), i = (r == null ? void 0 : r.data) ?? r;
   if (!i) throw new Error("empty product payload");
-  const l = ((x = i.image) == null ? void 0 : x.url) || ((k = i.image) == null ? void 0 : k.thumbnail) || Array.isArray(i.images) && (((z = i.images[0]) == null ? void 0 : z.url) || i.images[0]) || i.thumbnail || i.main_image || "", c = i.url || ((P = i.urls) == null ? void 0 : P.customer) || ((T = i.urls) == null ? void 0 : T.product) || i.permalink || `/p${s}`, h = $(i.price), p = $(i.regular_price), d = $(i.sale_price);
-  let u = p ?? h, m = h ?? p;
-  d !== void 0 && d > 0 && (m = d, (u === void 0 || u <= d) && (u = p ?? h ?? d));
-  const f = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || d !== void 0) && u !== void 0 && m !== void 0 && m < u, b = i.currency || ((D = i.price) == null ? void 0 : D.currency) || ((R = i.regular_price) == null ? void 0 : R.currency) || void 0;
+  const l = ((v = i.image) == null ? void 0 : v.url) || ((_ = i.image) == null ? void 0 : _.thumbnail) || Array.isArray(i.images) && ((($ = i.images[0]) == null ? void 0 : $.url) || i.images[0]) || i.thumbnail || i.main_image || "", c = i.url || ((S = i.urls) == null ? void 0 : S.customer) || ((M = i.urls) == null ? void 0 : M.product) || i.permalink || `/p${n}`, d = q(i.price), p = q(i.regular_price), h = q(i.sale_price);
+  let u = p ?? d, m = d ?? p;
+  h !== void 0 && h > 0 && (m = h, (u === void 0 || u <= h) && (u = p ?? d ?? h));
+  const g = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || h !== void 0) && u !== void 0 && m !== void 0 && m < u, k = i.currency || ((A = i.price) == null ? void 0 : A.currency) || ((R = i.regular_price) == null ? void 0 : R.currency) || void 0;
   return {
-    name: String(i.name || i.title || t || `#${s}`),
+    name: String(i.name || i.title || t || `#${n}`),
     image: l || void 0,
-    imageAlt: String(((V = i.image) == null ? void 0 : V.alt) || i.name || ""),
+    imageAlt: String(((I = i.image) == null ? void 0 : I.alt) || i.name || ""),
     url: c,
     regular: u,
-    sale: f ? m : void 0,
-    onSale: f,
-    currency: b
+    sale: g ? m : void 0,
+    onSale: g,
+    currency: k
   };
 }
-const F = E`
+const H = V`
   :host {
     display: block;
     font-family: inherit;
@@ -168,6 +168,8 @@ const F = E`
     --t-star: #ff9f1c;
     --t-star-empty: rgba(20, 24, 31, 0.14);
     --t-accent: #e07a3e;
+    --t-nav-bg: #14181f;
+    --t-nav-fg: #ffffff;
     --t-chip-bg: #f1f0ec;
     --t-chip-name: #14181f;
     --t-chip-price: #14181f;
@@ -192,12 +194,34 @@ const F = E`
      SECTION + HEADER
      ============================================================ */
   .t-section {
+    position: relative; /* anchors the optional background-image tint layer */
     width: 100%;
     max-width: 100%;
     min-width: 0;
     background: var(--t-bg);
     padding: clamp(2.5rem, 6vw, 4.5rem) var(--t-pad-x);
     overflow: hidden;
+  }
+  /* Optional section background image. The photo sits underneath a tint layer
+     made from --t-bg at --t-bg-overlay opacity (merchant dropdown), so cards and
+     text stay legible on any image; content is lifted above the tint. */
+  .t-section[data-bg-image] {
+    background-image: var(--t-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .t-section[data-bg-image]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--t-bg);
+    opacity: var(--t-bg-overlay, 0.6);
+    pointer-events: none;
+  }
+  .t-section[data-bg-image] > * {
+    position: relative;
+    z-index: 1;
   }
 
   .t-header {
@@ -760,6 +784,12 @@ const F = E`
   .t-marquee-row[data-pause="hover"]:hover .t-marquee-track {
     animation-play-state: paused;
   }
+  /* Keyboard: a focused product chip freezes its row so it can be read/activated.
+     Toggle: the visible pause button (WCAG 2.2.2) freezes every row. */
+  .t-marquee-row:focus-within .t-marquee-track,
+  .t-marquee[data-paused="true"] .t-marquee-track {
+    animation-play-state: paused;
+  }
   /* Off-screen (host attribute set by IntersectionObserver): freeze the
      marquee so it doesn't burn compositor time while invisible. */
   :host([out-of-view]) .t-marquee-track {
@@ -769,6 +799,34 @@ const F = E`
     flex: 0 0 auto;
     width: clamp(258px, 80vw, 320px);
     margin-inline-end: var(--t-gap);
+  }
+  /* Pause/play toggle — sits under the rows at the inline-end edge, styled like
+     a quiet cousin of the carousel arrows so it never competes with the cards. */
+  .t-marquee-toggle {
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--t-nav-bg);
+    color: var(--t-nav-fg);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s var(--t-ease), background 0.2s var(--t-ease);
+  }
+  .t-marquee-toggle:hover {
+    transform: scale(1.06);
+  }
+  .t-marquee-toggle:focus-visible {
+    outline: 2px solid var(--t-accent);
+    outline-offset: 2px;
+  }
+  .t-marquee-toggle svg {
+    width: 16px;
+    height: 16px;
   }
   @keyframes t-marquee-ltr {
     from {
@@ -847,8 +905,8 @@ const F = E`
     height: 42px;
     border: none;
     border-radius: 50%;
-    background: var(--t-title);
-    color: #fff;
+    background: var(--t-nav-bg);
+    color: var(--t-nav-fg);
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -1059,6 +1117,10 @@ const F = E`
     .t-marquee-track {
       animation: none !important;
     }
+    /* Nothing moves, so there is nothing to pause. */
+    .t-marquee-toggle {
+      display: none;
+    }
     .t-card,
     .t-photo > img,
     .t-overlay-photo,
@@ -1088,41 +1150,41 @@ const F = E`
     }
   }
 `;
-var U = Object.defineProperty, q = (s, t, a, e) => {
-  for (var r = void 0, i = s.length - 1, l; i >= 0; i--)
-    (l = s[i]) && (r = l(t, a, r) || r);
-  return r && U(t, a, r), r;
+var F = Object.defineProperty, C = (n, t, e, a) => {
+  for (var r = void 0, i = n.length - 1, l; i >= 0; i--)
+    (l = n[i]) && (r = l(t, e, r) || r);
+  return r && F(t, e, r), r;
 };
-const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.png", N = class N extends j {
+const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.png", D = class D extends j {
   constructor() {
-    super(...arguments), this._animState = "ready", this._carouselPage = 0, this._isDesktop = !1, this._autoplayTimer = null, this._scrollRaf = null, this._interactionPaused = !1, this._inView = !0, this._io = null, this._dragActive = !1, this._dragStartX = 0, this._dragStartScroll = 0, this._dragMoved = !1, this._productCache = /* @__PURE__ */ new Map(), this._carouselPrev = () => {
-      var e;
+    super(...arguments), this._animState = "ready", this._carouselPage = 0, this._isDesktop = !1, this._marqueePaused = !1, this._autoplayTimer = null, this._scrollRaf = null, this._interactionPaused = !1, this._inView = !0, this._io = null, this._dragActive = !1, this._dragStartX = 0, this._dragStartScroll = 0, this._dragMoved = !1, this._productCache = /* @__PURE__ */ new Map(), this._carouselPrev = () => {
+      var a;
       const t = this._pageCount(this._items().length);
-      let a = this._carouselPage - 1;
-      a < 0 && (a = ((e = this.config) == null ? void 0 : e.carousel_loop) !== !1 ? t - 1 : 0), this._scrollToPage(a);
+      let e = this._carouselPage - 1;
+      e < 0 && (e = ((a = this.config) == null ? void 0 : a.carousel_loop) !== !1 ? t - 1 : 0), this._scrollToPage(e);
     }, this._carouselNext = () => {
-      var e;
+      var a;
       const t = this._pageCount(this._items().length);
-      let a = this._carouselPage + 1;
-      a >= t && (a = ((e = this.config) == null ? void 0 : e.carousel_loop) !== !1 ? 0 : t - 1), this._scrollToPage(a);
+      let e = this._carouselPage + 1;
+      e >= t && (e = ((a = this.config) == null ? void 0 : a.carousel_loop) !== !1 ? 0 : t - 1), this._scrollToPage(e);
     }, this._onTrackScroll = () => {
       this._scrollRaf || (this._scrollRaf = requestAnimationFrame(() => {
         this._scrollRaf = null;
         const t = this._track;
         if (!t || t.clientWidth === 0) return;
-        const a = Math.round(Math.abs(t.scrollLeft) / t.clientWidth), e = this._pageCount(this._items().length), r = Math.max(0, Math.min(e - 1, a));
+        const e = Math.round(Math.abs(t.scrollLeft) / t.clientWidth), a = this._pageCount(this._items().length), r = Math.max(0, Math.min(a - 1, e));
         r !== this._carouselPage && (this._carouselPage = r);
       }));
     }, this._onDragDown = (t) => {
       if (t.pointerType !== "mouse") return;
-      const a = this._track;
-      a && (this._dragActive = !0, this._dragMoved = !1, this._dragStartX = t.clientX, this._dragStartScroll = a.scrollLeft, a.style.scrollSnapType = "none", a.style.scrollBehavior = "auto", a.classList.add("is-grabbing"));
+      const e = this._track;
+      e && (this._dragActive = !0, this._dragMoved = !1, this._dragStartX = t.clientX, this._dragStartScroll = e.scrollLeft, e.style.scrollSnapType = "none", e.style.scrollBehavior = "auto", e.classList.add("is-grabbing"));
     }, this._onDragMove = (t) => {
       if (!this._dragActive) return;
-      const a = this._track;
-      if (!a) return;
-      const e = t.clientX - this._dragStartX;
-      Math.abs(e) > 4 && (this._dragMoved = !0), a.scrollLeft = this._dragStartScroll - e;
+      const e = this._track;
+      if (!e) return;
+      const a = t.clientX - this._dragStartX;
+      Math.abs(a) > 4 && (this._dragMoved = !0), e.scrollLeft = this._dragStartScroll - a;
     }, this._endDrag = () => {
       const t = this._track;
       !t || !this._dragActive || (this._dragActive = !1, t.style.scrollSnapType = "", t.style.scrollBehavior = "", t.classList.remove("is-grabbing"));
@@ -1132,11 +1194,13 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       this._interactionPaused || (this._interactionPaused = !0, this._teardownAutoplay());
     }, this._resumeInteraction = () => {
       this._interactionPaused && (this._interactionPaused = !1, this._setupAutoplay());
+    }, this._toggleMarquee = () => {
+      this._marqueePaused = !this._marqueePaused;
     }, this._starPath = "M12 17.27l-6.18 3.73 1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73 1.64 7.03z";
   }
   /** Salla SDK global — see shared/product.ts. */
   get _salla() {
-    return A();
+    return T();
   }
   // ------------------------------------------------------------
   // Value helpers
@@ -1150,21 +1214,21 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   }
   /** Keep only testimonials that carry some renderable content. */
   _items() {
-    var a;
-    const t = (a = this.config) == null ? void 0 : a.items;
-    return Array.isArray(t) ? t.filter((e) => !e || typeof e != "object" ? !1 : !!(this.localizedString(e.quote) || this.localizedString(e.name) || e.photo || e.avatar || e.product)) : [];
+    var e;
+    const t = (e = this.config) == null ? void 0 : e.items;
+    return Array.isArray(t) ? t.filter((a) => !a || typeof a != "object" ? !1 : !!(this.localizedString(a.quote) || this.localizedString(a.name) || a.photo || a.avatar || a.product)) : [];
   }
   /** Resolve grid/carousel column counts (mobile-first; desktop "inherit" → mobile). */
   _resolveColumns() {
-    const t = this.config || {}, a = this._num(
+    const t = this.config || {}, e = this._num(
       this._pickValue(t.columns_mobile, "1"),
       1
-    ), e = this._pickValue(
+    ), a = this._pickValue(
       t.columns_desktop,
-      "inherit"
-    ), r = e === "inherit" ? a : this._num(e, 3);
+      "3"
+    ), r = a === "inherit" ? e : this._num(a, 3);
     return {
-      mobile: Math.max(1, Math.min(4, a)),
+      mobile: Math.max(1, Math.min(4, e)),
       desktop: Math.max(1, Math.min(4, r))
     };
   }
@@ -1172,34 +1236,34 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     const t = this._resolveColumns();
     return this._isDesktop ? t.desktop : t.mobile;
   }
-  async _fetchProduct(t, a) {
+  async _fetchProduct(t, e) {
     if (!this._productCache.has(t)) {
-      this._productCache.set(t, { status: "loading", label: a }), this.requestUpdate();
+      this._productCache.set(t, { status: "loading", label: e }), this.requestUpdate();
       try {
-        const e = await H(t, a);
-        this._productCache.set(t, { status: "loaded", data: e });
-      } catch (e) {
-        console.warn("[growth-testimonials] product fetch failed", t, e), this._productCache.set(t, { status: "failed" });
+        const a = await X(t, e);
+        this._productCache.set(t, { status: "loaded", data: a });
+      } catch (a) {
+        console.warn("[growth-testimonials] product fetch failed", t, a), this._productCache.set(t, { status: "failed" });
       }
       this.requestUpdate();
     }
   }
   _resolveProduct(t) {
-    const a = B(t.product);
-    if (!a) return null;
-    const e = this._productCache.get(a.id);
-    return e ? e.status === "loaded" ? e.data : e.status === "loading" && e.label ? { name: e.label, url: "", onSale: !1 } : null : (this._fetchProduct(a.id, a.label), a.label ? { name: a.label, url: "", onSale: !1 } : null);
+    const e = B(t.product);
+    if (!e) return null;
+    const a = this._productCache.get(e.id);
+    return a ? a.status === "loaded" ? a.data : a.status === "loading" && a.label ? { name: a.label, url: "", onSale: !1 } : null : (this._fetchProduct(e.id, e.label), e.label ? { name: e.label, url: "", onSale: !1 } : null);
   }
   // ------------------------------------------------------------
   // Lifecycle
   // ------------------------------------------------------------
   connectedCallback() {
-    var e;
+    var a;
     super.connectedCallback();
     const t = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
-    ).matches, a = ((e = this.config) == null ? void 0 : e.enable_entrance_anim) === !1;
-    t || a ? this._animState = "in" : requestAnimationFrame(() => {
+    ).matches, e = ((a = this.config) == null ? void 0 : a.enable_entrance_anim) === !1;
+    t || e ? this._animState = "in" : requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this._animState = "in";
       });
@@ -1230,10 +1294,10 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     return Math.max(1, Math.ceil(t / this._cardsPerView()));
   }
   _scrollToPage(t) {
-    const a = this._track;
-    if (!a) return;
-    const e = this._pageCount(this._items().length), r = Math.max(0, Math.min(e - 1, t)), i = (this._isRtl() ? -1 : 1) * r * a.clientWidth;
-    a.scrollTo({ left: i, behavior: "smooth" }), this._carouselPage = r;
+    const e = this._track;
+    if (!e) return;
+    const a = this._pageCount(this._items().length), r = Math.max(0, Math.min(a - 1, t)), i = (this._isRtl() ? -1 : 1) * r * e.clientWidth;
+    e.scrollTo({ left: i, behavior: "smooth" }), this._carouselPage = r;
   }
   // ------------------------------------------------------------
   // Autoplay (carousel only)
@@ -1241,10 +1305,10 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   _setupAutoplay() {
     const t = this.config || {};
     if (this._pickValue(t.layout, "marquee") !== "carousel" || !t.carousel_autoplay || this._interactionPaused || !this._inView || this._pageCount(this._items().length) < 2) return;
-    const e = Math.max(2, this._num(t.carousel_autoplay_delay, 5)) * 1e3;
+    const a = Math.max(2, this._num(t.carousel_autoplay_delay, 5)) * 1e3;
     this._autoplayTimer = window.setTimeout(() => {
       this._autoplayTimer = null, this._carouselNext();
-    }, e);
+    }, a);
   }
   _teardownAutoplay() {
     this._autoplayTimer && (clearTimeout(this._autoplayTimer), this._autoplayTimer = null);
@@ -1262,11 +1326,22 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     return o`<svg viewBox="0 0 24 24" fill="currentColor"
       aria-hidden="true"><path d="M9.5 7C6.5 7 4 9.5 4 12.5V19h6.5v-6.5H7.2c0-1.8 1.5-3 3.3-3V7zm10 0C16.5 7 14 9.5 14 12.5V19h6.5v-6.5h-3.3c0-1.8 1.5-3 3.3-3V7z" /></svg>`;
   }
+  _pauseIcon() {
+    return o`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect x="6" y="5" width="4" height="14" rx="1" />
+      <rect x="14" y="5" width="4" height="14" rx="1" />
+    </svg>`;
+  }
+  _playIcon() {
+    return o`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5z" />
+    </svg>`;
+  }
   // ------------------------------------------------------------
   // Render: stars
   // ------------------------------------------------------------
   _renderStars(t) {
-    const a = Math.max(0, Math.min(100, t / 5 * 100)), e = (r) => o`
+    const e = Math.max(0, Math.min(100, t / 5 * 100)), a = (r) => o`
       <div class=${r} aria-hidden="true">
         ${[0, 1, 2, 3, 4].map(
       () => o`<svg viewBox="0 0 24 24"><path d=${this._starPath} /></svg>`
@@ -1274,145 +1349,145 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       </div>
     `;
     return o`
-      <div class="t-stars" style=${`--t-star-pct:${a}%`}>
-        ${e("t-stars-bg")}
-        <div class="t-stars-fg-clip">${e("t-stars-fg")}</div>
+      <div class="t-stars" style=${`--t-star-pct:${e}%`}>
+        ${a("t-stars-bg")}
+        <div class="t-stars-fg-clip">${a("t-stars-fg")}</div>
       </div>
     `;
   }
-  _renderRating(t, a) {
-    const e = Math.max(0, Math.min(5, this._num(t.rating, 5)));
-    if (e <= 0) return n;
-    const r = this._formatRating(e);
-    return a === "number" ? o`<div class="t-rating t-rating--num" aria-label=${`${r}/5`}>
+  _renderRating(t, e) {
+    const a = Math.max(0, Math.min(5, this._num(t.rating, 5)));
+    if (a <= 0) return s;
+    const r = this._formatRating(a);
+    return e === "number" ? o`<div class="t-rating t-rating--num" aria-label=${`${r}/5`}>
         <svg class="t-rating-star" viewBox="0 0 24 24" aria-hidden="true">
           <path d=${this._starPath} />
         </svg>
         <span>${r}</span>
       </div>` : o`<div class="t-rating" aria-label=${`${r}/5`} role="img">
-      ${this._renderStars(e)}
-      ${a === "stars-number" ? o`<span class="t-rating-text">(${r}/5)</span>` : n}
+      ${this._renderStars(a)}
+      ${e === "stars-number" ? o`<span class="t-rating-text">(${r}/5)</span>` : s}
     </div>`;
   }
   // ------------------------------------------------------------
   // Render: product chip
   // ------------------------------------------------------------
-  _renderChip(t, a) {
-    const e = this._resolveProduct(t), r = this.localizedString(t.product_name) || (e == null ? void 0 : e.name) || "", i = t.product_image || (e == null ? void 0 : e.image) || "", l = (t.product_url || "").trim() || (e == null ? void 0 : e.url) || "";
-    let c = "", h = "";
-    const p = (t.product_price || "").toString().trim(), d = (t.product_compare || "").toString().trim();
-    if (p) {
-      if (c = p, d) {
-        const m = $(p), g = $(d);
-        m !== void 0 && g !== void 0 && g > m && (h = d);
+  _renderChip(t, e, a) {
+    const r = this._resolveProduct(t), i = this.localizedString(t.product_name) || (r == null ? void 0 : r.name) || "", l = t.product_image || (r == null ? void 0 : r.image) || "", c = (t.product_url || "").trim() || (r == null ? void 0 : r.url) || "";
+    let d = "", p = "";
+    const h = (t.product_price || "").toString().trim(), u = (t.product_compare || "").toString().trim();
+    if (h) {
+      if (d = h, u) {
+        const f = q(h), g = q(u);
+        f !== void 0 && g !== void 0 && g > f && (p = u);
       }
-    } else e && (e.onSale && e.sale !== void 0 ? (c = S(e.sale, e.currency), e.regular !== void 0 && (h = S(e.regular, e.currency))) : e.regular !== void 0 && (c = S(e.regular, e.currency)));
-    if (!r && !i && !c) return n;
-    const u = o`
-      ${i ? o`<span class="t-chip-media"
-            ><img src=${i} alt=${r} loading="lazy"
-          /></span>` : n}
+    } else r && (r.onSale && r.sale !== void 0 ? (d = z(r.sale, r.currency), r.regular !== void 0 && (p = z(r.regular, r.currency))) : r.regular !== void 0 && (d = z(r.regular, r.currency)));
+    if (!i && !l && !d) return s;
+    const m = o`
+      ${l ? o`<span class="t-chip-media"
+            ><img src=${l} alt=${i} loading=${a}
+          /></span>` : s}
       <span class="t-chip-body">
-        ${r ? o`<span class="t-chip-name">${r}</span>` : n}
-        ${c ? o`<span class="t-chip-prices">
-              <span class="t-chip-price">${c}</span>
-              ${h ? o`<span class="t-chip-compare">${h}</span>` : n}
-            </span>` : n}
+        ${i ? o`<span class="t-chip-name">${i}</span>` : s}
+        ${d ? o`<span class="t-chip-prices">
+              <span class="t-chip-price">${d}</span>
+              ${p ? o`<span class="t-chip-compare">${p}</span>` : s}
+            </span>` : s}
       </span>
-      ${l ? o`<span class="t-chip-go">${this._chevronIcon()}</span>` : n}
+      ${c ? o`<span class="t-chip-go">${this._chevronIcon()}</span>` : s}
     `;
-    return l ? o`<a
+    return c ? o`<a
           class="t-chip"
-          data-style=${a}
-          href=${l}
+          data-style=${e}
+          href=${c}
           @click=${this._onChipClick}
-          >${u}</a
-        >` : o`<div class="t-chip" data-style=${a}>${u}</div>`;
+          >${m}</a
+        >` : o`<div class="t-chip" data-style=${e}>${m}</div>`;
   }
   // ------------------------------------------------------------
   // Render: a single testimonial card (shared across all layouts)
   // ------------------------------------------------------------
-  _renderCard(t, a, e, r) {
-    var g;
-    const i = this.localizedString(t.name), l = this.localizedString(t.meta), c = this.localizedString(t.quote), h = e === "overlay" ? t.photo || "" : e === "modern" && r.showPhoto && t.photo || "", p = r.showAvatar ? t.avatar || Y : "", d = r.showRating ? this._renderRating(t, r.ratingStyle) : n, u = r.showProduct ? this._renderChip(t, r.chipStyle) : n, m = (f) => i || l || f && p ? o`<div class="t-author">
+  _renderCard(t, e, a, r) {
+    var f;
+    const i = this.localizedString(t.name), l = this.localizedString(t.meta), c = this.localizedString(t.quote), d = a === "overlay" ? t.photo || "" : a === "modern" && r.showPhoto && t.photo || "", p = r.showAvatar ? t.avatar || Y : "", h = r.showRating ? this._renderRating(t, r.ratingStyle) : s, u = r.showProduct ? this._renderChip(t, r.chipStyle, r.imgLoading) : s, m = (g) => i || l || g && p ? o`<div class="t-author">
             ${p ? o`<span class="t-avatar"
-                  ><img src=${p} alt=${i} loading="lazy"
-                /></span>` : n}
+                  ><img src=${p} alt=${i} loading=${r.imgLoading}
+                /></span>` : s}
             <div class="t-author-meta">
-              ${i ? o`<span class="t-name">${i}</span>` : n}
-              ${l ? o`<span class="t-meta">${l}</span>` : n}
+              ${i ? o`<span class="t-name">${i}</span>` : s}
+              ${l ? o`<span class="t-meta">${l}</span>` : s}
             </div>
-          </div>` : n;
-    if (e === "modern")
+          </div>` : s;
+    if (a === "modern")
       return o`
-        <article class="t-card" data-style="modern" data-index=${a}>
-          ${h ? o`<div class="t-photo">
+        <article class="t-card" data-style="modern" data-index=${e}>
+          ${d ? o`<div class="t-photo">
                 <img
-                  src=${h}
+                  src=${d}
                   alt=${i ? `تصوير العميل: ${i}` : "تصوير العميل"}
-                  loading="lazy"
+                  loading=${r.imgLoading}
                 />
                 ${i || l ? o`<span class="t-photo-chip">
                       ${p ? o`<img
                             class="t-photo-chip-avatar"
                             src=${p}
                             alt=${i}
-                            loading="lazy"
-                          />` : n}
+                            loading=${r.imgLoading}
+                          />` : s}
                       <span class="t-photo-chip-text"
-                        >${i}${l ? o`, ${l}` : n}</span
+                        >${i}${l ? o`, ${l}` : s}</span
                       >
-                    </span>` : n}
-              </div>` : n}
+                    </span>` : s}
+              </div>` : s}
           <div class="t-body">
-            ${h ? n : m(!0)} ${d}
-            ${c ? o`<p class="t-quote">${c}</p>` : n}
+            ${d ? s : m(!0)} ${h}
+            ${c ? o`<p class="t-quote">${c}</p>` : s}
             ${u}
           </div>
         </article>
       `;
-    if (e === "overlay") {
-      const f = this._pickValue(
-        (g = this.config) == null ? void 0 : g.overlay_tone,
+    if (a === "overlay") {
+      const g = this._pickValue(
+        (f = this.config) == null ? void 0 : f.overlay_tone,
         "dark"
       );
       return o`
         <article
           class="t-card"
           data-style="overlay"
-          data-tone=${f}
-          data-index=${a}
+          data-tone=${g}
+          data-index=${e}
         >
-          ${h ? o`<img
+          ${d ? o`<img
                 class="t-overlay-photo"
-                src=${h}
+                src=${d}
                 alt=${i ? `تصوير العميل: ${i}` : "تصوير العميل"}
-                loading="lazy"
-              />` : n}
+                loading=${r.imgLoading}
+              />` : s}
           <div class="t-overlay-panel">
-            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : n}
-            ${d}
-            ${c ? o`<p class="t-quote">${c}</p>` : n}
+            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : s}
+            ${h}
+            ${c ? o`<p class="t-quote">${c}</p>` : s}
             ${m(!0)} ${u}
           </div>
         </article>
       `;
     }
-    return e === "bubble" ? o`
-        <article class="t-card" data-style="bubble" data-index=${a}>
+    return a === "bubble" ? o`
+        <article class="t-card" data-style="bubble" data-index=${e}>
           <div class="t-bubble">
-            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : n}
-            ${d}
-            ${c ? o`<p class="t-quote">${c}</p>` : n}
+            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : s}
+            ${h}
+            ${c ? o`<p class="t-quote">${c}</p>` : s}
             ${u}
           </div>
           ${m(!0)}
         </article>
       ` : o`
-      <article class="t-card" data-style=${e} data-index=${a}>
-        ${r.showQuoteMark && e === "quote" ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : n}
-        ${d}
-        ${c ? o`<p class="t-quote">${c}</p>` : n}
+      <article class="t-card" data-style=${a} data-index=${e}>
+        ${r.showQuoteMark && a === "quote" ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : s}
+        ${h}
+        ${c ? o`<p class="t-quote">${c}</p>` : s}
         ${m(!0)} ${u}
       </article>
     `;
@@ -1420,52 +1495,69 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   // ------------------------------------------------------------
   // Render: layouts
   // ------------------------------------------------------------
-  _renderMarquee(t, a, e) {
+  _renderMarquee(t, e, a) {
     const r = this.config || {}, i = this._num(
       this._pickValue(r.marquee_rows, "1"),
       1
     ), l = this._pickValue(
       r.marquee_speed,
       "normal"
-    ), c = this._pickValue(
-      r.marquee_direction,
-      "forward"
-    ), h = r.marquee_pause_hover !== !1, d = {
+    ), c = "forward", d = r.marquee_pause_hover !== !1, h = {
       slow: 5,
       normal: 3,
       fast: 1.8
-    }[l], u = (g) => {
-      const b = Math.max(2, Math.ceil(8 / Math.max(1, g.length))), v = [];
-      for (let y = 0; y < b; y++) v.push(...g);
-      return v;
-    }, m = (g, f) => {
-      const b = u(g), v = (w) => b.map(
-        (x, k) => o`<div class="t-marquee-cell" aria-hidden=${w === 1 ? "true" : "false"}>
-              ${this._renderCard(x, k, a, e)}
+    }[l], u = (b) => {
+      const v = Math.max(2, Math.ceil(8 / Math.max(1, b.length))), _ = [];
+      for (let $ = 0; $ < v; $++) _.push(...b);
+      return _;
+    }, m = { ...a, imgLoading: "eager" }, f = (b, y) => {
+      const v = u(b), _ = (S) => v.map(
+        (M, A) => o`<div
+              class="t-marquee-cell"
+              aria-hidden=${S === 1 ? "true" : s}
+              ?inert=${S === 1}
+            >
+              ${this._renderCard(M, A, e, m)}
             </div>`
-      ), y = Math.max(12, b.length * d);
+      ), $ = Math.max(12, v.length * h);
       return o`<div
         class="t-marquee-row"
-        data-dir=${f}
-        data-pause=${h ? "hover" : "off"}
-        style=${`--t-marquee-dur:${y}s`}
+        data-dir=${y}
+        data-pause=${d ? "hover" : "off"}
+        style=${`--t-marquee-dur:${$}s`}
       >
-        <div class="t-marquee-track">${v(0)}${v(1)}</div>
+        <div class="t-marquee-track">${_(0)}${_(1)}</div>
       </div>`;
-    };
+    }, g = this._marqueePaused, k = this._lang() === "ar", x = o`<button
+      type="button"
+      class="t-marquee-toggle"
+      aria-label=${g ? k ? "تشغيل الحركة" : "Play" : k ? "إيقاف الحركة" : "Pause"}
+      @click=${this._toggleMarquee}
+    >
+      ${g ? this._playIcon() : this._pauseIcon()}
+    </button>`;
     if (i >= 2 && t.length > 1) {
-      const g = Math.ceil(t.length / 2), f = t.slice(0, g), b = t.slice(g), v = c === "forward" ? "backward" : "forward";
-      return o`<div class="t-marquee" data-rows="2">
-        ${m(f, c)}
-        ${m(b.length ? b : f, v)}
+      const b = Math.ceil(t.length / 2), y = t.slice(0, b), v = t.slice(b);
+      return o`<div
+        class="t-marquee"
+        data-rows="2"
+        data-paused=${g ? "true" : "false"}
+      >
+        ${f(y, c)}
+        ${f(v.length ? v : y, "backward")}
+        ${x}
       </div>`;
     }
-    return o`<div class="t-marquee" data-rows="1">
-      ${m(t, c)}
+    return o`<div
+      class="t-marquee"
+      data-rows="1"
+      data-paused=${g ? "true" : "false"}
+    >
+      ${f(t, c)} ${x}
     </div>`;
   }
-  _renderCarousel(t, a, e) {
-    const r = this.config || {}, i = r.carousel_arrows !== !1, l = r.carousel_dots !== !1, c = this._pageCount(t.length), h = c > 1;
+  _renderCarousel(t, e, a) {
+    const r = this.config || {}, i = r.carousel_arrows !== !1, l = r.carousel_dots !== !1, c = this._pageCount(t.length), d = c > 1;
     return o`
       <div
         class="t-carousel"
@@ -1482,13 +1574,13 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
           @pointerleave=${this._endDrag}
         >
           ${t.map(
-      (p, d) => o`<div class="t-carousel-cell">
-                ${this._renderCard(p, d, a, e)}
+      (p, h) => o`<div class="t-carousel-cell">
+                ${this._renderCard(p, h, e, a)}
               </div>`
     )}
         </div>
 
-        ${i && h ? o`
+        ${i && d ? o`
               <button
                 type="button"
                 class="t-arrow t-arrow--prev"
@@ -1505,26 +1597,26 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
               >
                 ${this._chevronIcon()}
               </button>
-            ` : n}
+            ` : s}
       </div>
-      ${l && h ? o`<div class="t-dots" role="tablist">
+      ${l && d ? o`<div class="t-dots" role="tablist">
             ${Array.from({ length: c }).map(
-      (p, d) => o`<button
+      (p, h) => o`<button
                 type="button"
                 class="t-dot"
-                aria-current=${this._carouselPage === d ? "true" : "false"}
-                aria-label=${`${this._lang() === "ar" ? "صفحة" : "Page"} ${d + 1}`}
-                @click=${() => this._scrollToPage(d)}
+                aria-current=${this._carouselPage === h ? "true" : "false"}
+                aria-label=${`${this._lang() === "ar" ? "صفحة" : "Page"} ${h + 1}`}
+                @click=${() => this._scrollToPage(h)}
               ></button>`
     )}
-          </div>` : n}
+          </div>` : s}
     `;
   }
-  _renderGridish(t, a, e, r) {
-    return o`<div class="t-grid" data-layout=${a}>
+  _renderGridish(t, e, a, r) {
+    return o`<div class="t-grid" data-layout=${e}>
       ${t.map(
       (i, l) => o`<div class="t-grid-cell">
-            ${this._renderCard(i, l, e, r)}
+            ${this._renderCard(i, l, a, r)}
           </div>`
     )}
     </div>`;
@@ -1532,13 +1624,23 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   // ------------------------------------------------------------
   // Render: host style (CSS custom properties)
   // ------------------------------------------------------------
+  /** Section background image URL, escaped for use inside a CSS `url('…')`. */
+  _bgImageUrl(t) {
+    const e = (t.bg_image || "").toString().trim();
+    return e ? e.replace(
+      /['"()\\\s]/g,
+      (a) => "%" + a.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0")
+    ) : "";
+  }
   _buildHostStyle(t) {
-    const a = this._resolveColumns(), e = this._num(t.card_radius, 20), i = this._pickValue(
+    const e = this._resolveColumns(), a = this._bgImageUrl(t), r = Math.max(0, Math.min(100, this._num(t.bg_overlay_opacity, 60))) / 100, i = this._num(t.card_radius, 20), c = this._pickValue(
       t.card_style,
       "modern"
     ) === "overlay" ? "4/5" : this._pickValue(t.photo_aspect, "4/5");
     return [
       t.bg_color ? `--t-bg:${t.bg_color}` : "",
+      a ? `--t-bg-image:url('${a}')` : "",
+      a ? `--t-bg-overlay:${r}` : "",
       t.title_color ? `--t-title:${t.title_color}` : "",
       t.subtitle_color ? `--t-subtitle:${t.subtitle_color}` : "",
       t.card_bg ? `--t-card-bg:${t.card_bg}` : "",
@@ -1549,90 +1651,101 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       t.star_color ? `--t-star:${t.star_color}` : "",
       t.star_empty_color ? `--t-star-empty:${t.star_empty_color}` : "",
       t.accent_color ? `--t-accent:${t.accent_color}` : "",
+      t.nav_bg ? `--t-nav-bg:${t.nav_bg}` : "",
+      t.nav_color ? `--t-nav-fg:${t.nav_color}` : "",
       t.chip_bg ? `--t-chip-bg:${t.chip_bg}` : "",
       t.chip_name_color ? `--t-chip-name:${t.chip_name_color}` : "",
       t.chip_price_color ? `--t-chip-price:${t.chip_price_color}` : "",
       t.chip_compare_color ? `--t-chip-compare:${t.chip_compare_color}` : "",
-      `--t-radius:${e}px`,
-      `--t-aspect:${i}`,
-      `--t-cols-mobile:${a.mobile}`,
-      `--t-cols-desktop:${a.desktop}`
+      `--t-radius:${i}px`,
+      `--t-aspect:${c}`,
+      `--t-cols-mobile:${e.mobile}`,
+      `--t-cols-desktop:${e.desktop}`
     ].filter(Boolean).join("; ");
   }
   // ------------------------------------------------------------
   // Render
   // ------------------------------------------------------------
   render() {
-    const t = this.config || {}, a = this._items(), e = this._pickValue(t.layout, "marquee"), r = this._pickValue(
+    const t = this.config || {}, e = this._items(), a = this._pickValue(t.layout, "marquee"), r = this._pickValue(
       t.card_style,
       "modern"
     ), i = this._pickValue(
       t.rating_style,
       "stars-number"
-    ), l = this._pickValue(t.chip_style, "card"), c = t.enable_entrance_anim !== !1, h = t.enable_hover_lift !== !1, p = {
+    ), l = this._pickValue(t.chip_style, "card"), c = t.enable_entrance_anim !== !1, d = t.enable_hover_lift !== !1, p = {
       showRating: t.show_rating !== !1,
       ratingStyle: i,
       showAvatar: t.show_avatar !== !1,
       showPhoto: t.show_photo !== !1,
       showQuoteMark: t.show_quote_mark !== !1,
       showProduct: t.show_product !== !1,
-      chipStyle: l
-    }, d = this._buildHostStyle(t), u = this.localizedString(t.eyebrow), m = this.localizedString(t.section_title), g = this.localizedString(t.section_subtitle), f = t.show_summary === !0, b = Math.max(0, Math.min(5, this._num(t.summary_rating, 0))), v = this.localizedString(t.summary_count_text), y = f && (b > 0 || !!v);
-    if (a.length === 0)
-      return o`<section class="t-section" style=${d}>
+      chipStyle: l,
+      imgLoading: "lazy"
+    }, h = this._buildHostStyle(t), u = !!this._bgImageUrl(t), m = this.localizedString(t.eyebrow), f = this.localizedString(t.section_title), g = this.localizedString(t.section_subtitle), k = t.show_summary !== !1, x = Math.max(0, Math.min(5, this._num(t.summary_rating, 0))), b = this.localizedString(t.summary_count_text), y = k && (x > 0 || !!b);
+    if (e.length === 0)
+      return o`<section
+        class="t-section"
+        style=${h}
+        ?data-bg-image=${u}
+      >
         <p class="t-empty">
           ${this._lang() === "ar" ? "أضف رأي عميل واحدًا على الأقل لعرض هذا القسم." : "Add at least one testimonial to display this section."}
         </p>
       </section>`;
-    const w = u || m || g || y ? o`<header
+    const v = m || f || g || y ? o`<header
             class="t-header"
             data-anim=${c ? this._animState : "in"}
           >
-            ${u ? o`<p class="t-eyebrow">${u}</p>` : n}
-            ${m ? o`<h2 class="t-title">${m}</h2>` : n}
-            ${g ? o`<p class="t-subtitle">${g}</p>` : n}
+            ${m ? o`<p class="t-eyebrow">${m}</p>` : s}
+            ${f ? o`<h2 class="t-title">${f}</h2>` : s}
+            ${g ? o`<p class="t-subtitle">${g}</p>` : s}
             ${y ? o`<div class="t-summary">
-                  ${b > 0 ? o`<span class="t-summary-num"
-                          >${this._formatRating(b)}</span
-                        >${this._renderStars(b)}` : n}
-                  ${v ? o`<span class="t-summary-count">${v}</span>` : n}
-                </div>` : n}
-          </header>` : n, x = e === "marquee" ? this._renderMarquee(a, r, p) : e === "carousel" ? this._renderCarousel(a, r, p) : this._renderGridish(
-      a,
+                  ${x > 0 ? o`<span class="t-summary-num"
+                          >${this._formatRating(x)}</span
+                        >${this._renderStars(x)}` : s}
+                  ${b ? o`<span class="t-summary-count">${b}</span>` : s}
+                </div>` : s}
+          </header>` : s, _ = a === "marquee" ? this._renderMarquee(e, r, p) : a === "carousel" ? this._renderCarousel(e, r, p) : this._renderGridish(
       e,
+      a,
       r,
       p
     );
     return o`
       <section
         class="t-section"
-        style=${d}
-        data-layout=${e}
+        style=${h}
+        ?data-bg-image=${u}
+        data-layout=${a}
         data-card=${r}
         data-anim=${c ? this._animState : "in"}
-        data-hover-lift=${h ? "on" : "off"}
+        data-hover-lift=${d ? "on" : "off"}
       >
-        ${w}
-        <div class="t-body-wrap">${x}</div>
+        ${v}
+        <div class="t-body-wrap">${_}</div>
       </section>
     `;
   }
 };
-N.styles = F;
-let _ = N;
-q([
-  L({ type: Object })
-], _.prototype, "config");
-q([
-  M()
-], _.prototype, "_animState");
-q([
-  M()
-], _.prototype, "_carouselPage");
-q([
-  M()
-], _.prototype, "_isDesktop");
-typeof _ < "u" && _.registerSallaComponent("salla-testimonials");
+D.styles = H;
+let w = D;
+C([
+  O({ type: Object })
+], w.prototype, "config");
+C([
+  N()
+], w.prototype, "_animState");
+C([
+  N()
+], w.prototype, "_carouselPage");
+C([
+  N()
+], w.prototype, "_isDesktop");
+C([
+  N()
+], w.prototype, "_marqueePaused");
+typeof w < "u" && w.registerSallaComponent("salla-testimonials");
 export {
-  _ as default
+  w as default
 };

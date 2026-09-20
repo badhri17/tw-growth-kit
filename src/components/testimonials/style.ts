@@ -35,6 +35,8 @@ export const testimonialsStyles = css`
     --t-star: #ff9f1c;
     --t-star-empty: rgba(20, 24, 31, 0.14);
     --t-accent: #e07a3e;
+    --t-nav-bg: #14181f;
+    --t-nav-fg: #ffffff;
     --t-chip-bg: #f1f0ec;
     --t-chip-name: #14181f;
     --t-chip-price: #14181f;
@@ -59,12 +61,34 @@ export const testimonialsStyles = css`
      SECTION + HEADER
      ============================================================ */
   .t-section {
+    position: relative; /* anchors the optional background-image tint layer */
     width: 100%;
     max-width: 100%;
     min-width: 0;
     background: var(--t-bg);
     padding: clamp(2.5rem, 6vw, 4.5rem) var(--t-pad-x);
     overflow: hidden;
+  }
+  /* Optional section background image. The photo sits underneath a tint layer
+     made from --t-bg at --t-bg-overlay opacity (merchant dropdown), so cards and
+     text stay legible on any image; content is lifted above the tint. */
+  .t-section[data-bg-image] {
+    background-image: var(--t-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .t-section[data-bg-image]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--t-bg);
+    opacity: var(--t-bg-overlay, 0.6);
+    pointer-events: none;
+  }
+  .t-section[data-bg-image] > * {
+    position: relative;
+    z-index: 1;
   }
 
   .t-header {
@@ -627,6 +651,12 @@ export const testimonialsStyles = css`
   .t-marquee-row[data-pause="hover"]:hover .t-marquee-track {
     animation-play-state: paused;
   }
+  /* Keyboard: a focused product chip freezes its row so it can be read/activated.
+     Toggle: the visible pause button (WCAG 2.2.2) freezes every row. */
+  .t-marquee-row:focus-within .t-marquee-track,
+  .t-marquee[data-paused="true"] .t-marquee-track {
+    animation-play-state: paused;
+  }
   /* Off-screen (host attribute set by IntersectionObserver): freeze the
      marquee so it doesn't burn compositor time while invisible. */
   :host([out-of-view]) .t-marquee-track {
@@ -636,6 +666,34 @@ export const testimonialsStyles = css`
     flex: 0 0 auto;
     width: clamp(258px, 80vw, 320px);
     margin-inline-end: var(--t-gap);
+  }
+  /* Pause/play toggle — sits under the rows at the inline-end edge, styled like
+     a quiet cousin of the carousel arrows so it never competes with the cards. */
+  .t-marquee-toggle {
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--t-nav-bg);
+    color: var(--t-nav-fg);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s var(--t-ease), background 0.2s var(--t-ease);
+  }
+  .t-marquee-toggle:hover {
+    transform: scale(1.06);
+  }
+  .t-marquee-toggle:focus-visible {
+    outline: 2px solid var(--t-accent);
+    outline-offset: 2px;
+  }
+  .t-marquee-toggle svg {
+    width: 16px;
+    height: 16px;
   }
   @keyframes t-marquee-ltr {
     from {
@@ -714,8 +772,8 @@ export const testimonialsStyles = css`
     height: 42px;
     border: none;
     border-radius: 50%;
-    background: var(--t-title);
-    color: #fff;
+    background: var(--t-nav-bg);
+    color: var(--t-nav-fg);
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -925,6 +983,10 @@ export const testimonialsStyles = css`
   @media (prefers-reduced-motion: reduce) {
     .t-marquee-track {
       animation: none !important;
+    }
+    /* Nothing moves, so there is nothing to pause. */
+    .t-marquee-toggle {
+      display: none;
     }
     .t-card,
     .t-photo > img,
