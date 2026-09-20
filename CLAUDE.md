@@ -21,7 +21,28 @@ pnpm tw-create-component <name>   # Scaffold a new component (kebab-case name)
 pnpm tw-delete-component <name>   # Remove a component and its bundle entry
 ```
 
-There is no test runner configured in this project.
+There is no test runner configured in this project. Verification for a change is
+`pnpm build` (which runs the audits below) plus `npx -p typescript tsc --noEmit`.
+
+### Audits — ported from `tw-landing-bundle`
+
+```bash
+pnpm audit:localized           # multilanguage interpolation check (src/)
+pnpm audit:defaults            # fields with `selected` but no persisted `value`
+pnpm fix:defaults              # persist them
+pnpm audit:runtime-defaults    # schema default vs the component's own fallback
+```
+
+`audit:localized` is the only one wired into the build: it runs on `predev` and
+`prebuild` against `src/`, and on `postbuild` against `src/` + `dist/` (during
+`prebuild`, `dist/` is still the *previous* build, so failing on it there would
+be unfixable). It replicates Salla's publication check, which rejected the
+sibling bundle outright — see *Handling multilanguage values* below.
+
+The other two are **deliberately not gating yet**: they currently report 192
+unsafe defaults and 12 runtime mismatches in this bundle, and each finding needs
+a judgement call rather than a mechanical fix. Wire them into `prebuild` once
+that triage is done.
 
 To preview only specific components during dev, uncomment and edit the `components` array in `vite.config.ts`:
 ```ts
@@ -55,6 +76,8 @@ Cross-component code has a single source of truth in `src/shared/`:
 - `types.ts` — `MaybeMultiLang`.
 
 Component isolation in `dist/` is preserved by `duplicateSharedPerComponentPlugin` in `vite.config.ts`: it tags every `src/shared/*` import with the importing component (`?gk=<name>`) so Rollup inlines a private copy into each `dist/<name>.js`. **Do not remove it** — without it the multi-entry build splits shared modules into hashed chunk files (`dist/growth-element-<hash>.js`), breaking the one-self-contained-file-per-component contract. Corollary: module-level state in `src/shared/` is per-component at runtime, never shared across components.
+
+⚠️ **It compares paths normalised, and must stay that way.** Vite reports module ids with forward slashes, but `path.resolve()` returns backslashes on Windows — so an un-normalised `startsWith` matches nothing, no import gets tagged, and every build on Windows silently falls back to hashed chunks *while still reporting success*. The check after any build is `ls dist/`: ten `<name>.js` files and no `<name>-<hash>.js` means it is working.
 
 ### `twilight-bundle.json` — the source of truth for the admin UI
 
@@ -91,6 +114,34 @@ export default class MyComponent extends GrowthElement {
 ### Handling multilanguage values
 
 Fields marked `multilanguage: true` arrive as `string | { ar?: string; en?: string } | null`. Resolve with the inherited `this.localizedString(value)` from `GrowthElement` — never re-implement it per component. Use the explicit helper name so Salla's publication checks can verify that every rendered value has been localized.
+
+#### ⚠️ Calling `localizedString` is not enough — the *binding* has to be named for it
+
+Salla's publication check is **textual and per line**, not semantic. For each
+`${…}` it reads the words inside the braces and rejects the line if any of them
+matches a `multilanguage: true` field id **anywhere in the bundle**, unless the
+expression itself mentions `localizedString`. So this is rejected even though
+the code is correct:
+
+```ts
+const title = this.localizedString(c.section_title);
+…
+${title ? html`<h2>${title}</h2>` : nothing}   // ❌ "title" is a multilanguage id
+```
+
+Name the binding `localizedTitle` / `localizedLabel` / … instead. Three corollaries:
+
+- **The id set is global** — a word is flagged in a component that has no such
+  field, because some *other* component declares it.
+- **A bare string argument counts if it equals a field id.** `this._icon("quote")`
+  was flagged here because `quote` is `testimonials`' field id; the fix was to
+  split the helper into `_chevronIcon()` / `_quoteMarkIcon()` so no such literal
+  is ever interpolated.
+- **`dist/*.js` is checked too**, since the marketplace releases from it — so
+  rebuild and commit `dist/` after a rename like this.
+
+`pnpm audit:localized` replicates the check; it runs automatically on `predev`,
+`prebuild` and `postbuild`.
 
 ### Handling dropdown-list values
 

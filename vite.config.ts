@@ -21,22 +21,29 @@ sallaTransformPlugin,
  * each entry — single source in `src/shared/`, zero coupling in `dist/`.
  */
 function duplicateSharedPerComponentPlugin() {
-  const sharedDir = resolve(process.cwd(), 'src/shared');
+  // Vite reports module ids with forward slashes, but path.resolve() yields
+  // backslashes on Windows. Compare both sides normalised, or the
+  // startsWith() below never matches, nothing gets tagged, and Rollup falls
+  // back to the hashed shared chunks this plugin exists to prevent — while
+  // still reporting a successful build.
+  const norm = (p: string) => p.replace(/\\/g, '/');
+  const sharedDir = norm(resolve(process.cwd(), 'src/shared'));
   return {
     name: 'gk-duplicate-shared',
     enforce: 'pre',
     apply: 'build',
     async resolveId(source: string, importer: string | undefined) {
       if (!importer) return null;
+      const importerId = norm(importer);
       const comp =
-        importer.match(/src\/components\/([^/]+)\//)?.[1] ??
-        importer.match(/[?&]gk=([^&]+)/)?.[1];
+        importerId.match(/src\/components\/([^/]+)\//)?.[1] ??
+        importerId.match(/[?&]gk=([^&]+)/)?.[1];
       if (!comp) return null;
       const resolved = await this.resolve(source, importer.split('?')[0], {
         skipSelf: true,
       });
       if (!resolved || resolved.external) return null;
-      if (!resolved.id.startsWith(sharedDir)) return null;
+      if (!norm(resolved.id).startsWith(sharedDir)) return null;
       return `${resolved.id}?gk=${comp}`;
     },
   };

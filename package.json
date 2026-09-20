@@ -4,9 +4,16 @@
     "description": "",
     "type": "module",
     "scripts": {
+        "predev": "pnpm run audit:localized",
         "dev": "vite",
+        "prebuild": "pnpm run audit:localized",
         "build": "vite build",
-        "preview": "vite preview"
+        "postbuild": "node scripts/audit-localized-strings.mjs --dist",
+        "preview": "vite preview",
+        "audit:localized": "node scripts/audit-localized-strings.mjs",
+        "audit:defaults": "node scripts/audit-default-values.mjs",
+        "fix:defaults": "node scripts/audit-default-values.mjs --fix",
+        "audit:runtime-defaults": "node scripts/audit-runtime-defaults.mjs"
     },
     "devDependencies": {
         "@salla.sa/twilight-bundles": "^0.1.61",

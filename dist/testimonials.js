@@ -1,6 +1,6 @@
-import { LitElement as E, css as L, html as o, nothing as n } from "lit";
-import { property as O, state as M } from "lit/decorators.js";
-function I(s, t) {
+import { LitElement as I, css as E, html as o, nothing as n } from "lit";
+import { property as L, state as M } from "lit/decorators.js";
+function O(s, t) {
   if (typeof s == "string") return s;
   if (!s || typeof s != "object") return "";
   const a = s[t] || s.ar || s.en || "";
@@ -9,7 +9,7 @@ function I(s, t) {
 function C(s) {
   return s.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class j extends E {
+class j extends I {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -37,7 +37,7 @@ class j extends E {
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return I(t, this._lang());
+    return O(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, a) {
@@ -143,7 +143,7 @@ async function H(s, t = "") {
     currency: b
   };
 }
-const F = L`
+const F = E`
   :host {
     display: block;
     font-family: inherit;
@@ -1249,16 +1249,18 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   _teardownAutoplay() {
     this._autoplayTimer && (clearTimeout(this._autoplayTimer), this._autoplayTimer = null);
   }
-  _icon(t) {
-    switch (t) {
-      case "chevron":
-        return o`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
-          aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>`;
-      case "quote":
-        return o`<svg viewBox="0 0 24 24" fill="currentColor"
-          aria-hidden="true"><path d="M9.5 7C6.5 7 4 9.5 4 12.5V19h6.5v-6.5H7.2c0-1.8 1.5-3 3.3-3V7zm10 0C16.5 7 14 9.5 14 12.5V19h6.5v-6.5h-3.3c0-1.8 1.5-3 3.3-3V7z" /></svg>`;
-    }
+  // Split into two helpers rather than one _icon(name) switch: Salla's
+  // multilanguage publication check is textual, and `quote` is a
+  // multilanguage field id, so `${this._quoteMarkIcon()}` reads to it like an
+  // unlocalized value and fails the bundle. No literal, no finding.
+  _chevronIcon() {
+    return o`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+      aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>`;
+  }
+  _quoteMarkIcon() {
+    return o`<svg viewBox="0 0 24 24" fill="currentColor"
+      aria-hidden="true"><path d="M9.5 7C6.5 7 4 9.5 4 12.5V19h6.5v-6.5H7.2c0-1.8 1.5-3 3.3-3V7zm10 0C16.5 7 14 9.5 14 12.5V19h6.5v-6.5h-3.3c0-1.8 1.5-3 3.3-3V7z" /></svg>`;
   }
   // ------------------------------------------------------------
   // Render: stars
@@ -1317,7 +1319,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
               ${h ? o`<span class="t-chip-compare">${h}</span>` : n}
             </span>` : n}
       </span>
-      ${l ? o`<span class="t-chip-go">${this._icon("chevron")}</span>` : n}
+      ${l ? o`<span class="t-chip-go">${this._chevronIcon()}</span>` : n}
     `;
     return l ? o`<a
           class="t-chip"
@@ -1388,7 +1390,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
                 loading="lazy"
               />` : n}
           <div class="t-overlay-panel">
-            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._icon("quote")}</span>` : n}
+            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : n}
             ${d}
             ${c ? o`<p class="t-quote">${c}</p>` : n}
             ${m(!0)} ${u}
@@ -1399,7 +1401,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     return e === "bubble" ? o`
         <article class="t-card" data-style="bubble" data-index=${a}>
           <div class="t-bubble">
-            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._icon("quote")}</span>` : n}
+            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : n}
             ${d}
             ${c ? o`<p class="t-quote">${c}</p>` : n}
             ${u}
@@ -1408,7 +1410,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
         </article>
       ` : o`
       <article class="t-card" data-style=${e} data-index=${a}>
-        ${r.showQuoteMark && e === "quote" ? o`<span class="t-quote-mark">${this._icon("quote")}</span>` : n}
+        ${r.showQuoteMark && e === "quote" ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : n}
         ${d}
         ${c ? o`<p class="t-quote">${c}</p>` : n}
         ${m(!0)} ${u}
@@ -1493,7 +1495,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
                 aria-label=${this._lang() === "ar" ? "السابق" : "Previous"}
                 @click=${this._carouselPrev}
               >
-                ${this._icon("chevron")}
+                ${this._chevronIcon()}
               </button>
               <button
                 type="button"
@@ -1501,7 +1503,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
                 aria-label=${this._lang() === "ar" ? "التالي" : "Next"}
                 @click=${this._carouselNext}
               >
-                ${this._icon("chevron")}
+                ${this._chevronIcon()}
               </button>
             ` : n}
       </div>
@@ -1619,7 +1621,7 @@ const Y = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
 N.styles = F;
 let _ = N;
 q([
-  O({ type: Object })
+  L({ type: Object })
 ], _.prototype, "config");
 q([
   M()
