@@ -92,7 +92,9 @@ const P = N`
     --ip-card-title: #14181f;
     --ip-card-text: #5b6573;
     --ip-marker-bg: rgba(255, 255, 255, 0.92);
-    --ip-marker-text: var(--ip-accent);
+    /* Idle marker digits stay neutral like the card's nav pills — the accent
+       is reserved for the ring and the hover/active fill. */
+    --ip-marker-text: var(--ip-card-text);
     --ip-stage-shadow: none;
 
     --ip-pad-x: clamp(1rem, 4vw, 2.5rem);
