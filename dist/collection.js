@@ -1,12 +1,12 @@
-import { LitElement as V, css as O, html as o, nothing as r } from "lit";
-import { property as U, state as f } from "lit/decorators.js";
-function q(c, t) {
+import { LitElement as V, css as O, html as o, nothing as n } from "lit";
+import { property as q, state as f } from "lit/decorators.js";
+function U(c, t) {
   if (typeof c == "string") return c;
   if (!c || typeof c != "object") return "";
   const a = c[t] || c.ar || c.en || "";
   return typeof a == "string" ? a.trim() : "";
 }
-function R(c) {
+function B(c) {
   return c.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
 class E extends V {
@@ -18,8 +18,8 @@ class E extends V {
    */
   static registerSallaComponent(t) {
     const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = e.includes("-") ? e : `salla-${e || "component"}`, s = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, l = () => {
-      var n;
-      const d = (n = window.Salla) == null ? void 0 : n.bundles;
+      var r;
+      const d = (r = window.Salla) == null ? void 0 : r.bundles;
       return d && typeof d.registerComponent == "function" ? (d.registerComponent(a, {
         component: this,
         dynamicTagName: s()
@@ -37,7 +37,7 @@ class E extends V {
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return q(t, this._lang());
+    return U(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, a) {
@@ -51,14 +51,14 @@ class E extends V {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return R(t);
+    return B(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, a) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(R(t.trim()));
+      const e = Number(B(t.trim()));
       if (!Number.isNaN(e)) return e;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -671,6 +671,11 @@ const W = O`
     margin: 0 auto;
     min-height: 7rem;
   }
+  /* Keep the caption swap in step with the quicker rise/sink below. */
+  .col-section--bag .col-caption__title,
+  .col-section--bag .col-caption__desc {
+    transition-duration: 0.28s;
+  }
 
   .col-bag-stage {
     position: relative;
@@ -733,6 +738,11 @@ const W = O`
     width: var(--bag-bottle-w);
     height: var(--bag-layer-h);
     z-index: 7;
+    /* The layer's bottom edge IS the bag's mouth line, so clipping there makes
+       a product physically disappear into / emerge from the bag — no opacity
+       or blur crossfade needed. Negative insets keep the drop-shadow and the
+       rise overshoot unclipped on the other three sides. */
+    clip-path: inset(-60px -60px 0 -60px);
   }
   .col-bag-slide {
     position: absolute;
@@ -748,86 +758,48 @@ const W = O`
   .col-bag-slide[data-state="sinking"] {
     opacity: 1;
   }
+  /* The incoming product passes over the outgoing one at the mouth. */
+  .col-bag-slide[data-state="rising"] {
+    z-index: 2;
+  }
   .col-bag-slide img {
     display: block;
     width: 100%;
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.12));
-    transform-origin: 50% 88%;
-    will-change: transform, opacity, filter;
+    transform-origin: 50% 100%;
+    /* Transform-only animations keep this on the compositor: the static
+       drop-shadow is rasterised once, never per frame. */
+    will-change: transform;
     user-select: none;
     -webkit-user-select: none;
   }
+  /* Sequential handoff: the outgoing product drops in with a short gravity
+     ease-in, and only once it is (almost) below the mouth does the next one
+     pop up — a single easing with a small overshoot, so the two never share
+     the stage. Total ≈ 0.78s, all transform-only. */
   .col-bag-slide[data-state="rising"] img {
-    animation: colBagRise 0.82s cubic-bezier(0.2, 0.78, 0.2, 1) both;
+    animation: colBagRise 0.5s cubic-bezier(0.32, 1.25, 0.5, 1) 0.28s both;
   }
   .col-bag-slide[data-state="sinking"] img {
-    animation: colBagSink 0.92s cubic-bezier(0.22, 0.08, 0.18, 1) forwards;
+    animation: colBagSink 0.32s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
   }
 
   @keyframes colBagRise {
-    0% {
-      opacity: 0;
-      transform: translateY(210px) scale(0.18);
-      filter: blur(2px);
+    from {
+      transform: translateY(100%) scale(0.94);
     }
-    18% {
-      opacity: 0.35;
-      transform: translateY(165px) scale(0.34);
-      filter: blur(1.5px);
-    }
-    42% {
-      opacity: 0.78;
-      transform: translateY(95px) scale(0.62);
-      filter: blur(0.8px);
-    }
-    68% {
-      opacity: 1;
-      transform: translateY(18px) scale(1.06);
-      filter: blur(0);
-    }
-    82% {
-      opacity: 1;
-      transform: translateY(-6px) scale(1.02);
-      filter: blur(0);
-    }
-    100% {
-      opacity: 1;
+    to {
       transform: translateY(0) scale(1);
-      filter: blur(0);
     }
   }
   @keyframes colBagSink {
-    0% {
-      opacity: 1;
+    from {
       transform: translateY(0) scale(1);
-      filter: blur(0);
     }
-    22% {
-      opacity: 0.99;
-      transform: translateY(8px) scale(0.98);
-      filter: blur(0);
-    }
-    46% {
-      opacity: 0.93;
-      transform: translateY(26px) scale(0.9);
-      filter: blur(0.08px);
-    }
-    68% {
-      opacity: 0.8;
-      transform: translateY(54px) scale(0.76);
-      filter: blur(0.3px);
-    }
-    84% {
-      opacity: 0.56;
-      transform: translateY(92px) scale(0.56);
-      filter: blur(0.75px);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(138px) scale(0.34);
-      filter: blur(1.3px);
+    to {
+      transform: translateY(100%) scale(0.96);
     }
   }
 
@@ -848,10 +820,13 @@ const W = O`
     justify-content: center;
     cursor: pointer;
     padding: 0;
-    transition: opacity 0.2s var(--col-ease), transform 0.2s var(--col-ease);
+    transition: opacity 0.2s var(--col-ease), transform 0.15s var(--col-ease);
   }
   .col-bag-nav:hover {
     transform: scale(1.06);
+  }
+  .col-bag-nav:active {
+    transform: scale(0.94);
   }
   .col-bag-nav:disabled {
     opacity: 0.4;
@@ -1041,15 +1016,15 @@ const A = class A extends E {
   _measureBagImages() {
     const t = this.shadowRoot;
     if (!t) return;
-    const a = (n) => n.naturalWidth > 0 ? n.naturalHeight / n.naturalWidth : (n.dataset.measureHooked || (n.dataset.measureHooked = "1", n.addEventListener("load", () => this.requestUpdate(), {
+    const a = (r) => r.naturalWidth > 0 ? r.naturalHeight / r.naturalWidth : (r.dataset.measureHooked || (r.dataset.measureHooked = "1", r.addEventListener("load", () => this.requestUpdate(), {
       once: !0
     })), 0);
     let e = 0;
-    for (const n of t.querySelectorAll(
+    for (const r of t.querySelectorAll(
       ".col-bag-slide img"
     ))
-      e = Math.max(e, a(n));
-    const i = t.querySelector(".col-bag-img"), s = i ? a(i) : 0, l = (n) => Math.round(n * 100) / 100, h = e > 0 ? l(e) : null, d = s > 0 ? l(s) : null;
+      e = Math.max(e, a(r));
+    const i = t.querySelector(".col-bag-img"), s = i ? a(i) : 0, l = (r) => Math.round(r * 100) / 100, h = e > 0 ? l(e) : null, d = s > 0 ? l(s) : null;
     h !== this._bagProdRatio && (this._bagProdRatio = h), d !== this._bagImgRatio && (this._bagImgRatio = d);
   }
   // ------------------------------------------------------------
@@ -1119,7 +1094,7 @@ const A = class A extends E {
       "coverflow"
     ), d = this.localizedString(
       t.section_title ?? t.title
-    ), n = t.show_caption !== !1, w = i === "home" && t.show_cta !== !1, y = this.localizedString(t.default_cta_label) || "تسوّق الآن", $ = t.show_nav_buttons !== !1, _ = !!t.show_pagination, g = t.enable_entrance_anim !== !1, k = this._num(t.card_radius, 20), x = [
+    ), r = t.show_caption !== !1, x = i === "home" && t.show_cta !== !1, y = this.localizedString(t.default_cta_label) || "تسوّق الآن", $ = t.show_nav_buttons !== !1, _ = !!t.show_pagination, g = t.enable_entrance_anim !== !1, k = this._num(t.card_radius, 20), w = [
       t.bg_color ? `--col-bg: ${t.bg_color}` : "",
       t.title_color ? `--col-title-color: ${t.title_color}` : "",
       t.caption_title_color ? `--col-caption-title-color: ${t.caption_title_color}` : "",
@@ -1135,27 +1110,27 @@ const A = class A extends E {
     ].filter(Boolean).join("; ");
     if (a.length === 0)
       return o`
-        <section class="col-empty" style=${x}>
+        <section class="col-empty" style=${w}>
           <p>أضف صورة واحدة على الأقل لكل شريحة للبدء.</p>
         </section>
       `;
-    const v = a.length === 1, C = "m9 6 6 6-6 6", B = "M5 12h14M13 6l6 6-6 6", u = a[this._activeIndex], S = u ? this.localizedString(u.title) : "", z = u ? this.localizedString(u.description) : "", I = u ? this._resolveLink(u) : "", T = u && this.localizedString(u.cta_label) || y, M = !!(n && (S || z));
+    const v = a.length === 1, C = "m9 6 6 6-6 6", L = "M5 12h14M13 6l6 6-6 6", u = a[this._activeIndex], S = u ? this.localizedString(u.title) : "", z = u ? this.localizedString(u.description) : "", I = u ? this._resolveLink(u) : "", T = u && this.localizedString(u.cta_label) || y, N = !!(r && (S || z));
     return e === "bag" ? this._renderBag(t, a, {
-      hostStyle: x,
+      hostStyle: w,
       sectionTitle: d,
       enableAnim: g,
       showNav: $,
       showDots: _,
-      hasCaption: M,
+      hasCaption: N,
       activeTitle: S,
       activeDesc: z,
-      showCta: w,
+      showCta: x,
       activeCtaHref: I,
       activeCtaLabel: T
     }) : o`
       <section
         class="col-section"
-        style=${x}
+        style=${w}
         data-layout=${h}
         data-anim=${s}
         data-enter=${g ? this._animState : "in"}
@@ -1170,7 +1145,7 @@ const A = class A extends E {
               >
                 <h2 class="col-title">${d}</h2>
               </div>
-            ` : r}
+            ` : n}
 
         <div
           class="col-stage"
@@ -1180,14 +1155,14 @@ const A = class A extends E {
           @pointercancel=${this._onPointerUp}
         >
           <div class="col-track">
-            ${a.map((N, b) => {
-      const L = this._wrappedDiff(b), Z = this._slidePos(b), X = this._prevDiff.get(b), j = X !== void 0 && Math.abs(L - X) > a.length / 2, { closed: D, opened: P, alt: Y } = this._slideImage(N), H = !P || s !== "reveal";
+            ${a.map((M, b) => {
+      const Y = this._wrappedDiff(b), Z = this._slidePos(b), X = this._prevDiff.get(b), j = X !== void 0 && Math.abs(Y - X) > a.length / 2, { closed: D, opened: P, alt: R } = this._slideImage(M), H = !P || s !== "reveal";
       return o`
                 <div
                   class="col-slide"
                   data-pos=${Z}
                   data-index=${b}
-                  data-instant=${j ? "" : r}
+                  data-instant=${j ? "" : n}
                   @click=${this._onSlideClick}
                 >
                   <div
@@ -1196,17 +1171,17 @@ const A = class A extends E {
                     ${D ? o`<img
                           class="col-img-closed"
                           src=${D}
-                          alt=${Y}
+                          alt=${R}
                           loading="lazy"
                           draggable="false"
-                        />` : r}
+                        />` : n}
                     ${s === "reveal" && P ? o`<img
                           class="col-img-opened"
                           src=${P}
-                          alt=${Y}
+                          alt=${R}
                           loading="lazy"
                           draggable="false"
-                        />` : r}
+                        />` : n}
                   </div>
                 </div>
               `;
@@ -1236,16 +1211,16 @@ const A = class A extends E {
                     <path d=${C} />
                   </svg>
                 </button>
-              ` : r}
+              ` : n}
         </div>
 
-        ${M ? o`
+        ${N ? o`
               <div class="col-caption" data-state=${this._captionState}>
-                ${S ? o`<h3 class="col-caption__title">${S}</h3>` : r}
-                ${z ? o`<p class="col-caption__desc">${z}</p>` : r}
+                ${S ? o`<h3 class="col-caption__title">${S}</h3>` : n}
+                ${z ? o`<p class="col-caption__desc">${z}</p>` : n}
               </div>
-            ` : r}
-        ${w && I ? o`
+            ` : n}
+        ${x && I ? o`
               <div class="col-cta-wrap">
                 <a
                   class="col-cta"
@@ -1254,16 +1229,16 @@ const A = class A extends E {
                 >
                   <span>${T}</span>
                   <svg viewBox="0 0 24 24">
-                    <path d=${B} />
+                    <path d=${L} />
                   </svg>
                 </a>
               </div>
-            ` : r}
+            ` : n}
 
         ${!v && _ ? o`
               <div class="col-dots" role="tablist">
                 ${a.map(
-      (N, b) => o`
+      (M, b) => o`
                     <button
                       class="col-dot"
                       type="button"
@@ -1274,7 +1249,7 @@ const A = class A extends E {
                   `
     )}
               </div>
-            ` : r}
+            ` : n}
       </section>
     `;
   }
@@ -1288,7 +1263,7 @@ const A = class A extends E {
     const i = typeof t.bag_image == "string" ? t.bag_image.trim() : "", s = this._pickValue(t.bag_size, "medium"), l = this._pickValue(
       t.bag_product_size,
       "medium"
-    ), h = this.localizedString(t.bag_bottom_title), d = a.length === 1, n = "M18 15l-6-6-6 6", w = "M6 9l6 6 6-6", y = "M5 12h14M13 6l6 6-6 6", $ = [
+    ), h = this.localizedString(t.bag_bottom_title), d = a.length === 1, r = "M18 15l-6-6-6 6", x = "M6 9l6 6 6-6", y = "M5 12h14M13 6l6 6-6 6", $ = [
       e.hostStyle,
       this._bagProdRatio !== null ? `--bag-prod-ratio: ${this._bagProdRatio}` : "",
       this._bagImgRatio !== null ? `--bag-ratio: ${this._bagImgRatio}` : ""
@@ -1309,13 +1284,13 @@ const A = class A extends E {
               >
                 <h2 class="col-title">${e.sectionTitle}</h2>
               </div>
-            ` : r}
+            ` : n}
         ${e.hasCaption ? o`
               <div class="col-caption" data-state=${this._captionState}>
-                ${e.activeTitle ? o`<h3 class="col-caption__title">${e.activeTitle}</h3>` : r}
-                ${e.activeDesc ? o`<p class="col-caption__desc">${e.activeDesc}</p>` : r}
+                ${e.activeTitle ? o`<h3 class="col-caption__title">${e.activeTitle}</h3>` : n}
+                ${e.activeDesc ? o`<p class="col-caption__desc">${e.activeDesc}</p>` : n}
               </div>
-            ` : r}
+            ` : n}
 
         <div
           class="col-bag-stage"
@@ -1329,16 +1304,16 @@ const A = class A extends E {
 
           <div class="col-bag-layer">
             ${a.map((_, g) => {
-      const { closed: k, alt: x } = this._slideImage(_);
+      const { closed: k, alt: w } = this._slideImage(_);
       let v = "hidden";
       return g === this._activeIndex ? v = this._bagNavigated ? "rising" : "active" : g === this._bagLeavingIndex && (v = "sinking"), o`
                 <div class="col-bag-slide" data-state=${v}>
                   ${k ? o`<img
                         src=${k}
-                        alt=${x}
+                        alt=${w}
                         loading="lazy"
                         draggable="false"
-                      />` : r}
+                      />` : n}
                 </div>
               `;
     })}
@@ -1350,7 +1325,7 @@ const A = class A extends E {
                 alt=""
                 aria-hidden="true"
                 draggable="false"
-              />` : r}
+              />` : n}
           ${!d && e.showNav ? o`
                 <button
                   class="col-bag-nav col-bag-nav--up"
@@ -1359,7 +1334,7 @@ const A = class A extends E {
                   ?disabled=${this._isNextDisabled()}
                   aria-label="Next"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${n} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${r} /></svg>
                 </button>
                 <button
                   class="col-bag-nav col-bag-nav--down"
@@ -1368,12 +1343,12 @@ const A = class A extends E {
                   ?disabled=${this._isPrevDisabled()}
                   aria-label="Previous"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${w} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${x} /></svg>
                 </button>
-              ` : r}
+              ` : n}
         </div>
 
-        ${h ? o`<div class="col-bag-bottom">${h}</div>` : r}
+        ${h ? o`<div class="col-bag-bottom">${h}</div>` : n}
         ${e.showCta && e.activeCtaHref ? o`
               <div class="col-cta-wrap">
                 <a
@@ -1387,7 +1362,7 @@ const A = class A extends E {
                   </svg>
                 </a>
               </div>
-            ` : r}
+            ` : n}
         ${!d && e.showDots ? o`
               <div class="col-dots" role="tablist">
                 ${a.map(
@@ -1402,7 +1377,7 @@ const A = class A extends E {
                   `
     )}
               </div>
-            ` : r}
+            ` : n}
       </section>
     `;
   }
@@ -1410,7 +1385,7 @@ const A = class A extends E {
 A.styles = W;
 let p = A;
 m([
-  U({ type: Object })
+  q({ type: Object })
 ], p.prototype, "config");
 m([
   f()

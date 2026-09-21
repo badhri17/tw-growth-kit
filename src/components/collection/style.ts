@@ -603,6 +603,11 @@ export const collectionStyles = css`
     margin: 0 auto;
     min-height: 7rem;
   }
+  /* Keep the caption swap in step with the quicker rise/sink below. */
+  .col-section--bag .col-caption__title,
+  .col-section--bag .col-caption__desc {
+    transition-duration: 0.28s;
+  }
 
   .col-bag-stage {
     position: relative;
@@ -665,6 +670,11 @@ export const collectionStyles = css`
     width: var(--bag-bottle-w);
     height: var(--bag-layer-h);
     z-index: 7;
+    /* The layer's bottom edge IS the bag's mouth line, so clipping there makes
+       a product physically disappear into / emerge from the bag — no opacity
+       or blur crossfade needed. Negative insets keep the drop-shadow and the
+       rise overshoot unclipped on the other three sides. */
+    clip-path: inset(-60px -60px 0 -60px);
   }
   .col-bag-slide {
     position: absolute;
@@ -680,86 +690,48 @@ export const collectionStyles = css`
   .col-bag-slide[data-state="sinking"] {
     opacity: 1;
   }
+  /* The incoming product passes over the outgoing one at the mouth. */
+  .col-bag-slide[data-state="rising"] {
+    z-index: 2;
+  }
   .col-bag-slide img {
     display: block;
     width: 100%;
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.12));
-    transform-origin: 50% 88%;
-    will-change: transform, opacity, filter;
+    transform-origin: 50% 100%;
+    /* Transform-only animations keep this on the compositor: the static
+       drop-shadow is rasterised once, never per frame. */
+    will-change: transform;
     user-select: none;
     -webkit-user-select: none;
   }
+  /* Sequential handoff: the outgoing product drops in with a short gravity
+     ease-in, and only once it is (almost) below the mouth does the next one
+     pop up — a single easing with a small overshoot, so the two never share
+     the stage. Total ≈ 0.78s, all transform-only. */
   .col-bag-slide[data-state="rising"] img {
-    animation: colBagRise 0.82s cubic-bezier(0.2, 0.78, 0.2, 1) both;
+    animation: colBagRise 0.5s cubic-bezier(0.32, 1.25, 0.5, 1) 0.28s both;
   }
   .col-bag-slide[data-state="sinking"] img {
-    animation: colBagSink 0.92s cubic-bezier(0.22, 0.08, 0.18, 1) forwards;
+    animation: colBagSink 0.32s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
   }
 
   @keyframes colBagRise {
-    0% {
-      opacity: 0;
-      transform: translateY(210px) scale(0.18);
-      filter: blur(2px);
+    from {
+      transform: translateY(100%) scale(0.94);
     }
-    18% {
-      opacity: 0.35;
-      transform: translateY(165px) scale(0.34);
-      filter: blur(1.5px);
-    }
-    42% {
-      opacity: 0.78;
-      transform: translateY(95px) scale(0.62);
-      filter: blur(0.8px);
-    }
-    68% {
-      opacity: 1;
-      transform: translateY(18px) scale(1.06);
-      filter: blur(0);
-    }
-    82% {
-      opacity: 1;
-      transform: translateY(-6px) scale(1.02);
-      filter: blur(0);
-    }
-    100% {
-      opacity: 1;
+    to {
       transform: translateY(0) scale(1);
-      filter: blur(0);
     }
   }
   @keyframes colBagSink {
-    0% {
-      opacity: 1;
+    from {
       transform: translateY(0) scale(1);
-      filter: blur(0);
     }
-    22% {
-      opacity: 0.99;
-      transform: translateY(8px) scale(0.98);
-      filter: blur(0);
-    }
-    46% {
-      opacity: 0.93;
-      transform: translateY(26px) scale(0.9);
-      filter: blur(0.08px);
-    }
-    68% {
-      opacity: 0.8;
-      transform: translateY(54px) scale(0.76);
-      filter: blur(0.3px);
-    }
-    84% {
-      opacity: 0.56;
-      transform: translateY(92px) scale(0.56);
-      filter: blur(0.75px);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(138px) scale(0.34);
-      filter: blur(1.3px);
+    to {
+      transform: translateY(100%) scale(0.96);
     }
   }
 
@@ -780,10 +752,13 @@ export const collectionStyles = css`
     justify-content: center;
     cursor: pointer;
     padding: 0;
-    transition: opacity 0.2s var(--col-ease), transform 0.2s var(--col-ease);
+    transition: opacity 0.2s var(--col-ease), transform 0.15s var(--col-ease);
   }
   .col-bag-nav:hover {
     transform: scale(1.06);
+  }
+  .col-bag-nav:active {
+    transform: scale(0.94);
   }
   .col-bag-nav:disabled {
     opacity: 0.4;
