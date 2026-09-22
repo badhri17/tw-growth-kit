@@ -6,10 +6,13 @@ function U(c, t) {
   const a = c[t] || c.ar || c.en || "";
   return typeof a == "string" ? a.trim() : "";
 }
+function E() {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+}
 function B(c) {
   return c.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class E extends V {
+class W extends V {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -33,7 +36,7 @@ class E extends V {
   }
   /** Resolved document language. */
   _lang() {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+    return E();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
@@ -68,7 +71,7 @@ class E extends V {
     return a;
   }
 }
-const W = O`
+const F = O`
   :host {
     display: block;
     font-family: inherit;
@@ -868,12 +871,12 @@ const W = O`
     }
   }
 `;
-var F = Object.defineProperty, m = (c, t, a, e) => {
+var K = Object.defineProperty, m = (c, t, a, e) => {
   for (var i = void 0, s = c.length - 1, l; s >= 0; s--)
     (l = c[s]) && (i = l(t, a, i) || i);
-  return i && F(t, a, i), i;
+  return i && K(t, a, i), i;
 };
-const A = class A extends E {
+const A = class A extends W {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._animState = "ready", this._captionState = "in", this._bagLeavingIndex = null, this._bagNavigated = !1, this._bagProdRatio = null, this._bagImgRatio = null, this._autoplayTimer = null, this._captionTimer = null, this._hoverPaused = !1, this._hasInitializedActive = !1, this._inView = !0, this._io = null, this._swipeStartX = null, this._swipeStartY = null, this._swipeActive = !1, this._prevDiff = /* @__PURE__ */ new Map(), this._goPrev = () => {
       var i;
@@ -1382,7 +1385,7 @@ const A = class A extends E {
     `;
   }
 };
-A.styles = W;
+A.styles = F;
 let p = A;
 m([
   q({ type: Object })

@@ -13,6 +13,14 @@ export function localizedString(
   return typeof resolved === "string" ? resolved.trim() : "";
 }
 
+/** Resolved storefront language, from the document element. Arabic-first:
+    anything that isn't explicitly English is treated as Arabic. */
+export function storeLang(): "ar" | "en" {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en")
+    ? "en"
+    : "ar";
+}
+
 /** Convert Arabic-Indic / Eastern-Arabic digits to Latin for parsing. */
 export function toLatinDigits(s: string): string {
   return s
@@ -83,11 +91,7 @@ export class GrowthElement extends LitElement {
 
   /** Resolved document language. */
   protected _lang(): "ar" | "en" {
-    return (document.documentElement.lang || "ar")
-      .toLowerCase()
-      .startsWith("en")
-      ? "en"
-      : "ar";
+    return storeLang();
   }
 
   /** Pull the store-language string out of a Salla multilanguage value. */

@@ -7,10 +7,13 @@ function N(o, t) {
   const e = o[t] || o.ar || o.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
+function U() {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+}
 function L(o) {
   return o.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class U extends j {
+class G extends j {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -34,7 +37,7 @@ class U extends j {
   }
   /** Resolved document language. */
   _lang() {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+    return U();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
@@ -69,7 +72,7 @@ class U extends j {
     return e;
   }
 }
-const G = B`
+const O = B`
   :host {
     /* Inherits from the theme so Arabic font, brand colours, and dir flow through. */
     display: block;
@@ -426,12 +429,12 @@ const G = B`
     .hero[data-align-h="end"]    .ctas { align-items: flex-end; }
   }
 `;
-var O = Object.defineProperty, y = (o, t, e, i) => {
+var R = Object.defineProperty, y = (o, t, e, i) => {
   for (var a = void 0, r = o.length - 1, n; r >= 0; r--)
     (n = o[r]) && (a = n(t, e, a) || a);
-  return a && O(t, e, a), a;
+  return a && R(t, e, a), a;
 };
-const k = class k extends U {
+const k = class k extends G {
   constructor() {
     super(...arguments), this._videoFailed = !1, this._animState = "ready", this._isDesktop = !1, this._videoEl = null, this._videoGeneration = 0, this._lastVideoSrc = "", this._fallbackTimer = null, this._autoplayCheckTimer = null, this._io = null, this._inView = !0, this._rafId = null;
   }
@@ -750,7 +753,7 @@ const k = class k extends U {
     `;
   }
 };
-k.styles = G;
+k.styles = O;
 let h = k;
 y([
   D({ type: Object })

@@ -6,10 +6,13 @@ function E(o, e) {
   const i = o[e] || o.ar || o.en || "";
   return typeof i == "string" ? i.trim() : "";
 }
+function D() {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+}
 function z(o) {
   return o.replace(/[٠-٩]/g, (e) => String(e.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (e) => String(e.charCodeAt(0) - 1776));
 }
-class D extends M {
+class P extends M {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -33,7 +36,7 @@ class D extends M {
   }
   /** Resolved document language. */
   _lang() {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+    return D();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(e) {
@@ -68,7 +71,7 @@ class D extends M {
     return i;
   }
 }
-const P = N`
+const O = N`
   :host {
     display: block;
     font-family: inherit;
@@ -677,12 +680,12 @@ const P = N`
     }
   }
 `;
-var O = Object.defineProperty, x = (o, e, i, t) => {
+var j = Object.defineProperty, x = (o, e, i, t) => {
   for (var a = void 0, n = o.length - 1, r; n >= 0; n--)
     (r = o[n]) && (a = r(e, i, a) || a);
-  return a && O(e, i, a), a;
+  return a && j(e, i, a), a;
 };
-const _ = class _ extends D {
+const _ = class _ extends P {
   constructor() {
     super(...arguments), this._active = 0, this._animState = "ready", this._autoplayTimer = null, this._interactionPaused = !1, this._lastRenderedActive = 0, this._io = null, this._pauseInteraction = () => {
       this._interactionPaused || (this._interactionPaused = !0, this._teardownAutoplay());
@@ -916,7 +919,7 @@ const _ = class _ extends D {
     `;
   }
 };
-_.styles = P;
+_.styles = O;
 let m = _;
 x([
   I({ type: Object })

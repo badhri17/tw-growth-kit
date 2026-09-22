@@ -1,4 +1,4 @@
-import { toLatinDigits } from "./growth-element";
+import { storeLang, toLatinDigits } from "./growth-element";
 
 /**
  * Salla product plumbing shared by the components that link real store
@@ -79,19 +79,79 @@ function formatNum(n: number): string {
   return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
 }
 
+/** Arabic short forms for the currencies this bundle's market actually uses.
+    Anything else falls back to its ISO code. */
+const ARABIC_CURRENCY_LABELS: Record<string, string> = {
+  SAR: "ر.س",
+  AED: "د.إ",
+  KWD: "د.ك",
+  BHD: "د.ب",
+  QAR: "ر.ق",
+  OMR: "ر.ع",
+  EGP: "ج.م",
+  JOD: "د.أ",
+  YER: "ر.ي",
+};
+
+/** Render a currency code the way the storefront language expects it. */
+function currencyLabel(code: string): string {
+  const c = code.trim().toUpperCase();
+  if (!c) return "";
+  return storeLang() === "ar" ? ARABIC_CURRENCY_LABELS[c] ?? c : c;
+}
+
+/**
+ * Reduce an SDK money string to plain text.
+ *
+ * `salla.money()` returns *markup*, not text — the currency ships as an
+ * icon-font element (`<i class="sicon-sar"></i>`). That is unusable here for
+ * two independent reasons: Lit escapes it, so the merchant sees the raw tags
+ * where the price should be, and even unescaped the glyph would never paint,
+ * because the storefront's icon CSS does not cross our shadow boundary.
+ *
+ * So keep the SDK's number formatting, drop the markup, and recover the
+ * currency from the icon class (`sicon-sar` → SAR) when stripping the tags
+ * took the only currency indicator with them.
+ */
+function sdkMoneyToText(raw: unknown, currency?: string): string {
+  if (typeof raw !== "string") return "";
+  if (!raw.includes("<")) return raw.trim();
+
+  const iconCurrency = /\bsicon-([a-z]{3})\b/i.exec(raw)?.[1];
+  const text = raw
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!text) return "";
+
+  // Some stores format the currency as text; then it survived the strip and
+  // there is nothing to add back.
+  const amountOnly = !/[^\d.,\s\u0660-\u0669\u06f0-\u06f9]/.test(text);
+  if (!amountOnly) return text;
+
+  const code = currency || iconCurrency;
+  return code ? `${text} ${currencyLabel(code)}` : text;
+}
+
 /** Format a numeric amount as currency via the SDK, with a plain fallback. */
 export function formatMoney(n?: number, currency?: string): string {
   if (n === undefined || n === null || Number.isNaN(n)) return "";
   const salla = sallaGlobal();
   try {
     if (salla && typeof salla.money === "function") {
-      return currency ? salla.money({ amount: n, currency }) : salla.money(n);
+      const text = sdkMoneyToText(
+        currency ? salla.money({ amount: n, currency }) : salla.money(n),
+        currency
+      );
+      if (text) return text;
     }
   } catch {
     /* fall through to plain formatting */
   }
   const v = formatNum(n);
-  return currency ? `${v} ${currency}` : v;
+  return currency ? `${v} ${currencyLabel(currency)}` : v;
 }
 
 /**

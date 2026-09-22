@@ -7,10 +7,13 @@ function nt(p, t) {
   const s = p[t] || p.ar || p.en || "";
   return typeof s == "string" ? s.trim() : "";
 }
+function ot() {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+}
 function F(p) {
   return p.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class ot extends et {
+class lt extends et {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -34,7 +37,7 @@ class ot extends et {
   }
   /** Resolved document language. */
   _lang() {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+    return ot();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
@@ -69,7 +72,7 @@ class ot extends et {
     return s;
   }
 }
-const lt = at`
+const dt = at`
   :host {
     display: block;
     font-family: inherit;
@@ -1327,12 +1330,12 @@ const lt = at`
     }
   }
 `;
-var dt = Object.defineProperty, w = (p, t, s, e) => {
+var ct = Object.defineProperty, w = (p, t, s, e) => {
   for (var a = void 0, i = p.length - 1, n; i >= 0; i--)
     (n = p[i]) && (a = n(t, s, a) || a);
-  return a && dt(t, s, a), a;
+  return a && ct(t, s, a), a;
 };
-const D = class D extends ot {
+const L = class L extends lt {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._lastDir = "initial", this._leavingIndex = null, this._animState = "ready", this._inView = !0, this._autoplayTimer = null, this._autoplayStartedAt = 0, this._autoplayElapsed = 0, this._leaveTimer = null, this._interactionPaused = !1, this._hasInitializedActive = !1, this._io = null, this._swipeStartX = null, this._swipeStartY = null, this._swipeActive = !1, this._onKeydown = (t) => {
       var n;
@@ -1611,7 +1614,7 @@ const D = class D extends ot {
     ), W = this._pickValue(
       t.overlay_style,
       "dark-bottom"
-    ), U = this._pickValue(t.text_theme, "light"), x = t.show_arrows !== !1, H = t.enable_idle_ken_burns === !0, L = t.enable_entrance_anim !== !1, K = t.full_width !== !1, j = this._buildHostStyle(t), A = this.localizedString(t.section_title), T = this.localizedString(t.section_subtitle), q = this.localizedString(t.default_cta_label) || "تسوّق الآن";
+    ), U = this._pickValue(t.text_theme, "light"), x = t.show_arrows !== !1, H = t.enable_idle_ken_burns === !0, D = t.enable_entrance_anim !== !1, K = t.full_width !== !1, j = this._buildHostStyle(t), A = this.localizedString(t.section_title), T = this.localizedString(t.section_subtitle), q = this.localizedString(t.default_cta_label) || "تسوّق الآن";
     if (s.length === 0)
       return r`
         <section class="ss-section" style=${j}>
@@ -1629,7 +1632,7 @@ const D = class D extends ot {
         data-transition=${e}
         data-speed=${a}
         data-text-theme=${U}
-        data-anim-entrance=${L ? "on" : "off"}
+        data-anim-entrance=${D ? "on" : "off"}
         data-idle-kenburns=${H ? "on" : "off"}
         data-full-width=${K ? "true" : "false"}
         data-dir=${this._lastDir}
@@ -1637,7 +1640,7 @@ const D = class D extends ot {
         ${A || T ? r`
               <header
                 class="ss-header"
-                data-anim=${L ? this._animState : "in"}
+                data-anim=${D ? this._animState : "in"}
               >
                 ${A ? r`<h2 class="ss-section-title">${A}</h2>` : o}
                 ${T ? r`<p class="ss-section-subtitle">${T}</p>` : o}
@@ -1927,8 +1930,8 @@ const D = class D extends ot {
       ` : o;
   }
 };
-D.styles = lt;
-let u = D;
+L.styles = dt;
+let u = L;
 w([
   it({ type: Object })
 ], u.prototype, "config");

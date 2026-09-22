@@ -6,10 +6,13 @@ function L(r, t) {
   const e = r[t] || r.ar || r.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
+function Y() {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+}
 function $(r) {
   return r.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class Y extends O {
+class F extends O {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -33,7 +36,7 @@ class Y extends O {
   }
   /** Resolved document language. */
   _lang() {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+    return Y();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
@@ -72,7 +75,7 @@ function R() {
   const r = window;
   return r.salla ?? r.Salla ?? null;
 }
-function F(r) {
+function U(r) {
   if (!r) return null;
   if (typeof r == "string" || typeof r == "number") {
     const a = Number(r);
@@ -104,7 +107,7 @@ function k(r) {
   const e = parseFloat(t);
   return Number.isNaN(e) ? void 0 : e;
 }
-async function U(r, t = "") {
+async function V(r, t = "") {
   var S, y, _, z, b, w, P, M, N, A, C;
   const e = R();
   if (!e) throw new Error("Salla SDK unavailable");
@@ -129,7 +132,7 @@ async function U(r, t = "") {
     currency: f
   };
 }
-const V = j`
+const X = j`
   :host {
     display: block;
     font-family: inherit;
@@ -417,12 +420,12 @@ const V = j`
     font-size: 0.95rem;
   }
 `;
-var X = Object.defineProperty, T = (r, t, e, s) => {
+var H = Object.defineProperty, T = (r, t, e, s) => {
   for (var i = void 0, n = r.length - 1, a; n >= 0; n--)
     (a = r[n]) && (i = a(t, e, i) || i);
-  return i && X(t, e, i), i;
+  return i && H(t, e, i), i;
 };
-const I = 0.65, H = 1.25, W = 600, E = class E extends Y {
+const I = 0.65, W = 1.25, J = 600, E = class E extends F {
   constructor() {
     super(...arguments), this._animState = "in", this._restPos = 0, this._pos = 0, this._metrics = null, this._isRtl = !1, this._animating = !1, this._animFrom = 0, this._animTarget = 0, this._animStart = 0, this._animDur = 0, this._animTimer = null, this._resizeObserver = null, this._autoplayTimer = null, this._hoverPaused = !1, this._pointerId = null, this._dragging = !1, this._dragStartX = 0, this._dragStartY = 0, this._dragStartPos = 0, this._dragStartTime = 0, this._stageEl = null, this._wrapEls = [], this._imgEls = [], this._overlayEls = [], this._productCache = /* @__PURE__ */ new Map(), this._stageBound = null, this._onPointerDown = (t) => {
       this._slides().length <= 1 || t.pointerType === "mouse" && t.button !== 0 || (this._pointerId = t.pointerId, this._dragging = !1, this._dragStartX = t.clientX, this._dragStartY = t.clientY, this._animating && (this._pos = this._currentPos(), this._stopTransition(), this._applyEffect(0)), this._dragStartPos = this._pos, this._dragStartTime = performance.now());
@@ -467,7 +470,7 @@ const I = 0.65, H = 1.25, W = 600, E = class E extends Y {
   async _fetchProduct(t, e) {
     if (!this._productCache.has(t) && (this._productCache.set(t, { status: "loading", label: e }), this.requestUpdate(), !!R())) {
       try {
-        const s = await U(t, e);
+        const s = await V(t, e);
         this._productCache.set(t, { status: "loaded", data: s });
       } catch (s) {
         console.warn("[growth-lifestyle-gallery] product fetch failed", t, s), this._productCache.set(t, { status: "failed" });
@@ -476,7 +479,7 @@ const I = 0.65, H = 1.25, W = 600, E = class E extends Y {
     }
   }
   _resolveProduct(t) {
-    const e = F(t.product);
+    const e = U(t.product);
     if (!e) return null;
     const s = this._productCache.get(e.id);
     return s ? s.status === "loaded" ? s.data : s.status === "loading" && s.label ? { name: s.label, url: "", image: void 0 } : null : (this._fetchProduct(e.id, e.label), e.label ? { name: e.label, url: "", image: void 0 } : null);
@@ -679,7 +682,7 @@ const I = 0.65, H = 1.25, W = 600, E = class E extends Y {
       const { scale: c, translate: h } = this._computeSlide(l, o), u = this._wrapEls[o];
       u.style.transitionDuration = g, u.style.width = `${c * 100}%`, u.style.transform = `translate3d(${this._isRtl ? -h : h}px, 0, 0)`;
       const d = this._imgEls[o];
-      d && (d.style.transitionDuration = g, d.style.transform = `scale(${1 + (H - 1) * (1 - c)})`);
+      d && (d.style.transitionDuration = g, d.style.transform = `scale(${1 + (W - 1) * (1 - c)})`);
       const f = this._overlayEls[o];
       f && (f.style.opacity = !p || o === a ? "1" : "0");
     }
@@ -704,7 +707,7 @@ const I = 0.65, H = 1.25, W = 600, E = class E extends Y {
     )) ** 3;
     return this._animFrom + (this._animTarget - this._animFrom) * e;
   }
-  _transitionTo(t, e = W) {
+  _transitionTo(t, e = J) {
     var i;
     const s = this._currentPos();
     if (this._stopTransition(), this._restPos = this._normalize(t), Math.abs(t - s) < 1e-4) {
@@ -843,7 +846,7 @@ const I = 0.65, H = 1.25, W = 600, E = class E extends Y {
     `;
   }
 };
-E.styles = V;
+E.styles = X;
 let v = E;
 T([
   B({ type: Object })

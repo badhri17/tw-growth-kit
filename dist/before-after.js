@@ -6,10 +6,13 @@ function B(n, e) {
   const t = n[e] || n.ar || n.en || "";
   return typeof t == "string" ? t.trim() : "";
 }
+function V() {
+  return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+}
 function T(n) {
   return n.replace(/[٠-٩]/g, (e) => String(e.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (e) => String(e.charCodeAt(0) - 1776));
 }
-class V extends M {
+class R extends M {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -33,7 +36,7 @@ class V extends M {
   }
   /** Resolved document language. */
   _lang() {
-    return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
+    return V();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(e) {
@@ -72,7 +75,7 @@ function E() {
   const n = window;
   return n.salla ?? n.Salla ?? null;
 }
-function R(n) {
+function Y(n) {
   if (!n) return null;
   if (typeof n == "string" || typeof n == "number") {
     const o = Number(n);
@@ -104,7 +107,7 @@ function L(n) {
   const t = parseFloat(e);
   return Number.isNaN(t) ? void 0 : t;
 }
-async function Y(n, e = "") {
+async function F(n, e = "") {
   var k, g, $, p, b, x, w, y, I, P, A;
   const t = E();
   if (!t) throw new Error("Salla SDK unavailable");
@@ -129,7 +132,7 @@ async function Y(n, e = "") {
     currency: m
   };
 }
-const F = X`
+const O = X`
   :host {
     display: block;
     font-family: inherit;
@@ -1018,12 +1021,12 @@ const F = X`
     }
   }
 `;
-var O = Object.defineProperty, z = (n, e, t, a) => {
+var U = Object.defineProperty, z = (n, e, t, a) => {
   for (var r = void 0, i = n.length - 1, o; i >= 0; i--)
     (o = n[i]) && (r = o(e, t, r) || r);
-  return r && O(e, t, r), r;
+  return r && U(e, t, r), r;
 };
-const D = class D extends V {
+const D = class D extends R {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._positions = [], this._animState = "ready", this._entranceState = "enter", this._entranceDone = !1, this._dragging = !1, this._autoplayTimer = null, this._entranceFinishTimer = null, this._hoverPaused = !1, this._hasInitializedActive = !1, this._inView = !0, this._io = null, this._productCache = /* @__PURE__ */ new Map(), this._goPrev = () => {
       var a;
@@ -1078,7 +1081,7 @@ const D = class D extends V {
   async _fetchProduct(e, t) {
     if (!this._productCache.has(e) && (this._productCache.set(e, { status: "loading", label: t }), this.requestUpdate(), !!E())) {
       try {
-        const a = await Y(e, t);
+        const a = await F(e, t);
         this._productCache.set(e, { status: "loaded", data: a });
       } catch (a) {
         console.warn("[growth-before-after] product fetch failed", e, a), this._productCache.set(e, { status: "failed" });
@@ -1095,7 +1098,7 @@ const D = class D extends V {
    */
   _resolveProduct(e) {
     if (e.show_product === !1) return null;
-    const t = R(e.product);
+    const t = Y(e.product);
     if (!t)
       return !e.product || Array.isArray(e.product) && e.product.length === 0 || console.warn(
         "[growth-before-after] could not parse picker selection",
@@ -1458,7 +1461,7 @@ const D = class D extends V {
     `;
   }
 };
-D.styles = F;
+D.styles = O;
 let v = D;
 z([
   j({ type: Object })
