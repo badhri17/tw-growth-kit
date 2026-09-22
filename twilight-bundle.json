@@ -6208,6 +6208,12 @@
                     "variant": "h5"
                 },
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "layout-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/testomonials-layout.webp' alt='مثال توضيحي لطرق ترتيب آراء العملاء' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
                     "type": "items",
                     "icon": "sicon-layout-grid",
                     "id": "layout",
