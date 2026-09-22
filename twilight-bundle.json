@@ -6488,6 +6488,12 @@
                     "variant": "h6"
                 },
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "card-style-preview",
+                    "value": "<div style='margin-bottom:14px;'><img src='https://radaar.b-cdn.net/growth%20bundle/testimonials-cardstyle.webp' alt='مثال توضيحي لأشكال بطاقات آراء العملاء' style='width:100%;max-width:520px;border-radius:10px;display:block;margin:0 auto;'/></div>"
+                },
+                {
                     "type": "items",
                     "icon": "sicon-grid",
                     "id": "card_style",
