@@ -47,6 +47,9 @@ export interface BeforeAfterConfig {
   initial_position?: number | string;     // 0–100 (start of the divider)
   reverse_direction?: boolean;            // mirror: after on the right, before on the left
   card_radius?: number | string;          // px
+  /** Phones only (<768px): break out of the theme container and span the
+      viewport edge-to-edge (no side padding, no corner radius). */
+  full_width_mobile?: boolean;
 
   // --- Carousel behaviour ---
   show_nav_buttons?: boolean;

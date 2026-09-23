@@ -1,5 +1,5 @@
 import { LitElement as M, css as X, html as s, nothing as h } from "lit";
-import { property as j, state as N } from "lit/decorators.js";
+import { property as j, state as L } from "lit/decorators.js";
 function B(n, e) {
   if (typeof n == "string") return n;
   if (!n || typeof n != "object") return "";
@@ -9,7 +9,7 @@ function B(n, e) {
 function V() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function T(n) {
+function I(n) {
   return n.replace(/[٠-٩]/g, (e) => String(e.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (e) => String(e.charCodeAt(0) - 1776));
 }
 class R extends M {
@@ -21,18 +21,18 @@ class R extends M {
    */
   static registerSallaComponent(e) {
     const t = String(e || "").trim(), a = t.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), r = a.includes("-") ? a : `salla-${a || "component"}`, i = () => `${r}-${Math.random().toString(36).substring(2, 8)}`, o = () => {
-      var c;
-      const l = (c = window.Salla) == null ? void 0 : c.bundles;
+      var p;
+      const l = (p = window.Salla) == null ? void 0 : p.bundles;
       return l && typeof l.registerComponent == "function" ? (l.registerComponent(t, {
         component: this,
         dynamicTagName: i()
       }), !0) : !1;
     };
     if (o()) return;
-    const d = window.setInterval(() => {
-      o() && window.clearInterval(d);
+    const c = window.setInterval(() => {
+      o() && window.clearInterval(c);
     }, 100);
-    window.setTimeout(() => window.clearInterval(d), 5e3);
+    window.setTimeout(() => window.clearInterval(c), 5e3);
   }
   /** Resolved document language. */
   _lang() {
@@ -54,14 +54,14 @@ class R extends M {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(e) {
-    return T(e);
+    return I(e);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(e, t) {
     if (typeof e == "number" && !Number.isNaN(e)) return e;
     if (typeof e == "string" && e.trim() !== "") {
-      const a = Number(T(e.trim()));
+      const a = Number(I(e.trim()));
       if (!Number.isNaN(a)) return a;
     }
     if (Array.isArray(e) && e.length > 0) {
@@ -95,41 +95,41 @@ function Y(n) {
   const i = String(t.label ?? t.name ?? t.title ?? "").trim();
   return { id: r, label: i };
 }
-function L(n) {
+function T(n) {
   if (typeof n == "number") return Number.isNaN(n) ? void 0 : n;
   if (n && typeof n == "object") {
     const a = n;
-    return L(a.amount ?? a.value ?? a.price);
+    return T(a.amount ?? a.value ?? a.price);
   }
   if (typeof n != "string") return;
-  const e = T(n).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  const e = I(n).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!e) return;
   const t = parseFloat(e);
   return Number.isNaN(t) ? void 0 : t;
 }
 async function F(n, e = "") {
-  var k, g, $, p, b, x, w, y, I, P, A;
+  var _, m, y, w, b, d, k, $, z, D, P;
   const t = E();
   if (!t) throw new Error("Salla SDK unavailable");
   typeof t.onReady == "function" && await t.onReady();
-  const a = ((k = t.product) == null ? void 0 : k.getDetails) ?? (($ = (g = t.product) == null ? void 0 : g.api) == null ? void 0 : $.getDetails);
+  const a = ((_ = t.product) == null ? void 0 : _.getDetails) ?? ((y = (m = t.product) == null ? void 0 : m.api) == null ? void 0 : y.getDetails);
   if (typeof a != "function")
     throw new Error("getDetails unavailable");
   const r = await a.call(t.product, n), i = (r == null ? void 0 : r.data) ?? r;
   if (!i) throw new Error("empty product payload");
-  const o = ((p = i.image) == null ? void 0 : p.url) || ((b = i.image) == null ? void 0 : b.thumbnail) || Array.isArray(i.images) && (((x = i.images[0]) == null ? void 0 : x.url) || i.images[0]) || i.thumbnail || i.main_image || "", d = i.url || ((w = i.urls) == null ? void 0 : w.customer) || ((y = i.urls) == null ? void 0 : y.product) || i.permalink || `/p${n}`, l = L(i.price), c = L(i.regular_price), u = L(i.sale_price);
-  let f = c ?? l, _ = l ?? c;
-  u !== void 0 && u > 0 && (_ = u, (f === void 0 || f <= u) && (f = c ?? l ?? u));
-  const S = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || u !== void 0) && f !== void 0 && _ !== void 0 && _ < f, m = i.currency || ((I = i.price) == null ? void 0 : I.currency) || ((P = i.regular_price) == null ? void 0 : P.currency) || void 0;
+  const o = ((w = i.image) == null ? void 0 : w.url) || ((b = i.image) == null ? void 0 : b.thumbnail) || Array.isArray(i.images) && (((d = i.images[0]) == null ? void 0 : d.url) || i.images[0]) || i.thumbnail || i.main_image || "", c = i.url || ((k = i.urls) == null ? void 0 : k.customer) || (($ = i.urls) == null ? void 0 : $.product) || i.permalink || `/p${n}`, l = T(i.price), p = T(i.regular_price), u = T(i.sale_price);
+  let f = p ?? l, v = l ?? p;
+  u !== void 0 && u > 0 && (v = u, (f === void 0 || f <= u) && (f = p ?? l ?? u));
+  const S = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || u !== void 0) && f !== void 0 && v !== void 0 && v < f, x = i.currency || ((z = i.price) == null ? void 0 : z.currency) || ((D = i.regular_price) == null ? void 0 : D.currency) || void 0;
   return {
     name: String(i.name || i.title || e || `#${n}`),
     image: o || void 0,
-    imageAlt: String(((A = i.image) == null ? void 0 : A.alt) || i.name || ""),
-    url: d,
+    imageAlt: String(((P = i.image) == null ? void 0 : P.alt) || i.name || ""),
+    url: c,
     regular: f,
-    sale: S ? _ : void 0,
+    sale: S ? v : void 0,
     onSale: S,
-    currency: m
+    currency: x
   };
 }
 const O = X`
@@ -223,6 +223,55 @@ const O = X`
   @media (max-width: 480px) {
     .ba-stage {
       padding: 0.5rem 2.5rem;
+    }
+  }
+
+  /* --- Full-bleed on phones (opt-in) ---
+     Breaks out of the theme's centred container so the comparison spans the
+     real viewport: margin-inline pulls the section to +/-50vw from its own
+     centre, 100vw makes it as wide as the screen. Desktop is untouched.
+
+     overflow-x: clip is load-bearing. The neighbouring slides park at +/-88%
+     of the track, which is +/-88vw once the track fills the screen; without
+     the clip they extend the page and the whole storefront scrolls sideways.
+     Uses clip rather than hidden so the section never becomes a scroll
+     container and vertical overflow (card shadow, product chip) still shows. */
+  @media (max-width: 767px) {
+    .ba-section[data-full-width-mobile="true"] {
+      width: 100vw;
+      max-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      padding-inline: 0;
+      overflow-x: clip;
+    }
+    /* The stage's inline padding is the nav buttons' gutter — at full bleed
+       there is no gutter, so the buttons float over the card instead, inset
+       from the screen edge. Logical properties here: the base rules place
+       the buttons with left/right and swap them again under :dir(rtl), so
+       setting one physical side would leave the swapped side behind and
+       stack both arrows on top of each other in Arabic. */
+    .ba-section[data-full-width-mobile="true"] .ba-stage {
+      padding-inline: 0;
+    }
+    .ba-section[data-full-width-mobile="true"] .ba-track {
+      max-width: 100%;
+    }
+    /* Edge-to-edge media has no visible frame to round or cast a shadow. */
+    .ba-section[data-full-width-mobile="true"] .ba-card {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .ba-section[data-full-width-mobile="true"] .ba-nav-prev {
+      inset-inline-start: 10px;
+      inset-inline-end: auto;
+    }
+    .ba-section[data-full-width-mobile="true"] .ba-nav-next {
+      inset-inline-end: 10px;
+      inset-inline-start: auto;
+    }
+    /* The header keeps its readable gutter; only the media goes full bleed. */
+    .ba-section[data-full-width-mobile="true"] .ba-header {
+      padding-inline: clamp(1rem, 3vw, 1.5rem);
     }
   }
 
@@ -1021,12 +1070,12 @@ const O = X`
     }
   }
 `;
-var U = Object.defineProperty, z = (n, e, t, a) => {
+var U = Object.defineProperty, C = (n, e, t, a) => {
   for (var r = void 0, i = n.length - 1, o; i >= 0; i--)
     (o = n[i]) && (r = o(e, t, r) || r);
   return r && U(e, t, r), r;
 };
-const D = class D extends R {
+const A = class A extends R {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._positions = [], this._animState = "ready", this._entranceState = "enter", this._entranceDone = !1, this._dragging = !1, this._autoplayTimer = null, this._entranceFinishTimer = null, this._hoverPaused = !1, this._hasInitializedActive = !1, this._inView = !0, this._io = null, this._productCache = /* @__PURE__ */ new Map(), this._goPrev = () => {
       var a;
@@ -1170,9 +1219,9 @@ const D = class D extends R {
     if (!e.has("config")) return;
     const t = this._slides(), a = this._num((i = this.config) == null ? void 0 : i.initial_position, 50), r = Math.max(0, Math.min(100, a));
     if (t.length !== this._positions.length && (this._positions = t.map(
-      (d, l) => l < this._positions.length ? this._positions[l] : r
+      (c, l) => l < this._positions.length ? this._positions[l] : r
     )), !this._hasInitializedActive && t.length > 0) {
-      const d = this._num((o = this.config) == null ? void 0 : o.initial_slide, NaN), l = Number.isNaN(d) ? Math.floor(t.length / 2) : Math.max(0, Math.min(t.length - 1, Math.round(d) - 1));
+      const c = this._num((o = this.config) == null ? void 0 : o.initial_slide, NaN), l = Number.isNaN(c) ? Math.floor(t.length / 2) : Math.max(0, Math.min(t.length - 1, Math.round(c) - 1));
       this._activeIndex = l, this._hasInitializedActive = !0;
     } else this._activeIndex >= t.length && (this._activeIndex = Math.max(0, t.length - 1));
     this._teardownAutoplay(), this._setupAutoplay();
@@ -1252,39 +1301,39 @@ const D = class D extends R {
     return (a = this.config) != null && a.crossover_reverse ? t === "left" ? "right" : "left" : t;
   }
   _renderCrossover(e, t, a, r, i, o) {
-    const d = this._pickValue(e.crossover_speed, "normal"), l = d === "slow" ? 7 : d === "fast" ? 3 : 5, c = this._pickValue(
+    const c = this._pickValue(e.crossover_speed, "normal"), l = c === "slow" ? 7 : c === "fast" ? 3 : 5, p = this._pickValue(
       e.crossover_item_size,
       "md"
-    ), u = c === "sm" ? 200 : c === "lg" ? 320 : 260, f = c === "sm" ? 280 : c === "lg" ? 440 : 360, _ = Math.max(0, this._num(e.crossover_gap, 20)), C = e.crossover_pause_on_hover !== !1, S = this._crossoverBeforeSide(), m = [];
-    for (; m.length < 8; ) m.push(...t);
-    const k = m.length * l, g = (p, b) => s`
+    ), u = p === "sm" ? 200 : p === "lg" ? 320 : 260, f = p === "sm" ? 280 : p === "lg" ? 440 : 360, v = Math.max(0, this._num(e.crossover_gap, 20)), N = e.crossover_pause_on_hover !== !1, S = this._crossoverBeforeSide(), x = [];
+    for (; x.length < 8; ) x.push(...t);
+    const _ = x.length * l, m = (w, b) => s`
       <div class="ba-x-group" aria-hidden=${b ? "true" : "false"}>
-        ${m.map((x) => {
-      const w = p === "before" ? x.before_image || x.after_image : x.after_image || x.before_image, y = b ? "" : this.localizedString(x.caption) || (p === "before" ? a : r);
+        ${x.map((d) => {
+      const k = w === "before" ? d.before_image || d.after_image : d.after_image || d.before_image, $ = b ? "" : this.localizedString(d.caption) || (w === "before" ? a : r);
       return s`<div class="ba-x-card">
-            ${w ? s`<img
-                  src=${w}
-                  alt=${y}
+            ${k ? s`<img
+                  src=${k}
+                  alt=${$}
                   loading="lazy"
                   draggable="false"
                 />` : h}
           </div>`;
     })}
       </div>
-    `, $ = [
+    `, y = [
       `--ba-x-item-w: ${u}px`,
       `--ba-x-item-w-desktop: ${f}px`,
-      `--ba-x-gap: ${_}px`,
-      `--ba-x-duration: ${k}s`,
+      `--ba-x-gap: ${v}px`,
+      `--ba-x-duration: ${_}s`,
       e.crossover_divider_color ? `--ba-x-divider-color: ${e.crossover_divider_color}` : ""
     ].filter(Boolean).join("; ");
     return s`
       <div
         class="ba-x"
-        style=${$}
+        style=${y}
         data-before-side=${S}
         data-anim=${o ? this._animState : "in"}
-        ?data-pause-hover=${C}
+        ?data-pause-hover=${N}
       >
         ${i ? s`
               <div class="ba-x-pills">
@@ -1295,12 +1344,12 @@ const D = class D extends R {
         <div class="ba-x-stage">
           <div class="ba-x-lane ba-x-lane--before">
             <div class="ba-x-track">
-              ${g("before", !1)}${g("before", !0)}
+              ${m("before", !1)}${m("before", !0)}
             </div>
           </div>
           <div class="ba-x-lane ba-x-lane--after" aria-hidden="true">
             <div class="ba-x-track">
-              ${g("after", !0)}${g("after", !0)}
+              ${m("after", !0)}${m("after", !0)}
             </div>
           </div>
           <div class="ba-x-divider" aria-hidden="true"></div>
@@ -1312,10 +1361,10 @@ const D = class D extends R {
   // Render
   // ------------------------------------------------------------
   render() {
-    const e = this.config || {}, t = this._slides(), a = this.localizedString(e.title), r = this.localizedString(e.subtitle), i = this.localizedString(e.label_before) || "قبل", o = this.localizedString(e.label_after) || "بعد", d = e.show_labels !== !1, l = this._pickValue(e.aspect_ratio, "1/1"), c = this._pickValue(
+    const e = this.config || {}, t = this._slides(), a = this.localizedString(e.title), r = this.localizedString(e.subtitle), i = this.localizedString(e.label_before) || "قبل", o = this.localizedString(e.label_after) || "بعد", c = e.show_labels !== !1, l = this._pickValue(e.aspect_ratio, "1/1"), p = this._pickValue(
       e.desktop_layout,
       "coverflow"
-    ), u = e.show_nav_buttons !== !1, f = !!e.show_pagination, _ = !!e.reverse_direction, C = e.enable_entrance_anim !== !1, S = this._num(e.card_radius, 20), m = [
+    ), u = e.show_nav_buttons !== !1, f = !!e.show_pagination, v = !!e.reverse_direction, N = e.enable_entrance_anim !== !1, S = this._num(e.card_radius, 20), x = e.full_width_mobile === !0, _ = [
       e.bg_color ? `--ba-bg: ${e.bg_color}` : "",
       e.title_color ? `--ba-title-color: ${e.title_color}` : "",
       e.text_color ? `--ba-text-color: ${e.text_color}` : "",
@@ -1333,74 +1382,80 @@ const D = class D extends R {
     ].filter(Boolean).join("; ");
     if (t.length === 0)
       return s`
-        <section class="ba-empty" style=${m}>
+        <section class="ba-empty" style=${_}>
           <p>أضف صورة «قبل» وصورة «بعد» للبدء.</p>
         </section>
       `;
-    const k = t.length === 1, g = "m9 6 6 6-6 6", $ = a || r ? s`
+    const m = t.length === 1, y = "m9 6 6 6-6 6", w = a || r ? s`
             <div
               class="ba-header"
-              data-anim=${C ? this._animState : "in"}
+              data-anim=${N ? this._animState : "in"}
             >
               ${a ? s`<h2 class="ba-title">${a}</h2>` : h}
               ${r ? s`<p class="ba-subtitle">${r}</p>` : h}
             </div>
           ` : h;
     return e.crossover_enabled ? s`
-        <section class="ba-section" style=${m} data-mode="crossover">
-          ${$}
+        <section
+          class="ba-section"
+          style=${_}
+          data-mode="crossover"
+          data-full-width-mobile=${x ? "true" : "false"}
+        >
+          ${w}
           ${this._renderCrossover(
       e,
       t,
       i,
       o,
-      d,
-      C
+      c,
+      N
     )}
         </section>
       ` : s`
       <section
         class="ba-section"
-        style=${m}
-        data-layout=${c}
+        style=${_}
+        data-layout=${p}
+        data-full-width-mobile=${x ? "true" : "false"}
         data-entrance=${this._entranceState}
         ?data-entered=${this._entranceDone}
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${$}
+        ${w}
 
         <div class="ba-stage">
           <div class="ba-track">
-            ${t.map((p, b) => {
-      const x = this._slidePos(b), w = this.localizedString(p.caption), y = this._resolveProduct(p), P = `--pos: ${this._positions[b] ?? 50}%`;
+            ${t.map((b, d) => {
+      const k = this._slidePos(d), $ = this.localizedString(b.caption), z = this._resolveProduct(b), P = `--pos: ${this._positions[d] ?? 50}%`;
       return s`
-                <div class="ba-slide" data-pos=${x}>
+                <div class="ba-slide" data-pos=${k}>
                   <div
                     class="ba-card"
                     style=${P}
-                    ?data-reverse=${_}
+                    ?data-reverse=${v}
                     @mousedown=${this._onDown}
                     @touchstart=${this._onDown}
                     @click=${this._onCardClick}
                   >
-                    ${p.after_image ? s`<img
+                    ${b.after_image ? s`<img
                           class="ba-after"
-                          src=${p.after_image}
+                          src=${b.after_image}
                           alt=${o}
                           loading="lazy"
                           draggable="false"
                         />` : h}
-                    ${p.before_image ? s`<img
+                    ${b.before_image ? s`<img
                           class="ba-before"
-                          src=${p.before_image}
+                          src=${b.before_image}
                           alt=${i}
                           loading="lazy"
                           draggable="false"
                         />` : h}
                     <div class="ba-slider-line"></div>
                     <div class="ba-handle" aria-hidden="true"></div>
-                    ${d ? s`
+                    ${c ? s`
                           <span class="ba-label ba-label-before"
                             >${i}</span
                           >
@@ -1408,15 +1463,15 @@ const D = class D extends R {
                             >${o}</span
                           >
                         ` : h}
-                    ${w && !y ? s`<span class="ba-caption">${w}</span>` : h}
-                    ${y ? this._renderProductChip(y) : h}
+                    ${$ && !z ? s`<span class="ba-caption">${$}</span>` : h}
+                    ${z ? this._renderProductChip(z) : h}
                   </div>
                 </div>
               `;
     })}
           </div>
 
-          ${!k && u ? s`
+          ${!m && u ? s`
                 <button
                   class="ba-nav ba-nav-prev"
                   type="button"
@@ -1425,7 +1480,7 @@ const D = class D extends R {
                   aria-label="Previous"
                 >
                   <svg viewBox="0 0 24 24">
-                    <path d=${g} />
+                    <path d=${y} />
                   </svg>
                 </button>
                 <button
@@ -1436,22 +1491,22 @@ const D = class D extends R {
                   aria-label="Next"
                 >
                   <svg viewBox="0 0 24 24">
-                    <path d=${g} />
+                    <path d=${y} />
                   </svg>
                 </button>
               ` : h}
         </div>
 
-        ${!k && f ? s`
+        ${!m && f ? s`
               <div class="ba-dots" role="tablist">
                 ${t.map(
-      (p, b) => s`
+      (b, d) => s`
                     <button
                       class="ba-dot"
                       type="button"
-                      aria-current=${this._activeIndex === b ? "true" : "false"}
-                      aria-label=${`Slide ${b + 1}`}
-                      @click=${() => this._goTo(b)}
+                      aria-current=${this._activeIndex === d ? "true" : "false"}
+                      aria-label=${`Slide ${d + 1}`}
+                      @click=${() => this._goTo(d)}
                     ></button>
                   `
     )}
@@ -1461,27 +1516,27 @@ const D = class D extends R {
     `;
   }
 };
-D.styles = O;
-let v = D;
-z([
+A.styles = O;
+let g = A;
+C([
   j({ type: Object })
-], v.prototype, "config");
-z([
-  N()
-], v.prototype, "_activeIndex");
-z([
-  N()
-], v.prototype, "_positions");
-z([
-  N()
-], v.prototype, "_animState");
-z([
-  N()
-], v.prototype, "_entranceState");
-z([
-  N()
-], v.prototype, "_entranceDone");
-typeof v < "u" && v.registerSallaComponent("salla-before-after");
+], g.prototype, "config");
+C([
+  L()
+], g.prototype, "_activeIndex");
+C([
+  L()
+], g.prototype, "_positions");
+C([
+  L()
+], g.prototype, "_animState");
+C([
+  L()
+], g.prototype, "_entranceState");
+C([
+  L()
+], g.prototype, "_entranceDone");
+typeof g < "u" && g.registerSallaComponent("salla-before-after");
 export {
-  v as default
+  g as default
 };

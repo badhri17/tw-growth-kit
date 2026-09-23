@@ -2343,6 +2343,16 @@
                 },
                 {
                     "type": "boolean",
+                    "icon": "sicon-expand",
+                    "id": "full_width_mobile",
+                    "label": "عرض كامل على الجوال",
+                    "description": "يمدّ السلايدر حتى حواف الشاشة على الجوال — بدون هوامش جانبية أو انحناء في الزوايا. لا يؤثر على شكله في سطح المكتب. معطّل افتراضيًا.",
+                    "format": "switch",
+                    "selected": false,
+                    "required": false
+                },
+                {
+                    "type": "boolean",
                     "icon": "sicon-toggle-off",
                     "id": "reverse_direction",
                     "label": "عكس اتجاه السلايدر (إظهار «بعد» على اليمين)",

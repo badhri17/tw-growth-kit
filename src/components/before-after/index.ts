@@ -650,6 +650,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
     const reverse = !!c.reverse_direction;
     const enableAnim = c.enable_entrance_anim !== false;
     const cardRadius = this._num(c.card_radius, 20);
+    const fullWidthMobile = c.full_width_mobile === true;
 
     const hostStyle = [
       c.bg_color ? `--ba-bg: ${c.bg_color}` : "",
@@ -700,7 +701,12 @@ export default class GrowthBeforeAfter extends GrowthElement {
 
     if (c.crossover_enabled) {
       return html`
-        <section class="ba-section" style=${hostStyle} data-mode="crossover">
+        <section
+          class="ba-section"
+          style=${hostStyle}
+          data-mode="crossover"
+          data-full-width-mobile=${fullWidthMobile ? "true" : "false"}
+        >
           ${header}
           ${this._renderCrossover(
             c,
@@ -719,6 +725,7 @@ export default class GrowthBeforeAfter extends GrowthElement {
         class="ba-section"
         style=${hostStyle}
         data-layout=${layout}
+        data-full-width-mobile=${fullWidthMobile ? "true" : "false"}
         data-entrance=${this._entranceState}
         ?data-entered=${this._entranceDone}
         @mouseenter=${this._onHoverIn}

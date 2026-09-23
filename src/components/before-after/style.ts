@@ -94,6 +94,55 @@ export const beforeAfterStyles = css`
     }
   }
 
+  /* --- Full-bleed on phones (opt-in) ---
+     Breaks out of the theme's centred container so the comparison spans the
+     real viewport: margin-inline pulls the section to +/-50vw from its own
+     centre, 100vw makes it as wide as the screen. Desktop is untouched.
+
+     overflow-x: clip is load-bearing. The neighbouring slides park at +/-88%
+     of the track, which is +/-88vw once the track fills the screen; without
+     the clip they extend the page and the whole storefront scrolls sideways.
+     Uses clip rather than hidden so the section never becomes a scroll
+     container and vertical overflow (card shadow, product chip) still shows. */
+  @media (max-width: 767px) {
+    .ba-section[data-full-width-mobile="true"] {
+      width: 100vw;
+      max-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      padding-inline: 0;
+      overflow-x: clip;
+    }
+    /* The stage's inline padding is the nav buttons' gutter — at full bleed
+       there is no gutter, so the buttons float over the card instead, inset
+       from the screen edge. Logical properties here: the base rules place
+       the buttons with left/right and swap them again under :dir(rtl), so
+       setting one physical side would leave the swapped side behind and
+       stack both arrows on top of each other in Arabic. */
+    .ba-section[data-full-width-mobile="true"] .ba-stage {
+      padding-inline: 0;
+    }
+    .ba-section[data-full-width-mobile="true"] .ba-track {
+      max-width: 100%;
+    }
+    /* Edge-to-edge media has no visible frame to round or cast a shadow. */
+    .ba-section[data-full-width-mobile="true"] .ba-card {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .ba-section[data-full-width-mobile="true"] .ba-nav-prev {
+      inset-inline-start: 10px;
+      inset-inline-end: auto;
+    }
+    .ba-section[data-full-width-mobile="true"] .ba-nav-next {
+      inset-inline-end: 10px;
+      inset-inline-start: auto;
+    }
+    /* The header keeps its readable gutter; only the media goes full bleed. */
+    .ba-section[data-full-width-mobile="true"] .ba-header {
+      padding-inline: clamp(1rem, 3vw, 1.5rem);
+    }
+  }
+
   /* --- Track holds slides absolutely; height comes from aspect ratio --- */
   .ba-track {
     position: relative;
