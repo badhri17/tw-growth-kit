@@ -1,18 +1,18 @@
-import { LitElement as mt, css as bt, html as s, nothing as p } from "lit";
-import { property as _t, state as et } from "lit/decorators.js";
-function wt(i, t) {
-  if (typeof i == "string") return i;
-  if (!i || typeof i != "object") return "";
-  const e = i[t] || i.ar || i.en || "";
+import { LitElement as _t, css as wt, html as s, nothing as d } from "lit";
+import { property as yt, state as it } from "lit/decorators.js";
+function vt(a, t) {
+  if (typeof a == "string") return a;
+  if (!a || typeof a != "object") return "";
+  const e = a[t] || a.ar || a.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
-function at() {
+function rt() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function P(i) {
-  return i.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
+function U(a) {
+  return a.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class yt extends mt {
+class xt extends _t {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -20,10 +20,10 @@ class yt extends mt {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const e = String(t || "").trim(), a = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), n = a.includes("-") ? a : `salla-${a || "component"}`, r = () => `${n}-${Math.random().toString(36).substring(2, 8)}`, o = () => {
+    const e = String(t || "").trim(), i = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), n = i.includes("-") ? i : `salla-${i || "component"}`, r = () => `${n}-${Math.random().toString(36).substring(2, 8)}`, o = () => {
       var h;
-      const f = (h = window.Salla) == null ? void 0 : h.bundles;
-      return f && typeof f.registerComponent == "function" ? (f.registerComponent(e, {
+      const p = (h = window.Salla) == null ? void 0 : h.bundles;
+      return p && typeof p.registerComponent == "function" ? (p.registerComponent(e, {
         component: this,
         dynamicTagName: r()
       }), !0) : !1;
@@ -36,81 +36,105 @@ class yt extends mt {
   }
   /** Resolved document language. */
   _lang() {
-    return at();
+    return rt();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return wt(t, this._lang());
+    return vt(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, e) {
     if (typeof t == "string" && t) return t;
     if (Array.isArray(t) && t.length > 0) {
-      const a = t[0];
-      if (a && typeof a.value == "string" && a.value)
-        return a.value;
+      const i = t[0];
+      if (i && typeof i.value == "string" && i.value)
+        return i.value;
     }
     return e;
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return P(t);
+    return U(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const a = Number(P(t.trim()));
-      if (!Number.isNaN(a)) return a;
+      const i = Number(U(t.trim()));
+      if (!Number.isNaN(i)) return i;
     }
     if (Array.isArray(t) && t.length > 0) {
-      const a = t[0];
-      if ((a == null ? void 0 : a.value) !== void 0) return this._num(a.value, e);
+      const i = t[0];
+      if ((i == null ? void 0 : i.value) !== void 0) return this._num(i.value, e);
     }
     return e;
   }
 }
-function Y() {
-  const i = window;
-  return i.salla ?? i.Salla ?? null;
+const B = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, O = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function kt(a, t, e = "md", i = "md") {
+  const n = t(a == null ? void 0 : a.space_top, e), r = t(a == null ? void 0 : a.space_bottom, i), o = B[n] ?? B.md, c = B[r] ?? B.md, p = O[n] ?? O.md, h = O[r] ?? O.md;
+  return [
+    `--sp-top-m:${o}px`,
+    `--sp-bot-m:${c}px`,
+    `--sp-top-d:${p}px`,
+    `--sp-bot-d:${h}px`
+  ];
 }
-function j(i) {
-  if (!i) return null;
-  if (typeof i == "string" || typeof i == "number") {
-    const o = Number(i);
+function q() {
+  const a = window;
+  return a.salla ?? a.Salla ?? null;
+}
+function j(a) {
+  if (!a) return null;
+  if (typeof a == "string" || typeof a == "number") {
+    const o = Number(a);
     return !o || Number.isNaN(o) ? null : { id: o, label: "" };
   }
-  const t = Array.isArray(i) ? i[0] : i;
+  const t = Array.isArray(a) ? a[0] : a;
   if (!t) return null;
   if (typeof t == "string" || typeof t == "number") {
     const o = Number(t);
     return !o || Number.isNaN(o) ? null : { id: o, label: "" };
   }
   if (typeof t != "object") return null;
-  const e = t, a = e.value ?? e.id ?? e.product_id;
-  if (a == null) return null;
-  const n = typeof a == "number" ? a : Number(a);
+  const e = t, i = e.value ?? e.id ?? e.product_id;
+  if (i == null) return null;
+  const n = typeof i == "number" ? i : Number(i);
   if (!n || Number.isNaN(n)) return null;
   const r = String(e.label ?? e.name ?? e.title ?? "").trim();
   return { id: n, label: r };
 }
-function S(i) {
-  if (typeof i == "number") return Number.isNaN(i) ? void 0 : i;
-  if (i && typeof i == "object") {
-    const a = i;
-    return S(a.amount ?? a.value ?? a.price);
+function S(a) {
+  if (typeof a == "number") return Number.isNaN(a) ? void 0 : a;
+  if (a && typeof a == "object") {
+    const i = a;
+    return S(i.amount ?? i.value ?? i.price);
   }
-  if (typeof i != "string") return;
-  const t = P(i).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  if (typeof a != "string") return;
+  const t = U(a).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!t) return;
   const e = parseFloat(t);
   return Number.isNaN(e) ? void 0 : e;
 }
-function vt(i) {
-  return Number.isInteger(i) ? String(i) : i.toFixed(2).replace(/\.?0+$/, "");
+function $t(a) {
+  return Number.isInteger(a) ? String(a) : a.toFixed(2).replace(/\.?0+$/, "");
 }
-const xt = {
+const St = {
   SAR: "ر.س",
   AED: "د.إ",
   KWD: "د.ك",
@@ -121,52 +145,52 @@ const xt = {
   JOD: "د.أ",
   YER: "ر.ي"
 };
-function it(i) {
-  const t = i.trim().toUpperCase();
-  return t ? at() === "ar" ? xt[t] ?? t : t : "";
+function nt(a) {
+  const t = a.trim().toUpperCase();
+  return t ? rt() === "ar" ? St[t] ?? t : t : "";
 }
-function kt(i, t) {
+function Tt(a, t) {
   var o;
-  if (typeof i != "string") return "";
-  if (!i.includes("<")) return i.trim();
-  const e = (o = /\bsicon-([a-z]{3})\b/i.exec(i)) == null ? void 0 : o[1], a = i.replace(/<[^>]*>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim();
-  if (!a) return "";
-  if (!!/[^\d.,\s\u0660-\u0669\u06f0-\u06f9]/.test(a)) return a;
+  if (typeof a != "string") return "";
+  if (!a.includes("<")) return a.trim();
+  const e = (o = /\bsicon-([a-z]{3})\b/i.exec(a)) == null ? void 0 : o[1], i = a.replace(/<[^>]*>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim();
+  if (!i) return "";
+  if (!!/[^\d.,\s\u0660-\u0669\u06f0-\u06f9]/.test(i)) return i;
   const r = t || e;
-  return r ? `${a} ${it(r)}` : a;
+  return r ? `${i} ${nt(r)}` : i;
 }
-function I(i, t) {
-  if (i == null || Number.isNaN(i)) return "";
-  const e = Y();
+function Y(a, t) {
+  if (a == null || Number.isNaN(a)) return "";
+  const e = q();
   try {
     if (e && typeof e.money == "function") {
-      const n = kt(
-        t ? e.money({ amount: i, currency: t }) : e.money(i),
+      const n = Tt(
+        t ? e.money({ amount: a, currency: t }) : e.money(a),
         t
       );
       if (n) return n;
     }
   } catch {
   }
-  const a = vt(i);
-  return t ? `${a} ${it(t)}` : a;
+  const i = $t(a);
+  return t ? `${i} ${nt(t)}` : i;
 }
-async function $t(i, t = "") {
-  var R, z, _, l, C, N, y, x, w, M, k;
-  const e = Y();
+async function At(a, t = "") {
+  var E, C, _, l, z, N, y, x, w, M, k;
+  const e = q();
   if (!e) throw new Error("Salla SDK unavailable");
   typeof e.onReady == "function" && await e.onReady();
-  const a = ((R = e.product) == null ? void 0 : R.getDetails) ?? ((_ = (z = e.product) == null ? void 0 : z.api) == null ? void 0 : _.getDetails);
-  if (typeof a != "function")
+  const i = ((E = e.product) == null ? void 0 : E.getDetails) ?? ((_ = (C = e.product) == null ? void 0 : C.api) == null ? void 0 : _.getDetails);
+  if (typeof i != "function")
     throw new Error("getDetails unavailable");
-  const n = await a.call(e.product, i), r = (n == null ? void 0 : n.data) ?? n;
+  const n = await i.call(e.product, a), r = (n == null ? void 0 : n.data) ?? n;
   if (!r) throw new Error("empty product payload");
-  const o = ((l = r.image) == null ? void 0 : l.url) || ((C = r.image) == null ? void 0 : C.thumbnail) || Array.isArray(r.images) && (((N = r.images[0]) == null ? void 0 : N.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((y = r.urls) == null ? void 0 : y.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${i}`, f = S(r.price), h = S(r.regular_price), u = S(r.sale_price);
-  let g = h ?? f, b = f ?? h;
-  u !== void 0 && u > 0 && (b = u, (g === void 0 || g <= u) && (g = h ?? f ?? u));
+  const o = ((l = r.image) == null ? void 0 : l.url) || ((z = r.image) == null ? void 0 : z.thumbnail) || Array.isArray(r.images) && (((N = r.images[0]) == null ? void 0 : N.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((y = r.urls) == null ? void 0 : y.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${a}`, p = S(r.price), h = S(r.regular_price), u = S(r.sale_price);
+  let g = h ?? p, b = p ?? h;
+  u !== void 0 && u > 0 && (b = u, (g === void 0 || g <= u) && (g = h ?? p ?? u));
   const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || u !== void 0) && g !== void 0 && b !== void 0 && b < g, A = r.currency || ((w = r.price) == null ? void 0 : w.currency) || ((M = r.regular_price) == null ? void 0 : M.currency) || void 0;
   return {
-    name: String(r.name || r.title || t || `#${i}`),
+    name: String(r.name || r.title || t || `#${a}`),
     image: o || void 0,
     imageAlt: String(((k = r.image) == null ? void 0 : k.alt) || r.name || ""),
     url: c,
@@ -176,7 +200,7 @@ async function $t(i, t = "") {
     currency: A
   };
 }
-const St = bt`
+const Ct = wt`
   :host {
     display: block;
     font-family: inherit;
@@ -221,7 +245,10 @@ const St = bt`
   .fp {
     width: 100%;
     background: var(--fp-bg);
-    padding: clamp(2rem, 6vw, 4.5rem) clamp(1rem, 4vw, 2rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -825,43 +852,49 @@ const St = bt`
       filter: none !important;
     }
   }
+
+  @media (min-width: 768px) {
+    .fp {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
+    }
+  }
 `;
-var Tt = Object.defineProperty, U = (i, t, e, a) => {
-  for (var n = void 0, r = i.length - 1, o; r >= 0; r--)
-    (o = i[r]) && (n = o(t, e, n) || n);
-  return n && Tt(t, e, n), n;
+var zt = Object.defineProperty, F = (a, t, e, i) => {
+  for (var n = void 0, r = a.length - 1, o; r >= 0; r--)
+    (o = a[r]) && (n = o(t, e, n) || n);
+  return n && zt(t, e, n), n;
 };
-const q = class q extends yt {
+const H = class H extends xt {
   constructor() {
     super(...arguments), this._animState = "ready", this._cartState = "idle", this._cartResetTimer = null, this._productCache = /* @__PURE__ */ new Map(), this._io = null, this._tiltRect = null, this._tiltRaf = null, this._onTiltMove = (t) => {
       if (!this._tiltAllowed(t)) return;
-      const e = t.currentTarget, a = e.querySelector(".fp-media-inner");
-      if (!a) return;
+      const e = t.currentTarget, i = e.querySelector(".fp-media-inner");
+      if (!i) return;
       this._tiltRect || (this._tiltRect = e.getBoundingClientRect());
       const n = this._tiltRect;
       if (!n.width || !n.height) return;
       const r = Math.max(-1, Math.min(1, (t.clientX - n.left) / n.width * 2 - 1)), o = Math.max(-1, Math.min(1, (t.clientY - n.top) / n.height * 2 - 1)), c = 10;
       this._tiltRaf !== null && cancelAnimationFrame(this._tiltRaf), this._tiltRaf = requestAnimationFrame(() => {
-        this._tiltRaf = null, a.style.transform = `rotateY(${r * c}deg) rotateX(${-o * c}deg) scale3d(1.025, 1.025, 1.025)`;
+        this._tiltRaf = null, i.style.transform = `rotateY(${r * c}deg) rotateX(${-o * c}deg) scale3d(1.025, 1.025, 1.025)`;
       });
     }, this._onTiltLeave = (t) => {
       this._tiltRect = null, this._tiltRaf !== null && (cancelAnimationFrame(this._tiltRaf), this._tiltRaf = null);
-      const a = t.currentTarget.querySelector(".fp-media-inner");
-      a && (a.style.transform = "");
+      const i = t.currentTarget.querySelector(".fp-media-inner");
+      i && (i.style.transform = "");
     }, this._onPrimaryClick = async (t) => {
       var h, u, g;
       if (t.preventDefault(), this._cartState === "loading") return;
-      const e = this.config || {}, a = this._pickValue(
+      const e = this.config || {}, i = this._pickValue(
         e.button_action,
         "add_to_cart"
-      ), n = j(e.product), r = this._resolveProduct(), o = n == null ? void 0 : n.id, c = this._salla, f = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (u = c == null ? void 0 : c.cart) == null ? void 0 : u.api) == null ? void 0 : g.addItem);
-      if (!o || typeof f != "function") {
+      ), n = j(e.product), r = this._resolveProduct(), o = n == null ? void 0 : n.id, c = this._salla, p = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (u = c == null ? void 0 : c.cart) == null ? void 0 : u.api) == null ? void 0 : g.addItem);
+      if (!o || typeof p != "function") {
         r != null && r.url && (window.location.href = r.url);
         return;
       }
       this._cartState = "loading";
       try {
-        if (await f.call(c.cart, { id: o, quantity: 1 }), this._cartState = "added", a === "buy_now") {
+        if (await p.call(c.cart, { id: o, quantity: 1 }), this._cartState = "added", i === "buy_now") {
           window.location.href = "/cart";
           return;
         }
@@ -875,13 +908,13 @@ const q = class q extends yt {
   }
   /** Salla SDK global — see shared/product.ts. */
   get _salla() {
-    return Y();
+    return q();
   }
   async _fetchProduct(t) {
     if (!this._productCache.has(t)) {
       this._productCache.set(t, { status: "loading" }), this.requestUpdate();
       try {
-        const e = await $t(t);
+        const e = await At(t);
         this._productCache.set(t, { status: "loaded", data: e });
       } catch (e) {
         console.warn("[growth-featured-product] product fetch failed", t, e), this._productCache.set(t, { status: "failed" });
@@ -890,8 +923,8 @@ const q = class q extends yt {
     }
   }
   _resolveProduct() {
-    var a;
-    const t = j((a = this.config) == null ? void 0 : a.product);
+    var i;
+    const t = j((i = this.config) == null ? void 0 : i.product);
     if (!t) return null;
     const e = this._productCache.get(t.id);
     return e ? e.status === "loaded" ? e.data : e.status === "loading" && t.label ? { name: t.label, url: "", onSale: !1 } : null : (this._fetchProduct(t.id), t.label ? { name: t.label, url: "", onSale: !1 } : null);
@@ -900,11 +933,11 @@ const q = class q extends yt {
   // Lifecycle
   // ------------------------------------------------------------
   connectedCallback() {
-    var a;
+    var i;
     super.connectedCallback();
     const t = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
-    ).matches, e = ((a = this.config) == null ? void 0 : a.enable_entrance_anim) === !1;
+    ).matches, e = ((i = this.config) == null ? void 0 : i.enable_entrance_anim) === !1;
     t || e ? this._animState = "in" : requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this._animState = "in";
@@ -980,7 +1013,7 @@ const q = class q extends yt {
     const t = this.config || {}, e = this._pickValue(
       t.image_layout,
       "floating"
-    ), a = this._pickValue(t.image_side, "start"), n = this._pickValue(
+    ), i = this._pickValue(t.image_side, "start"), n = this._pickValue(
       e === "floating" ? t.aspect_ratio_floating : e === "split" ? t.aspect_ratio_split : t.aspect_ratio,
       "1/1"
     ), r = this._pickValue(
@@ -989,51 +1022,51 @@ const q = class q extends yt {
     ), o = this._pickValue(
       e === "floating" ? t.bg_effect_floating : e === "split" ? t.bg_effect_split : t.bg_effect,
       "none"
-    ), c = o === "none" ? "" : (e === "floating" ? o === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? o === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : o === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", f = this._pickValue(t.card_style, "soft"), h = this._num(t.card_radius, 24), u = Math.max(8, h - 6), g = this._pickValue(
+    ), c = o === "none" ? "" : (e === "floating" ? o === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? o === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : o === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", p = this._pickValue(t.card_style, "soft"), h = this._num(t.card_radius, 24), u = Math.max(8, h - 6), g = this._pickValue(
       t.card_size_mobile,
       "compact"
     ), b = this._pickValue(
       t.card_size_desktop,
       "inherit"
-    ), F = b === "inherit" ? g : b, T = this._pickValue(t.bg_type, "color"), A = this._pickValue(
+    ), K = b === "inherit" ? g : b, T = this._pickValue(t.bg_type, "color"), A = this._pickValue(
       t.bg_overlay_tone,
       "dark"
-    ), R = this._pickValue(t.content_align, "right"), z = t.highlights_bg || "", _ = this.localizedString(t.section_title), l = this._resolveProduct(), C = !!j(t.product), N = this.localizedString(t.eyebrow), y = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", x = this.localizedString(t.description), w = t.image || (l == null ? void 0 : l.image) || "", M = t.enable_hover_image && t.image_hover || "", k = y || (l == null ? void 0 : l.imageAlt) || "", D = (Array.isArray(t.highlights) ? t.highlights : []).map((d) => this.localizedString(d == null ? void 0 : d.text)).filter(Boolean).slice(0, 3), rt = t.show_price !== !1, H = t.show_sale_price !== !1;
+    ), E = this._pickValue(t.content_align, "right"), C = t.highlights_bg || "", _ = this.localizedString(t.section_title), l = this._resolveProduct(), z = !!j(t.product), N = this.localizedString(t.eyebrow), y = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", x = this.localizedString(t.description), w = t.image || (l == null ? void 0 : l.image) || "", M = t.enable_hover_image && t.image_hover || "", k = y || (l == null ? void 0 : l.imageAlt) || "", V = (Array.isArray(t.highlights) ? t.highlights : []).map((f) => this.localizedString(f == null ? void 0 : f.text)).filter(Boolean).slice(0, 3), ot = t.show_price !== !1, X = t.show_sale_price !== !1;
     let $ = "", L = "";
-    if (rt) {
-      const d = this.localizedString(t.price), V = this.localizedString(
+    if (ot) {
+      const f = this.localizedString(t.price), R = this.localizedString(
         t.compare_price
       );
-      if (d) {
-        $ = d;
-        const Z = S(d), tt = S(V);
-        H && V && tt !== void 0 && Z !== void 0 && tt > Z && (L = V);
-      } else l && (l.onSale && l.sale !== void 0 ? ($ = I(l.sale, l.currency), H && l.regular !== void 0 && (L = I(l.regular, l.currency))) : l.regular !== void 0 && ($ = I(l.regular, l.currency)));
+      if (f) {
+        $ = f;
+        const et = S(f), at = S(R);
+        X && R && at !== void 0 && et !== void 0 && at > et && (L = R);
+      } else l && (l.onSale && l.sale !== void 0 ? ($ = Y(l.sale, l.currency), X && l.regular !== void 0 && (L = Y(l.regular, l.currency))) : l.regular !== void 0 && ($ = Y(l.regular, l.currency)));
     }
-    const X = this.localizedString(t.free_shipping_text), nt = t.show_button !== !1, ot = {
+    const G = this.localizedString(t.free_shipping_text), st = t.show_button !== !1, lt = {
       square: "0px",
       soft: "12px",
       rounded: "22px",
       pill: "999px"
-    }[this._pickValue(t.button_radius, "pill")], E = this._pickValue(
+    }[this._pickValue(t.button_radius, "pill")], D = this._pickValue(
       t.button_action,
       "add_to_cart"
-    ), st = !C || E === "view_product", lt = E === "view_product" ? (l == null ? void 0 : l.url) || t.button_url || "" : t.button_url || "", ct = this.localizedString(t.button_label) || this._defaultButtonLabel(E), ft = t.enable_float_anim !== !1, K = this._pickValue(
+    ), ct = !z || D === "view_product", pt = D === "view_product" ? (l == null ? void 0 : l.url) || t.button_url || "" : t.button_url || "", dt = this.localizedString(t.button_label) || this._defaultButtonLabel(D), ft = t.enable_float_anim !== !1, W = this._pickValue(
       t.float_anim_speed,
       "normal"
-    ), pt = {
+    ), ht = {
       slow: "6.8s",
       normal: "5s",
       fast: "3.6s"
-    }, dt = {
+    }, gt = {
       slow: "14px",
       normal: "18px",
       fast: "22px"
-    }, B = !!t.enable_tilt && e !== "background", m = e === "background" && A === "dark" || f === "bold", ht = f === "minimal" ? "transparent" : f === "glass" ? "rgba(255,255,255,0.55)" : f === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", G = (d) => d === "compact" ? "min(420px, 82%)" : d === "large" ? "min(860px, 96%)" : d === "full" ? "100%" : "var(--fp-maxw)", O = [
+    }, P = !!t.enable_tilt && e !== "background", m = e === "background" && A === "dark" || p === "bold", ut = p === "minimal" ? "transparent" : p === "glass" ? "rgba(255,255,255,0.55)" : p === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", J = (f) => f === "compact" ? "min(420px, 82%)" : f === "large" ? "min(860px, 96%)" : f === "full" ? "100%" : "var(--fp-maxw)", I = [
       t.bg_color ? `--fp-bg: ${t.bg_color}` : "",
-      `--fp-maxw-mob: ${G(g)}`,
-      `--fp-maxw-desk: ${G(F)}`,
-      `--fp-card-bg: ${t.card_bg || ht}`,
+      `--fp-maxw-mob: ${J(g)}`,
+      `--fp-maxw-desk: ${J(K)}`,
+      `--fp-card-bg: ${t.card_bg || ut}`,
       `--fp-card-radius: ${h}px`,
       `--fp-media-radius: ${u}px`,
       `--fp-aspect: ${n}`,
@@ -1049,32 +1082,33 @@ const q = class q extends yt {
       `--fp-highlight-text: ${t.highlight_text_color || t.text_color || (m ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
       `--fp-btn-bg: ${t.button_bg || (m ? "#ffffff" : "#14181f")}`,
       `--fp-btn-color: ${t.button_color || (m ? "#14181f" : "#ffffff")}`,
-      `--fp-btn-radius: ${ot}`,
+      `--fp-btn-radius: ${lt}`,
       `--fp-shipping: ${m ? "#7ee0aa" : "#2e7d52"}`,
       `--fp-effect: ${c || (m ? "#d8b478" : "#b08948")}`,
-      `--fp-float-duration: ${pt[K]}`,
-      `--fp-float-distance: ${dt[K]}`,
+      `--fp-float-duration: ${ht[W]}`,
+      `--fp-float-distance: ${gt[W]}`,
       // Highlights wrapper background. The framing (tinted box) always renders
       // with a context-aware default tint resolved in CSS; a merchant colour,
       // when set, overrides that default.
-      z ? `--fp-hl-bg: ${z}` : ""
-    ].filter(Boolean).join("; "), W = !!(w || y || x || D.length || $ || C);
-    if (!W && !_)
+      C ? `--fp-hl-bg: ${C}` : "",
+      ...kt(t, (f, R) => this._pickValue(f, R))
+    ].filter(Boolean).join("; "), Q = !!(w || y || x || V.length || $ || z);
+    if (!Q && !_)
       return s`
-        <section class="fp-empty" style=${O}>
+        <section class="fp-empty" style=${I}>
           <p>
             ${this._lang() === "ar" ? "اربط منتجًا أو أضف صورة وعنوانًا لعرض المنتج المميز." : "Link a product or add an image and title to show the featured product."}
           </p>
         </section>
       `;
-    const gt = o !== "none" && e !== "background", ut = w ? s`
+    const mt = o !== "none" && e !== "background", bt = w ? s`
           <div
             class="fp-media"
-            data-tilt=${B ? "on" : "off"}
-            @pointermove=${B ? this._onTiltMove : null}
-            @pointerleave=${B ? this._onTiltLeave : null}
+            data-tilt=${P ? "on" : "off"}
+            @pointermove=${P ? this._onTiltMove : null}
+            @pointerleave=${P ? this._onTiltLeave : null}
           >
-            ${gt ? s`<div class="fp-effect" data-effect=${o}></div>` : p}
+            ${mt ? s`<div class="fp-effect" data-effect=${o}></div>` : d}
             <div class="fp-media-inner">
               <img
                 class="fp-img"
@@ -1089,49 +1123,49 @@ const q = class q extends yt {
                     alt=${k}
                     loading="lazy"
                     draggable="false"
-                  />` : p}
+                  />` : d}
             </div>
           </div>
-        ` : p, J = s`
-      <div class="fp-content" data-align=${R}>
-        ${N ? s`<p class="fp-eyebrow">${N}</p>` : p}
-        ${y ? s`<h2 class="fp-title">${y}</h2>` : p}
-        ${D.length ? s`
+        ` : d, Z = s`
+      <div class="fp-content" data-align=${E}>
+        ${N ? s`<p class="fp-eyebrow">${N}</p>` : d}
+        ${y ? s`<h2 class="fp-title">${y}</h2>` : d}
+        ${V.length ? s`
               <ul class="fp-highlights">
-                ${D.map(
-      (d) => s`
-                    <li class="fp-highlight">${this._icon("check")}<span>${d}</span></li>
+                ${V.map(
+      (f) => s`
+                    <li class="fp-highlight">${this._icon("check")}<span>${f}</span></li>
                   `
     )}
               </ul>
-            ` : p}
-        ${x ? s`<p class="fp-desc">${x}</p>` : p}
+            ` : d}
+        ${x ? s`<p class="fp-desc">${x}</p>` : d}
         ${$ ? s`
               <div class="fp-price-row">
                 <span class="fp-price">${$}</span>
-                ${L ? s`<span class="fp-compare">${L}</span>` : p}
+                ${L ? s`<span class="fp-compare">${L}</span>` : d}
               </div>
-            ` : p}
-        ${X ? s`<p class="fp-shipping">${this._icon("truck")}<span>${X}</span></p>` : p}
-        ${nt ? s`<div class="fp-actions">${this._renderButton(st, lt, ct, E)}</div>` : p}
+            ` : d}
+        ${G ? s`<p class="fp-shipping">${this._icon("truck")}<span>${G}</span></p>` : d}
+        ${st ? s`<div class="fp-actions">${this._renderButton(ct, pt, dt, D)}</div>` : d}
       </div>
-    `, Q = T === "image" && t.bg_image ? s`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : T === "video" && t.bg_video ? s`<video
+    `, tt = T === "image" && t.bg_image ? s`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : T === "video" && t.bg_video ? s`<video
             class="fp-sbg"
             src=${t.bg_video}
             autoplay
             muted
             loop
             playsinline
-          ></video>` : p;
+          ></video>` : d;
     return e === "background" ? s`
         <section
           class="fp"
-          style=${O}
+          style=${I}
           data-enter=${this._animState}
           data-layout="background"
         >
-          ${Q}
-          ${_ ? s`<h2 class="fp-section-title">${_}</h2>` : p}
+          ${tt}
+          ${_ ? s`<h2 class="fp-section-title">${_}</h2>` : d}
           <div class="fp-hero" data-tone=${A}>
             ${w ? s`<img
                   class="fp-hero-img"
@@ -1139,37 +1173,37 @@ const q = class q extends yt {
                   alt=${k}
                   loading="lazy"
                   draggable="false"
-                />` : p}
-            ${J}
+                />` : d}
+            ${Z}
           </div>
         </section>
       ` : s`
       <section
         class="fp"
-        style=${O}
+        style=${I}
         data-enter=${this._animState}
         data-float=${ft ? "on" : "off"}
         data-layout=${e}
       >
-        ${Q}
-        ${_ ? s`<h2 class="fp-section-title">${_}</h2>` : p}
-        ${W ? s`<div
+        ${tt}
+        ${_ ? s`<h2 class="fp-section-title">${_}</h2>` : d}
+        ${Q ? s`<div
           class="fp-card"
           data-layout=${e}
-          data-side=${a}
-          data-card=${f}
+          data-side=${i}
+          data-card=${p}
           data-tone=${A}
         >
-          ${ut} ${J}
-        </div>` : p}
+          ${bt} ${Z}
+        </div>` : d}
       </section>
     `;
   }
-  _renderButton(t, e, a, n) {
+  _renderButton(t, e, i, n) {
     if (t)
       return s`
         <a class="fp-btn" href=${e || "#"}>
-          <span>${a}</span>${this._icon("arrow")}
+          <span>${i}</span>${this._icon("arrow")}
         </a>
       `;
     const r = this._lang() === "ar";
@@ -1185,21 +1219,21 @@ const q = class q extends yt {
         </button>
       ` : s`
       <button class="fp-btn" type="button" @click=${this._onPrimaryClick}>
-        ${this._icon("bag")}<span>${a}</span>
+        ${this._icon("bag")}<span>${i}</span>
       </button>
     `;
   }
 };
-q.styles = St;
-let v = q;
-U([
-  _t({ type: Object })
+H.styles = Ct;
+let v = H;
+F([
+  yt({ type: Object })
 ], v.prototype, "config");
-U([
-  et()
+F([
+  it()
 ], v.prototype, "_animState");
-U([
-  et()
+F([
+  it()
 ], v.prototype, "_cartState");
 typeof v < "u" && v.registerSallaComponent("salla-featured-product");
 export {

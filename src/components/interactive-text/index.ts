@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { GrowthElement } from "../../shared/growth-element";
+import { resolveSectionSpacing } from "../../shared/section-spacing";
 import type {
   AnimationSpeed,
   AnimationStyle,
@@ -428,6 +429,7 @@ export default class GrowthInteractiveText extends GrowthElement {
       c.subtitle_color ? `--it-subtitle-c:${c.subtitle_color}` : "",
       c.text_color ? `--it-text-c:${c.text_color}` : "",
       c.button_text_color ? `--it-btn-text:${c.button_text_color}` : "",
+      ...resolveSectionSpacing(c, (v, f) => this._pickValue(v, f), "lg", "lg"),
     ]
       .filter(Boolean)
       .join("; ");

@@ -1,18 +1,18 @@
-import { LitElement as V, css as E, html as o, nothing as l } from "lit";
-import { property as B, state as N } from "lit/decorators.js";
-function j(n, t) {
-  if (typeof n == "string") return n;
-  if (!n || typeof n != "object") return "";
-  const a = n[t] || n.ar || n.en || "";
+import { LitElement as B, css as j, html as n, nothing as l } from "lit";
+import { property as U, state as z } from "lit/decorators.js";
+function H(o, t) {
+  if (typeof o == "string") return o;
+  if (!o || typeof o != "object") return "";
+  const a = o[t] || o.ar || o.en || "";
   return typeof a == "string" ? a.trim() : "";
 }
-function L() {
+function O() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function P(n) {
-  return n.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
+function D(o) {
+  return o.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class U extends V {
+class X extends B {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -22,25 +22,25 @@ class U extends V {
   static registerSallaComponent(t) {
     const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), r = e.includes("-") ? e : `salla-${e || "component"}`, i = () => `${r}-${Math.random().toString(36).substring(2, 8)}`, s = () => {
       var p;
-      const d = (p = window.Salla) == null ? void 0 : p.bundles;
-      return d && typeof d.registerComponent == "function" ? (d.registerComponent(a, {
+      const c = (p = window.Salla) == null ? void 0 : p.bundles;
+      return c && typeof c.registerComponent == "function" ? (c.registerComponent(a, {
         component: this,
         dynamicTagName: i()
       }), !0) : !1;
     };
     if (s()) return;
-    const c = window.setInterval(() => {
-      s() && window.clearInterval(c);
+    const d = window.setInterval(() => {
+      s() && window.clearInterval(d);
     }, 100);
-    window.setTimeout(() => window.clearInterval(c), 5e3);
+    window.setTimeout(() => window.clearInterval(d), 5e3);
   }
   /** Resolved document language. */
   _lang() {
-    return L();
+    return O();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return j(t, this._lang());
+    return H(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, a) {
@@ -54,14 +54,14 @@ class U extends V {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return P(t);
+    return D(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, a) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(P(t.trim()));
+      const e = Number(D(t.trim()));
       if (!Number.isNaN(e)) return e;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -71,17 +71,41 @@ class U extends V {
     return a;
   }
 }
-function T() {
-  const n = window;
-  return n.salla ?? n.Salla ?? null;
+const N = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, P = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function Y(o, t, a = "md", e = "md") {
+  const r = t(o == null ? void 0 : o.space_top, a), i = t(o == null ? void 0 : o.space_bottom, e), s = N[r] ?? N.md, d = N[i] ?? N.md, c = P[r] ?? P.md, p = P[i] ?? P.md;
+  return [
+    `--sp-top-m:${s}px`,
+    `--sp-bot-m:${d}px`,
+    `--sp-top-d:${c}px`,
+    `--sp-bot-d:${p}px`
+  ];
 }
-function H(n) {
-  if (!n) return null;
-  if (typeof n == "string" || typeof n == "number") {
-    const s = Number(n);
+function R() {
+  const o = window;
+  return o.salla ?? o.Salla ?? null;
+}
+function F(o) {
+  if (!o) return null;
+  if (typeof o == "string" || typeof o == "number") {
+    const s = Number(o);
     return !s || Number.isNaN(s) ? null : { id: s, label: "" };
   }
-  const t = Array.isArray(n) ? n[0] : n;
+  const t = Array.isArray(o) ? o[0] : o;
   if (!t) return null;
   if (typeof t == "string" || typeof t == "number") {
     const s = Number(t);
@@ -95,22 +119,22 @@ function H(n) {
   const i = String(a.label ?? a.name ?? a.title ?? "").trim();
   return { id: r, label: i };
 }
-function q(n) {
-  if (typeof n == "number") return Number.isNaN(n) ? void 0 : n;
-  if (n && typeof n == "object") {
-    const e = n;
+function q(o) {
+  if (typeof o == "number") return Number.isNaN(o) ? void 0 : o;
+  if (o && typeof o == "object") {
+    const e = o;
     return q(e.amount ?? e.value ?? e.price);
   }
-  if (typeof n != "string") return;
-  const t = P(n).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  if (typeof o != "string") return;
+  const t = D(o).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!t) return;
   const a = parseFloat(t);
   return Number.isNaN(a) ? void 0 : a;
 }
-function X(n) {
-  return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
+function Q(o) {
+  return Number.isInteger(o) ? String(o) : o.toFixed(2).replace(/\.?0+$/, "");
 }
-const Y = {
+const W = {
   SAR: "ر.س",
   AED: "د.إ",
   KWD: "د.ك",
@@ -121,62 +145,62 @@ const Y = {
   JOD: "د.أ",
   YER: "ر.ي"
 };
-function O(n) {
-  const t = n.trim().toUpperCase();
-  return t ? L() === "ar" ? Y[t] ?? t : t : "";
+function V(o) {
+  const t = o.trim().toUpperCase();
+  return t ? O() === "ar" ? W[t] ?? t : t : "";
 }
-function F(n, t) {
+function K(o, t) {
   var s;
-  if (typeof n != "string") return "";
-  if (!n.includes("<")) return n.trim();
-  const a = (s = /\bsicon-([a-z]{3})\b/i.exec(n)) == null ? void 0 : s[1], e = n.replace(/<[^>]*>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim();
+  if (typeof o != "string") return "";
+  if (!o.includes("<")) return o.trim();
+  const a = (s = /\bsicon-([a-z]{3})\b/i.exec(o)) == null ? void 0 : s[1], e = o.replace(/<[^>]*>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim();
   if (!e) return "";
   if (!!/[^\d.,\s\u0660-\u0669\u06f0-\u06f9]/.test(e)) return e;
   const i = t || a;
-  return i ? `${e} ${O(i)}` : e;
+  return i ? `${e} ${V(i)}` : e;
 }
-function z(n, t) {
-  if (n == null || Number.isNaN(n)) return "";
-  const a = T();
+function T(o, t) {
+  if (o == null || Number.isNaN(o)) return "";
+  const a = R();
   try {
     if (a && typeof a.money == "function") {
-      const r = F(
-        t ? a.money({ amount: n, currency: t }) : a.money(n),
+      const r = K(
+        t ? a.money({ amount: o, currency: t }) : a.money(o),
         t
       );
       if (r) return r;
     }
   } catch {
   }
-  const e = X(n);
-  return t ? `${e} ${O(t)}` : e;
+  const e = Q(o);
+  return t ? `${e} ${V(t)}` : e;
 }
-async function Q(n, t = "") {
-  var x, b, y, v, _, $, S, M, A, R, I;
-  const a = T();
+async function G(o, t = "") {
+  var x, b, y, v, _, $, S, M, A, L, E;
+  const a = R();
   if (!a) throw new Error("Salla SDK unavailable");
   typeof a.onReady == "function" && await a.onReady();
   const e = ((x = a.product) == null ? void 0 : x.getDetails) ?? ((y = (b = a.product) == null ? void 0 : b.api) == null ? void 0 : y.getDetails);
   if (typeof e != "function")
     throw new Error("getDetails unavailable");
-  const r = await e.call(a.product, n), i = (r == null ? void 0 : r.data) ?? r;
+  const r = await e.call(a.product, o), i = (r == null ? void 0 : r.data) ?? r;
   if (!i) throw new Error("empty product payload");
-  const s = ((v = i.image) == null ? void 0 : v.url) || ((_ = i.image) == null ? void 0 : _.thumbnail) || Array.isArray(i.images) && ((($ = i.images[0]) == null ? void 0 : $.url) || i.images[0]) || i.thumbnail || i.main_image || "", c = i.url || ((S = i.urls) == null ? void 0 : S.customer) || ((M = i.urls) == null ? void 0 : M.product) || i.permalink || `/p${n}`, d = q(i.price), p = q(i.regular_price), h = q(i.sale_price);
-  let u = p ?? d, m = d ?? p;
-  h !== void 0 && h > 0 && (m = h, (u === void 0 || u <= h) && (u = p ?? d ?? h));
-  const g = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || h !== void 0) && u !== void 0 && m !== void 0 && m < u, k = i.currency || ((A = i.price) == null ? void 0 : A.currency) || ((R = i.regular_price) == null ? void 0 : R.currency) || void 0;
+  const s = ((v = i.image) == null ? void 0 : v.url) || ((_ = i.image) == null ? void 0 : _.thumbnail) || Array.isArray(i.images) && ((($ = i.images[0]) == null ? void 0 : $.url) || i.images[0]) || i.thumbnail || i.main_image || "", d = i.url || ((S = i.urls) == null ? void 0 : S.customer) || ((M = i.urls) == null ? void 0 : M.product) || i.permalink || `/p${o}`, c = q(i.price), p = q(i.regular_price), h = q(i.sale_price);
+  let u = p ?? c, m = c ?? p;
+  h !== void 0 && h > 0 && (m = h, (u === void 0 || u <= h) && (u = p ?? c ?? h));
+  const g = (!!(i.is_on_sale ?? i.on_sale ?? i.has_offer) || h !== void 0) && u !== void 0 && m !== void 0 && m < u, k = i.currency || ((A = i.price) == null ? void 0 : A.currency) || ((L = i.regular_price) == null ? void 0 : L.currency) || void 0;
   return {
-    name: String(i.name || i.title || t || `#${n}`),
+    name: String(i.name || i.title || t || `#${o}`),
     image: s || void 0,
-    imageAlt: String(((I = i.image) == null ? void 0 : I.alt) || i.name || ""),
-    url: c,
+    imageAlt: String(((E = i.image) == null ? void 0 : E.alt) || i.name || ""),
+    url: d,
     regular: u,
     sale: g ? m : void 0,
     onSale: g,
     currency: k
   };
 }
-const W = E`
+const J = j`
   :host {
     display: block;
     font-family: inherit;
@@ -232,7 +256,10 @@ const W = E`
     max-width: 100%;
     min-width: 0;
     background: var(--t-bg);
-    padding: clamp(2.5rem, 6vw, 4.5rem) var(--t-pad-x);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: var(--t-pad-x);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     overflow: hidden;
   }
   /* Optional section background image. The photo sits underneath a tint layer
@@ -1182,13 +1209,19 @@ const W = E`
       scroll-behavior: auto;
     }
   }
+
+  @media (min-width: 768px) {
+    .t-section {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
+    }
+  }
 `;
-var K = Object.defineProperty, C = (n, t, a, e) => {
-  for (var r = void 0, i = n.length - 1, s; i >= 0; i--)
-    (s = n[i]) && (r = s(t, a, r) || r);
-  return r && K(t, a, r), r;
+var Z = Object.defineProperty, C = (o, t, a, e) => {
+  for (var r = void 0, i = o.length - 1, s; i >= 0; i--)
+    (s = o[i]) && (r = s(t, a, r) || r);
+  return r && Z(t, a, r), r;
 };
-const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.png", D = class D extends U {
+const tt = "https://cdn.salla.network/images/themes/landing-page/default-avatar.png", I = class I extends X {
   constructor() {
     super(...arguments), this._animState = "ready", this._carouselPage = 0, this._isDesktop = !1, this._marqueePaused = !1, this._autoplayTimer = null, this._scrollRaf = null, this._interactionPaused = !1, this._inView = !0, this._io = null, this._dragActive = !1, this._dragStartX = 0, this._dragStartScroll = 0, this._dragMoved = !1, this._productCache = /* @__PURE__ */ new Map(), this._carouselPrev = () => {
       var e;
@@ -1233,7 +1266,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   }
   /** Salla SDK global — see shared/product.ts. */
   get _salla() {
-    return T();
+    return R();
   }
   // ------------------------------------------------------------
   // Value helpers
@@ -1273,7 +1306,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     if (!this._productCache.has(t)) {
       this._productCache.set(t, { status: "loading", label: a }), this.requestUpdate();
       try {
-        const e = await Q(t, a);
+        const e = await G(t, a);
         this._productCache.set(t, { status: "loaded", data: e });
       } catch (e) {
         console.warn("[growth-testimonials] product fetch failed", t, e), this._productCache.set(t, { status: "failed" });
@@ -1282,7 +1315,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     }
   }
   _resolveProduct(t) {
-    const a = H(t.product);
+    const a = F(t.product);
     if (!a) return null;
     const e = this._productCache.get(a.id);
     return e ? e.status === "loaded" ? e.data : e.status === "loading" && e.label ? { name: e.label, url: "", onSale: !1 } : null : (this._fetchProduct(a.id, a.label), a.label ? { name: a.label, url: "", onSale: !1 } : null);
@@ -1351,22 +1384,22 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   // multilanguage field id, so `${this._quoteMarkIcon()}` reads to it like an
   // unlocalized value and fails the bundle. No literal, no finding.
   _chevronIcon() {
-    return o`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    return n`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
       aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>`;
   }
   _quoteMarkIcon() {
-    return o`<svg viewBox="0 0 24 24" fill="currentColor"
+    return n`<svg viewBox="0 0 24 24" fill="currentColor"
       aria-hidden="true"><path d="M9.5 7C6.5 7 4 9.5 4 12.5V19h6.5v-6.5H7.2c0-1.8 1.5-3 3.3-3V7zm10 0C16.5 7 14 9.5 14 12.5V19h6.5v-6.5h-3.3c0-1.8 1.5-3 3.3-3V7z" /></svg>`;
   }
   _pauseIcon() {
-    return o`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    return n`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <rect x="6" y="5" width="4" height="14" rx="1" />
       <rect x="14" y="5" width="4" height="14" rx="1" />
     </svg>`;
   }
   _playIcon() {
-    return o`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    return n`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M8 5.5v13l11-6.5z" />
     </svg>`;
   }
@@ -1374,14 +1407,14 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
   // Render: stars
   // ------------------------------------------------------------
   _renderStars(t) {
-    const a = Math.max(0, Math.min(100, t / 5 * 100)), e = (r) => o`
+    const a = Math.max(0, Math.min(100, t / 5 * 100)), e = (r) => n`
       <div class=${r} aria-hidden="true">
         ${[0, 1, 2, 3, 4].map(
-      () => o`<svg viewBox="0 0 24 24"><path d=${this._starPath} /></svg>`
+      () => n`<svg viewBox="0 0 24 24"><path d=${this._starPath} /></svg>`
     )}
       </div>
     `;
-    return o`
+    return n`
       <div class="t-stars" style=${`--t-star-pct:${a}%`}>
         ${e("t-stars-bg")}
         <div class="t-stars-fg-clip">${e("t-stars-fg")}</div>
@@ -1392,89 +1425,89 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     const e = Math.max(0, Math.min(5, this._num(t.rating, 5)));
     if (e <= 0) return l;
     const r = this._formatRating(e);
-    return a === "number" ? o`<div class="t-rating t-rating--num" aria-label=${`${r}/5`}>
+    return a === "number" ? n`<div class="t-rating t-rating--num" aria-label=${`${r}/5`}>
         <svg class="t-rating-star" viewBox="0 0 24 24" aria-hidden="true">
           <path d=${this._starPath} />
         </svg>
         <span>${r}</span>
-      </div>` : o`<div class="t-rating" aria-label=${`${r}/5`} role="img">
+      </div>` : n`<div class="t-rating" aria-label=${`${r}/5`} role="img">
       ${this._renderStars(e)}
-      ${a === "stars-number" ? o`<span class="t-rating-text">(${r}/5)</span>` : l}
+      ${a === "stars-number" ? n`<span class="t-rating-text">(${r}/5)</span>` : l}
     </div>`;
   }
   // ------------------------------------------------------------
   // Render: product chip
   // ------------------------------------------------------------
   _renderChip(t, a, e) {
-    const r = this._resolveProduct(t), i = this.localizedString(t.product_name) || (r == null ? void 0 : r.name) || "", s = t.product_image || (r == null ? void 0 : r.image) || "", c = (t.product_url || "").trim() || (r == null ? void 0 : r.url) || "";
-    let d = "", p = "";
+    const r = this._resolveProduct(t), i = this.localizedString(t.product_name) || (r == null ? void 0 : r.name) || "", s = t.product_image || (r == null ? void 0 : r.image) || "", d = (t.product_url || "").trim() || (r == null ? void 0 : r.url) || "";
+    let c = "", p = "";
     const h = (t.product_price || "").toString().trim(), u = (t.product_compare || "").toString().trim();
     if (h) {
-      if (d = h, u) {
+      if (c = h, u) {
         const f = q(h), g = q(u);
         f !== void 0 && g !== void 0 && g > f && (p = u);
       }
-    } else r && (r.onSale && r.sale !== void 0 ? (d = z(r.sale, r.currency), r.regular !== void 0 && (p = z(r.regular, r.currency))) : r.regular !== void 0 && (d = z(r.regular, r.currency)));
-    if (!i && !s && !d) return l;
-    const m = o`
-      ${s ? o`<span class="t-chip-media"
+    } else r && (r.onSale && r.sale !== void 0 ? (c = T(r.sale, r.currency), r.regular !== void 0 && (p = T(r.regular, r.currency))) : r.regular !== void 0 && (c = T(r.regular, r.currency)));
+    if (!i && !s && !c) return l;
+    const m = n`
+      ${s ? n`<span class="t-chip-media"
             ><img src=${s} alt=${i} loading=${e}
           /></span>` : l}
       <span class="t-chip-body">
-        ${i ? o`<span class="t-chip-name">${i}</span>` : l}
-        ${d ? o`<span class="t-chip-prices">
-              <span class="t-chip-price">${d}</span>
-              ${p ? o`<span class="t-chip-compare">${p}</span>` : l}
+        ${i ? n`<span class="t-chip-name">${i}</span>` : l}
+        ${c ? n`<span class="t-chip-prices">
+              <span class="t-chip-price">${c}</span>
+              ${p ? n`<span class="t-chip-compare">${p}</span>` : l}
             </span>` : l}
       </span>
-      ${c ? o`<span class="t-chip-go">${this._chevronIcon()}</span>` : l}
+      ${d ? n`<span class="t-chip-go">${this._chevronIcon()}</span>` : l}
     `;
-    return c ? o`<a
+    return d ? n`<a
           class="t-chip"
           data-style=${a}
-          href=${c}
+          href=${d}
           @click=${this._onChipClick}
           >${m}</a
-        >` : o`<div class="t-chip" data-style=${a}>${m}</div>`;
+        >` : n`<div class="t-chip" data-style=${a}>${m}</div>`;
   }
   // ------------------------------------------------------------
   // Render: a single testimonial card (shared across all layouts)
   // ------------------------------------------------------------
   _renderCard(t, a, e, r) {
     var f;
-    const i = this.localizedString(t.name), s = this.localizedString(t.meta), c = this.localizedString(t.quote), d = e === "overlay" ? t.photo || "" : e === "modern" && r.showPhoto && t.photo || "", p = r.showAvatar ? t.avatar || G : "", h = r.showRating ? this._renderRating(t, r.ratingStyle) : l, u = r.showProduct ? this._renderChip(t, r.chipStyle, r.imgLoading) : l, m = (g) => i || s || g && p ? o`<div class="t-author">
-            ${p ? o`<span class="t-avatar"
+    const i = this.localizedString(t.name), s = this.localizedString(t.meta), d = this.localizedString(t.quote), c = e === "overlay" ? t.photo || "" : e === "modern" && r.showPhoto && t.photo || "", p = r.showAvatar ? t.avatar || tt : "", h = r.showRating ? this._renderRating(t, r.ratingStyle) : l, u = r.showProduct ? this._renderChip(t, r.chipStyle, r.imgLoading) : l, m = (g) => i || s || g && p ? n`<div class="t-author">
+            ${p ? n`<span class="t-avatar"
                   ><img src=${p} alt=${i} loading=${r.imgLoading}
                 /></span>` : l}
             <div class="t-author-meta">
-              ${i ? o`<span class="t-name">${i}</span>` : l}
-              ${s ? o`<span class="t-meta">${s}</span>` : l}
+              ${i ? n`<span class="t-name">${i}</span>` : l}
+              ${s ? n`<span class="t-meta">${s}</span>` : l}
             </div>
           </div>` : l;
     if (e === "modern")
-      return o`
+      return n`
         <article class="t-card" data-style="modern" data-index=${a}>
-          ${d ? o`<div class="t-photo">
+          ${c ? n`<div class="t-photo">
                 <img
-                  src=${d}
+                  src=${c}
                   alt=${i ? `تصوير العميل: ${i}` : "تصوير العميل"}
                   loading=${r.imgLoading}
                 />
-                ${i || s ? o`<span class="t-photo-chip">
-                      ${p ? o`<img
+                ${i || s ? n`<span class="t-photo-chip">
+                      ${p ? n`<img
                             class="t-photo-chip-avatar"
                             src=${p}
                             alt=${i}
                             loading=${r.imgLoading}
                           />` : l}
                       <span class="t-photo-chip-text"
-                        >${i}${s ? o`, ${s}` : l}</span
+                        >${i}${s ? n`, ${s}` : l}</span
                       >
                     </span>` : l}
               </div>` : l}
           <div class="t-body">
-            ${d ? l : m(!0)} ${h}
-            ${c ? o`<p class="t-quote">${c}</p>` : l}
+            ${c ? l : m(!0)} ${h}
+            ${d ? n`<p class="t-quote">${d}</p>` : l}
             ${u}
           </div>
         </article>
@@ -1484,43 +1517,43 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
         (f = this.config) == null ? void 0 : f.overlay_tone,
         "dark"
       );
-      return o`
+      return n`
         <article
           class="t-card"
           data-style="overlay"
           data-tone=${g}
           data-index=${a}
         >
-          ${d ? o`<img
+          ${c ? n`<img
                 class="t-overlay-photo"
-                src=${d}
+                src=${c}
                 alt=${i ? `تصوير العميل: ${i}` : "تصوير العميل"}
                 loading=${r.imgLoading}
               />` : l}
           <div class="t-overlay-panel">
-            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : l}
+            ${r.showQuoteMark ? n`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : l}
             ${h}
-            ${c ? o`<p class="t-quote">${c}</p>` : l}
+            ${d ? n`<p class="t-quote">${d}</p>` : l}
             ${m(!0)} ${u}
           </div>
         </article>
       `;
     }
-    return e === "bubble" ? o`
+    return e === "bubble" ? n`
         <article class="t-card" data-style="bubble" data-index=${a}>
           <div class="t-bubble">
-            ${r.showQuoteMark ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : l}
+            ${r.showQuoteMark ? n`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : l}
             ${h}
-            ${c ? o`<p class="t-quote">${c}</p>` : l}
+            ${d ? n`<p class="t-quote">${d}</p>` : l}
             ${u}
           </div>
           ${m(!0)}
         </article>
-      ` : o`
+      ` : n`
       <article class="t-card" data-style=${e} data-index=${a}>
-        ${r.showQuoteMark && e === "quote" ? o`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : l}
+        ${r.showQuoteMark && e === "quote" ? n`<span class="t-quote-mark">${this._quoteMarkIcon()}</span>` : l}
         ${h}
-        ${c ? o`<p class="t-quote">${c}</p>` : l}
+        ${d ? n`<p class="t-quote">${d}</p>` : l}
         ${m(!0)} ${u}
       </article>
     `;
@@ -1535,7 +1568,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     ), s = this._pickValue(
       r.marquee_speed,
       "normal"
-    ), c = "forward", d = r.marquee_pause_hover !== !1, h = {
+    ), d = "forward", c = r.marquee_pause_hover !== !1, h = {
       slow: 5,
       normal: 3,
       fast: 1.8
@@ -1545,7 +1578,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       return _;
     }, m = { ...e, imgLoading: "eager" }, f = (b, y) => {
       const v = u(b), _ = (S) => v.map(
-        (M, A) => o`<div
+        (M, A) => n`<div
               class="t-marquee-cell"
               aria-hidden=${S === 1 ? "true" : l}
               ?inert=${S === 1}
@@ -1553,15 +1586,15 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
               ${this._renderCard(M, A, a, m)}
             </div>`
       ), $ = Math.max(12, v.length * h);
-      return o`<div
+      return n`<div
         class="t-marquee-row"
         data-dir=${y}
-        data-pause=${d ? "hover" : "off"}
+        data-pause=${c ? "hover" : "off"}
         style=${`--t-marquee-dur:${$}s`}
       >
         <div class="t-marquee-track">${_(0)}${_(1)}</div>
       </div>`;
-    }, g = this._marqueePaused, k = this._lang() === "ar", x = o`<button
+    }, g = this._marqueePaused, k = this._lang() === "ar", x = n`<button
       type="button"
       class="t-marquee-toggle"
       aria-label=${g ? k ? "تشغيل الحركة" : "Play" : k ? "إيقاف الحركة" : "Pause"}
@@ -1571,27 +1604,27 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     </button>`;
     if (i >= 2 && t.length > 1) {
       const b = Math.ceil(t.length / 2), y = t.slice(0, b), v = t.slice(b);
-      return o`<div
+      return n`<div
         class="t-marquee"
         data-rows="2"
         data-paused=${g ? "true" : "false"}
       >
-        ${f(y, c)}
+        ${f(y, d)}
         ${f(v.length ? v : y, "backward")}
         ${x}
       </div>`;
     }
-    return o`<div
+    return n`<div
       class="t-marquee"
       data-rows="1"
       data-paused=${g ? "true" : "false"}
     >
-      ${f(t, c)} ${x}
+      ${f(t, d)} ${x}
     </div>`;
   }
   _renderCarousel(t, a, e) {
-    const r = this.config || {}, i = r.carousel_arrows !== !1, s = r.carousel_dots !== !1, c = this._pageCount(t.length), d = c > 1;
-    return o`
+    const r = this.config || {}, i = r.carousel_arrows !== !1, s = r.carousel_dots !== !1, d = this._pageCount(t.length), c = d > 1;
+    return n`
       <div
         class="t-carousel"
         @mouseenter=${this._pauseInteraction}
@@ -1607,13 +1640,13 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
           @pointerleave=${this._endDrag}
         >
           ${t.map(
-      (p, h) => o`<div class="t-carousel-cell">
+      (p, h) => n`<div class="t-carousel-cell">
                 ${this._renderCard(p, h, a, e)}
               </div>`
     )}
         </div>
 
-        ${i && d ? o`
+        ${i && c ? n`
               <button
                 type="button"
                 class="t-arrow t-arrow--prev"
@@ -1632,9 +1665,9 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
               </button>
             ` : l}
       </div>
-      ${s && d ? o`<div class="t-dots" role="tablist">
-            ${Array.from({ length: c }).map(
-      (p, h) => o`<button
+      ${s && c ? n`<div class="t-dots" role="tablist">
+            ${Array.from({ length: d }).map(
+      (p, h) => n`<button
                 type="button"
                 class="t-dot"
                 aria-current=${this._carouselPage === h ? "true" : "false"}
@@ -1646,9 +1679,9 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     `;
   }
   _renderGridish(t, a, e, r) {
-    return o`<div class="t-grid" data-layout=${a}>
+    return n`<div class="t-grid" data-layout=${a}>
       ${t.map(
-      (i, s) => o`<div class="t-grid-cell">
+      (i, s) => n`<div class="t-grid-cell">
             ${this._renderCard(i, s, e, r)}
           </div>`
     )}
@@ -1666,11 +1699,10 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     ) : "";
   }
   _buildHostStyle(t) {
-    const a = this._resolveColumns(), e = this._bgImageUrl(t), r = Math.max(0, Math.min(100, this._num(t.bg_overlay_opacity, 60))) / 100, i = this._num(t.card_radius, 20), c = this._pickValue(
+    const a = this._resolveColumns(), e = this._bgImageUrl(t), r = Math.max(0, Math.min(100, this._num(t.bg_overlay_opacity, 60))) / 100, i = this._num(t.card_radius, 20), d = this._pickValue(
       t.card_style,
       "modern"
-    ) === "overlay" ? "4/5" : this._pickValue(t.photo_aspect, "4/5");
-    return [
+    ) === "overlay" ? "4/5" : this._pickValue(t.photo_aspect, "4/5"), c = [
       t.bg_color ? `--t-bg:${t.bg_color}` : "",
       e ? `--t-bg-image:url('${e}')` : "",
       e ? `--t-bg-overlay:${r}` : "",
@@ -1691,10 +1723,11 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       t.chip_price_color ? `--t-chip-price:${t.chip_price_color}` : "",
       t.chip_compare_color ? `--t-chip-compare:${t.chip_compare_color}` : "",
       `--t-radius:${i}px`,
-      `--t-aspect:${c}`,
+      `--t-aspect:${d}`,
       `--t-cols-mobile:${a.mobile}`,
       `--t-cols-desktop:${a.desktop}`
-    ].filter(Boolean).join("; ");
+    ];
+    return c.push(...Y(t, (p, h) => this._pickValue(p, h))), c.filter(Boolean).join("; ");
   }
   // ------------------------------------------------------------
   // Render
@@ -1706,7 +1739,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     ), i = this._pickValue(
       t.rating_style,
       "stars-number"
-    ), s = this._pickValue(t.chip_style, "card"), c = t.enable_entrance_anim !== !1, d = t.enable_hover_lift !== !1, p = {
+    ), s = this._pickValue(t.chip_style, "card"), d = t.enable_entrance_anim !== !1, c = t.enable_hover_lift !== !1, p = {
       showRating: t.show_rating !== !1,
       ratingStyle: i,
       showAvatar: t.show_avatar !== !1,
@@ -1717,7 +1750,7 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       imgLoading: "lazy"
     }, h = this._buildHostStyle(t), u = !!this._bgImageUrl(t), m = this.localizedString(t.eyebrow), f = this.localizedString(t.section_title), g = this.localizedString(t.section_subtitle), k = t.show_summary !== !1, x = Math.max(0, Math.min(5, this._num(t.summary_rating, 0))), b = this.localizedString(t.summary_count_text), y = k && (x > 0 || !!b);
     if (a.length === 0)
-      return o`<section
+      return n`<section
         class="t-section"
         style=${h}
         ?data-bg-image=${u}
@@ -1726,18 +1759,18 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
           ${this._lang() === "ar" ? "أضف رأي عميل واحدًا على الأقل لعرض هذا القسم." : "Add at least one testimonial to display this section."}
         </p>
       </section>`;
-    const v = m || f || g || y ? o`<header
+    const v = m || f || g || y ? n`<header
             class="t-header"
-            data-anim=${c ? this._animState : "in"}
+            data-anim=${d ? this._animState : "in"}
           >
-            ${m ? o`<p class="t-eyebrow">${m}</p>` : l}
-            ${f ? o`<h2 class="t-title">${f}</h2>` : l}
-            ${g ? o`<p class="t-subtitle">${g}</p>` : l}
-            ${y ? o`<div class="t-summary">
-                  ${x > 0 ? o`<span class="t-summary-num"
+            ${m ? n`<p class="t-eyebrow">${m}</p>` : l}
+            ${f ? n`<h2 class="t-title">${f}</h2>` : l}
+            ${g ? n`<p class="t-subtitle">${g}</p>` : l}
+            ${y ? n`<div class="t-summary">
+                  ${x > 0 ? n`<span class="t-summary-num"
                           >${this._formatRating(x)}</span
                         >${this._renderStars(x)}` : l}
-                  ${b ? o`<span class="t-summary-count">${b}</span>` : l}
+                  ${b ? n`<span class="t-summary-count">${b}</span>` : l}
                 </div>` : l}
           </header>` : l, _ = e === "marquee" ? this._renderMarquee(a, r, p) : e === "carousel" ? this._renderCarousel(a, r, p) : this._renderGridish(
       a,
@@ -1745,15 +1778,15 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
       r,
       p
     );
-    return o`
+    return n`
       <section
         class="t-section"
         style=${h}
         ?data-bg-image=${u}
         data-layout=${e}
         data-card=${r}
-        data-anim=${c ? this._animState : "in"}
-        data-hover-lift=${d ? "on" : "off"}
+        data-anim=${d ? this._animState : "in"}
+        data-hover-lift=${c ? "on" : "off"}
       >
         ${v}
         <div class="t-body-wrap">${_}</div>
@@ -1761,22 +1794,22 @@ const G = "https://cdn.salla.network/images/themes/landing-page/default-avatar.p
     `;
   }
 };
-D.styles = W;
-let w = D;
+I.styles = J;
+let w = I;
 C([
-  B({ type: Object })
+  U({ type: Object })
 ], w.prototype, "config");
 C([
-  N()
+  z()
 ], w.prototype, "_animState");
 C([
-  N()
+  z()
 ], w.prototype, "_carouselPage");
 C([
-  N()
+  z()
 ], w.prototype, "_isDesktop");
 C([
-  N()
+  z()
 ], w.prototype, "_marqueePaused");
 typeof w < "u" && w.registerSallaComponent("salla-testimonials");
 export {

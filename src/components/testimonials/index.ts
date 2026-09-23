@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { GrowthElement } from "../../shared/growth-element";
+import { resolveSectionSpacing } from "../../shared/section-spacing";
 import {
   fetchProductDetails,
   formatMoney,
@@ -974,6 +975,8 @@ export default class GrowthTestimonials extends GrowthElement {
       `--t-cols-mobile:${cols.mobile}`,
       `--t-cols-desktop:${cols.desktop}`,
     ];
+    parts.push(...resolveSectionSpacing(c, (v, f) => this._pickValue(v, f)));
+
     return parts.filter(Boolean).join("; ");
   }
 

@@ -9,6 +9,8 @@
  * All fields are optional; the component applies premium, layout-aware defaults.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang =
   | string
@@ -79,7 +81,7 @@ export interface FeaturedHighlight {
 /** Raw Salla product-picker payload — parsed defensively at the call site. */
 export type RawProductPick = unknown;
 
-export interface FeaturedProductConfig {
+export interface FeaturedProductConfig extends SectionSpacingFields {
   // --- Section-level (renders outside / above the card) ---
   section_title?: MaybeMultiLang;
 

@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { GrowthElement } from "../../shared/growth-element";
+import { resolveSectionSpacing } from "../../shared/section-spacing";
 import { keyed } from "lit/directives/keyed.js";
 import type {
   StorySliderConfig,
@@ -530,6 +531,8 @@ export default class GrowthStorySlider extends GrowthElement {
       `--ss-max-width: ${maxWidth}px`,
       `--ss-overlay-a: ${overlayAlpha}`,
     ];
+    parts.push(...resolveSectionSpacing(c, (v, f) => this._pickValue(v, f)));
+
     return parts.filter(Boolean).join("; ");
   }
 

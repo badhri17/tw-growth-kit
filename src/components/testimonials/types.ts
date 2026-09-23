@@ -9,6 +9,8 @@
  * All fields are optional; the component applies premium, layout-aware defaults.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang =
   | string
@@ -80,7 +82,7 @@ export interface TestimonialItem {
   product_url?: string; // manual override / custom link target
 }
 
-export interface TestimonialsConfig {
+export interface TestimonialsConfig extends SectionSpacingFields {
   // --- Header ---
   eyebrow?: MaybeMultiLang;
   section_title?: MaybeMultiLang;

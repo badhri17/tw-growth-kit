@@ -32,7 +32,9 @@ export const interactiveTextStyles = css`
   .it {
     position: relative;
     overflow: hidden;
-    padding-block: var(--it-pad-y);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     padding-inline: 1.25rem;
     font-family: inherit;
 
@@ -91,17 +93,14 @@ export const interactiveTextStyles = css`
     --it-fs-text: 1.08rem;
   }
 
-  /* Spacing tiers */
+  /* Line-gap tiers (the section's own vertical space is --sp-*) */
   .it[data-spacing="compact"] {
-    --it-pad-y: 2.25rem;
     --it-gap: 0.85rem;
   }
   .it[data-spacing="normal"] {
-    --it-pad-y: 3.5rem;
     --it-gap: 1.1rem;
   }
   .it[data-spacing="spacious"] {
-    --it-pad-y: 5rem;
     --it-gap: 1.35rem;
   }
 
@@ -132,16 +131,8 @@ export const interactiveTextStyles = css`
       --it-fs-subtitle: 1.45rem;
       --it-fs-text: 1.2rem;
     }
-    .it[data-spacing="compact"] {
-      --it-pad-y: 3.25rem;
-    }
-    .it[data-spacing="normal"] {
-      --it-pad-y: 5rem;
-    }
-    .it[data-spacing="spacious"] {
-      --it-pad-y: 7.5rem;
-    }
     .it {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
       --it-fs-eyebrow: 0.875rem;
     }
   }

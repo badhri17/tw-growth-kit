@@ -88,7 +88,10 @@ export const interactiveProductStyles = css`
     min-width: 0;
     background: var(--ip-bg);
     color: var(--ip-title);
-    padding: clamp(2.25rem, 6vw, 3.75rem) var(--ip-pad-x);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: var(--ip-pad-x);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     overflow: hidden;
   }
 
@@ -623,6 +626,12 @@ export const interactiveProductStyles = css`
     .ip-detail-title.is-enter,
     .ip-detail-desc.is-enter {
       animation: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ip {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
     }
   }
 `;

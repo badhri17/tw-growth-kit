@@ -13,6 +13,8 @@
  * All fields are optional; the component applies premium, RTL-first defaults.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang =
   | string
@@ -55,7 +57,7 @@ export interface Hotspot {
   y?: number | string;
 }
 
-export interface InteractiveProductConfig {
+export interface InteractiveProductConfig extends SectionSpacingFields {
   // --- Header ---
   eyebrow?: MaybeMultiLang;
   section_title?: MaybeMultiLang;

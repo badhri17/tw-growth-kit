@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { GrowthElement } from "../../shared/growth-element";
+import { resolveSectionSpacing } from "../../shared/section-spacing";
 import {
   fetchProductDetails,
   formatMoney,
@@ -554,6 +555,7 @@ export default class GrowthFeaturedProduct extends GrowthElement {
       // with a context-aware default tint resolved in CSS; a merchant colour,
       // when set, overrides that default.
       highlightsBg ? `--fp-hl-bg: ${highlightsBg}` : "",
+      ...resolveSectionSpacing(c, (v, f) => this._pickValue(v, f)),
     ]
       .filter(Boolean)
       .join("; ");

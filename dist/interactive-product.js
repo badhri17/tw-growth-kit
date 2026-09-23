@@ -1,18 +1,18 @@
-import { LitElement as M, css as N, html as s, nothing as l } from "lit";
-import { property as I, state as S } from "lit/decorators.js";
-function E(o, e) {
-  if (typeof o == "string") return o;
-  if (!o || typeof o != "object") return "";
-  const i = o[e] || o.ar || o.en || "";
+import { LitElement as N, css as E, html as o, nothing as c } from "lit";
+import { property as P, state as T } from "lit/decorators.js";
+function D(s, e) {
+  if (typeof s == "string") return s;
+  if (!s || typeof s != "object") return "";
+  const i = s[e] || s.ar || s.en || "";
   return typeof i == "string" ? i.trim() : "";
 }
-function D() {
+function O() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function z(o) {
-  return o.replace(/[٠-٩]/g, (e) => String(e.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (e) => String(e.charCodeAt(0) - 1776));
+function A(s) {
+  return s.replace(/[٠-٩]/g, (e) => String(e.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (e) => String(e.charCodeAt(0) - 1776));
 }
-class P extends M {
+class L extends N {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -20,27 +20,27 @@ class P extends M {
    * component file executes.
    */
   static registerSallaComponent(e) {
-    const i = String(e || "").trim(), t = i.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), a = t.includes("-") ? t : `salla-${t || "component"}`, n = () => `${a}-${Math.random().toString(36).substring(2, 8)}`, r = () => {
-      var c;
-      const p = (c = window.Salla) == null ? void 0 : c.bundles;
+    const i = String(e || "").trim(), t = i.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), a = t.includes("-") ? t : `salla-${t || "component"}`, r = () => `${a}-${Math.random().toString(36).substring(2, 8)}`, n = () => {
+      var l;
+      const p = (l = window.Salla) == null ? void 0 : l.bundles;
       return p && typeof p.registerComponent == "function" ? (p.registerComponent(i, {
         component: this,
-        dynamicTagName: n()
+        dynamicTagName: r()
       }), !0) : !1;
     };
-    if (r()) return;
+    if (n()) return;
     const d = window.setInterval(() => {
-      r() && window.clearInterval(d);
+      n() && window.clearInterval(d);
     }, 100);
     window.setTimeout(() => window.clearInterval(d), 5e3);
   }
   /** Resolved document language. */
   _lang() {
-    return D();
+    return O();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(e) {
-    return E(e, this._lang());
+    return D(e, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(e, i) {
@@ -54,14 +54,14 @@ class P extends M {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(e) {
-    return z(e);
+    return A(e);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(e, i) {
     if (typeof e == "number" && !Number.isNaN(e)) return e;
     if (typeof e == "string" && e.trim() !== "") {
-      const t = Number(z(e.trim()));
+      const t = Number(A(e.trim()));
       if (!Number.isNaN(t)) return t;
     }
     if (Array.isArray(e) && e.length > 0) {
@@ -71,7 +71,31 @@ class P extends M {
     return i;
   }
 }
-const O = N`
+const b = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, v = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function j(s, e, i = "md", t = "md") {
+  const a = e(s == null ? void 0 : s.space_top, i), r = e(s == null ? void 0 : s.space_bottom, t), n = b[a] ?? b.md, d = b[r] ?? b.md, p = v[a] ?? v.md, l = v[r] ?? v.md;
+  return [
+    `--sp-top-m:${n}px`,
+    `--sp-bot-m:${d}px`,
+    `--sp-top-d:${p}px`,
+    `--sp-bot-d:${l}px`
+  ];
+}
+const V = E`
   :host {
     display: block;
     font-family: inherit;
@@ -142,7 +166,10 @@ const O = N`
     min-width: 0;
     background: var(--ip-bg);
     color: var(--ip-title);
-    padding: clamp(2.25rem, 6vw, 3.75rem) var(--ip-pad-x);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: var(--ip-pad-x);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     overflow: hidden;
   }
 
@@ -679,13 +706,19 @@ const O = N`
       animation: none !important;
     }
   }
+
+  @media (min-width: 768px) {
+    .ip {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
+    }
+  }
 `;
-var j = Object.defineProperty, x = (o, e, i, t) => {
-  for (var a = void 0, n = o.length - 1, r; n >= 0; n--)
-    (r = o[n]) && (a = r(e, i, a) || a);
-  return a && j(e, i, a), a;
+var R = Object.defineProperty, $ = (s, e, i, t) => {
+  for (var a = void 0, r = s.length - 1, n; r >= 0; r--)
+    (n = s[r]) && (a = n(e, i, a) || a);
+  return a && R(e, i, a), a;
 };
-const _ = class _ extends P {
+const k = class k extends L {
   constructor() {
     super(...arguments), this._active = 0, this._animState = "ready", this._autoplayTimer = null, this._interactionPaused = !1, this._lastRenderedActive = 0, this._io = null, this._pauseInteraction = () => {
       this._interactionPaused || (this._interactionPaused = !0, this._teardownAutoplay());
@@ -717,10 +750,10 @@ const _ = class _ extends P {
   }
   /** Resolve a marker position, falling back to a tidy staggered layout. */
   _pos(e, i) {
-    const t = e.x !== void 0 && e.x !== null && e.x !== "", a = e.y !== void 0 && e.y !== null && e.y !== "", n = 20 + i % 4 * 20, r = 25 + Math.floor(i / 4) * 25;
+    const t = e.x !== void 0 && e.x !== null && e.x !== "", a = e.y !== void 0 && e.y !== null && e.y !== "", r = 20 + i % 4 * 20, n = 25 + Math.floor(i / 4) * 25;
     return {
-      x: this._clampPct(e.x, t ? 50 : n),
-      y: this._clampPct(e.y, a ? 50 : r)
+      x: this._clampPct(e.x, t ? 50 : r),
+      y: this._clampPct(e.y, a ? 50 : n)
     };
   }
   _setActive(e) {
@@ -744,8 +777,8 @@ const _ = class _ extends P {
       });
     }), "IntersectionObserver" in window && (this._io = new IntersectionObserver(
       (a) => {
-        const n = a[0];
-        n && this.toggleAttribute("out-of-view", !n.isIntersecting);
+        const r = a[0];
+        r && this.toggleAttribute("out-of-view", !r.isIntersecting);
       },
       { threshold: 0 }
     ), this._io.observe(this));
@@ -787,8 +820,7 @@ const _ = class _ extends P {
   // Host style (CSS custom properties)
   // ------------------------------------------------------------
   _buildHostStyle(e, i) {
-    const t = i === "natural" ? "4 / 3" : i.replace("/", " / ");
-    return [
+    const t = i === "natural" ? "4 / 3" : i.replace("/", " / "), a = [
       e.bg_color ? `--ip-bg:${e.bg_color}` : "",
       e.title_color ? `--ip-title:${e.title_color}` : "",
       e.subtitle_color ? `--ip-subtitle:${e.subtitle_color}` : "",
@@ -798,137 +830,138 @@ const _ = class _ extends P {
       e.card_text_color ? `--ip-card-text:${e.card_text_color}` : "",
       e.marker_bg ? `--ip-marker-bg:${e.marker_bg}` : "",
       `--ip-detail-aspect:${t}`
-    ].filter(Boolean).join("; ");
+    ];
+    return a.push(...j(e, (r, n) => this._pickValue(r, n))), a.filter(Boolean).join("; ");
   }
   // ------------------------------------------------------------
   // Render
   // ------------------------------------------------------------
   render() {
-    const e = this.config || {}, i = this._lang() === "ar", t = this._pickValue(e.theme, "light"), a = this._pickValue(e.hotspot_size, "medium"), n = this._pickValue(
+    const e = this.config || {}, i = this._lang() === "ar", t = this._pickValue(e.theme, "light"), a = this._pickValue(e.hotspot_size, "medium"), r = this._pickValue(
       e.detail_image_aspect,
       "4/3"
-    ), r = this._pickValue(e.card_size, "medium"), d = this._pickValue(
+    ), n = this._pickValue(e.card_size, "medium"), d = this._pickValue(
       e.detail_media_width,
       "medium"
-    ), p = this._pickValue(e.content_align, "start"), c = !!e.reverse_layout, g = e.enable_pulse !== !1, b = e.show_pills !== !1, A = e.enable_entrance_anim !== !1 ? this._animState : "in", $ = this._buildHostStyle(e, n), v = this.localizedString(e.eyebrow), f = this.localizedString(e.section_title), w = this.localizedString(e.section_subtitle), k = (e.product_image || "").trim(), u = this._hotspots(), y = this._activeIndex(u.length);
-    if (!k && u.length === 0)
-      return s`<section class="ip" data-theme=${t} style=${$}>
+    ), p = this._pickValue(e.content_align, "start"), l = !!e.reverse_layout, g = e.enable_pulse !== !1, w = e.show_pills !== !1, C = e.enable_entrance_anim !== !1 ? this._animState : "in", z = this._buildHostStyle(e, r), x = this.localizedString(e.eyebrow), f = this.localizedString(e.section_title), y = this.localizedString(e.section_subtitle), S = (e.product_image || "").trim(), u = this._hotspots(), _ = this._activeIndex(u.length);
+    if (!S && u.length === 0)
+      return o`<section class="ip" data-theme=${t} style=${z}>
         <p class="ip-empty">
           ${i ? "أضف صورة المنتج ومؤشرًا واحدًا على الأقل لعرض هذا القسم." : "Add a product image and at least one hotspot to display this section."}
         </p>
       </section>`;
-    const T = v || f || w ? s`<header class="ip-header">
-            ${v ? s`<p class="ip-eyebrow">${v}</p>` : l}
-            ${f ? s`<h2 class="ip-title">${f}</h2>` : l}
-            ${w ? s`<p class="ip-subtitle">${w}</p>` : l}
-          </header>` : l, C = u[y];
-    return s`
+    const M = x || f || y ? o`<header class="ip-header">
+            ${x ? o`<p class="ip-eyebrow">${x}</p>` : c}
+            ${f ? o`<h2 class="ip-title">${f}</h2>` : c}
+            ${y ? o`<p class="ip-subtitle">${y}</p>` : c}
+          </header>` : c, I = u[_];
+    return o`
       <section
         class="ip"
         data-theme=${t}
         data-hs=${a}
-        data-card-size=${r}
+        data-card-size=${n}
         data-media-width=${d}
         data-content-align=${p}
         data-pulse=${g ? "on" : "off"}
-        data-enter=${A}
-        style=${$}
+        data-enter=${C}
+        style=${z}
         aria-label=${f || (i ? "مميزات المنتج" : "Product features")}
         @pointerenter=${this._pauseInteraction}
         @pointerleave=${this._resumeInteraction}
         @focusin=${this._pauseInteraction}
         @focusout=${this._resumeInteraction}
       >
-        ${T}
-        <div class="ip-content" data-reverse=${c ? "on" : "off"}>
-          ${this._renderStage(k, u, y, i)}
-          ${u.length ? this._renderDetails(C, u, y, b, i) : l}
+        ${M}
+        <div class="ip-content" data-reverse=${l ? "on" : "off"}>
+          ${this._renderStage(S, u, _, i)}
+          ${u.length ? this._renderDetails(I, u, _, w, i) : c}
         </div>
       </section>
     `;
   }
   _renderStage(e, i, t, a) {
-    return s`
+    return o`
       <div class="ip-stage-wrap">
         <div class="ip-stage">
-          ${e ? s`<img
+          ${e ? o`<img
                 class="ip-img"
                 src=${e}
                 alt=${a ? "صورة المنتج" : "Product image"}
                 draggable="false"
-              />` : s`<div class="ip-stage-empty">
+              />` : o`<div class="ip-stage-empty">
                 ${a ? "أضف صورة المنتج" : "Add a product image"}
               </div>`}
-          ${e ? i.map((n, r) => {
-      const { x: d, y: p } = this._pos(n, r), c = this.localizedString(n.title) || `${a ? "ميزة" : "Feature"} ${r + 1}`;
-      return s`<button
+          ${e ? i.map((r, n) => {
+      const { x: d, y: p } = this._pos(r, n), l = this.localizedString(r.title) || `${a ? "ميزة" : "Feature"} ${n + 1}`;
+      return o`<button
                   type="button"
                   class="ip-hotspot"
-                  data-active=${r === t ? "true" : "false"}
-                  style=${`left:${d}%; top:${p}%; --ip-hs-delay:${(0.4 + r * 0.08).toFixed(2)}s`}
-                  aria-pressed=${r === t ? "true" : "false"}
-                  aria-label=${c}
-                  @click=${() => this._setActive(r)}
+                  data-active=${n === t ? "true" : "false"}
+                  style=${`left:${d}%; top:${p}%; --ip-hs-delay:${(0.4 + n * 0.08).toFixed(2)}s`}
+                  aria-pressed=${n === t ? "true" : "false"}
+                  aria-label=${l}
+                  @click=${() => this._setActive(n)}
                 >
-                  ${r + 1}
+                  ${n + 1}
                 </button>`;
-    }) : l}
+    }) : c}
         </div>
       </div>
     `;
   }
-  _renderDetails(e, i, t, a, n) {
+  _renderDetails(e, i, t, a, r) {
     var g;
-    const r = this._pickValue(
+    const n = this._pickValue(
       (g = this.config) == null ? void 0 : g.detail_image_aspect,
       "4/3"
-    ), d = (e == null ? void 0 : e.image) || "", p = this.localizedString(e == null ? void 0 : e.title), c = this.localizedString(
+    ), d = (e == null ? void 0 : e.image) || "", p = this.localizedString(e == null ? void 0 : e.title), l = this.localizedString(
       e == null ? void 0 : e.description
     );
-    return s`
+    return o`
       <aside class="ip-details" aria-live="polite">
         <div
           class="ip-detail-media"
-          data-aspect=${r}
+          data-aspect=${n}
           data-empty=${d ? "false" : "true"}
         >
-          ${d ? s`<img
+          ${d ? o`<img
                 class="ip-detail-img is-enter"
                 src=${d}
-                alt=${p || (n ? "صورة الميزة" : "Feature image")}
+                alt=${p || (r ? "صورة الميزة" : "Feature image")}
                 loading="lazy"
-              />` : l}
+              />` : c}
         </div>
-        ${p ? s`<h3 class="ip-detail-title is-enter">${p}</h3>` : l}
-        ${c ? s`<p class="ip-detail-desc is-enter">${c}</p>` : l}
-        ${a && i.length > 1 ? s`<div class="ip-pills">
+        ${p ? o`<h3 class="ip-detail-title is-enter">${p}</h3>` : c}
+        ${l ? o`<p class="ip-detail-desc is-enter">${l}</p>` : c}
+        ${a && i.length > 1 ? o`<div class="ip-pills">
               ${i.map(
-      (b, h) => s`<button
+      (w, h) => o`<button
                   type="button"
                   class="ip-pill"
                   data-active=${h === t ? "true" : "false"}
                   aria-pressed=${h === t ? "true" : "false"}
-                  aria-label=${this.localizedString(b.title) || `${n ? "ميزة رقم" : "Feature"} ${h + 1}`}
+                  aria-label=${this.localizedString(w.title) || `${r ? "ميزة رقم" : "Feature"} ${h + 1}`}
                   @click=${() => this._setActive(h)}
                 >
                   ${h + 1}
                 </button>`
     )}
-            </div>` : l}
+            </div>` : c}
       </aside>
     `;
   }
 };
-_.styles = O;
-let m = _;
-x([
-  I({ type: Object })
+k.styles = V;
+let m = k;
+$([
+  P({ type: Object })
 ], m.prototype, "config");
-x([
-  S()
+$([
+  T()
 ], m.prototype, "_active");
-x([
-  S()
+$([
+  T()
 ], m.prototype, "_animState");
 typeof m < "u" && m.registerSallaComponent("salla-interactive-product");
 export {

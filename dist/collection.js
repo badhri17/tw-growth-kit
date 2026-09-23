@@ -1,18 +1,18 @@
-import { LitElement as V, css as O, html as o, nothing as n } from "lit";
-import { property as q, state as f } from "lit/decorators.js";
-function U(c, t) {
-  if (typeof c == "string") return c;
-  if (!c || typeof c != "object") return "";
-  const a = c[t] || c.ar || c.en || "";
+import { LitElement as E, css as q, html as s, nothing as r } from "lit";
+import { property as U, state as f } from "lit/decorators.js";
+function W(n, t) {
+  if (typeof n == "string") return n;
+  if (!n || typeof n != "object") return "";
+  const a = n[t] || n.ar || n.en || "";
   return typeof a == "string" ? a.trim() : "";
 }
-function E() {
+function F() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function B(c) {
-  return c.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
+function Y(n) {
+  return n.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class W extends V {
+class K extends E {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -20,27 +20,27 @@ class W extends V {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = e.includes("-") ? e : `salla-${e || "component"}`, s = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, l = () => {
-      var r;
-      const d = (r = window.Salla) == null ? void 0 : r.bundles;
+    const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = e.includes("-") ? e : `salla-${e || "component"}`, o = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, c = () => {
+      var l;
+      const d = (l = window.Salla) == null ? void 0 : l.bundles;
       return d && typeof d.registerComponent == "function" ? (d.registerComponent(a, {
         component: this,
-        dynamicTagName: s()
+        dynamicTagName: o()
       }), !0) : !1;
     };
-    if (l()) return;
-    const h = window.setInterval(() => {
-      l() && window.clearInterval(h);
+    if (c()) return;
+    const p = window.setInterval(() => {
+      c() && window.clearInterval(p);
     }, 100);
-    window.setTimeout(() => window.clearInterval(h), 5e3);
+    window.setTimeout(() => window.clearInterval(p), 5e3);
   }
   /** Resolved document language. */
   _lang() {
-    return E();
+    return F();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return U(t, this._lang());
+    return W(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, a) {
@@ -54,14 +54,14 @@ class W extends V {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return B(t);
+    return Y(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, a) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(B(t.trim()));
+      const e = Number(Y(t.trim()));
       if (!Number.isNaN(e)) return e;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -71,7 +71,31 @@ class W extends V {
     return a;
   }
 }
-const F = O`
+const T = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, P = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function J(n, t, a = "md", e = "md") {
+  const i = t(n == null ? void 0 : n.space_top, a), o = t(n == null ? void 0 : n.space_bottom, e), c = T[i] ?? T.md, p = T[o] ?? T.md, d = P[i] ?? P.md, l = P[o] ?? P.md;
+  return [
+    `--sp-top-m:${c}px`,
+    `--sp-bot-m:${p}px`,
+    `--sp-top-d:${d}px`,
+    `--sp-bot-d:${l}px`
+  ];
+}
+const Q = q`
   :host {
     display: block;
     font-family: inherit;
@@ -100,7 +124,10 @@ const F = O`
 
   .col-section {
     width: 100%;
-    padding: clamp(2.5rem, 6vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 3vw, 1.5rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     background-color: var(--col-bg);
     display: flex;
     flex-direction: column;
@@ -870,13 +897,19 @@ const F = O`
       opacity: 0;
     }
   }
+
+  @media (min-width: 768px) {
+    .col-section {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
+    }
+  }
 `;
-var K = Object.defineProperty, m = (c, t, a, e) => {
-  for (var i = void 0, s = c.length - 1, l; s >= 0; s--)
-    (l = c[s]) && (i = l(t, a, i) || i);
-  return i && K(t, a, i), i;
+var G = Object.defineProperty, b = (n, t, a, e) => {
+  for (var i = void 0, o = n.length - 1, c; o >= 0; o--)
+    (c = n[o]) && (i = c(t, a, i) || i);
+  return i && G(t, a, i), i;
 };
-const A = class A extends W {
+const N = class N extends K {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._animState = "ready", this._captionState = "in", this._bagLeavingIndex = null, this._bagNavigated = !1, this._bagProdRatio = null, this._bagImgRatio = null, this._autoplayTimer = null, this._captionTimer = null, this._hoverPaused = !1, this._hasInitializedActive = !1, this._inView = !0, this._io = null, this._swipeStartX = null, this._swipeStartY = null, this._swipeActive = !1, this._prevDiff = /* @__PURE__ */ new Map(), this._goPrev = () => {
       var i;
@@ -964,10 +997,10 @@ const A = class A extends W {
     if (!a) return "";
     const e = Array.isArray(a) ? a[0] : a;
     if (!e) return "";
-    const s = (typeof e == "string" ? e : typeof e == "object" ? String(
+    const o = (typeof e == "string" ? e : typeof e == "object" ? String(
       e.url ?? e.value ?? ""
     ) : "").trim();
-    return s && s !== "#" ? s : "";
+    return o && o !== "#" ? o : "";
   }
   // ------------------------------------------------------------
   // Lifecycle
@@ -984,8 +1017,8 @@ const A = class A extends W {
       });
     }), "IntersectionObserver" in window && (this._io = new IntersectionObserver(
       (i) => {
-        const s = i[0];
-        s && (this._inView = s.isIntersecting, this._teardownAutoplay(), this._inView && this._setupAutoplay());
+        const o = i[0];
+        o && (this._inView = o.isIntersecting, this._teardownAutoplay(), this._inView && this._setupAutoplay());
       },
       { threshold: 0.15 }
     ), this._io.observe(this));
@@ -999,8 +1032,8 @@ const A = class A extends W {
     if (!t.has("config")) return;
     const a = this._slides();
     if (!this._hasInitializedActive && a.length > 0) {
-      const i = this._num((e = this.config) == null ? void 0 : e.initial_slide, NaN), s = this._displayMode() === "bag" ? 0 : Math.floor(a.length / 2), l = Number.isNaN(i) ? s : Math.max(0, Math.min(a.length - 1, Math.round(i) - 1));
-      this._activeIndex = l, this._hasInitializedActive = !0;
+      const i = this._num((e = this.config) == null ? void 0 : e.initial_slide, NaN), o = this._displayMode() === "bag" ? 0 : Math.floor(a.length / 2), c = Number.isNaN(i) ? o : Math.max(0, Math.min(a.length - 1, Math.round(i) - 1));
+      this._activeIndex = c, this._hasInitializedActive = !0;
     } else this._activeIndex >= a.length && (this._activeIndex = Math.max(0, a.length - 1));
     this._teardownAutoplay(), this._setupAutoplay();
   }
@@ -1019,16 +1052,16 @@ const A = class A extends W {
   _measureBagImages() {
     const t = this.shadowRoot;
     if (!t) return;
-    const a = (r) => r.naturalWidth > 0 ? r.naturalHeight / r.naturalWidth : (r.dataset.measureHooked || (r.dataset.measureHooked = "1", r.addEventListener("load", () => this.requestUpdate(), {
+    const a = (l) => l.naturalWidth > 0 ? l.naturalHeight / l.naturalWidth : (l.dataset.measureHooked || (l.dataset.measureHooked = "1", l.addEventListener("load", () => this.requestUpdate(), {
       once: !0
     })), 0);
     let e = 0;
-    for (const r of t.querySelectorAll(
+    for (const l of t.querySelectorAll(
       ".col-bag-slide img"
     ))
-      e = Math.max(e, a(r));
-    const i = t.querySelector(".col-bag-img"), s = i ? a(i) : 0, l = (r) => Math.round(r * 100) / 100, h = e > 0 ? l(e) : null, d = s > 0 ? l(s) : null;
-    h !== this._bagProdRatio && (this._bagProdRatio = h), d !== this._bagImgRatio && (this._bagImgRatio = d);
+      e = Math.max(e, a(l));
+    const i = t.querySelector(".col-bag-img"), o = i ? a(i) : 0, c = (l) => Math.round(l * 100) / 100, p = e > 0 ? c(e) : null, d = o > 0 ? c(o) : null;
+    p !== this._bagProdRatio && (this._bagProdRatio = p), d !== this._bagImgRatio && (this._bagImgRatio = d);
   }
   // ------------------------------------------------------------
   // Autoplay
@@ -1089,15 +1122,15 @@ const A = class A extends W {
   // Render
   // ------------------------------------------------------------
   render() {
-    const t = this.config || {}, a = this._slides(), e = this._displayMode(), i = this._pickValue(t.use_case, "home"), s = this._pickValue(
+    const t = this.config || {}, a = this._slides(), e = this._displayMode(), i = this._pickValue(t.use_case, "home"), o = this._pickValue(
       t.slide_animation,
       "simple"
-    ), l = this._pickValue(t.aspect_ratio, "1/1"), h = this._pickValue(
+    ), c = this._pickValue(t.aspect_ratio, "1/1"), p = this._pickValue(
       t.desktop_layout,
       "coverflow"
     ), d = this.localizedString(
       t.section_title ?? t.title
-    ), r = t.show_caption !== !1, x = i === "home" && t.show_cta !== !1, y = this.localizedString(t.default_cta_label) || "تسوّق الآن", $ = t.show_nav_buttons !== !1, _ = !!t.show_pagination, g = t.enable_entrance_anim !== !1, k = this._num(t.card_radius, 20), w = [
+    ), l = t.show_caption !== !1, w = i === "home" && t.show_cta !== !1, y = this.localizedString(t.default_cta_label) || "تسوّق الآن", $ = t.show_nav_buttons !== !1, _ = !!t.show_pagination, g = t.enable_entrance_anim !== !1, k = this._num(t.card_radius, 20), x = [
       t.bg_color ? `--col-bg: ${t.bg_color}` : "",
       t.title_color ? `--col-title-color: ${t.title_color}` : "",
       t.caption_title_color ? `--col-caption-title-color: ${t.caption_title_color}` : "",
@@ -1109,46 +1142,47 @@ const A = class A extends W {
       t.nav_icon_color ? `--col-nav-icon: ${t.nav_icon_color}` : "",
       t.dot_color ? `--col-dot-color: ${t.dot_color}` : "",
       t.bag_circle_color ? `--bag-circle-color: ${t.bag_circle_color}` : "",
-      `--col-aspect: ${l}`
+      `--col-aspect: ${c}`,
+      ...J(t, (I, u) => this._pickValue(I, u))
     ].filter(Boolean).join("; ");
     if (a.length === 0)
-      return o`
-        <section class="col-empty" style=${w}>
+      return s`
+        <section class="col-empty" style=${x}>
           <p>أضف صورة واحدة على الأقل لكل شريحة للبدء.</p>
         </section>
       `;
-    const v = a.length === 1, C = "m9 6 6 6-6 6", L = "M5 12h14M13 6l6 6-6 6", u = a[this._activeIndex], S = u ? this.localizedString(u.title) : "", z = u ? this.localizedString(u.description) : "", I = u ? this._resolveLink(u) : "", T = u && this.localizedString(u.cta_label) || y, N = !!(r && (S || z));
+    const v = a.length === 1, D = "m9 6 6 6-6 6", Z = "M5 12h14M13 6l6 6-6 6", m = a[this._activeIndex], S = m ? this.localizedString(m.title) : "", z = m ? this.localizedString(m.description) : "", A = m ? this._resolveLink(m) : "", C = m && this.localizedString(m.cta_label) || y, X = !!(l && (S || z));
     return e === "bag" ? this._renderBag(t, a, {
-      hostStyle: w,
+      hostStyle: x,
       sectionTitle: d,
       enableAnim: g,
       showNav: $,
       showDots: _,
-      hasCaption: N,
+      hasCaption: X,
       activeTitle: S,
       activeDesc: z,
-      showCta: x,
-      activeCtaHref: I,
-      activeCtaLabel: T
-    }) : o`
+      showCta: w,
+      activeCtaHref: A,
+      activeCtaLabel: C
+    }) : s`
       <section
         class="col-section"
-        style=${w}
-        data-layout=${h}
-        data-anim=${s}
+        style=${x}
+        data-layout=${p}
+        data-anim=${o}
         data-enter=${g ? this._animState : "in"}
         data-use-case=${i}
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${d ? o`
+        ${d ? s`
               <div
                 class="col-header"
                 data-anim=${g ? this._animState : "in"}
               >
                 <h2 class="col-title">${d}</h2>
               </div>
-            ` : n}
+            ` : r}
 
         <div
           class="col-stage"
@@ -1158,40 +1192,40 @@ const A = class A extends W {
           @pointercancel=${this._onPointerUp}
         >
           <div class="col-track">
-            ${a.map((M, b) => {
-      const Y = this._wrappedDiff(b), Z = this._slidePos(b), X = this._prevDiff.get(b), j = X !== void 0 && Math.abs(Y - X) > a.length / 2, { closed: D, opened: P, alt: R } = this._slideImage(M), H = !P || s !== "reveal";
-      return o`
+            ${a.map((I, u) => {
+      const j = this._wrappedDiff(u), H = this._slidePos(u), R = this._prevDiff.get(u), V = R !== void 0 && Math.abs(j - R) > a.length / 2, { closed: B, opened: M, alt: L } = this._slideImage(I), O = !M || o !== "reveal";
+      return s`
                 <div
                   class="col-slide"
-                  data-pos=${Z}
-                  data-index=${b}
-                  data-instant=${j ? "" : n}
+                  data-pos=${H}
+                  data-index=${u}
+                  data-instant=${V ? "" : r}
                   @click=${this._onSlideClick}
                 >
                   <div
-                    class="col-card ${H ? "col-card--no-opened" : ""}"
+                    class="col-card ${O ? "col-card--no-opened" : ""}"
                   >
-                    ${D ? o`<img
+                    ${B ? s`<img
                           class="col-img-closed"
-                          src=${D}
-                          alt=${R}
+                          src=${B}
+                          alt=${L}
                           loading="lazy"
                           draggable="false"
-                        />` : n}
-                    ${s === "reveal" && P ? o`<img
+                        />` : r}
+                    ${o === "reveal" && M ? s`<img
                           class="col-img-opened"
-                          src=${P}
-                          alt=${R}
+                          src=${M}
+                          alt=${L}
                           loading="lazy"
                           draggable="false"
-                        />` : n}
+                        />` : r}
                   </div>
                 </div>
               `;
     })}
           </div>
 
-          ${!v && $ ? o`
+          ${!v && $ ? s`
                 <button
                   class="col-nav col-nav-prev"
                   type="button"
@@ -1200,7 +1234,7 @@ const A = class A extends W {
                   aria-label="Previous"
                 >
                   <svg viewBox="0 0 24 24">
-                    <path d=${C} />
+                    <path d=${D} />
                   </svg>
                 </button>
                 <button
@@ -1211,48 +1245,48 @@ const A = class A extends W {
                   aria-label="Next"
                 >
                   <svg viewBox="0 0 24 24">
-                    <path d=${C} />
+                    <path d=${D} />
                   </svg>
                 </button>
-              ` : n}
+              ` : r}
         </div>
 
-        ${N ? o`
+        ${X ? s`
               <div class="col-caption" data-state=${this._captionState}>
-                ${S ? o`<h3 class="col-caption__title">${S}</h3>` : n}
-                ${z ? o`<p class="col-caption__desc">${z}</p>` : n}
+                ${S ? s`<h3 class="col-caption__title">${S}</h3>` : r}
+                ${z ? s`<p class="col-caption__desc">${z}</p>` : r}
               </div>
-            ` : n}
-        ${x && I ? o`
+            ` : r}
+        ${w && A ? s`
               <div class="col-cta-wrap">
                 <a
                   class="col-cta"
-                  href=${I}
-                  aria-label=${T}
+                  href=${A}
+                  aria-label=${C}
                 >
-                  <span>${T}</span>
+                  <span>${C}</span>
                   <svg viewBox="0 0 24 24">
-                    <path d=${L} />
+                    <path d=${Z} />
                   </svg>
                 </a>
               </div>
-            ` : n}
+            ` : r}
 
-        ${!v && _ ? o`
+        ${!v && _ ? s`
               <div class="col-dots" role="tablist">
                 ${a.map(
-      (M, b) => o`
+      (I, u) => s`
                     <button
                       class="col-dot"
                       type="button"
-                      aria-current=${this._activeIndex === b ? "true" : "false"}
-                      aria-label=${`Slide ${b + 1}`}
-                      @click=${() => this._goTo(b)}
+                      aria-current=${this._activeIndex === u ? "true" : "false"}
+                      aria-label=${`Slide ${u + 1}`}
+                      @click=${() => this._goTo(u)}
                     ></button>
                   `
     )}
               </div>
-            ` : n}
+            ` : r}
       </section>
     `;
   }
@@ -1263,37 +1297,37 @@ const A = class A extends W {
    * sinks back in. Products need transparent (PNG/WebP) images to sell it.
    */
   _renderBag(t, a, e) {
-    const i = typeof t.bag_image == "string" ? t.bag_image.trim() : "", s = this._pickValue(t.bag_size, "medium"), l = this._pickValue(
+    const i = typeof t.bag_image == "string" ? t.bag_image.trim() : "", o = this._pickValue(t.bag_size, "medium"), c = this._pickValue(
       t.bag_product_size,
       "medium"
-    ), h = this.localizedString(t.bag_bottom_title), d = a.length === 1, r = "M18 15l-6-6-6 6", x = "M6 9l6 6 6-6", y = "M5 12h14M13 6l6 6-6 6", $ = [
+    ), p = this.localizedString(t.bag_bottom_title), d = a.length === 1, l = "M18 15l-6-6-6 6", w = "M6 9l6 6 6-6", y = "M5 12h14M13 6l6 6-6 6", $ = [
       e.hostStyle,
       this._bagProdRatio !== null ? `--bag-prod-ratio: ${this._bagProdRatio}` : "",
       this._bagImgRatio !== null ? `--bag-ratio: ${this._bagImgRatio}` : ""
     ].filter(Boolean).join("; ");
-    return o`
+    return s`
       <section
         class="col-section col-section--bag"
         style=${$}
-        data-bag-size=${s}
-        data-product-size=${l}
+        data-bag-size=${o}
+        data-product-size=${c}
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${e.sectionTitle ? o`
+        ${e.sectionTitle ? s`
               <div
                 class="col-header"
                 data-anim=${e.enableAnim ? this._animState : "in"}
               >
                 <h2 class="col-title">${e.sectionTitle}</h2>
               </div>
-            ` : n}
-        ${e.hasCaption ? o`
+            ` : r}
+        ${e.hasCaption ? s`
               <div class="col-caption" data-state=${this._captionState}>
-                ${e.activeTitle ? o`<h3 class="col-caption__title">${e.activeTitle}</h3>` : n}
-                ${e.activeDesc ? o`<p class="col-caption__desc">${e.activeDesc}</p>` : n}
+                ${e.activeTitle ? s`<h3 class="col-caption__title">${e.activeTitle}</h3>` : r}
+                ${e.activeDesc ? s`<p class="col-caption__desc">${e.activeDesc}</p>` : r}
               </div>
-            ` : n}
+            ` : r}
 
         <div
           class="col-bag-stage"
@@ -1307,29 +1341,29 @@ const A = class A extends W {
 
           <div class="col-bag-layer">
             ${a.map((_, g) => {
-      const { closed: k, alt: w } = this._slideImage(_);
+      const { closed: k, alt: x } = this._slideImage(_);
       let v = "hidden";
-      return g === this._activeIndex ? v = this._bagNavigated ? "rising" : "active" : g === this._bagLeavingIndex && (v = "sinking"), o`
+      return g === this._activeIndex ? v = this._bagNavigated ? "rising" : "active" : g === this._bagLeavingIndex && (v = "sinking"), s`
                 <div class="col-bag-slide" data-state=${v}>
-                  ${k ? o`<img
+                  ${k ? s`<img
                         src=${k}
-                        alt=${w}
+                        alt=${x}
                         loading="lazy"
                         draggable="false"
-                      />` : n}
+                      />` : r}
                 </div>
               `;
     })}
           </div>
 
-          ${i ? o`<img
+          ${i ? s`<img
                 class="col-bag-img"
                 src=${i}
                 alt=""
                 aria-hidden="true"
                 draggable="false"
-              />` : n}
-          ${!d && e.showNav ? o`
+              />` : r}
+          ${!d && e.showNav ? s`
                 <button
                   class="col-bag-nav col-bag-nav--up"
                   type="button"
@@ -1337,7 +1371,7 @@ const A = class A extends W {
                   ?disabled=${this._isNextDisabled()}
                   aria-label="Next"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${r} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${l} /></svg>
                 </button>
                 <button
                   class="col-bag-nav col-bag-nav--down"
@@ -1346,13 +1380,13 @@ const A = class A extends W {
                   ?disabled=${this._isPrevDisabled()}
                   aria-label="Previous"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${x} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${w} /></svg>
                 </button>
-              ` : n}
+              ` : r}
         </div>
 
-        ${h ? o`<div class="col-bag-bottom">${h}</div>` : n}
-        ${e.showCta && e.activeCtaHref ? o`
+        ${p ? s`<div class="col-bag-bottom">${p}</div>` : r}
+        ${e.showCta && e.activeCtaHref ? s`
               <div class="col-cta-wrap">
                 <a
                   class="col-cta"
@@ -1365,11 +1399,11 @@ const A = class A extends W {
                   </svg>
                 </a>
               </div>
-            ` : n}
-        ${!d && e.showDots ? o`
+            ` : r}
+        ${!d && e.showDots ? s`
               <div class="col-dots" role="tablist">
                 ${a.map(
-      (_, g) => o`
+      (_, g) => s`
                     <button
                       class="col-dot"
                       type="button"
@@ -1380,38 +1414,38 @@ const A = class A extends W {
                   `
     )}
               </div>
-            ` : n}
+            ` : r}
       </section>
     `;
   }
 };
-A.styles = F;
-let p = A;
-m([
-  q({ type: Object })
-], p.prototype, "config");
-m([
+N.styles = Q;
+let h = N;
+b([
+  U({ type: Object })
+], h.prototype, "config");
+b([
   f()
-], p.prototype, "_activeIndex");
-m([
+], h.prototype, "_activeIndex");
+b([
   f()
-], p.prototype, "_animState");
-m([
+], h.prototype, "_animState");
+b([
   f()
-], p.prototype, "_captionState");
-m([
+], h.prototype, "_captionState");
+b([
   f()
-], p.prototype, "_bagLeavingIndex");
-m([
+], h.prototype, "_bagLeavingIndex");
+b([
   f()
-], p.prototype, "_bagNavigated");
-m([
+], h.prototype, "_bagNavigated");
+b([
   f()
-], p.prototype, "_bagProdRatio");
-m([
+], h.prototype, "_bagProdRatio");
+b([
   f()
-], p.prototype, "_bagImgRatio");
-typeof p < "u" && p.registerSallaComponent("salla-collection");
+], h.prototype, "_bagImgRatio");
+typeof h < "u" && h.registerSallaComponent("salla-collection");
 export {
-  p as default
+  h as default
 };

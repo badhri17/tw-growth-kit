@@ -4,6 +4,8 @@
  * All fields optional; smart defaults applied in the component.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 export type MaybeMultiLang = string | { ar?: string; en?: string } | null | undefined;
 
 export type BeforeAfterAspect = "1/1" | "4/3" | "16/9" | "3/4" | "9/16";
@@ -28,7 +30,7 @@ export interface BeforeAfterSlideItem {
   product?: RawProductPick;
 }
 
-export interface BeforeAfterConfig {
+export interface BeforeAfterConfig extends SectionSpacingFields {
   // --- Section header ---
   title?: MaybeMultiLang;
   subtitle?: MaybeMultiLang;

@@ -3,6 +3,8 @@
  * Type definitions for the Lifestyle Gallery component configuration.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 export type MaybeMultiLang =
   | string
   | { ar?: string; en?: string }
@@ -33,7 +35,7 @@ export interface GallerySlideItem {
   cta_label?: MaybeMultiLang;
 }
 
-export interface GalleryConfig {
+export interface GalleryConfig extends SectionSpacingFields {
   // --- Section header ---
   section_title?: MaybeMultiLang;
   /** Optional extra line rendered above the title (e.g. a Latin tagline). */

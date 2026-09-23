@@ -13,6 +13,8 @@
  * consistent — RTL-first and mobile-first throughout.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang =
   | string
@@ -95,7 +97,7 @@ export interface PcCardItem {
   button_label?: MaybeMultiLang;
 }
 
-export interface ProductCardsConfig {
+export interface ProductCardsConfig extends SectionSpacingFields {
   // --- Section header ---
   section_title?: MaybeMultiLang;
   section_subtitle?: MaybeMultiLang;

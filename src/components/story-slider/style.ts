@@ -69,7 +69,10 @@ export const storySliderStyles = css`
   .ss-section {
     width: 100%;
     background-color: var(--ss-bg);
-    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 3vw, 1.5rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1267,6 +1270,12 @@ export const storySliderStyles = css`
     }
     .ss-content {
       padding: 1.25rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ss-section {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
     }
   }
 `;

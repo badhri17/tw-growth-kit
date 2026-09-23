@@ -11,6 +11,8 @@
  * All fields are optional; the component applies premium, RTL-first defaults.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang =
   | string
@@ -59,7 +61,7 @@ export type HighlightStyle = "color" | "gradient" | "marker" | "underline";
 /** CTA button visual style. */
 export type ButtonStyle = "solid" | "outline" | "ghost";
 
-export interface InteractiveTextConfig {
+export interface InteractiveTextConfig extends SectionSpacingFields {
   // --- Content ---
   eyebrow?: MaybeMultiLang;
   title?: MaybeMultiLang;

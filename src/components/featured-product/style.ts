@@ -55,7 +55,10 @@ export const featuredProductStyles = css`
   .fp {
     width: 100%;
     background: var(--fp-bg);
-    padding: clamp(2rem, 6vw, 4.5rem) clamp(1rem, 4vw, 2rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -657,6 +660,12 @@ export const featuredProductStyles = css`
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .fp {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
     }
   }
 `;

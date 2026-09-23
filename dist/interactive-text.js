@@ -1,18 +1,18 @@
-import { LitElement as K, css as q, html as o, nothing as f } from "lit";
-import { property as G, state as V } from "lit/decorators.js";
-function J(c, t) {
-  if (typeof c == "string") return c;
-  if (!c || typeof c != "object") return "";
-  const a = c[t] || c.ar || c.en || "";
-  return typeof a == "string" ? a.trim() : "";
+import { LitElement as Q, css as Z, html as o, nothing as m } from "lit";
+import { property as tt, state as E } from "lit/decorators.js";
+function et(l, t) {
+  if (typeof l == "string") return l;
+  if (!l || typeof l != "object") return "";
+  const n = l[t] || l.ar || l.en || "";
+  return typeof n == "string" ? n.trim() : "";
 }
-function Q() {
+function it() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function P(c) {
-  return c.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
+function j(l) {
+  return l.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class Z extends K {
+class nt extends Q {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -20,12 +20,12 @@ class Z extends K {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const a = String(t || "").trim(), e = a.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = e.includes("-") ? e : `salla-${e || "component"}`, n = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, r = () => {
-      var g;
-      const l = (g = window.Salla) == null ? void 0 : g.bundles;
-      return l && typeof l.registerComponent == "function" ? (l.registerComponent(a, {
+    const n = String(t || "").trim(), i = n.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), e = i.includes("-") ? i : `salla-${i || "component"}`, a = () => `${e}-${Math.random().toString(36).substring(2, 8)}`, r = () => {
+      var p;
+      const d = (p = window.Salla) == null ? void 0 : p.bundles;
+      return d && typeof d.registerComponent == "function" ? (d.registerComponent(n, {
         component: this,
-        dynamicTagName: n()
+        dynamicTagName: a()
       }), !0) : !1;
     };
     if (r()) return;
@@ -36,42 +36,66 @@ class Z extends K {
   }
   /** Resolved document language. */
   _lang() {
-    return Q();
+    return it();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return J(t, this._lang());
+    return et(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
-  _pickValue(t, a) {
+  _pickValue(t, n) {
     if (typeof t == "string" && t) return t;
     if (Array.isArray(t) && t.length > 0) {
-      const e = t[0];
-      if (e && typeof e.value == "string" && e.value)
-        return e.value;
+      const i = t[0];
+      if (i && typeof i.value == "string" && i.value)
+        return i.value;
     }
-    return a;
+    return n;
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return P(t);
+    return j(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
-  _num(t, a) {
+  _num(t, n) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(P(t.trim()));
-      if (!Number.isNaN(e)) return e;
+      const i = Number(j(t.trim()));
+      if (!Number.isNaN(i)) return i;
     }
     if (Array.isArray(t) && t.length > 0) {
-      const e = t[0];
-      if ((e == null ? void 0 : e.value) !== void 0) return this._num(e.value, a);
+      const i = t[0];
+      if ((i == null ? void 0 : i.value) !== void 0) return this._num(i.value, n);
     }
-    return a;
+    return n;
   }
 }
-const tt = q`
+const I = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, L = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function at(l, t, n = "md", i = "md") {
+  const e = t(l == null ? void 0 : l.space_top, n), a = t(l == null ? void 0 : l.space_bottom, i), r = I[e] ?? I.md, s = I[a] ?? I.md, d = L[e] ?? L.md, p = L[a] ?? L.md;
+  return [
+    `--sp-top-m:${r}px`,
+    `--sp-bot-m:${s}px`,
+    `--sp-top-d:${d}px`,
+    `--sp-bot-d:${p}px`
+  ];
+}
+const rt = Z`
   :host {
     display: block;
     /* Containment so long unbreakable content can never push sibling
@@ -86,7 +110,9 @@ const tt = q`
   .it {
     position: relative;
     overflow: hidden;
-    padding-block: var(--it-pad-y);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     padding-inline: 1.25rem;
     font-family: inherit;
 
@@ -145,17 +171,14 @@ const tt = q`
     --it-fs-text: 1.08rem;
   }
 
-  /* Spacing tiers */
+  /* Line-gap tiers (the section's own vertical space is --sp-*) */
   .it[data-spacing="compact"] {
-    --it-pad-y: 2.25rem;
     --it-gap: 0.85rem;
   }
   .it[data-spacing="normal"] {
-    --it-pad-y: 3.5rem;
     --it-gap: 1.1rem;
   }
   .it[data-spacing="spacious"] {
-    --it-pad-y: 5rem;
     --it-gap: 1.35rem;
   }
 
@@ -186,16 +209,8 @@ const tt = q`
       --it-fs-subtitle: 1.45rem;
       --it-fs-text: 1.2rem;
     }
-    .it[data-spacing="compact"] {
-      --it-pad-y: 3.25rem;
-    }
-    .it[data-spacing="normal"] {
-      --it-pad-y: 5rem;
-    }
-    .it[data-spacing="spacious"] {
-      --it-pad-y: 7.5rem;
-    }
     .it {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
       --it-fs-eyebrow: 0.875rem;
     }
   }
@@ -475,16 +490,16 @@ const tt = q`
     }
   }
 `;
-var et = Object.defineProperty, I = (c, t, a, e) => {
-  for (var i = void 0, n = c.length - 1, r; n >= 0; n--)
-    (r = c[n]) && (i = r(t, a, i) || i);
-  return i && et(t, a, i), i;
+var st = Object.defineProperty, V = (l, t, n, i) => {
+  for (var e = void 0, a = l.length - 1, r; a >= 0; a--)
+    (r = l[a]) && (e = r(t, n, e) || e);
+  return e && st(t, n, e), e;
 };
-const it = {
+const ot = {
   slow: 1.45,
   normal: 1,
   fast: 0.65
-}, at = 80, F = class F extends Z {
+}, lt = 80, F = class F extends nt {
   constructor() {
     super(...arguments), this._entered = !1, this._typedCount = 0, this._typingDone = !1, this._io = null, this._typingTimer = null, this._reduced = !1;
   }
@@ -496,59 +511,59 @@ const it = {
     return t === "ltr" ? !1 : t === "rtl" ? !0 : this._lang() === "ar";
   }
   /** #rgb / #rrggbb → translucent rgba; anything else falls back to color-mix. */
-  _softColor(t, a) {
-    const e = t.trim().replace(/^#/, "");
-    if (!(/^[0-9a-f]{3}$/i.test(e) || /^[0-9a-f]{6}$/i.test(e)))
-      return `color-mix(in srgb, ${t} ${Math.round(a * 100)}%, transparent)`;
-    const n = e.length === 3 ? e.split("").map((s) => s + s).join("") : e, r = parseInt(n, 16);
-    return `rgba(${r >> 16 & 255}, ${r >> 8 & 255}, ${r & 255}, ${a})`;
+  _softColor(t, n) {
+    const i = t.trim().replace(/^#/, "");
+    if (!(/^[0-9a-f]{3}$/i.test(i) || /^[0-9a-f]{6}$/i.test(i)))
+      return `color-mix(in srgb, ${t} ${Math.round(n * 100)}%, transparent)`;
+    const a = i.length === 3 ? i.split("").map((s) => s + s).join("") : i, r = parseInt(a, 16);
+    return `rgba(${r >> 16 & 255}, ${r >> 8 & 255}, ${r & 255}, ${n})`;
   }
   // ------------------------------------------------------------
   // Text segmentation (highlight matching)
   // ------------------------------------------------------------
   /** [start, end) ranges of every case-insensitive highlight match. */
-  _matchRanges(t, a) {
-    const e = a.trim();
-    if (!t || !e) return [];
-    const i = t.toLowerCase(), n = e.toLowerCase(), r = [];
+  _matchRanges(t, n) {
+    const i = n.trim();
+    if (!t || !i) return [];
+    const e = t.toLowerCase(), a = i.toLowerCase(), r = [];
     let s = 0;
-    for (; s <= i.length - n.length; ) {
-      const l = i.indexOf(n, s);
-      if (l === -1) break;
-      r.push([l, l + n.length]), s = l + n.length;
+    for (; s <= e.length - a.length; ) {
+      const d = e.indexOf(a, s);
+      if (d === -1) break;
+      r.push([d, d + a.length]), s = d + a.length;
     }
     return r;
   }
   /** Split into highlighted / plain runs (block + typewriter rendering). */
-  _segments(t, a) {
+  _segments(t, n) {
     if (!t) return [];
-    const e = this._matchRanges(t, a);
-    if (e.length === 0) return [{ value: t, hl: !1 }];
-    const i = [];
-    let n = 0;
-    for (const [r, s] of e)
-      r > n && i.push({ value: t.slice(n, r), hl: !1 }), i.push({ value: t.slice(r, s), hl: !0 }), n = s;
-    return n < t.length && i.push({ value: t.slice(n), hl: !1 }), i;
+    const i = this._matchRanges(t, n);
+    if (i.length === 0) return [{ value: t, hl: !1 }];
+    const e = [];
+    let a = 0;
+    for (const [r, s] of i)
+      r > a && e.push({ value: t.slice(a, r), hl: !1 }), e.push({ value: t.slice(r, s), hl: !0 }), a = s;
+    return a < t.length && e.push({ value: t.slice(a), hl: !1 }), e;
   }
   /**
    * Split into whole words, flagging any word that overlaps a highlight match.
    * Whole words only: an inline-block boundary inside an Arabic word would
    * break letter joining.
    */
-  _words(t, a) {
-    const e = this._matchRanges(t, a), i = [], n = /\S+/g;
+  _words(t, n) {
+    const i = this._matchRanges(t, n), e = [], a = /\S+/g;
     let r;
-    for (; r = n.exec(t); ) {
-      const s = r.index, l = s + r[0].length;
-      i.push({
+    for (; r = a.exec(t); ) {
+      const s = r.index, d = s + r[0].length;
+      e.push({
         value: r[0],
-        hl: e.some(([g, h]) => s < h && l > g)
+        hl: i.some(([p, h]) => s < h && d > p)
       });
     }
-    return i;
+    return e;
   }
   _lines(t) {
-    return t.split(/\r?\n/).map((a) => a.trim()).filter(Boolean);
+    return t.split(/\r?\n/).map((n) => n.trim()).filter(Boolean);
   }
   // ------------------------------------------------------------
   // Lifecycle
@@ -566,8 +581,8 @@ const it = {
       }
       this._io = new IntersectionObserver(
         (t) => {
-          var a;
-          t.some((e) => e.isIntersecting) && (this._entered = !0, (a = this._io) == null || a.disconnect(), this._io = null);
+          var n;
+          t.some((i) => i.isIntersecting) && (this._entered = !0, (n = this._io) == null || n.disconnect(), this._io = null);
         },
         { threshold: 0.15 }
       ), this._io.observe(this);
@@ -592,7 +607,7 @@ const it = {
   }
   _speedMult() {
     var t;
-    return it[this._pickValue((t = this.config) == null ? void 0 : t.animation_speed, "normal")];
+    return ot[this._pickValue((t = this.config) == null ? void 0 : t.animation_speed, "normal")];
   }
   _typingInterval() {
     return Math.max(28, Math.round(58 * this._speedMult()));
@@ -604,9 +619,9 @@ const it = {
       return;
     }
     this._typingTimer = window.setInterval(() => {
-      var e;
-      const a = this.localizedString((e = this.config) == null ? void 0 : e.title).length;
-      if (this._typedCount >= a) {
+      var i;
+      const n = this.localizedString((i = this.config) == null ? void 0 : i.title).length;
+      if (this._typedCount >= n) {
         this._stopTyping(), window.setTimeout(() => {
           this._typingDone = !0;
         }, 350);
@@ -622,14 +637,14 @@ const it = {
   // Render
   // ------------------------------------------------------------
   render() {
-    const t = this.config || {}, a = this._lang() === "ar", e = this._isRtl(), i = this._anim(), n = this._speedMult(), r = this._pickValue(t.enter_direction, "up"), s = this._pickValue(t.text_align, "center"), l = this._pickValue(t.text_size_mobile, "medium"), g = this._pickValue(
+    const t = this.config || {}, n = this._lang() === "ar", i = this._isRtl(), e = this._anim(), a = this._speedMult(), r = this._pickValue(t.enter_direction, "up"), s = this._pickValue(t.text_align, "center"), d = this._pickValue(t.text_size_mobile, "medium"), p = this._pickValue(
       t.text_size_desktop,
       "inherit"
-    ), h = g === "inherit" ? l : g, u = this._pickValue(t.content_width, "medium"), m = this._pickValue(t.spacing, "normal"), _ = this._pickValue(t.theme, "light"), R = this._pickValue(t.bg_style, "transparent"), j = this._pickValue(
+    ), h = p === "inherit" ? d : p, u = this._pickValue(t.content_width, "medium"), f = this._pickValue(t.spacing, "normal"), _ = this._pickValue(t.theme, "light"), R = this._pickValue(t.bg_style, "transparent"), Y = this._pickValue(
       t.highlight_style,
       "gradient"
-    ), M = this._pickValue(t.button_style, "solid"), k = this.localizedString(t.eyebrow), y = this.localizedString(t.title), A = this.localizedString(t.highlight_words), z = this.localizedString(t.subtitle), w = this.localizedString(t.paragraph), L = this.localizedString(t.button_text), B = (t.button_url || "").trim();
-    if (!k && !y && !z && !w)
+    ), M = this._pickValue(t.button_style, "solid"), k = this.localizedString(t.eyebrow), y = this.localizedString(t.title), W = this.localizedString(t.highlight_words), z = this.localizedString(t.subtitle), v = this.localizedString(t.paragraph), A = this.localizedString(t.button_text), U = (t.button_url || "").trim();
+    if (!k && !y && !z && !v)
       return o`<section
         class="it"
         data-theme=${_}
@@ -640,32 +655,32 @@ const it = {
         data-size-desktop="medium"
       >
         <p class="it-empty">
-          ${a ? "أضف عنوانًا أو فقرة لعرض هذا القسم." : "Add a title or a paragraph to display this section."}
+          ${n ? "أضف عنوانًا أو فقرة لعرض هذا القسم." : "Add a title or a paragraph to display this section."}
         </p>
       </section>`;
-    const x = 0.14 * n, S = 0.055 * n, D = 0.18 * n, W = i === "words" ? this._words(y, A) : [], N = i === "lines" ? this._lines(y) : [], C = i === "words" ? this._words(w, "") : [], E = i === "lines" ? this._lines(w) : [], O = i === "words" && C.length > 0 && C.length <= at;
-    let d = 0.08;
-    const p = {
+    const x = 0.14 * a, S = 0.055 * a, D = 0.18 * a, N = e === "words" ? this._words(y, W) : [], P = e === "lines" ? this._lines(y) : [], C = e === "words" ? this._words(v, "") : [], B = e === "lines" ? this._lines(v) : [], O = e === "words" && C.length > 0 && C.length <= lt;
+    let c = 0.08;
+    const g = {
       eyebrowDelay: 0,
       titleDelay: 0,
       subtitleDelay: 0,
       paragraphDelay: 0,
       buttonDelay: 0
     };
-    k && (p.eyebrowDelay = d, d += x), y && (p.titleDelay = d, i === "words" ? d += W.length * S + 0.1 : i === "lines" ? d += N.length * D : d += x), z && (p.subtitleDelay = d, d += x), w && (p.paragraphDelay = d, i === "lines" ? d += E.length * D : O ? d += C.length * S : d += x), L && (p.buttonDelay = d, d += x);
-    const Y = i === "typing" ? y.length * this._typingInterval() / 1e3 + 0.4 : d + 0.1;
-    i === "typing" && (p.subtitleDelay = 0, p.paragraphDelay = 0.12 * n, p.buttonDelay = 0.24 * n);
-    const $ = i === "fade" ? "fade" : i === "slide" ? "slide" : i === "none" ? "none" : "rise", v = { fx: "0px", fy: "0px" };
-    i === "slide" && (r === "up" ? v.fy = "30px" : r === "down" ? v.fy = "-30px" : r === "start" ? v.fx = e ? "36px" : "-36px" : v.fx = e ? "-36px" : "36px");
-    const T = (t.accent_color || "").trim(), U = [
-      `--it-dur:${(0.7 * n).toFixed(2)}s`,
-      `--it-wdur:${(0.55 * n).toFixed(2)}s`,
-      `--it-rdur:${(0.9 * n).toFixed(2)}s`,
-      `--it-fx:${v.fx}`,
-      `--it-fy:${v.fy}`,
-      `--hd:${Y.toFixed(2)}s`,
-      `--it-grad-dir:${e ? "270deg" : "90deg"}`,
-      `--it-hl-x:${e ? "right" : "left"}`,
+    k && (g.eyebrowDelay = c, c += x), y && (g.titleDelay = c, e === "words" ? c += N.length * S + 0.1 : e === "lines" ? c += P.length * D : c += x), z && (g.subtitleDelay = c, c += x), v && (g.paragraphDelay = c, e === "lines" ? c += B.length * D : O ? c += C.length * S : c += x), A && (g.buttonDelay = c, c += x);
+    const X = e === "typing" ? y.length * this._typingInterval() / 1e3 + 0.4 : c + 0.1;
+    e === "typing" && (g.subtitleDelay = 0, g.paragraphDelay = 0.12 * a, g.buttonDelay = 0.24 * a);
+    const $ = e === "fade" ? "fade" : e === "slide" ? "slide" : e === "none" ? "none" : "rise", w = { fx: "0px", fy: "0px" };
+    e === "slide" && (r === "up" ? w.fy = "30px" : r === "down" ? w.fy = "-30px" : r === "start" ? w.fx = i ? "36px" : "-36px" : w.fx = i ? "-36px" : "36px");
+    const T = (t.accent_color || "").trim(), H = [
+      `--it-dur:${(0.7 * a).toFixed(2)}s`,
+      `--it-wdur:${(0.55 * a).toFixed(2)}s`,
+      `--it-rdur:${(0.9 * a).toFixed(2)}s`,
+      `--it-fx:${w.fx}`,
+      `--it-fy:${w.fy}`,
+      `--hd:${X.toFixed(2)}s`,
+      `--it-grad-dir:${i ? "270deg" : "90deg"}`,
+      `--it-hl-x:${i ? "right" : "left"}`,
       T ? `--it-accent:${T}` : "",
       T ? `--it-accent-soft:${this._softColor(T, 0.22)}` : "",
       t.accent_color_2 ? `--it-accent-2:${t.accent_color_2}` : "",
@@ -675,181 +690,182 @@ const it = {
       t.title_color ? `--it-title-c:${t.title_color}` : "",
       t.subtitle_color ? `--it-subtitle-c:${t.subtitle_color}` : "",
       t.text_color ? `--it-text-c:${t.text_color}` : "",
-      t.button_text_color ? `--it-btn-text:${t.button_text_color}` : ""
-    ].filter(Boolean).join("; "), X = i === "none" ? !0 : this._entered, H = i === "typing" ? this._typingDone : !0;
+      t.button_text_color ? `--it-btn-text:${t.button_text_color}` : "",
+      ...at(t, (G, J) => this._pickValue(G, J), "lg", "lg")
+    ].filter(Boolean).join("; "), K = e === "none" ? !0 : this._entered, q = e === "typing" ? this._typingDone : !0;
     return o`
       <section
         class="it"
-        style=${U}
-        data-entered=${X ? "true" : "false"}
-        data-typed=${H ? "true" : "false"}
-        data-anim=${i}
+        style=${H}
+        data-entered=${K ? "true" : "false"}
+        data-typed=${q ? "true" : "false"}
+        data-anim=${e}
         data-theme=${_}
         data-bg=${R}
         data-align=${s}
-        data-size=${l}
+        data-size=${d}
         data-size-desktop=${h}
-        data-spacing=${m}
+        data-spacing=${f}
         data-width=${u}
-        data-dir=${e ? "rtl" : "ltr"}
+        data-dir=${i ? "rtl" : "ltr"}
       >
         <div class="it-inner">
           ${k ? o`<p
                 class="it-eyebrow it-block"
-                data-fx=${i === "reveal" ? "none" : $}
-                style="--d:${p.eyebrowDelay.toFixed(2)}s"
+                data-fx=${e === "reveal" ? "none" : $}
+                style="--d:${g.eyebrowDelay.toFixed(2)}s"
               >
-                ${this._wrapReveal(i, o`${k}`)}
-              </p>` : f}
+                ${this._wrapReveal(e, o`${k}`)}
+              </p>` : m}
           ${y ? this._renderTitle(
-      i,
+      e,
       y,
-      A,
-      j,
       W,
+      Y,
       N,
-      p.titleDelay,
+      P,
+      g.titleDelay,
       S,
       D,
       $
-    ) : f}
+    ) : m}
           ${z ? o`<p
-                class="it-subtitle it-block ${i === "typing" ? "it-post" : ""}"
-                data-fx=${i === "reveal" ? "none" : $}
-                style="--d:${p.subtitleDelay.toFixed(2)}s"
+                class="it-subtitle it-block ${e === "typing" ? "it-post" : ""}"
+                data-fx=${e === "reveal" ? "none" : $}
+                style="--d:${g.subtitleDelay.toFixed(2)}s"
               >
-                ${this._wrapReveal(i, o`${z}`)}
-              </p>` : f}
-          ${w ? this._renderParagraph(
-      i,
-      w,
+                ${this._wrapReveal(e, o`${z}`)}
+              </p>` : m}
+          ${v ? this._renderParagraph(
+      e,
+      v,
       C,
-      E,
+      B,
       O,
-      p.paragraphDelay,
+      g.paragraphDelay,
       S,
       D,
       $
-    ) : f}
-          ${L ? o`<a
-                class="it-btn it-block ${i === "typing" ? "it-post" : ""}"
+    ) : m}
+          ${A ? o`<a
+                class="it-btn it-block ${e === "typing" ? "it-post" : ""}"
                 data-style=${M}
-                data-fx=${i === "reveal" ? "rise" : $}
-                style="--d:${p.buttonDelay.toFixed(2)}s"
-                href=${B || "#"}
+                data-fx=${e === "reveal" ? "rise" : $}
+                style="--d:${g.buttonDelay.toFixed(2)}s"
+                href=${U || "#"}
               >
-                <span>${L}</span>
+                <span>${A}</span>
                 ${M === "ghost" ? o`<span class="it-btn-arrow" aria-hidden="true"
-                      >${e ? "←" : "→"}</span
-                    >` : f}
-              </a>` : f}
+                      >${i ? "←" : "→"}</span
+                    >` : m}
+              </a>` : m}
         </div>
       </section>
     `;
   }
   /** In reveal mode, wrap a block's content in the curtain clip structure. */
-  _wrapReveal(t, a) {
-    return t !== "reveal" ? a : o`<span class="it-clip"
-      ><span class="it-reveal">${a}</span></span
+  _wrapReveal(t, n) {
+    return t !== "reveal" ? n : o`<span class="it-clip"
+      ><span class="it-reveal">${n}</span></span
     >`;
   }
-  _renderInlineSegments(t, a) {
+  _renderInlineSegments(t, n) {
     return t.map(
-      (e) => e.hl ? o`<span class="it-hl" data-hl=${a}>${e.value}</span>` : o`${e.value}`
+      (i) => i.hl ? o`<span class="it-hl" data-hl=${n}>${i.value}</span>` : o`${i.value}`
     );
   }
-  _renderWordSpans(t, a, e, i) {
+  _renderWordSpans(t, n, i, e) {
     return t.map(
-      (n, r) => o`<span
-            class="it-w ${n.hl ? "it-hl" : ""}"
-            data-hl=${n.hl ? a : f}
-            style="--d:${(e + r * i).toFixed(2)}s"
-            >${n.value}</span
+      (a, r) => o`<span
+            class="it-w ${a.hl ? "it-hl" : ""}"
+            data-hl=${a.hl ? n : m}
+            style="--d:${(i + r * e).toFixed(2)}s"
+            >${a.value}</span
           >${" "}`
     );
   }
-  _renderTitle(t, a, e, i, n, r, s, l, g, h) {
+  _renderTitle(t, n, i, e, a, r, s, d, p, h) {
     const u = t === "words" || t === "lines" || t === "typing";
-    let m;
-    return t === "words" ? m = this._renderWordSpans(n, i, s, l) : t === "lines" ? m = r.map(
+    let f;
+    return t === "words" ? f = this._renderWordSpans(a, e, s, d) : t === "lines" ? f = r.map(
       (_, R) => o`<span class="it-clip"
             ><span
               class="it-line"
-              style="--d:${(s + R * g).toFixed(2)}s"
+              style="--d:${(s + R * p).toFixed(2)}s"
               >${this._renderInlineSegments(
-        this._segments(_, e),
-        i
+        this._segments(_, i),
+        e
       )}</span
             ></span
           >`
-    ) : t === "typing" ? m = o`${this._renderTyped(
-      this._segments(a, e),
-      i
-    )}${this._entered && !this._typingDone ? o`<span class="it-caret" aria-hidden="true"></span>` : f}` : m = this._wrapReveal(
+    ) : t === "typing" ? f = o`${this._renderTyped(
+      this._segments(n, i),
+      e
+    )}${this._entered && !this._typingDone ? o`<span class="it-caret" aria-hidden="true"></span>` : m}` : f = this._wrapReveal(
       t,
       o`${this._renderInlineSegments(
-        this._segments(a, e),
-        i
+        this._segments(n, i),
+        e
       )}`
     ), o`<h2
       class="it-title it-block"
       data-fx=${u || t === "reveal" ? "none" : h}
       style="--d:${s.toFixed(2)}s"
-      aria-label=${u ? a.replace(/\s+/g, " ") : f}
+      aria-label=${u ? n.replace(/\s+/g, " ") : m}
     >
-      ${u ? o`<span aria-hidden="true">${m}</span>` : m}
+      ${u ? o`<span aria-hidden="true">${f}</span>` : f}
     </h2>`;
   }
   /** Typewriter: walk the highlight segments, slicing up to the typed count. */
-  _renderTyped(t, a) {
-    let e = this._typedCount;
-    const i = [];
-    for (const n of t) {
-      if (e <= 0) break;
-      const r = Math.min(n.value.length, e);
-      e -= r;
-      const s = n.value.slice(0, r);
-      i.push(
-        n.hl ? o`<span class="it-hl" data-hl=${a}>${s}</span>` : o`${s}`
+  _renderTyped(t, n) {
+    let i = this._typedCount;
+    const e = [];
+    for (const a of t) {
+      if (i <= 0) break;
+      const r = Math.min(a.value.length, i);
+      i -= r;
+      const s = a.value.slice(0, r);
+      e.push(
+        a.hl ? o`<span class="it-hl" data-hl=${n}>${s}</span>` : o`${s}`
       );
     }
-    return i;
+    return e;
   }
-  _renderParagraph(t, a, e, i, n, r, s, l, g) {
-    const h = t === "words" && n || t === "lines";
+  _renderParagraph(t, n, i, e, a, r, s, d, p) {
+    const h = t === "words" && a || t === "lines";
     let u;
-    return t === "lines" ? u = i.map(
-      (m, _) => o`<span class="it-clip"
+    return t === "lines" ? u = e.map(
+      (f, _) => o`<span class="it-clip"
             ><span
               class="it-line"
-              style="--d:${(r + _ * l).toFixed(2)}s"
-              >${m}</span
+              style="--d:${(r + _ * d).toFixed(2)}s"
+              >${f}</span
             ></span
           >`
-    ) : h ? u = this._renderWordSpans(e, "color", r, s) : u = this._wrapReveal(t, o`${a}`), o`<p
+    ) : h ? u = this._renderWordSpans(i, "color", r, s) : u = this._wrapReveal(t, o`${n}`), o`<p
       class="it-paragraph it-block ${t === "typing" ? "it-post" : ""}"
-      data-split=${h ? "true" : f}
-      data-fx=${h || t === "reveal" ? "none" : g}
+      data-split=${h ? "true" : m}
+      data-fx=${h || t === "reveal" ? "none" : p}
       style="--d:${r.toFixed(2)}s"
-      aria-label=${h ? a.replace(/\s+/g, " ") : f}
+      aria-label=${h ? n.replace(/\s+/g, " ") : m}
     >
       ${h ? o`<span aria-hidden="true">${u}</span>` : u}
     </p>`;
   }
 };
-F.styles = tt;
+F.styles = rt;
 let b = F;
-I([
-  G({ type: Object })
+V([
+  tt({ type: Object })
 ], b.prototype, "config");
-I([
-  V()
+V([
+  E()
 ], b.prototype, "_entered");
-I([
-  V()
+V([
+  E()
 ], b.prototype, "_typedCount");
-I([
-  V()
+V([
+  E()
 ], b.prototype, "_typingDone");
 typeof b < "u" && b.registerSallaComponent("salla-interactive-text");
 export {

@@ -1,18 +1,18 @@
-import { LitElement as O, css as j, html as m, nothing as x } from "lit";
-import { property as B, state as D } from "lit/decorators.js";
-function L(r, t) {
+import { LitElement as L, css as j, html as f, nothing as x } from "lit";
+import { property as Y, state as R } from "lit/decorators.js";
+function V(r, t) {
   if (typeof r == "string") return r;
   if (!r || typeof r != "object") return "";
   const e = r[t] || r.ar || r.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
-function Y() {
+function F() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function $(r) {
+function T(r) {
   return r.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class F extends O {
+class U extends L {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -22,25 +22,25 @@ class F extends O {
   static registerSallaComponent(t) {
     const e = String(t || "").trim(), s = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), i = s.includes("-") ? s : `salla-${s || "component"}`, n = () => `${i}-${Math.random().toString(36).substring(2, 8)}`, a = () => {
       var o;
-      const g = (o = window.Salla) == null ? void 0 : o.bundles;
-      return g && typeof g.registerComponent == "function" ? (g.registerComponent(e, {
+      const c = (o = window.Salla) == null ? void 0 : o.bundles;
+      return c && typeof c.registerComponent == "function" ? (c.registerComponent(e, {
         component: this,
         dynamicTagName: n()
       }), !0) : !1;
     };
     if (a()) return;
-    const p = window.setInterval(() => {
-      a() && window.clearInterval(p);
+    const g = window.setInterval(() => {
+      a() && window.clearInterval(g);
     }, 100);
-    window.setTimeout(() => window.clearInterval(p), 5e3);
+    window.setTimeout(() => window.clearInterval(g), 5e3);
   }
   /** Resolved document language. */
   _lang() {
-    return Y();
+    return F();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return L(t, this._lang());
+    return V(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, e) {
@@ -54,14 +54,14 @@ class F extends O {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return $(t);
+    return T(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const s = Number($(t.trim()));
+      const s = Number(T(t.trim()));
       if (!Number.isNaN(s)) return s;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -71,11 +71,35 @@ class F extends O {
     return e;
   }
 }
-function R() {
+const k = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, z = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function X(r, t, e = "md", s = "md") {
+  const i = t(r == null ? void 0 : r.space_top, e), n = t(r == null ? void 0 : r.space_bottom, s), a = k[i] ?? k.md, g = k[n] ?? k.md, c = z[i] ?? z.md, o = z[n] ?? z.md;
+  return [
+    `--sp-top-m:${a}px`,
+    `--sp-bot-m:${g}px`,
+    `--sp-top-d:${c}px`,
+    `--sp-bot-d:${o}px`
+  ];
+}
+function B() {
   const r = window;
   return r.salla ?? r.Salla ?? null;
 }
-function U(r) {
+function H(r) {
   if (!r) return null;
   if (typeof r == "string" || typeof r == "number") {
     const a = Number(r);
@@ -95,44 +119,44 @@ function U(r) {
   const n = String(e.label ?? e.name ?? e.title ?? "").trim();
   return { id: i, label: n };
 }
-function k(r) {
+function E(r) {
   if (typeof r == "number") return Number.isNaN(r) ? void 0 : r;
   if (r && typeof r == "object") {
     const s = r;
-    return k(s.amount ?? s.value ?? s.price);
+    return E(s.amount ?? s.value ?? s.price);
   }
   if (typeof r != "string") return;
-  const t = $(r).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  const t = T(r).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!t) return;
   const e = parseFloat(t);
   return Number.isNaN(e) ? void 0 : e;
 }
-async function V(r, t = "") {
-  var S, y, _, z, b, w, P, M, N, A, C;
-  const e = R();
+async function K(r, t = "") {
+  var S, _, m, P, b, w, $, A, C, I, D;
+  const e = B();
   if (!e) throw new Error("Salla SDK unavailable");
   typeof e.onReady == "function" && await e.onReady();
-  const s = ((S = e.product) == null ? void 0 : S.getDetails) ?? ((_ = (y = e.product) == null ? void 0 : y.api) == null ? void 0 : _.getDetails);
+  const s = ((S = e.product) == null ? void 0 : S.getDetails) ?? ((m = (_ = e.product) == null ? void 0 : _.api) == null ? void 0 : m.getDetails);
   if (typeof s != "function")
     throw new Error("getDetails unavailable");
   const i = await s.call(e.product, r), n = (i == null ? void 0 : i.data) ?? i;
   if (!n) throw new Error("empty product payload");
-  const a = ((z = n.image) == null ? void 0 : z.url) || ((b = n.image) == null ? void 0 : b.thumbnail) || Array.isArray(n.images) && (((w = n.images[0]) == null ? void 0 : w.url) || n.images[0]) || n.thumbnail || n.main_image || "", p = n.url || ((P = n.urls) == null ? void 0 : P.customer) || ((M = n.urls) == null ? void 0 : M.product) || n.permalink || `/p${r}`, g = k(n.price), o = k(n.regular_price), l = k(n.sale_price);
-  let c = o ?? g, h = g ?? o;
-  l !== void 0 && l > 0 && (h = l, (c === void 0 || c <= l) && (c = o ?? g ?? l));
-  const d = (!!(n.is_on_sale ?? n.on_sale ?? n.has_offer) || l !== void 0) && c !== void 0 && h !== void 0 && h < c, f = n.currency || ((N = n.price) == null ? void 0 : N.currency) || ((A = n.regular_price) == null ? void 0 : A.currency) || void 0;
+  const a = ((P = n.image) == null ? void 0 : P.url) || ((b = n.image) == null ? void 0 : b.thumbnail) || Array.isArray(n.images) && (((w = n.images[0]) == null ? void 0 : w.url) || n.images[0]) || n.thumbnail || n.main_image || "", g = n.url || (($ = n.urls) == null ? void 0 : $.customer) || ((A = n.urls) == null ? void 0 : A.product) || n.permalink || `/p${r}`, c = E(n.price), o = E(n.regular_price), l = E(n.sale_price);
+  let h = o ?? c, d = c ?? o;
+  l !== void 0 && l > 0 && (d = l, (h === void 0 || h <= l) && (h = o ?? c ?? l));
+  const p = (!!(n.is_on_sale ?? n.on_sale ?? n.has_offer) || l !== void 0) && h !== void 0 && d !== void 0 && d < h, y = n.currency || ((C = n.price) == null ? void 0 : C.currency) || ((I = n.regular_price) == null ? void 0 : I.currency) || void 0;
   return {
     name: String(n.name || n.title || t || `#${r}`),
     image: a || void 0,
-    imageAlt: String(((C = n.image) == null ? void 0 : C.alt) || n.name || ""),
-    url: p,
-    regular: c,
-    sale: d ? h : void 0,
-    onSale: d,
-    currency: f
+    imageAlt: String(((D = n.image) == null ? void 0 : D.alt) || n.name || ""),
+    url: g,
+    regular: h,
+    sale: p ? d : void 0,
+    onSale: p,
+    currency: y
   };
 }
-const X = j`
+const W = j`
   :host {
     display: block;
     font-family: inherit;
@@ -165,7 +189,10 @@ const X = j`
 
   .lsg-section {
     width: 100%;
-    padding: clamp(2.5rem, 6vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 3vw, 1.5rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     background-color: var(--lsg-bg);
     display: flex;
     flex-direction: column;
@@ -419,25 +446,31 @@ const X = j`
     text-align: center;
     font-size: 0.95rem;
   }
+
+  @media (min-width: 768px) {
+    .lsg-section {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
+    }
+  }
 `;
-var H = Object.defineProperty, T = (r, t, e, s) => {
+var J = Object.defineProperty, M = (r, t, e, s) => {
   for (var i = void 0, n = r.length - 1, a; n >= 0; n--)
     (a = r[n]) && (i = a(t, e, i) || i);
-  return i && H(t, e, i), i;
+  return i && J(t, e, i), i;
 };
-const I = 0.65, W = 1.25, J = 600, E = class E extends F {
+const O = 0.65, Q = 1.25, Z = 600, N = class N extends U {
   constructor() {
     super(...arguments), this._animState = "in", this._restPos = 0, this._pos = 0, this._metrics = null, this._isRtl = !1, this._animating = !1, this._animFrom = 0, this._animTarget = 0, this._animStart = 0, this._animDur = 0, this._animTimer = null, this._resizeObserver = null, this._autoplayTimer = null, this._hoverPaused = !1, this._pointerId = null, this._dragging = !1, this._dragStartX = 0, this._dragStartY = 0, this._dragStartPos = 0, this._dragStartTime = 0, this._stageEl = null, this._wrapEls = [], this._imgEls = [], this._overlayEls = [], this._productCache = /* @__PURE__ */ new Map(), this._stageBound = null, this._onPointerDown = (t) => {
       this._slides().length <= 1 || t.pointerType === "mouse" && t.button !== 0 || (this._pointerId = t.pointerId, this._dragging = !1, this._dragStartX = t.clientX, this._dragStartY = t.clientY, this._animating && (this._pos = this._currentPos(), this._stopTransition(), this._applyEffect(0)), this._dragStartPos = this._pos, this._dragStartTime = performance.now());
     }, this._onPointerMove = (t) => {
-      var p, g;
+      var g, c;
       if (this._pointerId !== t.pointerId) return;
       const e = this._metrics;
       if (!e) return;
       const s = t.clientX - this._dragStartX, i = t.clientY - this._dragStartY;
       if (!this._dragging) {
         if (Math.abs(s) < 6 || Math.abs(s) < Math.abs(i)) return;
-        this._dragging = !0, (p = this._stageEl) == null || p.classList.add("is-dragging"), (g = this._stageEl) == null || g.setPointerCapture(t.pointerId);
+        this._dragging = !0, (g = this._stageEl) == null || g.classList.add("is-dragging"), (c = this._stageEl) == null || c.setPointerCapture(t.pointerId);
       }
       const n = (this._isRtl ? s : -s) / e.slotSize;
       let a = this._dragStartPos + n;
@@ -468,9 +501,9 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
     return Array.isArray(t) ? t.filter((s) => !s || typeof s != "object" ? !1 : !!(s.image || s.product)) : [];
   }
   async _fetchProduct(t, e) {
-    if (!this._productCache.has(t) && (this._productCache.set(t, { status: "loading", label: e }), this.requestUpdate(), !!R())) {
+    if (!this._productCache.has(t) && (this._productCache.set(t, { status: "loading", label: e }), this.requestUpdate(), !!B())) {
       try {
-        const s = await V(t, e);
+        const s = await K(t, e);
         this._productCache.set(t, { status: "loaded", data: s });
       } catch (s) {
         console.warn("[growth-lifestyle-gallery] product fetch failed", t, s), this._productCache.set(t, { status: "failed" });
@@ -479,7 +512,7 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
     }
   }
   _resolveProduct(t) {
-    const e = U(t.product);
+    const e = H(t.product);
     if (!e) return null;
     const s = this._productCache.get(e.id);
     return s ? s.status === "loaded" ? s.data : s.status === "loading" && s.label ? { name: s.label, url: "", image: void 0 } : null : (this._fetchProduct(e.id, e.label), e.label ? { name: e.label, url: "", image: void 0 } : null);
@@ -586,7 +619,7 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
       const a = Math.min(n, s);
       (i.length === 0 || a > i[i.length - 1] + 1e-4) && i.push(a);
     }
-    return e.spv > 1 && t > 1 && I < 1 && i.push(i[i.length - 1] + 1), i;
+    return e.spv > 1 && t > 1 && O < 1 && i.push(i[i.length - 1] + 1), i;
   }
   _nearestSnap(t) {
     if (this._loop()) return Math.round(t);
@@ -626,21 +659,21 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
    * start edge (the caller computes `q`, wrapped for loop mode).
    */
   _computeSlide(t, e) {
-    const s = this._metrics, { spv: i, gap: n, slideSize: a, slotSize: p, width: g } = s, o = I, l = 1 - o, c = n / a;
-    let h = 0, u = 0;
-    if (t <= 0 && (h = 1 + t, u = 0), i === 1)
-      t > 0 && (h = 1 - t, u = g * Math.min(t, 1));
+    const s = this._metrics, { spv: i, gap: n, slideSize: a, slotSize: g, width: c } = s, o = O, l = 1 - o, h = n / a;
+    let d = 0, u = 0;
+    if (t <= 0 && (d = 1 + t, u = 0), i === 1)
+      t > 0 && (d = 1 - t, u = c * Math.min(t, 1));
     else {
-      if (t > 0 && t <= i - 2 && (h = 1, u = t * p), t > i - 2 && t <= i - 1 && (h = o - c + (l + 2 * c) * (i - 1 - Math.abs(t)), u = t * p), t > i - 1 && t <= i) {
-        const d = i - Math.abs(t);
-        h = l - c + (o - l) * d, u = t * p - a * (l + c) * (1 - d);
+      if (t > 0 && t <= i - 2 && (d = 1, u = t * g), t > i - 2 && t <= i - 1 && (d = o - h + (l + 2 * h) * (i - 1 - Math.abs(t)), u = t * g), t > i - 1 && t <= i) {
+        const p = i - Math.abs(t);
+        d = l - h + (o - l) * p, u = t * g - a * (l + h) * (1 - p);
       }
       if (t > i) {
-        let d = i + 1 - Math.abs(t), f = 0;
-        h = 0, d >= 0 && (d = Math.max(Math.min(-c * 2 + d * (1 + 2 * c), 1), 0), h = (l - c) * d, f = -d * (l + c) * a + d * n), u = g * Math.min(t, 1) + f;
+        let p = i + 1 - Math.abs(t), y = 0;
+        d = 0, p >= 0 && (p = Math.max(Math.min(-h * 2 + p * (1 + 2 * h), 1), 0), d = (l - h) * p, y = -p * (l + h) * a + p * n), u = c * Math.min(t, 1) + y;
       }
     }
-    return h = Math.min(Math.max(h, 1e-5), 1), { scale: h, translate: u - e * p };
+    return d = Math.min(Math.max(d, 1e-5), 1), { scale: d, translate: u - e * g };
   }
   /** Loop wrap for resting/dragging — window (-1, count-1]: a slide mid-exit
       keeps its negative q, while the seam slide stays parked at the far end
@@ -675,16 +708,16 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
     const i = this._wrapEls.length, n = this._loop(), a = Math.max(
       0,
       Math.min(i - 1, this._normalize(Math.round(this._pos)))
-    ), p = s.spv < 2, g = `${t}ms`;
+    ), g = s.spv < 2, c = `${t}ms`;
     for (let o = 0; o < i; o++) {
       let l;
       n ? e === void 0 ? l = this._wrapQ(o - this._pos) : l = this._wrapT(o - e) + (e - this._pos) : l = o - this._pos;
-      const { scale: c, translate: h } = this._computeSlide(l, o), u = this._wrapEls[o];
-      u.style.transitionDuration = g, u.style.width = `${c * 100}%`, u.style.transform = `translate3d(${this._isRtl ? -h : h}px, 0, 0)`;
-      const d = this._imgEls[o];
-      d && (d.style.transitionDuration = g, d.style.transform = `scale(${1 + (W - 1) * (1 - c)})`);
-      const f = this._overlayEls[o];
-      f && (f.style.opacity = !p || o === a ? "1" : "0");
+      const { scale: h, translate: d } = this._computeSlide(l, o), u = this._wrapEls[o];
+      u.style.transitionDuration = c, u.style.width = `${h * 100}%`, u.style.transform = `translate3d(${this._isRtl ? -d : d}px, 0, 0)`;
+      const p = this._imgEls[o];
+      p && (p.style.transitionDuration = c, p.style.transform = `scale(${1 + (Q - 1) * (1 - h)})`);
+      const y = this._overlayEls[o];
+      y && (y.style.opacity = !g || o === a ? "1" : "0");
     }
   }
   // ------------------------------------------------------------
@@ -707,7 +740,7 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
     )) ** 3;
     return this._animFrom + (this._animTarget - this._animFrom) * e;
   }
-  _transitionTo(t, e = J) {
+  _transitionTo(t, e = Z) {
     var i;
     const s = this._currentPos();
     if (this._stopTransition(), this._restPos = this._normalize(t), Math.abs(t - s) < 1e-4) {
@@ -746,25 +779,26 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
   // Render
   // ------------------------------------------------------------
   render() {
-    const t = this.config || {}, e = this._slides(), s = this.localizedString(t.section_title), i = this.localizedString(t.section_pretitle), n = t.show_overlay !== !1, a = this.localizedString(t.default_cta_label) || "اكتشف المنتج", p = t.show_nav_buttons === !0 && e.length > 1, g = this._loop(), o = t.enable_entrance_anim !== !1, l = this._num(this._pickValue(t.card_radius, "32"), 32), c = this._num(
+    const t = this.config || {}, e = this._slides(), s = this.localizedString(t.section_title), i = this.localizedString(t.section_pretitle), n = t.show_overlay !== !1, a = this.localizedString(t.default_cta_label) || "اكتشف المنتج", g = t.show_nav_buttons === !0 && e.length > 1, c = this._loop(), o = t.enable_entrance_anim !== !1, l = this._num(this._pickValue(t.card_radius, "32"), 32), h = this._num(
       this._pickValue(t.height_mobile, "420"),
       420
-    ), h = this._pickValue(t.height_desktop, "inherit"), u = [
+    ), d = this._pickValue(t.height_desktop, "inherit"), u = [
       t.bg_color ? `--lsg-bg: ${t.bg_color}` : "",
       t.title_color ? `--lsg-title-color: ${t.title_color}` : "",
       t.overlay_text_color ? `--lsg-overlay-color: ${t.overlay_text_color}` : "",
       `--lsg-radius: ${l}px`,
-      `--lsg-h-mobile: ${c}px`,
-      h !== "inherit" ? `--lsg-h-desktop: ${this._num(h, c)}px` : ""
+      `--lsg-h-mobile: ${h}px`,
+      d !== "inherit" ? `--lsg-h-desktop: ${this._num(d, h)}px` : "",
+      ...X(t, (_, m) => this._pickValue(_, m))
     ].filter(Boolean).join("; ");
     if (e.length === 0)
-      return m`
+      return f`
         <section class="lsg-empty" style=${u}>
           <p>أضف شريحة واحدة على الأقل (صورة أو منتج مرتبط) للبدء.</p>
         </section>
       `;
-    const d = "m9 6 6 6-6 6", f = this._snaps(), S = this._snapIndex(this._restPos);
-    return m`
+    const p = "m9 6 6 6-6 6", y = this._snaps(), S = this._snapIndex(this._restPos);
+    return f`
       <section
         class="lsg-section"
         style=${u}
@@ -773,10 +807,10 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
         @mouseenter=${this._onHoverIn}
         @mouseleave=${this._onHoverOut}
       >
-        ${s || i ? m`
+        ${s || i ? f`
               <div class="lsg-header">
                 <h2 class="lsg-title">
-                  ${i ? m`<span class="lsg-pretitle">${i}</span>` : x}
+                  ${i ? f`<span class="lsg-pretitle">${i}</span>` : x}
                   ${s}
                 </h2>
               </div>
@@ -790,27 +824,27 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
           @pointercancel=${this._onPointerUp}
         >
           <div class="lsg-track">
-            ${e.map((y) => {
-      const _ = this._resolveProduct(y), z = y.image || (_ == null ? void 0 : _.image) || "", b = this.localizedString(y.title) || (_ == null ? void 0 : _.name) || "", w = typeof y.cta_url == "string" && y.cta_url.trim() || (_ == null ? void 0 : _.url) || "", P = this.localizedString(y.cta_label) || a;
-      return m`
+            ${e.map((_) => {
+      const m = this._resolveProduct(_), P = _.image || (m == null ? void 0 : m.image) || "", b = this.localizedString(_.title) || (m == null ? void 0 : m.name) || "", w = typeof _.cta_url == "string" && _.cta_url.trim() || (m == null ? void 0 : m.url) || "", $ = this.localizedString(_.cta_label) || a;
+      return f`
                 <div class="lsg-slide">
                   <div class="lsg-wrap">
                     <div class="lsg-content">
-                      ${z ? m`<img
+                      ${P ? f`<img
                             class="lsg-img"
-                            src=${z}
+                            src=${P}
                             alt=${b}
                             loading="lazy"
                             draggable="false"
-                          />` : m`<div class="lsg-img-empty"></div>`}
-                      ${n && (b || w) ? m`
+                          />` : f`<div class="lsg-img-empty"></div>`}
+                      ${n && (b || w) ? f`
                             <div class="lsg-overlay">
-                              ${b ? m`<span class="lsg-name">${b}</span>` : x}
-                              ${w ? m`<a
+                              ${b ? f`<span class="lsg-name">${b}</span>` : x}
+                              ${w ? f`<a
                                     class="lsg-cta"
                                     href=${w}
                                     draggable="false"
-                                    >${P}</a
+                                    >${$}</a
                                   >` : x}
                             </div>
                           ` : x}
@@ -821,24 +855,24 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
     })}
           </div>
 
-          ${p ? m`
+          ${g ? f`
                 <button
                   class="lsg-nav lsg-nav-prev"
                   type="button"
                   @click=${this._goPrev}
-                  ?disabled=${!g && S <= 0}
+                  ?disabled=${!c && S <= 0}
                   aria-label="Previous"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${d} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${p} /></svg>
                 </button>
                 <button
                   class="lsg-nav lsg-nav-next"
                   type="button"
                   @click=${this._goNext}
-                  ?disabled=${!g && S >= f.length - 1}
+                  ?disabled=${!c && S >= y.length - 1}
                   aria-label="Next"
                 >
-                  <svg viewBox="0 0 24 24"><path d=${d} /></svg>
+                  <svg viewBox="0 0 24 24"><path d=${p} /></svg>
                 </button>
               ` : x}
         </div>
@@ -846,16 +880,16 @@ const I = 0.65, W = 1.25, J = 600, E = class E extends F {
     `;
   }
 };
-E.styles = X;
-let v = E;
-T([
-  B({ type: Object })
+N.styles = W;
+let v = N;
+M([
+  Y({ type: Object })
 ], v.prototype, "config");
-T([
-  D()
+M([
+  R()
 ], v.prototype, "_animState");
-T([
-  D()
+M([
+  R()
 ], v.prototype, "_restPos");
 typeof v < "u" && v.registerSallaComponent("salla-lifestyle-gallery");
 export {

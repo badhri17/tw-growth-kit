@@ -11,6 +11,8 @@
  *   • 9 content positions  (3×3 grid)
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 /** Value coming back from a Salla `multilanguage: true` field. */
 export type MaybeMultiLang =
   | string
@@ -181,7 +183,7 @@ export interface StorySlideItem {
  * component so a half-configured slider still looks great.
  * ---------------------------------------------------------------------- */
 
-export interface StorySliderConfig {
+export interface StorySliderConfig extends SectionSpacingFields {
   // --- Section header (above the slider, optional) ---
   section_title?: MaybeMultiLang;
   section_subtitle?: MaybeMultiLang;

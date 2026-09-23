@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { GrowthElement } from "../../shared/growth-element";
+import { resolveSectionSpacing } from "../../shared/section-spacing";
 import type {
   CollectionConfig,
   CollectionAnimation,
@@ -498,6 +499,7 @@ export default class GrowthCollection extends GrowthElement {
       c.dot_color ? `--col-dot-color: ${c.dot_color}` : "",
       c.bag_circle_color ? `--bag-circle-color: ${c.bag_circle_color}` : "",
       `--col-aspect: ${aspect}`,
+      ...resolveSectionSpacing(c, (v, f) => this._pickValue(v, f)),
     ]
       .filter(Boolean)
       .join("; ");

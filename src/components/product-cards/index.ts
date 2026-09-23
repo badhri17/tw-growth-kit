@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
 import { GrowthElement } from "../../shared/growth-element";
+import { resolveSectionSpacing } from "../../shared/section-spacing";
 import {
   fetchProductDetails,
   formatMoney,
@@ -649,6 +650,7 @@ export default class GrowthProductCards extends GrowthElement {
         c.shipping_color || (lightText ? "rgba(255,255,255,0.6)" : "#8a93a0")
       }`,
       `--pc-dot-color: ${accent}`,
+      ...resolveSectionSpacing(c, (v, f) => this._pickValue(v, f)),
     ]
       .filter(Boolean)
       .join("; ");

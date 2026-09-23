@@ -29,7 +29,10 @@ export const collectionStyles = css`
 
   .col-section {
     width: 100%;
-    padding: clamp(2.5rem, 6vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 3vw, 1.5rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     background-color: var(--col-bg);
     display: flex;
     flex-direction: column;
@@ -797,6 +800,12 @@ export const collectionStyles = css`
     }
     .col-bag-slide[data-state="sinking"] {
       opacity: 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .col-section {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
     }
   }
 `;

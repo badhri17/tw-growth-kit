@@ -63,7 +63,10 @@ export const productCardsStyles = css`
   .pc {
     width: 100%;
     background: var(--pc-bg);
-    padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 3vw, 1.75rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 3vw, 1.75rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -625,6 +628,12 @@ export const productCardsStyles = css`
       filter: none !important;
       transform: none !important;
       transition: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .pc {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
     }
   }
 `;

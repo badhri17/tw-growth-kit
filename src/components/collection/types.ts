@@ -3,6 +3,8 @@
  * Type definitions for the Collection component configuration.
  */
 
+import type { SectionSpacingFields } from "../../shared/section-spacing";
+
 export type MaybeMultiLang =
   | string
   | { ar?: string; en?: string }
@@ -69,7 +71,7 @@ export interface CollectionSlideItem {
   cta_label?: MaybeMultiLang;
 }
 
-export interface CollectionConfig {
+export interface CollectionConfig extends SectionSpacingFields {
   // --- Mode ---
   use_case?: CollectionUseCase;
 

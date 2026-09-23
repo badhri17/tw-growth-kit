@@ -1,19 +1,19 @@
-import { LitElement as et, css as at, html as r, nothing as o } from "lit";
-import { property as it, state as y } from "lit/decorators.js";
-import { keyed as rt } from "lit/directives/keyed.js";
-function nt(p, t) {
-  if (typeof p == "string") return p;
-  if (!p || typeof p != "object") return "";
-  const s = p[t] || p.ar || p.en || "";
+import { LitElement as it, css as rt, html as r, nothing as d } from "lit";
+import { property as nt, state as x } from "lit/decorators.js";
+import { keyed as ot } from "lit/directives/keyed.js";
+function lt(c, t) {
+  if (typeof c == "string") return c;
+  if (!c || typeof c != "object") return "";
+  const s = c[t] || c.ar || c.en || "";
   return typeof s == "string" ? s.trim() : "";
 }
-function ot() {
+function dt() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function F(p) {
-  return p.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
+function U(c) {
+  return c.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class lt extends et {
+class ct extends it {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -21,27 +21,27 @@ class lt extends et {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const s = String(t || "").trim(), e = s.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), a = e.includes("-") ? e : `salla-${e || "component"}`, i = () => `${a}-${Math.random().toString(36).substring(2, 8)}`, n = () => {
-      var f;
-      const l = (f = window.Salla) == null ? void 0 : f.bundles;
-      return l && typeof l.registerComponent == "function" ? (l.registerComponent(s, {
+    const s = String(t || "").trim(), e = s.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), a = e.includes("-") ? e : `salla-${e || "component"}`, i = () => `${a}-${Math.random().toString(36).substring(2, 8)}`, o = () => {
+      var u;
+      const n = (u = window.Salla) == null ? void 0 : u.bundles;
+      return n && typeof n.registerComponent == "function" ? (n.registerComponent(s, {
         component: this,
         dynamicTagName: i()
       }), !0) : !1;
     };
-    if (n()) return;
-    const d = window.setInterval(() => {
-      n() && window.clearInterval(d);
+    if (o()) return;
+    const l = window.setInterval(() => {
+      o() && window.clearInterval(l);
     }, 100);
-    window.setTimeout(() => window.clearInterval(d), 5e3);
+    window.setTimeout(() => window.clearInterval(l), 5e3);
   }
   /** Resolved document language. */
   _lang() {
-    return ot();
+    return dt();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return nt(t, this._lang());
+    return lt(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, s) {
@@ -55,14 +55,14 @@ class lt extends et {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return F(t);
+    return U(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, s) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const e = Number(F(t.trim()));
+      const e = Number(U(t.trim()));
       if (!Number.isNaN(e)) return e;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -72,7 +72,31 @@ class lt extends et {
     return s;
   }
 }
-const dt = at`
+const S = {
+  none: 0,
+  xs: 12,
+  sm: 24,
+  md: 40,
+  lg: 56,
+  xl: 72
+}, T = {
+  none: 0,
+  xs: 20,
+  sm: 32,
+  md: 64,
+  lg: 96,
+  xl: 128
+};
+function pt(c, t, s = "md", e = "md") {
+  const a = t(c == null ? void 0 : c.space_top, s), i = t(c == null ? void 0 : c.space_bottom, e), o = S[a] ?? S.md, l = S[i] ?? S.md, n = T[a] ?? T.md, u = T[i] ?? T.md;
+  return [
+    `--sp-top-m:${o}px`,
+    `--sp-bot-m:${l}px`,
+    `--sp-top-d:${n}px`,
+    `--sp-bot-d:${u}px`
+  ];
+}
+const ht = rt`
   :host {
     display: block;
     font-family: inherit;
@@ -129,7 +153,10 @@ const dt = at`
   .ss-section {
     width: 100%;
     background-color: var(--ss-bg);
-    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+    /* Vertical space is the merchant's, via shared tiers; the horizontal
+       padding stays the section's own. See src/shared/section-spacing.ts. */
+    padding-inline: clamp(1rem, 3vw, 1.5rem);
+    padding-block: var(--sp-top-m) var(--sp-bot-m);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1329,17 +1356,23 @@ const dt = at`
       padding: 1.25rem;
     }
   }
+
+  @media (min-width: 768px) {
+    .ss-section {
+      padding-block: var(--sp-top-d) var(--sp-bot-d);
+    }
+  }
 `;
-var ct = Object.defineProperty, w = (p, t, s, e) => {
-  for (var a = void 0, i = p.length - 1, n; i >= 0; i--)
-    (n = p[i]) && (a = n(t, s, a) || a);
-  return a && ct(t, s, a), a;
+var ut = Object.defineProperty, w = (c, t, s, e) => {
+  for (var a = void 0, i = c.length - 1, o; i >= 0; i--)
+    (o = c[i]) && (a = o(t, s, a) || a);
+  return a && ut(t, s, a), a;
 };
-const L = class L extends lt {
+const j = class j extends ct {
   constructor() {
     super(...arguments), this._activeIndex = 0, this._lastDir = "initial", this._leavingIndex = null, this._animState = "ready", this._inView = !0, this._autoplayTimer = null, this._autoplayStartedAt = 0, this._autoplayElapsed = 0, this._leaveTimer = null, this._interactionPaused = !1, this._hasInitializedActive = !1, this._io = null, this._swipeStartX = null, this._swipeStartY = null, this._swipeActive = !1, this._onKeydown = (t) => {
-      var n;
-      if (((n = this.config) == null ? void 0 : n.enable_keyboard) === !1 || this._slides().length <= 1) return;
+      var o;
+      if (((o = this.config) == null ? void 0 : o.enable_keyboard) === !1 || this._slides().length <= 1) return;
       const s = this.renderRoot, e = s.activeElement || document.activeElement;
       if (!(this.contains(e) || s && s.contains(e))) return;
       const i = getComputedStyle(this).direction === "rtl";
@@ -1529,11 +1562,11 @@ const L = class L extends lt {
   }
   /** Compute data-pos for each slide index. */
   _slidePos(t) {
-    var n;
+    var o;
     const s = this._slides().length;
     if (s === 0) return "hidden";
     if (t === this._activeIndex) return "active";
-    const e = ((n = this.config) == null ? void 0 : n.loop) !== !1, a = e ? (this._activeIndex - 1 + s) % s : this._activeIndex - 1, i = e ? (this._activeIndex + 1) % s : this._activeIndex + 1;
+    const e = ((o = this.config) == null ? void 0 : o.loop) !== !1, a = e ? (this._activeIndex - 1 + s) % s : this._activeIndex - 1, i = e ? (this._activeIndex + 1) % s : this._activeIndex + 1;
     return s === 2 ? this._lastDir === "forward" ? "prev" : "next" : t === a ? "prev" : t === i ? "next" : "hidden";
   }
   // ------------------------------------------------------------
@@ -1561,14 +1594,13 @@ const L = class L extends lt {
     ), a = this._pickValue(
       t.aspect_ratio_desktop,
       "16/9"
-    ), i = this._num(t.max_width, 1280), n = (() => {
-      const l = this._pickValue(
+    ), i = this._num(t.max_width, 1280), o = (() => {
+      const n = this._pickValue(
         t.overlay_intensity,
         "medium"
       );
-      return l === "subtle" ? 0.35 : l === "strong" ? 0.85 : 0.6;
-    })();
-    return [
+      return n === "subtle" ? 0.35 : n === "strong" ? 0.85 : 0.6;
+    })(), l = [
       t.bg_color ? `--ss-bg: ${t.bg_color}` : "",
       t.title_color ? `--ss-title-color: ${t.title_color}` : "",
       t.subtitle_color ? `--ss-subtitle-color: ${t.subtitle_color}` : "",
@@ -1586,8 +1618,9 @@ const L = class L extends lt {
       `--ss-aspect-mobile: ${e}`,
       `--ss-aspect-desktop: ${a === "inherit" ? e : a}`,
       `--ss-max-width: ${i}px`,
-      `--ss-overlay-a: ${n}`
-    ].filter(Boolean).join("; ");
+      `--ss-overlay-a: ${o}`
+    ];
+    return l.push(...pt(t, (n, u) => this._pickValue(n, u))), l.filter(Boolean).join("; ");
   }
   // ------------------------------------------------------------
   // Render
@@ -1599,60 +1632,60 @@ const L = class L extends lt {
     ), i = this._pickValue(
       t.arrow_style,
       "circle"
-    ), n = this._pickValue(
+    ), o = this._pickValue(
       t.arrow_position,
       "sides"
-    ), d = this._pickValue(
+    ), l = this._pickValue(
       t.pagination_style,
       "fraction"
-    ), l = this._pickValue(
+    ), n = this._pickValue(
       t.pagination_position,
       "inside-bottom-center"
-    ), f = this._pickValue(
+    ), u = this._pickValue(
       t.content_position,
       "bottom-left"
-    ), W = this._pickValue(
+    ), H = this._pickValue(
       t.overlay_style,
       "dark-bottom"
-    ), U = this._pickValue(t.text_theme, "light"), x = t.show_arrows !== !1, H = t.enable_idle_ken_burns === !0, D = t.enable_entrance_anim !== !1, K = t.full_width !== !1, j = this._buildHostStyle(t), A = this.localizedString(t.section_title), T = this.localizedString(t.section_subtitle), q = this.localizedString(t.default_cta_label) || "تسوّق الآن";
+    ), K = this._pickValue(t.text_theme, "light"), y = t.show_arrows !== !1, q = t.enable_idle_ken_burns === !0, M = t.enable_entrance_anim !== !1, G = t.full_width !== !1, O = this._buildHostStyle(t), A = this.localizedString(t.section_title), I = this.localizedString(t.section_subtitle), Z = this.localizedString(t.default_cta_label) || "تسوّق الآن";
     if (s.length === 0)
       return r`
-        <section class="ss-section" style=${j}>
+        <section class="ss-section" style=${O}>
           <p class="ss-empty">أضف صورة واحدة على الأقل لكل شريحة للبدء.</p>
         </section>
       `;
-    const g = s.length === 1, k = s.length, S = this._activeIndex + 1, I = S / k * 100, M = (t.pagination_separator || "/").toString(), _ = l.startsWith("inside-bottom"), z = n === "inside-bottom", X = !g && (_ && d !== "none" && d !== "thumbnails" && d !== "progress" || z), G = Math.max(1, this._num(t.autoplay_delay, 5)), P = this._pickValue(
+    const g = s.length === 1, k = s.length, z = this._activeIndex + 1, P = z / k * 100, X = (t.pagination_separator || "/").toString(), _ = n.startsWith("inside-bottom"), E = o === "inside-bottom", V = !g && (_ && l !== "none" && l !== "thumbnails" && l !== "progress" || E), J = Math.max(1, this._num(t.autoplay_delay, 5)), C = this._pickValue(
       t.autoplay_progress,
       "none"
-    ), O = P !== "none" && t.autoplay === !0 && !g, Z = t.pause_out_of_view !== !1 && !this._inView, J = O && (this._interactionPaused || this._swipeActive || Z), v = "m9 6 6 6-6 6", Q = "M5 12h14M13 6l6 6-6 6", b = "M2 7h22M16 1l8 6-8 6";
+    ), B = C !== "none" && t.autoplay === !0 && !g, Q = t.pause_out_of_view !== !1 && !this._inView, tt = B && (this._interactionPaused || this._swipeActive || Q), v = "m9 6 6 6-6 6", st = "M5 12h14M13 6l6 6-6 6", b = "M2 7h22M16 1l8 6-8 6";
     return r`
       <section
         class="ss-section"
-        style=${j}
+        style=${O}
         data-transition=${e}
         data-speed=${a}
-        data-text-theme=${U}
-        data-anim-entrance=${D ? "on" : "off"}
-        data-idle-kenburns=${H ? "on" : "off"}
-        data-full-width=${K ? "true" : "false"}
+        data-text-theme=${K}
+        data-anim-entrance=${M ? "on" : "off"}
+        data-idle-kenburns=${q ? "on" : "off"}
+        data-full-width=${G ? "true" : "false"}
         data-dir=${this._lastDir}
       >
-        ${A || T ? r`
+        ${A || I ? r`
               <header
                 class="ss-header"
-                data-anim=${D ? this._animState : "in"}
+                data-anim=${M ? this._animState : "in"}
               >
-                ${A ? r`<h2 class="ss-section-title">${A}</h2>` : o}
-                ${T ? r`<p class="ss-section-subtitle">${T}</p>` : o}
+                ${A ? r`<h2 class="ss-section-title">${A}</h2>` : d}
+                ${I ? r`<p class="ss-section-subtitle">${I}</p>` : d}
               </header>
-            ` : o}
+            ` : d}
 
         <div
           class="ss-frame"
-          data-arrow-position=${n}
-          data-content-position=${f}
-          data-overlay=${W}
-          data-has-bottom-strip=${X ? "true" : "false"}
+          data-arrow-position=${o}
+          data-content-position=${u}
+          data-overlay=${H}
+          data-has-bottom-strip=${V ? "true" : "false"}
           @mouseenter=${this._onHoverIn}
           @mouseleave=${this._onHoverOut}
           @pointerdown=${this._onPointerDown}
@@ -1666,22 +1699,22 @@ const L = class L extends lt {
                The single-bar variant is wrapped in keyed() so a fresh DOM
                node is created on each slide change — that's what restarts
                the CSS animation from t=0 every cycle. -->
-          ${O ? r`
+          ${B ? r`
                 <div
                   class="ss-ap-bars"
-                  data-style=${P}
-                  data-paused=${J ? "true" : "false"}
-                  style=${`--ss-ap-dur: ${G}s`}
+                  data-style=${C}
+                  data-paused=${tt ? "true" : "false"}
+                  style=${`--ss-ap-dur: ${J}s`}
                   aria-hidden="true"
                 >
-                  ${P === "stories" ? s.map((c, h) => {
-      const m = h < this._activeIndex ? "done" : h === this._activeIndex ? "active" : "pending";
+                  ${C === "stories" ? s.map((p, h) => {
+      const f = h < this._activeIndex ? "done" : h === this._activeIndex ? "active" : "pending";
       return r`
-                          <div class="ss-ap-bar" data-state=${m}>
+                          <div class="ss-ap-bar" data-state=${f}>
                             <span class="ss-ap-fill"></span>
                           </div>
                         `;
-    }) : rt(
+    }) : ot(
       this._activeIndex,
       r`
                           <div class="ss-ap-bar" data-state="active">
@@ -1690,29 +1723,29 @@ const L = class L extends lt {
                         `
     )}
                 </div>
-              ` : o}
+              ` : d}
 
           <div class="ss-track">
-            ${s.map((c, h) => {
-      const m = this._slidePos(h), $ = c.image || "", E = c.image_desktop || $, C = this.localizedString(c.title), tt = C || `slide ${h + 1}`, V = this.localizedString(
-        c.description
-      ), Y = this.localizedString(c.eyebrow), B = this.localizedString(c.badge), N = this._resolveLink(c), R = this.localizedString(c.cta_label) || (N ? q : ""), st = c.text_color ? `--ss-slide-title-color: ${c.text_color}; --ss-slide-text-color: ${c.text_color};` : "";
+            ${s.map((p, h) => {
+      const f = this._slidePos(h), $ = p.image || "", N = p.image_desktop || $, L = this.localizedString(p.title), et = L || `slide ${h + 1}`, Y = this.localizedString(
+        p.description
+      ), F = this.localizedString(p.eyebrow), W = this.localizedString(p.badge), R = this._resolveLink(p), D = this.localizedString(p.cta_label) || (R ? Z : ""), at = p.text_color ? `--ss-slide-title-color: ${p.text_color}; --ss-slide-text-color: ${p.text_color};` : "";
       return r`
                 <div
                   class="ss-slide"
-                  data-pos=${m}
+                  data-pos=${f}
                   data-leaving=${h === this._leavingIndex ? "true" : "false"}
                   data-index=${h}
-                  style=${st}
+                  style=${at}
                   role="group"
                   aria-roledescription="slide"
                   aria-label=${`${h + 1} / ${k}`}
                 >
                   <div class="ss-media">
-                    ${c.video ? r`
+                    ${p.video ? r`
                           <video
-                            src=${c.video}
-                            poster=${$ || o}
+                            src=${p.video}
+                            poster=${$ || d}
                             autoplay
                             loop
                             .muted=${!0}
@@ -1722,13 +1755,13 @@ const L = class L extends lt {
                           ></video>
                         ` : r`
                           <picture>
-                            ${E && E !== $ ? r`<source
+                            ${N && N !== $ ? r`<source
                                   media="(min-width: 768px)"
-                                  srcset=${E}
-                                />` : o}
+                                  srcset=${N}
+                                />` : d}
                             <img
                               src=${$}
-                              alt=${tt}
+                              alt=${et}
                               loading=${h === 0 ? "eager" : "lazy"}
                               decoding="async"
                               draggable="false"
@@ -1737,26 +1770,26 @@ const L = class L extends lt {
                         `}
                   </div>
                   <div class="ss-scrim"></div>
-                  ${B ? r`<span class="ss-badge">${B}</span>` : o}
+                  ${W ? r`<span class="ss-badge">${W}</span>` : d}
                   <div class="ss-content">
                     <div class="ss-content-inner">
-                      ${Y ? r`<p class="ss-eyebrow">${Y}</p>` : o}
-                      ${C ? r`<h3 class="ss-title">${C}</h3>` : o}
-                      ${V ? r`<p class="ss-desc">${V}</p>` : o}
-                      ${N && R ? r`
+                      ${F ? r`<p class="ss-eyebrow">${F}</p>` : d}
+                      ${L ? r`<h3 class="ss-title">${L}</h3>` : d}
+                      ${Y ? r`<p class="ss-desc">${Y}</p>` : d}
+                      ${R && D ? r`
                             <div class="ss-cta-wrap">
                               <a
                                 class="ss-cta"
-                                href=${N}
-                                aria-label=${R}
+                                href=${R}
+                                aria-label=${D}
                               >
-                                <span>${R}</span>
+                                <span>${D}</span>
                                 <svg viewBox="0 0 24 24">
-                                  <path d=${Q} />
+                                  <path d=${st} />
                                 </svg>
                               </a>
                             </div>
-                          ` : o}
+                          ` : d}
                     </div>
                   </div>
                 </div>
@@ -1765,79 +1798,79 @@ const L = class L extends lt {
           </div>
 
           <!-- Side-anchored arrows (when not clustered with pagination) -->
-          ${!g && x && n === "sides" ? r`
+          ${!g && y && o === "sides" ? r`
                 <div class="ss-arrows-sides">
                   ${this._renderArrow("prev", i, v, b)}
                   ${this._renderArrow("next", i, v, b)}
                 </div>
-              ` : o}
+              ` : d}
 
           <!-- Inside-bottom strip: arrows + fraction/lines/numbers pagination.
                data-pag-align controls which slot the pagination sits in when
                there are no inside-bottom arrows; when arrows ARE inside-bottom
                we always use the prev / pag / next space-between layout. -->
-          ${X ? r`
+          ${V ? r`
                 <div
                   class="ss-controls-inside"
-                  data-pag-align=${l.replace(
+                  data-pag-align=${n.replace(
       "inside-bottom-",
       ""
     )}
                 >
-                  ${x && z ? this._renderArrow("prev", i, v, b) : r`<span class="ss-spacer"></span>`}
+                  ${y && E ? this._renderArrow("prev", i, v, b) : r`<span class="ss-spacer"></span>`}
                   ${_ ? this._renderPagination(
-      d,
+      l,
       s,
-      S,
+      z,
       k,
-      I,
-      M
+      P,
+      X
     ) : r`<span class="ss-spacer"></span>`}
-                  ${x && z ? this._renderArrow("next", i, v, b) : r`<span class="ss-spacer"></span>`}
+                  ${y && E ? this._renderArrow("next", i, v, b) : r`<span class="ss-spacer"></span>`}
                 </div>
-              ` : o}
+              ` : d}
 
           <!-- Inline thin progress bar across the frame -->
-          ${!g && d === "progress" && _ ? r`
+          ${!g && l === "progress" && _ ? r`
                 <div
                   class="ss-pag-progress"
-                  style=${`--ss-pag-progress: ${I}%`}
+                  style=${`--ss-pag-progress: ${P}%`}
                 ></div>
-              ` : o}
+              ` : d}
 
           <!-- Thumbnails INSIDE the frame (when an inside-bottom position is chosen) -->
-          ${!g && d === "thumbnails" && _ ? this._renderThumbs(
+          ${!g && l === "thumbnails" && _ ? this._renderThumbs(
       s,
       !0,
-      l.replace("inside-bottom-", "")
-    ) : o}
+      n.replace("inside-bottom-", "")
+    ) : d}
         </div>
 
         <!-- Thumbnails BELOW the frame (only when outside-below is chosen) -->
-        ${!g && d === "thumbnails" && !_ ? this._renderThumbs(s, !1, "center") : o}
+        ${!g && l === "thumbnails" && !_ ? this._renderThumbs(s, !1, "center") : d}
 
         <!-- Outside-below controls bar: pagination and/or arrows under the frame -->
         ${(() => {
-      const h = l === "outside-below" && (d === "fraction" || d === "lines" || d === "numbers"), m = x && n === "outside-below";
-      return g || !h && !m ? o : r`
+      const h = n === "outside-below" && (l === "fraction" || l === "lines" || l === "numbers"), f = y && o === "outside-below";
+      return g || !h && !f ? d : r`
             <div
               class="ss-controls-outside"
-              data-layout=${h && m ? "split" : "center"}
+              data-layout=${h && f ? "split" : "center"}
             >
               ${h ? this._renderPagination(
-        d,
+        l,
         s,
-        S,
+        z,
         k,
-        I,
-        M
-      ) : o}
-              ${m ? r`
+        P,
+        X
+      ) : d}
+              ${f ? r`
                     <div class="ss-arrows-outside">
                       ${this._renderArrow("prev", i, v, b)}
                       ${this._renderArrow("next", i, v, b)}
                     </div>
-                  ` : o}
+                  ` : d}
             </div>
           `;
     })()}
@@ -1877,38 +1910,38 @@ const L = class L extends lt {
   // Render helpers — arrows + pagination
   // ------------------------------------------------------------
   _renderArrow(t, s, e, a) {
-    const i = t === "prev" ? this._goPrev : this._goNext, n = t === "prev" ? this._isPrevDisabled() : this._isNextDisabled(), d = `ss-arrow ss-arrow-${t}`, l = s === "bar" ? a : e, f = s === "bar" ? "0 0 26 14" : "0 0 24 24";
+    const i = t === "prev" ? this._goPrev : this._goNext, o = t === "prev" ? this._isPrevDisabled() : this._isNextDisabled(), l = `ss-arrow ss-arrow-${t}`, n = s === "bar" ? a : e, u = s === "bar" ? "0 0 26 14" : "0 0 24 24";
     return r`
       <button
         type="button"
-        class=${d}
+        class=${l}
         data-arrow=${s}
-        ?disabled=${n}
+        ?disabled=${o}
         aria-label=${t === "prev" ? this._aria.prev() : this._aria.next()}
         @click=${i}
       >
-        <svg viewBox=${f} aria-hidden="true">
-          <path d=${l} />
+        <svg viewBox=${u} aria-hidden="true">
+          <path d=${n} />
         </svg>
       </button>
     `;
   }
-  _renderPagination(t, s, e, a, i, n) {
-    return t === "none" ? o : t === "progress" || t === "thumbnails" ? o : t === "fraction" ? r`
+  _renderPagination(t, s, e, a, i, o) {
+    return t === "none" ? d : t === "progress" || t === "thumbnails" ? d : t === "fraction" ? r`
         <div class="ss-pagination ss-pag-fraction" role="status" aria-live="polite">
           <span class="ss-pag-current">${this._pad2(e)}</span>
-          <span class="ss-pag-sep" aria-hidden="true">${n}</span>
+          <span class="ss-pag-sep" aria-hidden="true">${o}</span>
           <span class="ss-pag-total">${this._pad2(a)}</span>
         </div>
       ` : t === "lines" ? r`
         <div class="ss-pagination ss-pag-lines" role="tablist">
           ${s.map(
-      (d, l) => r`
+      (l, n) => r`
               <button
                 type="button"
-                aria-current=${this._activeIndex === l ? "true" : "false"}
-                aria-label=${this._aria.slide(l + 1)}
-                @click=${() => this._goTo(l)}
+                aria-current=${this._activeIndex === n ? "true" : "false"}
+                aria-label=${this._aria.slide(n + 1)}
+                @click=${() => this._goTo(n)}
               ></button>
             `
     )}
@@ -1916,41 +1949,41 @@ const L = class L extends lt {
       ` : t === "numbers" ? r`
         <div class="ss-pagination ss-pag-numbers" role="tablist">
           ${s.map(
-      (d, l) => r`
+      (l, n) => r`
               <button
                 type="button"
-                aria-current=${this._activeIndex === l ? "true" : "false"}
-                @click=${() => this._goTo(l)}
+                aria-current=${this._activeIndex === n ? "true" : "false"}
+                @click=${() => this._goTo(n)}
               >
-                ${this._pad2(l + 1)}
+                ${this._pad2(n + 1)}
               </button>
             `
     )}
         </div>
-      ` : o;
+      ` : d;
   }
 };
-L.styles = dt;
-let u = L;
+j.styles = ht;
+let m = j;
 w([
-  it({ type: Object })
-], u.prototype, "config");
+  nt({ type: Object })
+], m.prototype, "config");
 w([
-  y()
-], u.prototype, "_activeIndex");
+  x()
+], m.prototype, "_activeIndex");
 w([
-  y()
-], u.prototype, "_lastDir");
+  x()
+], m.prototype, "_lastDir");
 w([
-  y()
-], u.prototype, "_leavingIndex");
+  x()
+], m.prototype, "_leavingIndex");
 w([
-  y()
-], u.prototype, "_animState");
+  x()
+], m.prototype, "_animState");
 w([
-  y()
-], u.prototype, "_inView");
-typeof u < "u" && u.registerSallaComponent("salla-story-slider");
+  x()
+], m.prototype, "_inView");
+typeof m < "u" && m.registerSallaComponent("salla-story-slider");
 export {
-  u as default
+  m as default
 };
