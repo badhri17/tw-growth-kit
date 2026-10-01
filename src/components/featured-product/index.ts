@@ -524,6 +524,11 @@ export default class GrowthFeaturedProduct extends GrowthElement {
       `--fp-aspect: ${aspect}`,
       `--fp-img-fit: ${imageFit}`,
       `--fp-eyebrow: ${c.eyebrow_color || (lightText ? "#d8b478" : "#b08948")}`,
+      `--fp-section-title: ${
+        c.section_title_color ||
+        c.title_color ||
+        (lightText ? "#ffffff" : "#14181f")
+      }`,
       `--fp-title: ${c.title_color || (lightText ? "#ffffff" : "#14181f")}`,
       `--fp-text: ${
         c.text_color || (lightText ? "rgba(255,255,255,0.85)" : "#4b5563")

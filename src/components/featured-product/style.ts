@@ -21,6 +21,7 @@ export const featuredProductStyles = css`
     --fp-card-radius: 24px;
     --fp-media-radius: 18px;
     --fp-eyebrow: #b08948;
+    --fp-section-title: #14181f;
     --fp-title: #14181f;
     --fp-text: #4b5563;
     --fp-price: #14181f;
@@ -66,11 +67,12 @@ export const featuredProductStyles = css`
     position: relative; /* anchors .fp-sbg background media */
   }
 
-  /* Optional section heading that sits above the card. */
+  /* Optional section heading that sits above the card. Coloured separately
+     from .fp-title: it sits on the section background, not on the card. */
   .fp-section-title {
     width: 100%;
     margin: 0;
-    color: var(--fp-title);
+    color: var(--fp-section-title);
     font-size: clamp(1.9rem, 5vw, 3rem);
     font-weight: 800;
     line-height: 1.15;

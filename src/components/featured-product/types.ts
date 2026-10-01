@@ -158,6 +158,7 @@ export interface FeaturedProductConfig extends SectionSpacingFields {
   bg_color?: string;
   card_bg?: string;
   eyebrow_color?: string;
+  section_title_color?: string; // heading above the card; falls back to title_color
   title_color?: string;
   text_color?: string;
   price_color?: string;

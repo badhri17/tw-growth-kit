@@ -5999,6 +5999,16 @@
                     "type": "string",
                     "format": "color",
                     "inputType": "color",
+                    "id": "section_title_color",
+                    "label": "لون عنوان القسم",
+                    "icon": "sicon-color-palette",
+                    "required": false,
+                    "description": "لون العنوان الذي يظهر فوق البطاقة. اتركه فارغًا ليتبع «لون عنوان المنتج» كما كان سابقًا."
+                },
+                {
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
                     "id": "card_bg",
                     "label": "لون خلفية البطاقة",
                     "icon": "sicon-format-fill",
@@ -6018,7 +6028,7 @@
                     "format": "color",
                     "inputType": "color",
                     "id": "title_color",
-                    "label": "لون العنوان",
+                    "label": "لون عنوان المنتج",
                     "icon": "sicon-color-palette",
                     "required": false
                 },

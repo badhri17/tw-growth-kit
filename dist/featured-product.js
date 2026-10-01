@@ -185,10 +185,10 @@ async function At(a, t = "") {
     throw new Error("getDetails unavailable");
   const n = await i.call(e.product, a), r = (n == null ? void 0 : n.data) ?? n;
   if (!r) throw new Error("empty product payload");
-  const o = ((l = r.image) == null ? void 0 : l.url) || ((z = r.image) == null ? void 0 : z.thumbnail) || Array.isArray(r.images) && (((N = r.images[0]) == null ? void 0 : N.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((y = r.urls) == null ? void 0 : y.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${a}`, p = S(r.price), h = S(r.regular_price), u = S(r.sale_price);
+  const o = ((l = r.image) == null ? void 0 : l.url) || ((z = r.image) == null ? void 0 : z.thumbnail) || Array.isArray(r.images) && (((N = r.images[0]) == null ? void 0 : N.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((y = r.urls) == null ? void 0 : y.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${a}`, p = S(r.price), h = S(r.regular_price), m = S(r.sale_price);
   let g = h ?? p, b = p ?? h;
-  u !== void 0 && u > 0 && (b = u, (g === void 0 || g <= u) && (g = h ?? p ?? u));
-  const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || u !== void 0) && g !== void 0 && b !== void 0 && b < g, A = r.currency || ((w = r.price) == null ? void 0 : w.currency) || ((M = r.regular_price) == null ? void 0 : M.currency) || void 0;
+  m !== void 0 && m > 0 && (b = m, (g === void 0 || g <= m) && (g = h ?? p ?? m));
+  const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || m !== void 0) && g !== void 0 && b !== void 0 && b < g, A = r.currency || ((w = r.price) == null ? void 0 : w.currency) || ((M = r.regular_price) == null ? void 0 : M.currency) || void 0;
   return {
     name: String(r.name || r.title || t || `#${a}`),
     image: o || void 0,
@@ -211,6 +211,7 @@ const Ct = wt`
     --fp-card-radius: 24px;
     --fp-media-radius: 18px;
     --fp-eyebrow: #b08948;
+    --fp-section-title: #14181f;
     --fp-title: #14181f;
     --fp-text: #4b5563;
     --fp-price: #14181f;
@@ -256,11 +257,12 @@ const Ct = wt`
     position: relative; /* anchors .fp-sbg background media */
   }
 
-  /* Optional section heading that sits above the card. */
+  /* Optional section heading that sits above the card. Coloured separately
+     from .fp-title: it sits on the section background, not on the card. */
   .fp-section-title {
     width: 100%;
     margin: 0;
-    color: var(--fp-title);
+    color: var(--fp-section-title);
     font-size: clamp(1.9rem, 5vw, 3rem);
     font-weight: 800;
     line-height: 1.15;
@@ -882,12 +884,12 @@ const H = class H extends xt {
       const i = t.currentTarget.querySelector(".fp-media-inner");
       i && (i.style.transform = "");
     }, this._onPrimaryClick = async (t) => {
-      var h, u, g;
+      var h, m, g;
       if (t.preventDefault(), this._cartState === "loading") return;
       const e = this.config || {}, i = this._pickValue(
         e.button_action,
         "add_to_cart"
-      ), n = j(e.product), r = this._resolveProduct(), o = n == null ? void 0 : n.id, c = this._salla, p = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (u = c == null ? void 0 : c.cart) == null ? void 0 : u.api) == null ? void 0 : g.addItem);
+      ), n = j(e.product), r = this._resolveProduct(), o = n == null ? void 0 : n.id, c = this._salla, p = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (m = c == null ? void 0 : c.cart) == null ? void 0 : m.api) == null ? void 0 : g.addItem);
       if (!o || typeof p != "function") {
         r != null && r.url && (window.location.href = r.url);
         return;
@@ -1022,7 +1024,7 @@ const H = class H extends xt {
     ), o = this._pickValue(
       e === "floating" ? t.bg_effect_floating : e === "split" ? t.bg_effect_split : t.bg_effect,
       "none"
-    ), c = o === "none" ? "" : (e === "floating" ? o === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? o === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : o === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", p = this._pickValue(t.card_style, "soft"), h = this._num(t.card_radius, 24), u = Math.max(8, h - 6), g = this._pickValue(
+    ), c = o === "none" ? "" : (e === "floating" ? o === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? o === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : o === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", p = this._pickValue(t.card_style, "soft"), h = this._num(t.card_radius, 24), m = Math.max(8, h - 6), g = this._pickValue(
       t.card_size_mobile,
       "compact"
     ), b = this._pickValue(
@@ -1062,29 +1064,30 @@ const H = class H extends xt {
       slow: "14px",
       normal: "18px",
       fast: "22px"
-    }, P = !!t.enable_tilt && e !== "background", m = e === "background" && A === "dark" || p === "bold", ut = p === "minimal" ? "transparent" : p === "glass" ? "rgba(255,255,255,0.55)" : p === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", J = (f) => f === "compact" ? "min(420px, 82%)" : f === "large" ? "min(860px, 96%)" : f === "full" ? "100%" : "var(--fp-maxw)", I = [
+    }, P = !!t.enable_tilt && e !== "background", u = e === "background" && A === "dark" || p === "bold", ut = p === "minimal" ? "transparent" : p === "glass" ? "rgba(255,255,255,0.55)" : p === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", J = (f) => f === "compact" ? "min(420px, 82%)" : f === "large" ? "min(860px, 96%)" : f === "full" ? "100%" : "var(--fp-maxw)", I = [
       t.bg_color ? `--fp-bg: ${t.bg_color}` : "",
       `--fp-maxw-mob: ${J(g)}`,
       `--fp-maxw-desk: ${J(K)}`,
       `--fp-card-bg: ${t.card_bg || ut}`,
       `--fp-card-radius: ${h}px`,
-      `--fp-media-radius: ${u}px`,
+      `--fp-media-radius: ${m}px`,
       `--fp-aspect: ${n}`,
       `--fp-img-fit: ${r}`,
-      `--fp-eyebrow: ${t.eyebrow_color || (m ? "#d8b478" : "#b08948")}`,
-      `--fp-title: ${t.title_color || (m ? "#ffffff" : "#14181f")}`,
-      `--fp-text: ${t.text_color || (m ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
-      `--fp-price: ${t.price_color || (m ? "#ffffff" : "#14181f")}`,
-      `--fp-compare: ${t.compare_color || (m ? "rgba(255,255,255,0.6)" : "#9aa1ac")}`,
+      `--fp-eyebrow: ${t.eyebrow_color || (u ? "#d8b478" : "#b08948")}`,
+      `--fp-section-title: ${t.section_title_color || t.title_color || (u ? "#ffffff" : "#14181f")}`,
+      `--fp-title: ${t.title_color || (u ? "#ffffff" : "#14181f")}`,
+      `--fp-text: ${t.text_color || (u ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
+      `--fp-price: ${t.price_color || (u ? "#ffffff" : "#14181f")}`,
+      `--fp-compare: ${t.compare_color || (u ? "rgba(255,255,255,0.6)" : "#9aa1ac")}`,
       `--fp-badge-bg: ${t.badge_bg || "#e23744"}`,
       `--fp-badge-color: ${t.badge_color || "#ffffff"}`,
-      `--fp-highlight: ${t.highlight_color || (m ? "#d8b478" : "#b08948")}`,
-      `--fp-highlight-text: ${t.highlight_text_color || t.text_color || (m ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
-      `--fp-btn-bg: ${t.button_bg || (m ? "#ffffff" : "#14181f")}`,
-      `--fp-btn-color: ${t.button_color || (m ? "#14181f" : "#ffffff")}`,
+      `--fp-highlight: ${t.highlight_color || (u ? "#d8b478" : "#b08948")}`,
+      `--fp-highlight-text: ${t.highlight_text_color || t.text_color || (u ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
+      `--fp-btn-bg: ${t.button_bg || (u ? "#ffffff" : "#14181f")}`,
+      `--fp-btn-color: ${t.button_color || (u ? "#14181f" : "#ffffff")}`,
       `--fp-btn-radius: ${lt}`,
-      `--fp-shipping: ${m ? "#7ee0aa" : "#2e7d52"}`,
-      `--fp-effect: ${c || (m ? "#d8b478" : "#b08948")}`,
+      `--fp-shipping: ${u ? "#7ee0aa" : "#2e7d52"}`,
+      `--fp-effect: ${c || (u ? "#d8b478" : "#b08948")}`,
       `--fp-float-duration: ${ht[W]}`,
       `--fp-float-distance: ${gt[W]}`,
       // Highlights wrapper background. The framing (tinted box) always renders
