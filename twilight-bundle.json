@@ -4643,7 +4643,7 @@
             "icon": "sicon-star",
             "name": "featured-product",
             "key": "f3c8a7e2-5d41-4b96-9a0e-2c7b1d6f4e30",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/cover-images/_featured_product.gif",
             "fields": [
                 {
                     "type": "static",
@@ -8489,7 +8489,7 @@
             "icon": "sicon-format-text",
             "name": "interactive-text",
             "key": "fa893952-e32a-4dd1-8931-951e21f2f10b",
-            "image": "https://cdn.salla.network/images/themes/default/placeholder.jpg",
+            "image": "https://radaar.b-cdn.net/growth%20bundle/cover-images/interactive-text.gif",
             "fields": [
                 {
                     "type": "static",
