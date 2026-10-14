@@ -377,7 +377,7 @@
                 },
                 {
                     "type": "string",
-                    "icon": "sicon-video",
+                    "icon": "sicon-film",
                     "id": "video_url",
                     "label": "رابط الفيديو",
                     "format": "text",
@@ -442,7 +442,7 @@
                 },
                 {
                     "type": "string",
-                    "icon": "sicon-video",
+                    "icon": "sicon-film",
                     "id": "video_url_desktop",
                     "label": "رابط الفيديو على سطح المكتب",
                     "format": "text",
@@ -559,7 +559,7 @@
                     "inputType": "color",
                     "id": "gradient_to",
                     "label": "لون التدرج — النهاية",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "conditions": [
                         {
@@ -1870,7 +1870,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون العنوان الرئيسي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#18332f"
                 },
@@ -1880,7 +1880,7 @@
                     "inputType": "color",
                     "id": "caption_title_color",
                     "label": "لون عنوان الشريحة (تحت السلايدر)",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#111111"
                 },
@@ -1890,7 +1890,7 @@
                     "inputType": "color",
                     "id": "caption_text_color",
                     "label": "لون وصف الشريحة (تحت السلايدر)",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#555555"
                 },
@@ -1910,7 +1910,7 @@
                     "inputType": "color",
                     "id": "cta_color",
                     "label": "لون نص زر «تسوّق الآن»",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff"
                 },
@@ -1930,7 +1930,7 @@
                     "inputType": "color",
                     "id": "nav_icon_color",
                     "label": "لون أيقونة أزرار التنقل",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#18332f"
                 },
@@ -1940,7 +1940,7 @@
                     "inputType": "color",
                     "id": "dot_color",
                     "label": "لون نقاط التنقل",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#18332f"
                 },
@@ -2213,7 +2213,7 @@
                         },
                         {
                             "type": "items",
-                            "icon": "sicon-bag",
+                            "icon": "sicon-shopping-bag",
                             "id": "product",
                             "label": "المنتج المرتبط",
                             "format": "dropdown-list",
@@ -2680,7 +2680,7 @@
                     "inputType": "color",
                     "id": "crossover_divider_color",
                     "label": "لون الخط المتوهج",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "conditions": [
                         {
@@ -2926,7 +2926,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون العنوان",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#212529"
                 },
@@ -2936,7 +2936,7 @@
                     "inputType": "color",
                     "id": "text_color",
                     "label": "لون النص الوصفي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#4b5563"
                 },
@@ -2963,7 +2963,7 @@
                     "inputType": "color",
                     "id": "handle_icon_color",
                     "label": "لون أيقونة المقبض والنقاط",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#000000",
                     "conditions": [
@@ -2980,7 +2980,7 @@
                     "inputType": "color",
                     "id": "line_color",
                     "label": "لون الخط الفاصل",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff",
                     "conditions": [
@@ -3007,7 +3007,7 @@
                     "inputType": "color",
                     "id": "label_text_color",
                     "label": "لون نص شارة «قبل/بعد»",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#333333"
                 },
@@ -3034,7 +3034,7 @@
                     "inputType": "color",
                     "id": "product_chip_color",
                     "label": "لون نص بطاقة المنتج",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#111111",
                     "conditions": [
@@ -3304,7 +3304,7 @@
                         },
                         {
                             "type": "string",
-                            "icon": "sicon-video",
+                            "icon": "sicon-film",
                             "id": "video",
                             "label": "رابط فيديو",
                             "format": "text",
@@ -3433,7 +3433,7 @@
                             "inputType": "color",
                             "id": "text_color",
                             "label": "لون نص الشريحة (تجاوز اختياري)",
-                            "icon": "sicon-color-palette",
+                            "icon": "sicon-art-palette",
                             "required": false,
                             "description": "تجاوز لون النص الافتراضي على هذه الشريحة فقط — مفيد عندما تكون الصورة ساطعة وتحتاج نصًا داكنًا."
                         }
@@ -3641,7 +3641,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-magic",
+                    "icon": "sicon-magic-wand",
                     "id": "transition",
                     "label": "نوع الانتقال",
                     "format": "dropdown-list",
@@ -3970,7 +3970,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-magic",
+                    "icon": "sicon-magic-wand",
                     "id": "arrow_style",
                     "label": "شكل الأزرار",
                     "format": "dropdown-list",
@@ -4048,7 +4048,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-progress",
+                    "icon": "sicon-timer",
                     "id": "autoplay_progress",
                     "label": "شريط تقدّم التشغيل التلقائي",
                     "format": "dropdown-list",
@@ -4375,7 +4375,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون عنوان القسم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#0a0a0b"
                 },
@@ -4385,7 +4385,7 @@
                     "inputType": "color",
                     "id": "subtitle_color",
                     "label": "لون وصف القسم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#6b7280"
                 },
@@ -4395,7 +4395,7 @@
                     "inputType": "color",
                     "id": "slide_title_color",
                     "label": "لون عنوان الشريحة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff"
                 },
@@ -4405,7 +4405,7 @@
                     "inputType": "color",
                     "id": "slide_text_color",
                     "label": "لون وصف الشريحة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff"
                 },
@@ -4424,7 +4424,7 @@
                     "inputType": "color",
                     "id": "arrow_icon_color",
                     "label": "لون أيقونة الأزرار",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff"
                 },
@@ -4434,7 +4434,7 @@
                     "inputType": "color",
                     "id": "pagination_color",
                     "label": "لون الترقيم العادي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -4443,7 +4443,7 @@
                     "inputType": "color",
                     "id": "pagination_active_color",
                     "label": "لون الترقيم النشط",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff"
                 },
@@ -4463,7 +4463,7 @@
                     "inputType": "color",
                     "id": "cta_color",
                     "label": "لون نص زر «تسوّق الآن»",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#0a0a0b"
                 },
@@ -4483,7 +4483,7 @@
                     "inputType": "color",
                     "id": "badge_color",
                     "label": "لون نص الشارة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ffffff"
                 },
@@ -4661,7 +4661,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-bag",
+                    "icon": "sicon-shopping-bag",
                     "id": "product",
                     "label": "اختر المنتج",
                     "format": "dropdown-list",
@@ -4893,7 +4893,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "id": "bg_overlay_tone",
                     "label": "لون التأثير الزجاجي",
                     "format": "dropdown-list",
@@ -5214,7 +5214,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-magic",
+                    "icon": "sicon-magic-wand",
                     "id": "bg_effect",
                     "label": "تأثير الخلفية خلف الصورة",
                     "format": "dropdown-list",
@@ -5328,7 +5328,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-magic",
+                    "icon": "sicon-magic-wand",
                     "id": "bg_effect_floating",
                     "label": "تأثير الخلفية خلف الصورة",
                     "format": "dropdown-list",
@@ -5442,7 +5442,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-magic",
+                    "icon": "sicon-magic-wand",
                     "id": "bg_effect_split",
                     "label": "تأثير الخلفية خلف الصورة",
                     "format": "dropdown-list",
@@ -5816,7 +5816,7 @@
                 },
                 {
                     "type": "string",
-                    "icon": "sicon-dollar-sign",
+                    "icon": "sicon-tag-money",
                     "id": "price",
                     "label": "السعر الحالي (تجاوز اختياري)",
                     "format": "text",
@@ -5828,7 +5828,7 @@
                 },
                 {
                     "type": "string",
-                    "icon": "sicon-dollar-sign",
+                    "icon": "sicon-tag-money",
                     "id": "compare_price",
                     "label": "السعر قبل الخصم (تجاوز اختياري)",
                     "format": "text",
@@ -6001,7 +6001,7 @@
                     "inputType": "color",
                     "id": "section_title_color",
                     "label": "لون عنوان القسم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "description": "لون العنوان الذي يظهر فوق البطاقة. اتركه فارغًا ليتبع «لون عنوان المنتج» كما كان سابقًا."
                 },
@@ -6020,7 +6020,7 @@
                     "inputType": "color",
                     "id": "eyebrow_color",
                     "label": "لون النص العلوي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6029,7 +6029,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون عنوان المنتج",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6038,7 +6038,7 @@
                     "inputType": "color",
                     "id": "text_color",
                     "label": "لون الوصف",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6047,7 +6047,7 @@
                     "inputType": "color",
                     "id": "price_color",
                     "label": "لون السعر",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6056,7 +6056,7 @@
                     "inputType": "color",
                     "id": "highlight_text_color",
                     "label": "لون نص المميزات",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6065,7 +6065,7 @@
                     "inputType": "color",
                     "id": "compare_color",
                     "label": "لون السعر قبل الخصم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6074,7 +6074,7 @@
                     "inputType": "color",
                     "id": "highlight_color",
                     "label": "لون علامة المميزات",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6092,7 +6092,7 @@
                     "inputType": "color",
                     "id": "badge_color",
                     "label": "لون نص شارة الخصم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6110,7 +6110,7 @@
                     "inputType": "color",
                     "id": "button_color",
                     "label": "لون نص الزر",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -6617,7 +6617,7 @@
                         },
                         {
                             "type": "items",
-                            "icon": "sicon-bag",
+                            "icon": "sicon-shopping-bag",
                             "id": "product",
                             "label": "المنتج المرتبط",
                             "format": "dropdown-list",
@@ -6653,7 +6653,7 @@
                         },
                         {
                             "type": "string",
-                            "icon": "sicon-pricing",
+                            "icon": "sicon-tag-money",
                             "id": "product_price",
                             "label": "السعر الحالي (تجاوز)",
                             "format": "text",
@@ -6663,7 +6663,7 @@
                         },
                         {
                             "type": "string",
-                            "icon": "sicon-pricing",
+                            "icon": "sicon-tag-money",
                             "id": "product_compare",
                             "label": "السعر قبل الخصم (تجاوز)",
                             "format": "text",
@@ -7082,7 +7082,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "id": "overlay_tone",
                     "label": "لون التأثير الزجاجي",
                     "format": "dropdown-list",
@@ -7174,7 +7174,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-columns",
+                    "icon": "sicon-layout-grid",
                     "id": "columns_mobile",
                     "label": "عدد الأعمدة على الجوال",
                     "format": "dropdown-list",
@@ -7209,7 +7209,7 @@
                 },
                 {
                     "type": "items",
-                    "icon": "sicon-columns",
+                    "icon": "sicon-layout-grid",
                     "id": "columns_desktop",
                     "label": "عدد الأعمدة على سطح المكتب",
                     "format": "dropdown-list",
@@ -7505,7 +7505,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون العنوان",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#14181f"
                 },
@@ -7515,7 +7515,7 @@
                     "inputType": "color",
                     "id": "subtitle_color",
                     "label": "لون النص الوصفي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#5b6573"
                 },
@@ -7525,7 +7525,7 @@
                     "inputType": "color",
                     "id": "accent_color",
                     "label": "اللون المميّز (النص العلوي/النقاط)",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#e07a3e"
                 },
@@ -7566,7 +7566,7 @@
                     "inputType": "color",
                     "id": "border_color",
                     "label": "لون حدود البطاقة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#e6e4df"
                 },
@@ -7576,7 +7576,7 @@
                     "inputType": "color",
                     "id": "name_color",
                     "label": "لون اسم العميل",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#14181f"
                 },
@@ -7586,7 +7586,7 @@
                     "inputType": "color",
                     "id": "meta_color",
                     "label": "لون التفاصيل الثانوية",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#8a93a0"
                 },
@@ -7596,7 +7596,7 @@
                     "inputType": "color",
                     "id": "text_color",
                     "label": "لون نص الرأي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#3f4754"
                 },
@@ -7606,7 +7606,7 @@
                     "inputType": "color",
                     "id": "star_color",
                     "label": "لون النجوم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#ff9f1c"
                 },
@@ -7616,7 +7616,7 @@
                     "inputType": "color",
                     "id": "star_empty_color",
                     "label": "لون النجوم الفارغة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#dcdcd6"
                 },
@@ -7636,7 +7636,7 @@
                     "inputType": "color",
                     "id": "chip_name_color",
                     "label": "لون اسم المنتج",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#14181f"
                 },
@@ -7646,7 +7646,7 @@
                     "inputType": "color",
                     "id": "chip_price_color",
                     "label": "لون سعر المنتج",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#14181f"
                 },
@@ -7656,7 +7656,7 @@
                     "inputType": "color",
                     "id": "chip_compare_color",
                     "label": "لون السعر القديم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#9aa1ac"
                 },
@@ -8317,7 +8317,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون العنوان",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -8326,7 +8326,7 @@
                     "inputType": "color",
                     "id": "subtitle_color",
                     "label": "لون النص الوصفي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -8335,7 +8335,7 @@
                     "inputType": "color",
                     "id": "accent_color",
                     "label": "اللون المميز (المؤشرات والأزرار)",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#d95e16"
                 },
@@ -8354,7 +8354,7 @@
                     "inputType": "color",
                     "id": "card_title_color",
                     "label": "لون عنوان البطاقة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -8363,7 +8363,7 @@
                     "inputType": "color",
                     "id": "card_text_color",
                     "label": "لون نص البطاقة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -9157,7 +9157,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون العنوان",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -9166,7 +9166,7 @@
                     "inputType": "color",
                     "id": "subtitle_color",
                     "label": "لون العنوان الفرعي",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -9175,7 +9175,7 @@
                     "inputType": "color",
                     "id": "text_color",
                     "label": "لون الفقرة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -9184,7 +9184,7 @@
                     "inputType": "color",
                     "id": "accent_color",
                     "label": "اللون المميز (الكلمات المميزة والزر)",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#D94215"
                 },
@@ -9194,7 +9194,7 @@
                     "inputType": "color",
                     "id": "accent_color_2",
                     "label": "اللون الثاني للتدرّج",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false,
                     "value": "#F97316",
                     "conditions": [
@@ -9211,7 +9211,7 @@
                     "inputType": "color",
                     "id": "button_text_color",
                     "label": "لون نص الزر",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -9464,7 +9464,7 @@
                         },
                         {
                             "type": "items",
-                            "icon": "sicon-bag",
+                            "icon": "sicon-shopping-bag",
                             "id": "product",
                             "label": "المنتج المرتبط",
                             "format": "dropdown-list",
@@ -9800,7 +9800,7 @@
                 {
                     "type": "string",
                     "format": "color",
-                    "icon": "sicon-paint-bucket-alt",
+                    "icon": "sicon-brush",
                     "id": "bg_color",
                     "label": "لون خلفية القسم",
                     "required": false,
@@ -9809,7 +9809,7 @@
                 {
                     "type": "string",
                     "format": "color",
-                    "icon": "sicon-paint-bucket-alt",
+                    "icon": "sicon-brush",
                     "id": "title_color",
                     "label": "لون العنوان",
                     "required": false,
@@ -9818,7 +9818,7 @@
                 {
                     "type": "string",
                     "format": "color",
-                    "icon": "sicon-paint-bucket-alt",
+                    "icon": "sicon-brush",
                     "id": "overlay_text_color",
                     "label": "لون النص والزر فوق الصورة",
                     "required": false,
@@ -10049,7 +10049,7 @@
                     "fields": [
                         {
                             "type": "items",
-                            "icon": "sicon-bag",
+                            "icon": "sicon-shopping-bag",
                             "id": "product",
                             "label": "اختر المنتج",
                             "format": "dropdown-list",
@@ -10111,7 +10111,7 @@
                         },
                         {
                             "type": "string",
-                            "icon": "sicon-dollar-sign",
+                            "icon": "sicon-tag-money",
                             "id": "price",
                             "label": "السعر الحالي (تجاوز اختياري)",
                             "format": "text",
@@ -10122,7 +10122,7 @@
                         },
                         {
                             "type": "string",
-                            "icon": "sicon-dollar-sign",
+                            "icon": "sicon-tag-money",
                             "id": "compare_price",
                             "label": "السعر قبل الخصم",
                             "format": "text",
@@ -10887,7 +10887,7 @@
                     "inputType": "color",
                     "id": "title_color",
                     "label": "لون العنوان",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -10896,7 +10896,7 @@
                     "inputType": "color",
                     "id": "text_color",
                     "label": "لون الوصف",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -10905,7 +10905,7 @@
                     "inputType": "color",
                     "id": "price_color",
                     "label": "لون السعر",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -10914,7 +10914,7 @@
                     "inputType": "color",
                     "id": "compare_color",
                     "label": "لون السعر قبل الخصم",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -10932,7 +10932,7 @@
                     "inputType": "color",
                     "id": "badge_color",
                     "label": "لون نص الشارة",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -10950,7 +10950,7 @@
                     "inputType": "color",
                     "id": "button_color",
                     "label": "لون نص الزر",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {
@@ -10959,7 +10959,7 @@
                     "inputType": "color",
                     "id": "shipping_color",
                     "label": "لون سطر الشحن",
-                    "icon": "sicon-color-palette",
+                    "icon": "sicon-art-palette",
                     "required": false
                 },
                 {

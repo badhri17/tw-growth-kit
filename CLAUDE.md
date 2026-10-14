@@ -28,18 +28,41 @@ There is no test runner configured in this project. Verification for a change is
 
 ```bash
 pnpm audit:localized           # multilanguage interpolation check (src/)
+pnpm audit:minimums            # a number field's `minimum` must be 0 or negative
+pnpm audit:icons               # every `sicon-*` must exist in Salla's icon font
 pnpm audit:defaults            # fields with `selected` but no persisted `value`
 pnpm fix:defaults              # persist them
 pnpm audit:runtime-defaults    # schema default vs the component's own fallback
 ```
 
-`audit:localized` is the only one wired into the build: it runs on `predev` and
-`prebuild` against `src/`, and on `postbuild` against `src/` + `dist/` (during
-`prebuild`, `dist/` is still the *previous* build, so failing on it there would
-be unfixable). It replicates Salla's publication check, which rejected the
-sibling bundle outright — see *Handling multilanguage values* below.
+`audit:localized`, `audit:minimums` and `audit:icons` are wired into the build,
+on `predev` and `prebuild`. `audit:localized` runs against `src/` there and on
+`postbuild` against `src/` + `dist/` (during `prebuild`, `dist/` is still the
+*previous* build, so failing on it there would be unfixable). It replicates
+Salla's publication check, which rejected the sibling bundle outright — see
+*Handling multilanguage values* below.
 
-The other two are **deliberately not gating yet**: they currently report 192
+The two newer ones guard platform bugs that fail **silently and only in
+production**, both found in `tw-landing-bundle` and swept here afterwards:
+
+- **`audit:minimums`** — Salla's server turns a number field's `minimum` into a
+  Laravel `min:` rule with no companion `numeric` rule, so it measures the
+  value's **string length**. A field declared `minimum: 10` rejects a saved `44`
+  with «يجب أن يكون طول النص … أكبر من أو يساوي 10 حروف», and the merchant
+  cannot save the panel at all. It never reproduces in `pnpm dev`, which posts
+  to a mock that accepts anything. This bundle was clean when the guard landed —
+  its only two number fields are `interactive-product.hotspots[].x`/`.y` at
+  `minimum: 0` — so the rule here is purely preventative: **keep every `minimum`
+  at 0 or negative.** The landing bundle had 42 fields that failed it.
+- **`audit:icons`** — an `icon` naming a class that is not in Salla's admin icon
+  font renders as an **empty box**, with no warning anywhere. This bundle had 9
+  invented names across 91 references (`sicon-color-palette` alone was 66).
+  `scripts/sallaicons.txt` is the vendored class list; the script's header
+  carries the one-line refresh command. Keep that extraction's character class
+  permissive — 14 of the 852 names are Material-style with underscores
+  (`sicon-keyboard_arrow_down`), and `[a-z0-9-]` silently drops them.
+
+The remaining two are **deliberately not gating yet**: they currently report 192
 unsafe defaults and 12 runtime mismatches in this bundle, and each finding needs
 a judgement call rather than a mechanical fix. Wire them into `prebuild` once
 that triage is done.
