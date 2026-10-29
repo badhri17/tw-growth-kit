@@ -484,6 +484,24 @@ export const featuredProductStyles = css`
     height: auto;
     border-radius: var(--fp-card-radius);
   }
+  /* Natural: the image's own ratio decides the card's height. The "auto"
+     keyword means: use the intrinsic ratio once it is known, and this 1/1
+     only until then. Without a pre-load box the image lays out 0px tall,
+     and a zero-height lazy image never intersects the viewport, so it is
+     never fetched and never gets a height. It simply never appears. The
+     placeholder also keeps the card from collapsing while it loads. */
+  .fp-hero[data-aspect="natural"] .fp-hero-img {
+    aspect-ratio: auto 1 / 1;
+  }
+  /* A merchant who picks a fixed ratio wants that shape regardless of the
+     upload — a 4:5 photo forced into a cinematic hero. Always "cover" here:
+     "contain" would letterbox a hero with bars, which is never what this
+     layout is for. The radius stays on the <img> so the corners keep working
+     under the overlay's backdrop-filter. */
+  .fp-hero[data-aspect="fixed"] .fp-hero-img {
+    aspect-ratio: var(--fp-aspect);
+    object-fit: cover;
+  }
   /* Glossy frosted overlay (backdrop-filter blurs the image behind it) carrying
      the content over the lower part of the card. */
   .fp-hero .fp-content {

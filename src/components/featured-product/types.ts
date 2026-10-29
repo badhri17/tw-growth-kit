@@ -117,6 +117,7 @@ export interface FeaturedProductConfig extends SectionSpacingFields {
   aspect_ratio?: FeaturedAspect;
   aspect_ratio_floating?: FeaturedAspect;
   aspect_ratio_split?: FeaturedAspect;
+  aspect_ratio_background?: FeaturedAspect;
   image_fit?: FeaturedImageFit;
   image_fit_split?: FeaturedImageFit;
   /** "inside" only: let the image span the card edge to edge. */

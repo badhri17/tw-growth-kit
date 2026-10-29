@@ -5121,6 +5121,62 @@
                 },
                 {
                     "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "id": "aspect_ratio_background",
+                    "label": "مقاس الصورة",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "حسب الصورة (بدون قص)",
+                            "value": "natural",
+                            "key": "fparbg-natural"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "حسب الصورة (بدون قص)",
+                            "value": "natural",
+                            "key": "fparbg-natural"
+                        },
+                        {
+                            "label": "مربع ١:١",
+                            "value": "1/1",
+                            "key": "fpar3-1-1"
+                        },
+                        {
+                            "label": "أفقي ٤:٣",
+                            "value": "4/3",
+                            "key": "fpar3-4-3"
+                        },
+                        {
+                            "label": "عمودي ٣:٤",
+                            "value": "3/4",
+                            "key": "fpar3-3-4"
+                        },
+                        {
+                            "label": "عريض ١٦:٩",
+                            "value": "16/9",
+                            "key": "fpar3-16-9"
+                        },
+                        {
+                            "label": "عمودي ٩:١٦ (ستوري)",
+                            "value": "9/16",
+                            "key": "fpar3-9-16"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "background"
+                        }
+                    ],
+                    "description": "«حسب الصورة» يجعل ارتفاع البطاقة يتبع الصورة بدون قص. اختر مقاسًا ثابتًا إذا أردت شكلًا محددًا للواجهة (مثل ١٦:٩ عريضة)، وعندها تُقص الصورة لتغطية الإطار."
+                },
+                {
+                    "type": "items",
                     "icon": "sicon-image",
                     "id": "image_fit",
                     "label": "طريقة ملء الصورة للإطار",

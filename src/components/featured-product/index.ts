@@ -391,16 +391,25 @@ export default class GrowthFeaturedProduct extends GrowthElement {
         ? c.aspect_ratio_floating
         : layout === "split"
         ? c.aspect_ratio_split
+        : layout === "background"
+        ? c.aspect_ratio_background
         : c.aspect_ratio,
-      // Mirrors the schema default per layout: "inside" ships "natural", the
-      // others only offer fixed ratios. Keeps audit:runtime-defaults honest
-      // and survives a `selected` that never got persisted.
-      layout === "inside" ? "natural" : "1/1"
+      // Mirrors the schema default per layout: "inside" and "background" ship
+      // "natural", the other two only offer fixed ratios. Keeps
+      // audit:runtime-defaults honest and survives a `selected` that never
+      // got persisted.
+      layout === "inside" || layout === "background" ? "natural" : "1/1"
     );
-    // "natural" holds 1/1 until the image reports its own ratio, so the card
-    // reserves height instead of reflowing when the image decodes.
+    // "background" needs no measurement: its hero image is height:auto, so the
+    // browser already sizes the card from the image. The other layouts put the
+    // image in a ratio box, so "natural" holds 1/1 until the image reports its
+    // own ratio — the card reserves height instead of reflowing on decode.
     const aspect =
-      aspectSetting === "natural" ? this._naturalAspect ?? "1/1" : aspectSetting;
+      aspectSetting !== "natural"
+        ? aspectSetting
+        : layout === "background"
+        ? "auto"
+        : this._naturalAspect ?? "1/1";
     const imageFit = this._pickValue<FeaturedImageFit>(
       layout === "split" ? c.image_fit_split : c.image_fit,
       "contain"
@@ -742,7 +751,11 @@ export default class GrowthFeaturedProduct extends GrowthElement {
           ${sectionTitle
             ? html`<h2 class="fp-section-title">${sectionTitle}</h2>`
             : nothing}
-          <div class="fp-hero" data-tone=${bgOverlayTone}>
+          <div
+            class="fp-hero"
+            data-tone=${bgOverlayTone}
+            data-aspect=${aspectSetting === "natural" ? "natural" : "fixed"}
+          >
             ${imageUrl
               ? html`<img
                   class="fp-hero-img"

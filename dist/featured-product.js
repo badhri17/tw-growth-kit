@@ -1,5 +1,5 @@
 import { LitElement as vt, css as yt, html as o, nothing as p } from "lit";
-import { property as xt, state as K } from "lit/decorators.js";
+import { property as xt, state as W } from "lit/decorators.js";
 function kt(a, t) {
   if (typeof a == "string") return a;
   if (!a || typeof a != "object") return "";
@@ -95,7 +95,7 @@ function St(a, t, e = "md", i = "md") {
     `--sp-bot-d:${u}px`
   ];
 }
-function W() {
+function K() {
   const a = window;
   return a.salla ?? a.Salla ?? null;
 }
@@ -131,10 +131,10 @@ function S(a) {
   const e = parseFloat(t);
   return Number.isNaN(e) ? void 0 : e;
 }
-function At(a) {
+function Tt(a) {
   return Number.isInteger(a) ? String(a) : a.toFixed(2).replace(/\.?0+$/, "");
 }
-const Tt = {
+const At = {
   SAR: "ر.س",
   AED: "د.إ",
   KWD: "د.ك",
@@ -147,7 +147,7 @@ const Tt = {
 };
 function st(a) {
   const t = a.trim().toUpperCase();
-  return t ? ot() === "ar" ? Tt[t] ?? t : t : "";
+  return t ? ot() === "ar" ? At[t] ?? t : t : "";
 }
 function Ct(a, t) {
   var s;
@@ -161,7 +161,7 @@ function Ct(a, t) {
 }
 function U(a, t) {
   if (a == null || Number.isNaN(a)) return "";
-  const e = W();
+  const e = K();
   try {
     if (e && typeof e.money == "function") {
       const n = Ct(
@@ -172,15 +172,15 @@ function U(a, t) {
     }
   } catch {
   }
-  const i = At(a);
+  const i = Tt(a);
   return t ? `${i} ${st(t)}` : i;
 }
 async function zt(a, t = "") {
-  var T, x, R, C, _, l, z, N, y, k, w;
-  const e = W();
+  var A, x, R, C, _, l, z, N, y, k, w;
+  const e = K();
   if (!e) throw new Error("Salla SDK unavailable");
   typeof e.onReady == "function" && await e.onReady();
-  const i = ((T = e.product) == null ? void 0 : T.getDetails) ?? ((R = (x = e.product) == null ? void 0 : x.api) == null ? void 0 : R.getDetails);
+  const i = ((A = e.product) == null ? void 0 : A.getDetails) ?? ((R = (x = e.product) == null ? void 0 : x.api) == null ? void 0 : R.getDetails);
   if (typeof i != "function")
     throw new Error("getDetails unavailable");
   const n = await i.call(e.product, a), r = (n == null ? void 0 : n.data) ?? n;
@@ -188,16 +188,16 @@ async function zt(a, t = "") {
   const s = ((C = r.image) == null ? void 0 : C.url) || ((_ = r.image) == null ? void 0 : _.thumbnail) || Array.isArray(r.images) && (((l = r.images[0]) == null ? void 0 : l.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((z = r.urls) == null ? void 0 : z.customer) || ((N = r.urls) == null ? void 0 : N.product) || r.permalink || `/p${a}`, d = S(r.price), u = S(r.regular_price), f = S(r.sale_price);
   let g = u ?? d, b = d ?? u;
   f !== void 0 && f > 0 && (b = f, (g === void 0 || g <= f) && (g = u ?? d ?? f));
-  const A = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || f !== void 0) && g !== void 0 && b !== void 0 && b < g, I = r.currency || ((y = r.price) == null ? void 0 : y.currency) || ((k = r.regular_price) == null ? void 0 : k.currency) || void 0;
+  const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || f !== void 0) && g !== void 0 && b !== void 0 && b < g, V = r.currency || ((y = r.price) == null ? void 0 : y.currency) || ((k = r.regular_price) == null ? void 0 : k.currency) || void 0;
   return {
     name: String(r.name || r.title || t || `#${a}`),
     image: s || void 0,
     imageAlt: String(((w = r.image) == null ? void 0 : w.alt) || r.name || ""),
     url: c,
     regular: g,
-    sale: A ? b : void 0,
-    onSale: A,
-    currency: I
+    sale: T ? b : void 0,
+    onSale: T,
+    currency: V
   };
 }
 const Nt = yt`
@@ -674,6 +674,24 @@ const Nt = yt`
     height: auto;
     border-radius: var(--fp-card-radius);
   }
+  /* Natural: the image's own ratio decides the card's height. The "auto"
+     keyword means: use the intrinsic ratio once it is known, and this 1/1
+     only until then. Without a pre-load box the image lays out 0px tall,
+     and a zero-height lazy image never intersects the viewport, so it is
+     never fetched and never gets a height. It simply never appears. The
+     placeholder also keeps the card from collapsing while it loads. */
+  .fp-hero[data-aspect="natural"] .fp-hero-img {
+    aspect-ratio: auto 1 / 1;
+  }
+  /* A merchant who picks a fixed ratio wants that shape regardless of the
+     upload — a 4:5 photo forced into a cinematic hero. Always "cover" here:
+     "contain" would letterbox a hero with bars, which is never what this
+     layout is for. The radius stays on the <img> so the corners keep working
+     under the overlay's backdrop-filter. */
+  .fp-hero[data-aspect="fixed"] .fp-hero-img {
+    aspect-ratio: var(--fp-aspect);
+    object-fit: cover;
+  }
   /* Glossy frosted overlay (backdrop-filter blurs the image behind it) carrying
      the content over the lower part of the card. */
   .fp-hero .fp-content {
@@ -939,7 +957,7 @@ const X = class X extends $t {
   }
   /** Salla SDK global — see shared/product.ts. */
   get _salla() {
-    return W();
+    return K();
   }
   async _fetchProduct(t) {
     if (!this._productCache.has(t)) {
@@ -1057,24 +1075,25 @@ const X = class X extends $t {
       t.image_layout,
       "floating"
     ), i = this._pickValue(t.image_side, "start"), n = this._pickValue(
-      e === "floating" ? t.aspect_ratio_floating : e === "split" ? t.aspect_ratio_split : t.aspect_ratio,
-      // Mirrors the schema default per layout: "inside" ships "natural", the
-      // others only offer fixed ratios. Keeps audit:runtime-defaults honest
-      // and survives a `selected` that never got persisted.
-      e === "inside" ? "natural" : "1/1"
-    ), r = n === "natural" ? this._naturalAspect ?? "1/1" : n, s = this._pickValue(
+      e === "floating" ? t.aspect_ratio_floating : e === "split" ? t.aspect_ratio_split : e === "background" ? t.aspect_ratio_background : t.aspect_ratio,
+      // Mirrors the schema default per layout: "inside" and "background" ship
+      // "natural", the other two only offer fixed ratios. Keeps
+      // audit:runtime-defaults honest and survives a `selected` that never
+      // got persisted.
+      e === "inside" || e === "background" ? "natural" : "1/1"
+    ), r = n !== "natural" ? n : e === "background" ? "auto" : this._naturalAspect ?? "1/1", s = this._pickValue(
       e === "split" ? t.image_fit_split : t.image_fit,
       "contain"
     ), c = e === "inside" && t.image_full_bleed === !0, d = this._pickValue(
       e === "floating" ? t.bg_effect_floating : e === "split" ? t.bg_effect_split : t.bg_effect,
       "none"
-    ), u = d === "none" ? "" : (e === "floating" ? d === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? d === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : d === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", f = this._pickValue(t.card_style, "soft"), g = this._num(t.card_radius, 24), b = Math.max(8, g - 6), V = this._pickValue(
+    ), u = d === "none" ? "" : (e === "floating" ? d === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? d === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : d === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", f = this._pickValue(t.card_style, "soft"), g = this._num(t.card_radius, 24), b = Math.max(8, g - 6), I = this._pickValue(
       t.card_size_mobile,
       "compact"
-    ), A = this._pickValue(
+    ), T = this._pickValue(
       t.card_size_desktop,
       "inherit"
-    ), I = A === "inherit" ? V : A, T = this._pickValue(t.bg_type, "color"), x = this._pickValue(
+    ), V = T === "inherit" ? I : T, A = this._pickValue(t.bg_type, "color"), x = this._pickValue(
       t.bg_overlay_tone,
       "dark"
     ), R = this._pickValue(t.content_align, "right"), C = t.highlights_bg || "", _ = this.localizedString(t.section_title), l = this._resolveProduct(), z = !!H(t.product), N = this.localizedString(t.eyebrow), y = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", k = this.localizedString(t.description), w = t.image || (l == null ? void 0 : l.image) || "", G = t.enable_hover_image && t.image_hover || "", P = y || (l == null ? void 0 : l.imageAlt) || "", j = (Array.isArray(t.highlights) ? t.highlights : []).map((h) => this.localizedString(h == null ? void 0 : h.text)).filter(Boolean).slice(0, 3), lt = t.show_price !== !1, J = t.show_sale_price !== !1;
@@ -1110,8 +1129,8 @@ const X = class X extends $t {
       fast: "22px"
     }, Y = !!t.enable_tilt && e !== "background", m = e === "background" && x === "dark" || f === "bold", bt = f === "minimal" ? "transparent" : f === "glass" ? "rgba(255,255,255,0.55)" : f === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", tt = (h) => h === "compact" ? "min(420px, 82%)" : h === "large" ? "min(860px, 96%)" : h === "full" ? "100%" : "var(--fp-maxw)", q = [
       t.bg_color ? `--fp-bg: ${t.bg_color}` : "",
-      `--fp-maxw-mob: ${tt(V)}`,
-      `--fp-maxw-desk: ${tt(I)}`,
+      `--fp-maxw-mob: ${tt(I)}`,
+      `--fp-maxw-desk: ${tt(V)}`,
       `--fp-card-bg: ${t.card_bg || bt}`,
       `--fp-card-radius: ${g}px`,
       `--fp-media-radius: ${b}px`,
@@ -1197,7 +1216,7 @@ const X = class X extends $t {
         ${Q ? o`<p class="fp-shipping">${this._icon("truck")}<span>${Q}</span></p>` : p}
         ${ct ? o`<div class="fp-actions">${this._renderButton(pt, ft, ht, E)}</div>` : p}
       </div>
-    `, it = T === "image" && t.bg_image ? o`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : T === "video" && t.bg_video ? o`<video
+    `, it = A === "image" && t.bg_image ? o`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : A === "video" && t.bg_video ? o`<video
             class="fp-sbg"
             src=${t.bg_video}
             autoplay
@@ -1214,7 +1233,11 @@ const X = class X extends $t {
         >
           ${it}
           ${_ ? o`<h2 class="fp-section-title">${_}</h2>` : p}
-          <div class="fp-hero" data-tone=${x}>
+          <div
+            class="fp-hero"
+            data-tone=${x}
+            data-aspect=${n === "natural" ? "natural" : "fixed"}
+          >
             ${w ? o`<img
                   class="fp-hero-img"
                   src=${w}
@@ -1279,13 +1302,13 @@ O([
   xt({ type: Object })
 ], v.prototype, "config");
 O([
-  K()
+  W()
 ], v.prototype, "_animState");
 O([
-  K()
+  W()
 ], v.prototype, "_cartState");
 O([
-  K()
+  W()
 ], v.prototype, "_naturalAspect");
 typeof v < "u" && v.registerSallaComponent("salla-featured-product");
 export {
