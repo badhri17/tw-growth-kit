@@ -1,18 +1,18 @@
-import { LitElement as _t, css as wt, html as s, nothing as d } from "lit";
-import { property as yt, state as it } from "lit/decorators.js";
-function vt(a, t) {
+import { LitElement as vt, css as yt, html as o, nothing as p } from "lit";
+import { property as xt, state as K } from "lit/decorators.js";
+function kt(a, t) {
   if (typeof a == "string") return a;
   if (!a || typeof a != "object") return "";
   const e = a[t] || a.ar || a.en || "";
   return typeof e == "string" ? e.trim() : "";
 }
-function rt() {
+function ot() {
   return (document.documentElement.lang || "ar").toLowerCase().startsWith("en") ? "en" : "ar";
 }
-function U(a) {
+function F(a) {
   return a.replace(/[٠-٩]/g, (t) => String(t.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, (t) => String(t.charCodeAt(0) - 1776));
 }
-class xt extends _t {
+class $t extends vt {
   /**
    * Twilight transform injects `Component.registerSallaComponent(...)`.
    * Statics inherit, so `this` is the concrete component. The polling
@@ -20,27 +20,27 @@ class xt extends _t {
    * component file executes.
    */
   static registerSallaComponent(t) {
-    const e = String(t || "").trim(), i = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), n = i.includes("-") ? i : `salla-${i || "component"}`, r = () => `${n}-${Math.random().toString(36).substring(2, 8)}`, o = () => {
-      var h;
-      const p = (h = window.Salla) == null ? void 0 : h.bundles;
-      return p && typeof p.registerComponent == "function" ? (p.registerComponent(e, {
+    const e = String(t || "").trim(), i = e.toLowerCase().replace(/[^a-z0-9._-]/g, "-"), n = i.includes("-") ? i : `salla-${i || "component"}`, r = () => `${n}-${Math.random().toString(36).substring(2, 8)}`, s = () => {
+      var u;
+      const d = (u = window.Salla) == null ? void 0 : u.bundles;
+      return d && typeof d.registerComponent == "function" ? (d.registerComponent(e, {
         component: this,
         dynamicTagName: r()
       }), !0) : !1;
     };
-    if (o()) return;
+    if (s()) return;
     const c = window.setInterval(() => {
-      o() && window.clearInterval(c);
+      s() && window.clearInterval(c);
     }, 100);
     window.setTimeout(() => window.clearInterval(c), 5e3);
   }
   /** Resolved document language. */
   _lang() {
-    return rt();
+    return ot();
   }
   /** Pull the store-language string out of a Salla multilanguage value. */
   localizedString(t) {
-    return vt(t, this._lang());
+    return kt(t, this._lang());
   }
   /** Dropdown-list values from settings may come as [{ label, value }]. */
   _pickValue(t, e) {
@@ -54,14 +54,14 @@ class xt extends _t {
   }
   /** See module-level toLatinDigits; exposed for subclasses. */
   _toLatinDigits(t) {
-    return U(t);
+    return F(t);
   }
   /** Coerce a config number that may arrive as a string (Arabic-Indic
       digits included) or as a [{ value }] dropdown selection. */
   _num(t, e) {
     if (typeof t == "number" && !Number.isNaN(t)) return t;
     if (typeof t == "string" && t.trim() !== "") {
-      const i = Number(U(t.trim()));
+      const i = Number(F(t.trim()));
       if (!Number.isNaN(i)) return i;
     }
     if (Array.isArray(t) && t.length > 0) {
@@ -78,7 +78,7 @@ const B = {
   md: 40,
   lg: 56,
   xl: 72
-}, O = {
+}, D = {
   none: 0,
   xs: 20,
   sm: 32,
@@ -86,30 +86,30 @@ const B = {
   lg: 96,
   xl: 128
 };
-function kt(a, t, e = "md", i = "md") {
-  const n = t(a == null ? void 0 : a.space_top, e), r = t(a == null ? void 0 : a.space_bottom, i), o = B[n] ?? B.md, c = B[r] ?? B.md, p = O[n] ?? O.md, h = O[r] ?? O.md;
+function St(a, t, e = "md", i = "md") {
+  const n = t(a == null ? void 0 : a.space_top, e), r = t(a == null ? void 0 : a.space_bottom, i), s = B[n] ?? B.md, c = B[r] ?? B.md, d = D[n] ?? D.md, u = D[r] ?? D.md;
   return [
-    `--sp-top-m:${o}px`,
+    `--sp-top-m:${s}px`,
     `--sp-bot-m:${c}px`,
-    `--sp-top-d:${p}px`,
-    `--sp-bot-d:${h}px`
+    `--sp-top-d:${d}px`,
+    `--sp-bot-d:${u}px`
   ];
 }
-function q() {
+function W() {
   const a = window;
   return a.salla ?? a.Salla ?? null;
 }
-function j(a) {
+function H(a) {
   if (!a) return null;
   if (typeof a == "string" || typeof a == "number") {
-    const o = Number(a);
-    return !o || Number.isNaN(o) ? null : { id: o, label: "" };
+    const s = Number(a);
+    return !s || Number.isNaN(s) ? null : { id: s, label: "" };
   }
   const t = Array.isArray(a) ? a[0] : a;
   if (!t) return null;
   if (typeof t == "string" || typeof t == "number") {
-    const o = Number(t);
-    return !o || Number.isNaN(o) ? null : { id: o, label: "" };
+    const s = Number(t);
+    return !s || Number.isNaN(s) ? null : { id: s, label: "" };
   }
   if (typeof t != "object") return null;
   const e = t, i = e.value ?? e.id ?? e.product_id;
@@ -126,15 +126,15 @@ function S(a) {
     return S(i.amount ?? i.value ?? i.price);
   }
   if (typeof a != "string") return;
-  const t = U(a).replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  const t = F(a).replace(/[^0-9.,]/g, "").replace(/,/g, "");
   if (!t) return;
   const e = parseFloat(t);
   return Number.isNaN(e) ? void 0 : e;
 }
-function $t(a) {
+function At(a) {
   return Number.isInteger(a) ? String(a) : a.toFixed(2).replace(/\.?0+$/, "");
 }
-const St = {
+const Tt = {
   SAR: "ر.س",
   AED: "د.إ",
   KWD: "د.ك",
@@ -145,26 +145,26 @@ const St = {
   JOD: "د.أ",
   YER: "ر.ي"
 };
-function nt(a) {
+function st(a) {
   const t = a.trim().toUpperCase();
-  return t ? rt() === "ar" ? St[t] ?? t : t : "";
+  return t ? ot() === "ar" ? Tt[t] ?? t : t : "";
 }
-function Tt(a, t) {
-  var o;
+function Ct(a, t) {
+  var s;
   if (typeof a != "string") return "";
   if (!a.includes("<")) return a.trim();
-  const e = (o = /\bsicon-([a-z]{3})\b/i.exec(a)) == null ? void 0 : o[1], i = a.replace(/<[^>]*>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim();
+  const e = (s = /\bsicon-([a-z]{3})\b/i.exec(a)) == null ? void 0 : s[1], i = a.replace(/<[^>]*>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim();
   if (!i) return "";
   if (!!/[^\d.,\s\u0660-\u0669\u06f0-\u06f9]/.test(i)) return i;
   const r = t || e;
-  return r ? `${i} ${nt(r)}` : i;
+  return r ? `${i} ${st(r)}` : i;
 }
-function Y(a, t) {
+function U(a, t) {
   if (a == null || Number.isNaN(a)) return "";
-  const e = q();
+  const e = W();
   try {
     if (e && typeof e.money == "function") {
-      const n = Tt(
+      const n = Ct(
         t ? e.money({ amount: a, currency: t }) : e.money(a),
         t
       );
@@ -172,35 +172,35 @@ function Y(a, t) {
     }
   } catch {
   }
-  const i = $t(a);
-  return t ? `${i} ${nt(t)}` : i;
+  const i = At(a);
+  return t ? `${i} ${st(t)}` : i;
 }
-async function At(a, t = "") {
-  var E, C, _, l, z, N, y, x, w, M, k;
-  const e = q();
+async function zt(a, t = "") {
+  var T, x, R, C, _, l, z, N, y, k, w;
+  const e = W();
   if (!e) throw new Error("Salla SDK unavailable");
   typeof e.onReady == "function" && await e.onReady();
-  const i = ((E = e.product) == null ? void 0 : E.getDetails) ?? ((_ = (C = e.product) == null ? void 0 : C.api) == null ? void 0 : _.getDetails);
+  const i = ((T = e.product) == null ? void 0 : T.getDetails) ?? ((R = (x = e.product) == null ? void 0 : x.api) == null ? void 0 : R.getDetails);
   if (typeof i != "function")
     throw new Error("getDetails unavailable");
   const n = await i.call(e.product, a), r = (n == null ? void 0 : n.data) ?? n;
   if (!r) throw new Error("empty product payload");
-  const o = ((l = r.image) == null ? void 0 : l.url) || ((z = r.image) == null ? void 0 : z.thumbnail) || Array.isArray(r.images) && (((N = r.images[0]) == null ? void 0 : N.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((y = r.urls) == null ? void 0 : y.customer) || ((x = r.urls) == null ? void 0 : x.product) || r.permalink || `/p${a}`, p = S(r.price), h = S(r.regular_price), m = S(r.sale_price);
-  let g = h ?? p, b = p ?? h;
-  m !== void 0 && m > 0 && (b = m, (g === void 0 || g <= m) && (g = h ?? p ?? m));
-  const T = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || m !== void 0) && g !== void 0 && b !== void 0 && b < g, A = r.currency || ((w = r.price) == null ? void 0 : w.currency) || ((M = r.regular_price) == null ? void 0 : M.currency) || void 0;
+  const s = ((C = r.image) == null ? void 0 : C.url) || ((_ = r.image) == null ? void 0 : _.thumbnail) || Array.isArray(r.images) && (((l = r.images[0]) == null ? void 0 : l.url) || r.images[0]) || r.thumbnail || r.main_image || "", c = r.url || ((z = r.urls) == null ? void 0 : z.customer) || ((N = r.urls) == null ? void 0 : N.product) || r.permalink || `/p${a}`, d = S(r.price), u = S(r.regular_price), f = S(r.sale_price);
+  let g = u ?? d, b = d ?? u;
+  f !== void 0 && f > 0 && (b = f, (g === void 0 || g <= f) && (g = u ?? d ?? f));
+  const A = (!!(r.is_on_sale ?? r.on_sale ?? r.has_offer) || f !== void 0) && g !== void 0 && b !== void 0 && b < g, I = r.currency || ((y = r.price) == null ? void 0 : y.currency) || ((k = r.regular_price) == null ? void 0 : k.currency) || void 0;
   return {
     name: String(r.name || r.title || t || `#${a}`),
-    image: o || void 0,
-    imageAlt: String(((k = r.image) == null ? void 0 : k.alt) || r.name || ""),
+    image: s || void 0,
+    imageAlt: String(((w = r.image) == null ? void 0 : w.alt) || r.name || ""),
     url: c,
     regular: g,
-    sale: T ? b : void 0,
-    onSale: T,
-    currency: A
+    sale: A ? b : void 0,
+    onSale: A,
+    currency: I
   };
 }
-const Ct = wt`
+const Nt = yt`
   :host {
     display: block;
     font-family: inherit;
@@ -294,13 +294,34 @@ const Ct = wt`
     display: flex;
     flex-direction: column;
     gap: clamp(1.1rem, 3vw, 1.6rem);
-    padding: clamp(1.25rem, 4vw, 2.25rem);
+    /* Held in variables so full-bleed media can pull exactly this much back. */
+    --fp-card-pad: clamp(1.25rem, 4vw, 2.25rem);
+    --fp-card-pad-inline: var(--fp-card-pad);
+    padding: var(--fp-card-pad) var(--fp-card-pad-inline);
   }
 
   /* Card style: minimal — no chrome, content floats on the section. */
   .fp-card[data-card="minimal"] {
     background: transparent;
-    padding-inline: 0;
+    --fp-card-pad-inline: 0px;
+  }
+
+  /* Full-bleed media ("inside" layout only): the image spans the card edge to
+     edge while the text keeps its padding. The media is the card's first
+     child, so it also pulls back the top padding and takes the card's corner
+     radius on top.
+
+     The <img> is rounded itself rather than leaning on .fp-media-inner's
+     overflow:hidden — a full-bleed image in a rounded box leaks a sliver of
+     whatever sits behind it at the corners, in Chrome as well as WebKit. */
+  .fp-card[data-fullbleed="on"] .fp-media {
+    margin-inline: calc(-1 * var(--fp-card-pad-inline));
+    margin-block-start: calc(-1 * var(--fp-card-pad));
+    width: auto;
+  }
+  .fp-card[data-fullbleed="on"] .fp-media-inner,
+  .fp-card[data-fullbleed="on"] .fp-img {
+    border-radius: var(--fp-card-radius) var(--fp-card-radius) 0 0;
   }
 
   /* Card style: soft — white surface, gentle elevation. */
@@ -861,42 +882,50 @@ const Ct = wt`
     }
   }
 `;
-var zt = Object.defineProperty, F = (a, t, e, i) => {
-  for (var n = void 0, r = a.length - 1, o; r >= 0; r--)
-    (o = a[r]) && (n = o(t, e, n) || n);
-  return n && zt(t, e, n), n;
+var Mt = Object.defineProperty, O = (a, t, e, i) => {
+  for (var n = void 0, r = a.length - 1, s; r >= 0; r--)
+    (s = a[r]) && (n = s(t, e, n) || n);
+  return n && Mt(t, e, n), n;
 };
-const H = class H extends xt {
+const X = class X extends $t {
   constructor() {
-    super(...arguments), this._animState = "ready", this._cartState = "idle", this._cartResetTimer = null, this._productCache = /* @__PURE__ */ new Map(), this._io = null, this._tiltRect = null, this._tiltRaf = null, this._onTiltMove = (t) => {
+    super(...arguments), this._animState = "ready", this._cartState = "idle", this._naturalAspect = null, this._measuredSrc = null, this._cartResetTimer = null, this._onImageLoad = (t) => {
+      const e = t.currentTarget;
+      if (!e.naturalWidth || !e.naturalHeight) return;
+      const i = Math.min(
+        16 / 9,
+        Math.max(9 / 16, e.naturalWidth / e.naturalHeight)
+      );
+      this._measuredSrc = e.currentSrc || e.src, this._naturalAspect = `${i}`;
+    }, this._productCache = /* @__PURE__ */ new Map(), this._io = null, this._tiltRect = null, this._tiltRaf = null, this._onTiltMove = (t) => {
       if (!this._tiltAllowed(t)) return;
       const e = t.currentTarget, i = e.querySelector(".fp-media-inner");
       if (!i) return;
       this._tiltRect || (this._tiltRect = e.getBoundingClientRect());
       const n = this._tiltRect;
       if (!n.width || !n.height) return;
-      const r = Math.max(-1, Math.min(1, (t.clientX - n.left) / n.width * 2 - 1)), o = Math.max(-1, Math.min(1, (t.clientY - n.top) / n.height * 2 - 1)), c = 10;
+      const r = Math.max(-1, Math.min(1, (t.clientX - n.left) / n.width * 2 - 1)), s = Math.max(-1, Math.min(1, (t.clientY - n.top) / n.height * 2 - 1)), c = 10;
       this._tiltRaf !== null && cancelAnimationFrame(this._tiltRaf), this._tiltRaf = requestAnimationFrame(() => {
-        this._tiltRaf = null, i.style.transform = `rotateY(${r * c}deg) rotateX(${-o * c}deg) scale3d(1.025, 1.025, 1.025)`;
+        this._tiltRaf = null, i.style.transform = `rotateY(${r * c}deg) rotateX(${-s * c}deg) scale3d(1.025, 1.025, 1.025)`;
       });
     }, this._onTiltLeave = (t) => {
       this._tiltRect = null, this._tiltRaf !== null && (cancelAnimationFrame(this._tiltRaf), this._tiltRaf = null);
       const i = t.currentTarget.querySelector(".fp-media-inner");
       i && (i.style.transform = "");
     }, this._onPrimaryClick = async (t) => {
-      var h, m, g;
+      var u, f, g;
       if (t.preventDefault(), this._cartState === "loading") return;
       const e = this.config || {}, i = this._pickValue(
         e.button_action,
         "add_to_cart"
-      ), n = j(e.product), r = this._resolveProduct(), o = n == null ? void 0 : n.id, c = this._salla, p = ((h = c == null ? void 0 : c.cart) == null ? void 0 : h.addItem) ?? ((g = (m = c == null ? void 0 : c.cart) == null ? void 0 : m.api) == null ? void 0 : g.addItem);
-      if (!o || typeof p != "function") {
+      ), n = H(e.product), r = this._resolveProduct(), s = n == null ? void 0 : n.id, c = this._salla, d = ((u = c == null ? void 0 : c.cart) == null ? void 0 : u.addItem) ?? ((g = (f = c == null ? void 0 : c.cart) == null ? void 0 : f.api) == null ? void 0 : g.addItem);
+      if (!s || typeof d != "function") {
         r != null && r.url && (window.location.href = r.url);
         return;
       }
       this._cartState = "loading";
       try {
-        if (await p.call(c.cart, { id: o, quantity: 1 }), this._cartState = "added", i === "buy_now") {
+        if (await d.call(c.cart, { id: s, quantity: 1 }), this._cartState = "added", i === "buy_now") {
           window.location.href = "/cart";
           return;
         }
@@ -910,13 +939,13 @@ const H = class H extends xt {
   }
   /** Salla SDK global — see shared/product.ts. */
   get _salla() {
-    return q();
+    return W();
   }
   async _fetchProduct(t) {
     if (!this._productCache.has(t)) {
       this._productCache.set(t, { status: "loading" }), this.requestUpdate();
       try {
-        const e = await At(t);
+        const e = await zt(t);
         this._productCache.set(t, { status: "loaded", data: e });
       } catch (e) {
         console.warn("[growth-featured-product] product fetch failed", t, e), this._productCache.set(t, { status: "failed" });
@@ -926,7 +955,7 @@ const H = class H extends xt {
   }
   _resolveProduct() {
     var i;
-    const t = j((i = this.config) == null ? void 0 : i.product);
+    const t = H((i = this.config) == null ? void 0 : i.product);
     if (!t) return null;
     const e = this._productCache.get(t.id);
     return e ? e.status === "loaded" ? e.data : e.status === "loading" && t.label ? { name: t.label, url: "", onSale: !1 } : null : (this._fetchProduct(t.id), t.label ? { name: t.label, url: "", onSale: !1 } : null);
@@ -959,6 +988,18 @@ const H = class H extends xt {
   willUpdate(t) {
     t.has("config") && (this._cartState = "idle");
   }
+  /**
+   * Drop a stale "natural" measurement so a new image is never framed to the
+   * shape of the one before it. Compared against the rendered <img> rather
+   * than re-deriving the URL here, since it can come from the linked product.
+   * Clearing sets _measuredSrc to null, so this cannot loop.
+   */
+  updated() {
+    var e;
+    if (!this._measuredSrc) return;
+    const t = (e = this.renderRoot) == null ? void 0 : e.querySelector(".fp-img");
+    t && (t.currentSrc || t.src) !== this._measuredSrc && (this._naturalAspect = null, this._measuredSrc = null);
+  }
   _tiltAllowed(t) {
     return t.pointerType === "touch" ? !1 : (this._reducedMotionMql || (this._reducedMotionMql = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -982,24 +1023,24 @@ const H = class H extends xt {
   _icon(t) {
     switch (t) {
       case "bag":
-        return s`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        return o`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 8h12l-1 11.5a1.5 1.5 0 0 1-1.5 1.4H8.5A1.5 1.5 0 0 1 7 19.5z" />
           <path d="M9 8a3 3 0 0 1 6 0" />
         </svg>`;
       case "arrow":
-        return s`<svg class="fp-btn__arrow" viewBox="0 0 24 24" fill="none"
+        return o`<svg class="fp-btn__arrow" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
           stroke-linejoin="round">
           <path d="M5 12h14M13 6l6 6-6 6" />
         </svg>`;
       case "check":
-        return s`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        return o`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 6 9 17l-5-5" />
         </svg>`;
       case "truck":
-        return s`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        return o`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 7h11v9H3z" />
           <path d="M14 10h3.5L21 13v3h-7z" />
@@ -1017,227 +1058,235 @@ const H = class H extends xt {
       "floating"
     ), i = this._pickValue(t.image_side, "start"), n = this._pickValue(
       e === "floating" ? t.aspect_ratio_floating : e === "split" ? t.aspect_ratio_split : t.aspect_ratio,
-      "1/1"
-    ), r = this._pickValue(
+      // Mirrors the schema default per layout: "inside" ships "natural", the
+      // others only offer fixed ratios. Keeps audit:runtime-defaults honest
+      // and survives a `selected` that never got persisted.
+      e === "inside" ? "natural" : "1/1"
+    ), r = n === "natural" ? this._naturalAspect ?? "1/1" : n, s = this._pickValue(
       e === "split" ? t.image_fit_split : t.image_fit,
       "contain"
-    ), o = this._pickValue(
+    ), c = e === "inside" && t.image_full_bleed === !0, d = this._pickValue(
       e === "floating" ? t.bg_effect_floating : e === "split" ? t.bg_effect_split : t.bg_effect,
       "none"
-    ), c = o === "none" ? "" : (e === "floating" ? o === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? o === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : o === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", p = this._pickValue(t.card_style, "soft"), h = this._num(t.card_radius, 24), m = Math.max(8, h - 6), g = this._pickValue(
+    ), u = d === "none" ? "" : (e === "floating" ? d === "glow" ? t.bg_effect_color_floating_glow : t.bg_effect_color_floating : e === "split" ? d === "glow" ? t.bg_effect_color_split_glow : t.bg_effect_color_split : d === "glow" ? t.bg_effect_color_glow : t.bg_effect_color) || "", f = this._pickValue(t.card_style, "soft"), g = this._num(t.card_radius, 24), b = Math.max(8, g - 6), V = this._pickValue(
       t.card_size_mobile,
       "compact"
-    ), b = this._pickValue(
+    ), A = this._pickValue(
       t.card_size_desktop,
       "inherit"
-    ), K = b === "inherit" ? g : b, T = this._pickValue(t.bg_type, "color"), A = this._pickValue(
+    ), I = A === "inherit" ? V : A, T = this._pickValue(t.bg_type, "color"), x = this._pickValue(
       t.bg_overlay_tone,
       "dark"
-    ), E = this._pickValue(t.content_align, "right"), C = t.highlights_bg || "", _ = this.localizedString(t.section_title), l = this._resolveProduct(), z = !!j(t.product), N = this.localizedString(t.eyebrow), y = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", x = this.localizedString(t.description), w = t.image || (l == null ? void 0 : l.image) || "", M = t.enable_hover_image && t.image_hover || "", k = y || (l == null ? void 0 : l.imageAlt) || "", V = (Array.isArray(t.highlights) ? t.highlights : []).map((f) => this.localizedString(f == null ? void 0 : f.text)).filter(Boolean).slice(0, 3), ot = t.show_price !== !1, X = t.show_sale_price !== !1;
+    ), R = this._pickValue(t.content_align, "right"), C = t.highlights_bg || "", _ = this.localizedString(t.section_title), l = this._resolveProduct(), z = !!H(t.product), N = this.localizedString(t.eyebrow), y = this.localizedString(t.title) || (l == null ? void 0 : l.name) || "", k = this.localizedString(t.description), w = t.image || (l == null ? void 0 : l.image) || "", G = t.enable_hover_image && t.image_hover || "", P = y || (l == null ? void 0 : l.imageAlt) || "", j = (Array.isArray(t.highlights) ? t.highlights : []).map((h) => this.localizedString(h == null ? void 0 : h.text)).filter(Boolean).slice(0, 3), lt = t.show_price !== !1, J = t.show_sale_price !== !1;
     let $ = "", L = "";
-    if (ot) {
-      const f = this.localizedString(t.price), R = this.localizedString(
+    if (lt) {
+      const h = this.localizedString(t.price), M = this.localizedString(
         t.compare_price
       );
-      if (f) {
-        $ = f;
-        const et = S(f), at = S(R);
-        X && R && at !== void 0 && et !== void 0 && at > et && (L = R);
-      } else l && (l.onSale && l.sale !== void 0 ? ($ = Y(l.sale, l.currency), X && l.regular !== void 0 && (L = Y(l.regular, l.currency))) : l.regular !== void 0 && ($ = Y(l.regular, l.currency)));
+      if (h) {
+        $ = h;
+        const rt = S(h), nt = S(M);
+        J && M && nt !== void 0 && rt !== void 0 && nt > rt && (L = M);
+      } else l && (l.onSale && l.sale !== void 0 ? ($ = U(l.sale, l.currency), J && l.regular !== void 0 && (L = U(l.regular, l.currency))) : l.regular !== void 0 && ($ = U(l.regular, l.currency)));
     }
-    const G = this.localizedString(t.free_shipping_text), st = t.show_button !== !1, lt = {
+    const Q = this.localizedString(t.free_shipping_text), ct = t.show_button !== !1, dt = {
       square: "0px",
       soft: "12px",
       rounded: "22px",
       pill: "999px"
-    }[this._pickValue(t.button_radius, "pill")], D = this._pickValue(
+    }[this._pickValue(t.button_radius, "pill")], E = this._pickValue(
       t.button_action,
       "add_to_cart"
-    ), ct = !z || D === "view_product", pt = D === "view_product" ? (l == null ? void 0 : l.url) || t.button_url || "" : t.button_url || "", dt = this.localizedString(t.button_label) || this._defaultButtonLabel(D), ft = t.enable_float_anim !== !1, W = this._pickValue(
+    ), pt = !z || E === "view_product", ft = E === "view_product" ? (l == null ? void 0 : l.url) || t.button_url || "" : t.button_url || "", ht = this.localizedString(t.button_label) || this._defaultButtonLabel(E), ut = t.enable_float_anim !== !1, Z = this._pickValue(
       t.float_anim_speed,
       "normal"
-    ), ht = {
+    ), gt = {
       slow: "6.8s",
       normal: "5s",
       fast: "3.6s"
-    }, gt = {
+    }, mt = {
       slow: "14px",
       normal: "18px",
       fast: "22px"
-    }, P = !!t.enable_tilt && e !== "background", u = e === "background" && A === "dark" || p === "bold", ut = p === "minimal" ? "transparent" : p === "glass" ? "rgba(255,255,255,0.55)" : p === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", J = (f) => f === "compact" ? "min(420px, 82%)" : f === "large" ? "min(860px, 96%)" : f === "full" ? "100%" : "var(--fp-maxw)", I = [
+    }, Y = !!t.enable_tilt && e !== "background", m = e === "background" && x === "dark" || f === "bold", bt = f === "minimal" ? "transparent" : f === "glass" ? "rgba(255,255,255,0.55)" : f === "bold" ? "linear-gradient(135deg,#283548,#11161f)" : "#ffffff", tt = (h) => h === "compact" ? "min(420px, 82%)" : h === "large" ? "min(860px, 96%)" : h === "full" ? "100%" : "var(--fp-maxw)", q = [
       t.bg_color ? `--fp-bg: ${t.bg_color}` : "",
-      `--fp-maxw-mob: ${J(g)}`,
-      `--fp-maxw-desk: ${J(K)}`,
-      `--fp-card-bg: ${t.card_bg || ut}`,
-      `--fp-card-radius: ${h}px`,
-      `--fp-media-radius: ${m}px`,
-      `--fp-aspect: ${n}`,
-      `--fp-img-fit: ${r}`,
-      `--fp-eyebrow: ${t.eyebrow_color || (u ? "#d8b478" : "#b08948")}`,
-      `--fp-section-title: ${t.section_title_color || t.title_color || (u ? "#ffffff" : "#14181f")}`,
-      `--fp-title: ${t.title_color || (u ? "#ffffff" : "#14181f")}`,
-      `--fp-text: ${t.text_color || (u ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
-      `--fp-price: ${t.price_color || (u ? "#ffffff" : "#14181f")}`,
-      `--fp-compare: ${t.compare_color || (u ? "rgba(255,255,255,0.6)" : "#9aa1ac")}`,
+      `--fp-maxw-mob: ${tt(V)}`,
+      `--fp-maxw-desk: ${tt(I)}`,
+      `--fp-card-bg: ${t.card_bg || bt}`,
+      `--fp-card-radius: ${g}px`,
+      `--fp-media-radius: ${b}px`,
+      `--fp-aspect: ${r}`,
+      `--fp-img-fit: ${s}`,
+      `--fp-eyebrow: ${t.eyebrow_color || (m ? "#d8b478" : "#b08948")}`,
+      `--fp-section-title: ${t.section_title_color || t.title_color || (m ? "#ffffff" : "#14181f")}`,
+      `--fp-title: ${t.title_color || (m ? "#ffffff" : "#14181f")}`,
+      `--fp-text: ${t.text_color || (m ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
+      `--fp-price: ${t.price_color || (m ? "#ffffff" : "#14181f")}`,
+      `--fp-compare: ${t.compare_color || (m ? "rgba(255,255,255,0.6)" : "#9aa1ac")}`,
       `--fp-badge-bg: ${t.badge_bg || "#e23744"}`,
       `--fp-badge-color: ${t.badge_color || "#ffffff"}`,
-      `--fp-highlight: ${t.highlight_color || (u ? "#d8b478" : "#b08948")}`,
-      `--fp-highlight-text: ${t.highlight_text_color || t.text_color || (u ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
-      `--fp-btn-bg: ${t.button_bg || (u ? "#ffffff" : "#14181f")}`,
-      `--fp-btn-color: ${t.button_color || (u ? "#14181f" : "#ffffff")}`,
-      `--fp-btn-radius: ${lt}`,
-      `--fp-shipping: ${u ? "#7ee0aa" : "#2e7d52"}`,
-      `--fp-effect: ${c || (u ? "#d8b478" : "#b08948")}`,
-      `--fp-float-duration: ${ht[W]}`,
-      `--fp-float-distance: ${gt[W]}`,
+      `--fp-highlight: ${t.highlight_color || (m ? "#d8b478" : "#b08948")}`,
+      `--fp-highlight-text: ${t.highlight_text_color || t.text_color || (m ? "rgba(255,255,255,0.85)" : "#4b5563")}`,
+      `--fp-btn-bg: ${t.button_bg || (m ? "#ffffff" : "#14181f")}`,
+      `--fp-btn-color: ${t.button_color || (m ? "#14181f" : "#ffffff")}`,
+      `--fp-btn-radius: ${dt}`,
+      `--fp-shipping: ${m ? "#7ee0aa" : "#2e7d52"}`,
+      `--fp-effect: ${u || (m ? "#d8b478" : "#b08948")}`,
+      `--fp-float-duration: ${gt[Z]}`,
+      `--fp-float-distance: ${mt[Z]}`,
       // Highlights wrapper background. The framing (tinted box) always renders
       // with a context-aware default tint resolved in CSS; a merchant colour,
       // when set, overrides that default.
       C ? `--fp-hl-bg: ${C}` : "",
-      ...kt(t, (f, R) => this._pickValue(f, R))
-    ].filter(Boolean).join("; "), Q = !!(w || y || x || V.length || $ || z);
-    if (!Q && !_)
-      return s`
-        <section class="fp-empty" style=${I}>
+      ...St(t, (h, M) => this._pickValue(h, M))
+    ].filter(Boolean).join("; "), et = !!(w || y || k || j.length || $ || z);
+    if (!et && !_)
+      return o`
+        <section class="fp-empty" style=${q}>
           <p>
             ${this._lang() === "ar" ? "اربط منتجًا أو أضف صورة وعنوانًا لعرض المنتج المميز." : "Link a product or add an image and title to show the featured product."}
           </p>
         </section>
       `;
-    const mt = o !== "none" && e !== "background", bt = w ? s`
+    const _t = d !== "none" && e !== "background", wt = w ? o`
           <div
             class="fp-media"
-            data-tilt=${P ? "on" : "off"}
-            @pointermove=${P ? this._onTiltMove : null}
-            @pointerleave=${P ? this._onTiltLeave : null}
+            data-tilt=${Y ? "on" : "off"}
+            @pointermove=${Y ? this._onTiltMove : null}
+            @pointerleave=${Y ? this._onTiltLeave : null}
           >
-            ${mt ? s`<div class="fp-effect" data-effect=${o}></div>` : d}
+            ${_t ? o`<div class="fp-effect" data-effect=${d}></div>` : p}
             <div class="fp-media-inner">
               <img
                 class="fp-img"
                 src=${w}
-                alt=${k}
+                alt=${P}
                 loading="lazy"
                 draggable="false"
+                @load=${this._onImageLoad}
               />
-              ${M && e !== "background" ? s`<img
+              ${G && e !== "background" ? o`<img
                     class="fp-img fp-img--hover"
-                    src=${M}
-                    alt=${k}
+                    src=${G}
+                    alt=${P}
                     loading="lazy"
                     draggable="false"
-                  />` : d}
+                  />` : p}
             </div>
           </div>
-        ` : d, Z = s`
-      <div class="fp-content" data-align=${E}>
-        ${N ? s`<p class="fp-eyebrow">${N}</p>` : d}
-        ${y ? s`<h2 class="fp-title">${y}</h2>` : d}
-        ${V.length ? s`
+        ` : p, at = o`
+      <div class="fp-content" data-align=${R}>
+        ${N ? o`<p class="fp-eyebrow">${N}</p>` : p}
+        ${y ? o`<h2 class="fp-title">${y}</h2>` : p}
+        ${j.length ? o`
               <ul class="fp-highlights">
-                ${V.map(
-      (f) => s`
-                    <li class="fp-highlight">${this._icon("check")}<span>${f}</span></li>
+                ${j.map(
+      (h) => o`
+                    <li class="fp-highlight">${this._icon("check")}<span>${h}</span></li>
                   `
     )}
               </ul>
-            ` : d}
-        ${x ? s`<p class="fp-desc">${x}</p>` : d}
-        ${$ ? s`
+            ` : p}
+        ${k ? o`<p class="fp-desc">${k}</p>` : p}
+        ${$ ? o`
               <div class="fp-price-row">
                 <span class="fp-price">${$}</span>
-                ${L ? s`<span class="fp-compare">${L}</span>` : d}
+                ${L ? o`<span class="fp-compare">${L}</span>` : p}
               </div>
-            ` : d}
-        ${G ? s`<p class="fp-shipping">${this._icon("truck")}<span>${G}</span></p>` : d}
-        ${st ? s`<div class="fp-actions">${this._renderButton(ct, pt, dt, D)}</div>` : d}
+            ` : p}
+        ${Q ? o`<p class="fp-shipping">${this._icon("truck")}<span>${Q}</span></p>` : p}
+        ${ct ? o`<div class="fp-actions">${this._renderButton(pt, ft, ht, E)}</div>` : p}
       </div>
-    `, tt = T === "image" && t.bg_image ? s`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : T === "video" && t.bg_video ? s`<video
+    `, it = T === "image" && t.bg_image ? o`<img class="fp-sbg" src=${t.bg_image} alt="" aria-hidden="true" />` : T === "video" && t.bg_video ? o`<video
             class="fp-sbg"
             src=${t.bg_video}
             autoplay
             muted
             loop
             playsinline
-          ></video>` : d;
-    return e === "background" ? s`
+          ></video>` : p;
+    return e === "background" ? o`
         <section
           class="fp"
-          style=${I}
+          style=${q}
           data-enter=${this._animState}
           data-layout="background"
         >
-          ${tt}
-          ${_ ? s`<h2 class="fp-section-title">${_}</h2>` : d}
-          <div class="fp-hero" data-tone=${A}>
-            ${w ? s`<img
+          ${it}
+          ${_ ? o`<h2 class="fp-section-title">${_}</h2>` : p}
+          <div class="fp-hero" data-tone=${x}>
+            ${w ? o`<img
                   class="fp-hero-img"
                   src=${w}
-                  alt=${k}
+                  alt=${P}
                   loading="lazy"
                   draggable="false"
-                />` : d}
-            ${Z}
+                />` : p}
+            ${at}
           </div>
         </section>
-      ` : s`
+      ` : o`
       <section
         class="fp"
-        style=${I}
+        style=${q}
         data-enter=${this._animState}
-        data-float=${ft ? "on" : "off"}
+        data-float=${ut ? "on" : "off"}
         data-layout=${e}
       >
-        ${tt}
-        ${_ ? s`<h2 class="fp-section-title">${_}</h2>` : d}
-        ${Q ? s`<div
+        ${it}
+        ${_ ? o`<h2 class="fp-section-title">${_}</h2>` : p}
+        ${et ? o`<div
           class="fp-card"
           data-layout=${e}
           data-side=${i}
-          data-card=${p}
-          data-tone=${A}
+          data-card=${f}
+          data-tone=${x}
+          data-fullbleed=${c ? "on" : "off"}
         >
-          ${bt} ${Z}
-        </div>` : d}
+          ${wt} ${at}
+        </div>` : p}
       </section>
     `;
   }
   _renderButton(t, e, i, n) {
     if (t)
-      return s`
+      return o`
         <a class="fp-btn" href=${e || "#"}>
           <span>${i}</span>${this._icon("arrow")}
         </a>
       `;
     const r = this._lang() === "ar";
-    return this._cartState === "loading" ? s`
+    return this._cartState === "loading" ? o`
         <button class="fp-btn" type="button" disabled aria-busy="true">
           <span class="fp-spinner" aria-hidden="true"></span>
           <span>${r ? "جارٍ الإضافة…" : "Adding…"}</span>
         </button>
-      ` : this._cartState === "added" ? s`
+      ` : this._cartState === "added" ? o`
         <button class="fp-btn" type="button" disabled>
           ${this._icon("check")}
           <span>${r ? "تمت الإضافة" : "Added"}</span>
         </button>
-      ` : s`
+      ` : o`
       <button class="fp-btn" type="button" @click=${this._onPrimaryClick}>
         ${this._icon("bag")}<span>${i}</span>
       </button>
     `;
   }
 };
-H.styles = Ct;
-let v = H;
-F([
-  yt({ type: Object })
+X.styles = Nt;
+let v = X;
+O([
+  xt({ type: Object })
 ], v.prototype, "config");
-F([
-  it()
+O([
+  K()
 ], v.prototype, "_animState");
-F([
-  it()
+O([
+  K()
 ], v.prototype, "_cartState");
+O([
+  K()
+], v.prototype, "_naturalAspect");
 typeof v < "u" && v.registerSallaComponent("salla-featured-product");
 export {
   v as default

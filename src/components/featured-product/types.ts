@@ -59,7 +59,18 @@ export type FeaturedImageFit = "contain" | "cover";
 /** Border-radius style of the primary button. */
 export type FeaturedButtonRadius = "square" | "soft" | "rounded" | "pill";
 
-export type FeaturedAspect = "1/1" | "4/3" | "3/4" | "16/9" | "9/16";
+/**
+ * "natural" takes the frame's shape from the uploaded image, so a tall photo
+ * gets a tall frame and nothing is cropped or letterboxed. Clamped in the
+ * component so an extreme source cannot produce an absurd card.
+ */
+export type FeaturedAspect =
+  | "natural"
+  | "1/1"
+  | "4/3"
+  | "3/4"
+  | "16/9"
+  | "9/16";
 
 /** Decorative shape rendered behind the product image. */
 export type FeaturedBgEffect = "none" | "circle" | "glow";
@@ -108,6 +119,8 @@ export interface FeaturedProductConfig extends SectionSpacingFields {
   aspect_ratio_split?: FeaturedAspect;
   image_fit?: FeaturedImageFit;
   image_fit_split?: FeaturedImageFit;
+  /** "inside" only: let the image span the card edge to edge. */
+  image_full_bleed?: boolean;
 
   // --- Background effect (behind the product image) ---
   bg_effect?: FeaturedBgEffect;

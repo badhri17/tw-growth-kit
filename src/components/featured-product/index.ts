@@ -58,7 +58,32 @@ export default class GrowthFeaturedProduct extends GrowthElement {
   /** Add-to-cart button lifecycle. */
   @state() private _cartState: "idle" | "loading" | "added" = "idle";
 
+  /**
+   * "W / H" of the loaded product image, for aspect_ratio = "natural".
+   * Null until the image decodes; the frame holds 1/1 until then so the card
+   * does not jump. Reset whenever the source changes.
+   */
+  @state() private _naturalAspect: string | null = null;
+  private _measuredSrc: string | null = null;
+
   private _cartResetTimer: number | null = null;
+
+  /**
+   * Record the image's own ratio for the "natural" setting.
+   *
+   * Clamped to 9/16…16/9: a merchant can upload a 1:4 banner, and an
+   * unclamped frame would make the card metres tall on a phone.
+   */
+  private _onImageLoad = (event: Event) => {
+    const img = event.currentTarget as HTMLImageElement;
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    const ratio = Math.min(
+      16 / 9,
+      Math.max(9 / 16, img.naturalWidth / img.naturalHeight)
+    );
+    this._measuredSrc = img.currentSrc || img.src;
+    this._naturalAspect = `${ratio}`;
+  };
 
   /** Salla SDK global — see shared/product.ts. */
   private get _salla(): any {
@@ -170,6 +195,23 @@ export default class GrowthFeaturedProduct extends GrowthElement {
   willUpdate(changed: PropertyValues) {
     // A new product selection resets the cart button state.
     if (changed.has("config")) this._cartState = "idle";
+  }
+
+  /**
+   * Drop a stale "natural" measurement so a new image is never framed to the
+   * shape of the one before it. Compared against the rendered <img> rather
+   * than re-deriving the URL here, since it can come from the linked product.
+   * Clearing sets _measuredSrc to null, so this cannot loop.
+   */
+  updated() {
+    if (!this._measuredSrc) return;
+    const img = this.renderRoot?.querySelector(".fp-img") as
+      | HTMLImageElement
+      | null;
+    if (img && (img.currentSrc || img.src) !== this._measuredSrc) {
+      this._naturalAspect = null;
+      this._measuredSrc = null;
+    }
   }
 
   // ------------------------------------------------------------
@@ -344,18 +386,28 @@ export default class GrowthFeaturedProduct extends GrowthElement {
     // single value, and breaks when copies share an id — so each layout owns a
     // uniquely-id'd field). The component reads whichever matches the active
     // layout; "background" falls back to the inside/base field (it ignores them).
-    const aspect = this._pickValue<FeaturedAspect>(
+    const aspectSetting = this._pickValue<FeaturedAspect>(
       layout === "floating"
         ? c.aspect_ratio_floating
         : layout === "split"
         ? c.aspect_ratio_split
         : c.aspect_ratio,
-      "1/1"
+      // Mirrors the schema default per layout: "inside" ships "natural", the
+      // others only offer fixed ratios. Keeps audit:runtime-defaults honest
+      // and survives a `selected` that never got persisted.
+      layout === "inside" ? "natural" : "1/1"
     );
+    // "natural" holds 1/1 until the image reports its own ratio, so the card
+    // reserves height instead of reflowing when the image decodes.
+    const aspect =
+      aspectSetting === "natural" ? this._naturalAspect ?? "1/1" : aspectSetting;
     const imageFit = this._pickValue<FeaturedImageFit>(
       layout === "split" ? c.image_fit_split : c.image_fit,
       "contain"
     );
+    // Gated on the layout as well as the flag: the field is only shown for
+    // "inside", but a value saved there persists if the merchant switches.
+    const fullBleed = layout === "inside" && c.image_full_bleed === true;
     const bgEffect = this._pickValue<FeaturedBgEffect>(
       layout === "floating"
         ? c.bg_effect_floating
@@ -605,6 +657,7 @@ export default class GrowthFeaturedProduct extends GrowthElement {
                 alt=${imageAlt}
                 loading="lazy"
                 draggable="false"
+                @load=${this._onImageLoad}
               />
               ${imageHover && layout !== "background"
                 ? html`<img
@@ -723,6 +776,7 @@ export default class GrowthFeaturedProduct extends GrowthElement {
           data-side=${side}
           data-card=${cardStyle}
           data-tone=${bgOverlayTone}
+          data-fullbleed=${fullBleed ? "on" : "off"}
         >
           ${media} ${content}
         </div>` : nothing}

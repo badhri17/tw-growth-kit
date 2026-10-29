@@ -104,13 +104,34 @@ export const featuredProductStyles = css`
     display: flex;
     flex-direction: column;
     gap: clamp(1.1rem, 3vw, 1.6rem);
-    padding: clamp(1.25rem, 4vw, 2.25rem);
+    /* Held in variables so full-bleed media can pull exactly this much back. */
+    --fp-card-pad: clamp(1.25rem, 4vw, 2.25rem);
+    --fp-card-pad-inline: var(--fp-card-pad);
+    padding: var(--fp-card-pad) var(--fp-card-pad-inline);
   }
 
   /* Card style: minimal — no chrome, content floats on the section. */
   .fp-card[data-card="minimal"] {
     background: transparent;
-    padding-inline: 0;
+    --fp-card-pad-inline: 0px;
+  }
+
+  /* Full-bleed media ("inside" layout only): the image spans the card edge to
+     edge while the text keeps its padding. The media is the card's first
+     child, so it also pulls back the top padding and takes the card's corner
+     radius on top.
+
+     The <img> is rounded itself rather than leaning on .fp-media-inner's
+     overflow:hidden — a full-bleed image in a rounded box leaks a sliver of
+     whatever sits behind it at the corners, in Chrome as well as WebKit. */
+  .fp-card[data-fullbleed="on"] .fp-media {
+    margin-inline: calc(-1 * var(--fp-card-pad-inline));
+    margin-block-start: calc(-1 * var(--fp-card-pad));
+    width: auto;
+  }
+  .fp-card[data-fullbleed="on"] .fp-media-inner,
+  .fp-card[data-fullbleed="on"] .fp-img {
+    border-radius: var(--fp-card-radius) var(--fp-card-radius) 0 0;
   }
 
   /* Card style: soft — white surface, gentle elevation. */

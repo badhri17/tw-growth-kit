@@ -4971,15 +4971,20 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "",
+                    "description": "«حسب الصورة» يأخذ شكل الإطار من الصورة نفسها، فالصورة الطويلة تعطي إطارًا طويلًا بدون قص أو فراغات. اختر مقاسًا ثابتًا إذا كنت تريد شكلًا موحدًا مهما كانت الصورة.",
                     "selected": [
                         {
-                            "label": "مربع ١:١",
-                            "value": "1/1",
-                            "key": "fpar-1-1"
+                            "label": "حسب الصورة (بدون قص)",
+                            "value": "natural",
+                            "key": "fpar-natural"
                         }
                     ],
                     "options": [
+                        {
+                            "label": "حسب الصورة (بدون قص)",
+                            "value": "natural",
+                            "key": "fpar-natural"
+                        },
                         {
                             "label": "مربع ١:١",
                             "value": "1/1",
@@ -5122,7 +5127,7 @@
                     "format": "dropdown-list",
                     "source": "Manual",
                     "required": false,
-                    "description": "«عرض كامل» يُظهر المنتج بالكامل مع إمكانية ظهور مساحة بيضاء (مناسب لصور بخلفية شفافة أو بيضاء). «ملء الإطار» يكبّر الصورة لتغطية الإطار بالكامل وقد يقص أطرافها.",
+                    "description": "يعمل فقط مع المقاسات الثابتة. «عرض كامل» يُظهر المنتج بالكامل مع إمكانية ظهور فراغ (مناسب لصور بخلفية شفافة أو بيضاء). «ملء الإطار» يكبّر الصورة لتغطية الإطار وقد يقص أطرافها. مع «حسب الصورة» لا فرق بينهما لأن الإطار يطابق الصورة أصلًا.",
                     "selected": [
                         {
                             "label": "عرض كامل صورة المنتج",
@@ -5183,6 +5188,23 @@
                             "id": "image_layout",
                             "operation": "=",
                             "value": "split"
+                        }
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-image",
+                    "id": "image_full_bleed",
+                    "label": "صورة بعرض البطاقة الكامل",
+                    "format": "switch",
+                    "description": "تمتد الصورة إلى حواف البطاقة من الجانبين والأعلى، بينما يبقى النص داخل الهوامش.",
+                    "selected": false,
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "image_layout",
+                            "operation": "=",
+                            "value": "inside"
                         }
                     ]
                 },
