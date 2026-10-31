@@ -462,7 +462,12 @@ export default class GrowthHero extends GrowthElement {
     const customColors = c.enable_custom_colors === true;
 
     const localizedEyebrow = this.localizedString(c.eyebrow);
-    const localizedHeadline = this.localizedString(c.headline) || "Welcome";
+    // The schema ships a headline, so this only shows if a merchant clears
+    // the field. Arabic-first: an English "Welcome" was the one English
+    // string a Saudi storefront could end up rendering by accident.
+    const localizedHeadline =
+      this.localizedString(c.headline) ||
+      (this._lang() === "en" ? "Welcome" : "أهلًا بك");
     const localizedSubtitle = this.localizedString(c.subtitle);
     const localizedPrimaryLabel = this.localizedString(c.primary_label);
 
